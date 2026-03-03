@@ -1,0 +1,34 @@
+# =========================
+# Cluster / Slurm outputs
+# =========================
+*.out
+*.err
+
+# =========================
+# Data files (excluded due to storage constraints)
+# =========================
+*.csv
+*.h5
+embeddings/
+datasets/
+
+# =========================
+# Python cache & compiled files
+# =========================
+__pycache__/
+*.pyc
+
+# =========================
+# Jupyter
+# =========================
+.ipynb_checkpoints/
+
+# =========================
+# Large ML artifacts / model checkpoints
+# =========================
+*.pt
+*.pth
+*.ckpt
+*.pkl
+*.npy
+*.parquet

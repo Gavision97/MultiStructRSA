@@ -30,7 +30,7 @@ SEQ_TO_G_PATH = "saved_objects/seq_to_g4.pt"  # k=3 if len(seq) > 1000, k=8 if l
 # SEQ_TO_G_PATH = "saved_objects/seq_to_g3.pt" # k=3 if len(seq) > 1000, else k=32
 
 # with pt ft gRNAde & RNA cross attention fusion module
-class MolRNADataset_(Dataset):
+class MolRNADataset(Dataset):
     """
     Dataset that returns:
       (gRNAde_graph, morgan_fp, rdkit_desc, ernie_rna_emb, label)
@@ -84,13 +84,18 @@ class MolRNADataset_(Dataset):
         self.ernie_rna_emb = self.ernie_rna_emb[rna_feature_cols].reset_index(drop=True)
 
         # smiles features
-        data_smiles = self.data["SMILES"].unique()
-        smiles_features_dict = generate_smiles_features(data_smiles)
+        #data_smiles = self.data["SMILES"].unique()
+        #smiles_features_dict = generate_smiles_features(data_smiles)
+
+        with open(SMILES_EMB_PATH, "rb") as f:
+            smiles_features_dict =  pickle.load(f)
 
         self.smiles_chemberta_features = smiles_features_dict["chemberta"]
         self.smiles_morgan_features = smiles_features_dict["morgan fingerprints"]
-        #self.mordred_descriptors_features = smiles_features_dict["mordred descriptors"]
-        self.smiles_rdkit_features = smiles_features_dict["chemical descriptors"]
+        # we standardize  descriptors (rdkit & Mordred) for stability & ignore invalid molecules by leaving
+        # their embedding vector with zero values.
+        self.smiles_rdkit_features = scale_nonzero(smiles_features_dict["chemical descriptors"])
+        self.mordred_descriptors_features = scale_nonzero(smiles_features_dict["mordred descriptors"])
 
     @staticmethod
     def collate_fn(batch):
@@ -155,7 +160,7 @@ class MolRNADataset_(Dataset):
         )
 
 # with pt ft gRNAde, without rna cross-attention fusion module    
-class MolRNADataset(Dataset):
+class MolRNADataset_(Dataset):
     """
     Dataset that returns:
       (gRNAde_graph, morgan_fp, rdkit_desc, ernie_rna_emb, label)

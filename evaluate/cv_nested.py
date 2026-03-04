@@ -29,7 +29,7 @@ from torch.utils.data import DataLoader, Subset
 from evaluate_utils import train_one_epoch, predict
 
 from utils.MolRNADataset import MolRNADataset
-from models.MultiMRSMA import MultiMRSMA
+from models.MultiMRSMACross import MultiMRSMA
 logger = logging.getLogger(__name__)
 
 

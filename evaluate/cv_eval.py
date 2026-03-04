@@ -21,7 +21,7 @@ from evaluate.evaluate_utils import train_one_epoch, predict, EarlyStopping, reg
 
 # Project-specific imports
 from utils.MolRNADataset import MolRNADataset
-from models.MultiMRSMA import MultiMRSMA
+from models.MultiMRSMACross import MultiMRSMA
 
 # Logging setup
 import logging
@@ -35,8 +35,8 @@ DROPOUT = 0.2
 DEVICE = 'cuda'
 BATCH_SIZE = 1
 MAX_EPOCHS = 1000
-PATIENCE = 50 # for early stopping
-WARM_UP_EPOCHS=100
+PATIENCE = 20 # for early stopping
+WARM_UP_EPOCHS= 50
 MODE = 'min'
 DELTA = 5e-4 # for early stopping
 LR = 0.00005 # 0.00001 

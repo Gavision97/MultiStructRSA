@@ -7,32 +7,26 @@ warnings.filterwarnings('ignore')
 import pickle
 import pandas as pd
 
-# rdkit 
 from rdkit import Chem
 from rdkit.Chem import AllChem
 from rdkit.Chem import Descriptors
 
-
-# sklearn & numpy
 from sklearn.feature_selection import VarianceThreshold
 import numpy as np
 
-# Mordred
+
 from mordred import Calculator, descriptors
 
-# pyTroch
+
 import torch
 import torch.nn as nn
 
-# Hugging Face Transformers for ChemBERTa
 from transformers import RobertaTokenizer, RobertaModel
 
-# chemprop
-from chemprop import models, data, featurizers  # ensure these imports are correct
 
+from chemprop import models, data, featurizers  # ensure these imports are correct
 from utils.tools import clean, scale_nonzero
 
-# Logging setup
 import logging
 logger = logging.getLogger(__name__)
 

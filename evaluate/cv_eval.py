@@ -21,7 +21,7 @@ from evaluate.evaluate_utils import train_one_epoch, predict, EarlyStopping, reg
 
 # Project-specific imports
 from utils.MolRNADataset import MolRNADataset
-from models.MultiMRSMACross import MultiMRSMA
+from models.MultiMRSMA import MultiMRSMA
 
 # Logging setup
 import logging
@@ -35,8 +35,8 @@ DROPOUT = 0.2
 DEVICE = 'cuda'
 BATCH_SIZE = 1
 MAX_EPOCHS = 1000
-PATIENCE = 20 # for early stopping
-WARM_UP_EPOCHS= 50
+PATIENCE = 50 # for early stopping
+WARM_UP_EPOCHS= 100
 MODE = 'min'
 DELTA = 5e-4 # for early stopping
 LR = 0.00005 # 0.00001 
@@ -107,6 +107,9 @@ def cv_eval(df,
 
 
         # Initialize current fold train & test dataloaders
+        train_subset = Subset(ds, train_index)
+        test_subset  = Subset(ds, test_index)
+        
         train_loader = DataLoader(Subset(ds, train_index), batch_size=BATCH_SIZE, generator=g, shuffle=True, collate_fn=MolRNADataset.collate_fn, num_workers=NUM_WORKERS)
         test_loader = DataLoader(Subset(ds, test_index), batch_size=BATCH_SIZE, shuffle=False, collate_fn=MolRNADataset.collate_fn, num_workers=NUM_WORKERS)
         logger.info(f'Train len -> {len(train_loader.dataset)}, Test len -> {len(test_loader.dataset)}')

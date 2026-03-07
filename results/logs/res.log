@@ -60,3 +60,42 @@ Fold number 1/5
 2026-03-03 14:36:47,239 - NEW BEST @ epoch 3: val loss=1.3789, ppc=0.4487, ssc=0.3926, r2=0.0004; train loss=1.1889
 2026-03-03 14:40:46,578 - NEW BEST @ epoch 4: val loss=1.2707, ppc=0.4852, ssc=0.4340, r2=0.1511; train loss=1.1340
 2026-03-03 14:44:44,955 - NEW BEST @ epoch 5: val loss=1.1584, ppc=0.5605, ssc=0.5013, r2=0.2945; train loss=1.0429
+2026-03-06 14:38:37,326 - log message
+2026-03-06 14:38:37,345 - 
+==================== ALL FAMILIES  ====================
+2026-03-06 14:38:37,345 - K folds:5, seed:1, batch size:1, max epochs:1000, lr:5e-05, weight decay:1e-05, mlp dropout:0.2 patience:20, warm up epo:50, delta:0.0005
+2026-03-06 14:38:37,345 - --- Start statified 5-fold cross-validation; pd.DataFrame shape -> (1439, 8), lr=5e-05 ---
+2026-03-06 14:38:39,319 - 
+Fold number 1/5
+2026-03-06 14:38:39,319 - Train len -> 1151, Test len -> 288
+2026-03-06 14:38:39,319 - --- POC - model w ft gRNAde (BioLLMNet style  26/02) gate & gate ---
+2026-03-06 14:40:18,092 - log message
+2026-03-06 14:40:18,099 - 
+==================== ALL FAMILIES  ====================
+2026-03-06 14:40:18,100 - K folds:5, seed:1, batch size:1, max epochs:1000, lr:5e-05, weight decay:1e-05, mlp dropout:0.2 patience:20, warm up epo:50, delta:0.0005
+2026-03-06 14:40:18,100 - --- Start statified 5-fold cross-validation; pd.DataFrame shape -> (1439, 8), lr=5e-05 ---
+2026-03-06 14:40:18,998 - 
+Fold number 1/5
+2026-03-06 14:40:18,998 - Train len -> 1151, Test len -> 288
+2026-03-06 14:40:18,999 - --- POC - model w ft gRNAde (BioLLMNet style  26/02) gate & gate ---
+2026-03-06 14:42:18,740 - NEW BEST @ epoch 1: val loss=2.7485, ppc=0.0378, ssc=0.0424, r2=-2.9718; train loss=3.2154
+2026-03-06 14:44:15,698 - NEW BEST @ epoch 2: val loss=1.9532, ppc=0.2518, ssc=0.2484, r2=-1.0057; train loss=2.1218
+2026-03-06 14:46:14,756 - NEW BEST @ epoch 3: val loss=1.5510, ppc=-0.0187, ssc=-0.0043, r2=-0.2647; train loss=1.5147
+2026-03-06 16:50:46,451 - log message
+2026-03-06 16:50:46,459 - 
+==================== ALL FAMILIES  ====================
+2026-03-06 16:50:46,459 - K folds:5, seed:1, batch size:1, max epochs:1000, lr:5e-05, weight decay:1e-05, mlp dropout:0.2 patience:50, warm up epo:100, delta:0.0005
+2026-03-06 16:50:46,459 - --- Start statified 5-fold cross-validation; pd.DataFrame shape -> (1439, 8), lr=5e-05 ---
+2026-03-06 16:50:47,349 - 
+Fold number 1/5
+2026-03-06 16:50:47,349 - Train len -> 1151, Test len -> 288
+2026-03-06 16:50:47,349 - --- POC - model w ft gRNAde (BioLLMNet style  26/02) gate & gate ---
+2026-03-06 16:52:42,822 - log message
+2026-03-06 16:52:42,831 - 
+==================== ALL FAMILIES  ====================
+2026-03-06 16:52:42,831 - K folds:5, seed:1, batch size:1, max epochs:1000, lr:5e-05, weight decay:1e-05, mlp dropout:0.2 patience:50, warm up epo:100, delta:0.0005
+2026-03-06 16:52:42,831 - --- Start statified 5-fold cross-validation; pd.DataFrame shape -> (1439, 8), lr=5e-05 ---
+2026-03-06 16:52:43,725 - 
+Fold number 1/5
+2026-03-06 16:52:43,725 - Train len -> 1151, Test len -> 288
+2026-03-06 16:52:43,726 - --- POC - model w ft gRNAde (BioLLMNet style  26/02) gate & gate ---

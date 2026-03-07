@@ -18,7 +18,7 @@ import pandas as pd
 import numpy as np
 
 import pickle
-
+import random
 import torch
 
 from utils.tools import scale_nonzero
@@ -29,8 +29,34 @@ ERNIE_RNA_EMB_PATH = "embeddings/rna/ernie_rna_full_emb.parquet"
 SEQ_TO_G_PATH = "saved_objects/seq_to_g4.pt"  # k=3 if len(seq) > 1000, k=8 if len(seq) < 1000 and len(seq) > 100, else k=32
 # SEQ_TO_G_PATH = "saved_objects/seq_to_g3.pt" # k=3 if len(seq) > 1000, else k=32
 
+
+# k = 32
+SEQ_TO_G_PATH_1 = "saved_objects/seq_to_g1.pt" # no aug & no multi-conformer - just 'model_0'
+SEQ_TO_G_PATH_2 = "saved_objects/seq_to_g2.pt" # multi-conformer @ conf = 5
+SEQ_TO_G_PATH_3 = "saved_objects/seq_to_g3.pt" # data-augmentation; rna -> |list|=5 conformations
+
+# k=3 if len(seq) > 1000, k=8 if len(seq) < 1000 and len(seq) > 100, else k=32
+SEQ_TO_G_PATH_4 = "saved_objects/seq_to_g4.pt" # no aug & no multi-conformer - just 'model_0'
+SEQ_TO_G_PATH_5 = "saved_objects/seq_to_g5.pt" # multi-conformer @ conf = 5
+SEQ_TO_G_PATH_6 = "saved_objects/seq_to_g6.pt" # data-augmentation; rna -> |list|=5 conformations
+
+
+def _get_seq_to_g_setting(setting=1):
+    if setting == 1:
+        return SEQ_TO_G_PATH_1
+    elif setting == 2:
+        return SEQ_TO_G_PATH_2
+    elif setting == 3:
+        return SEQ_TO_G_PATH_3
+    elif setting == 4:
+        return SEQ_TO_G_PATH_4  
+    elif setting == 5:
+        return SEQ_TO_G_PATH_5
+    else:
+        return SEQ_TO_G_PATH_6
+
 # with pt ft gRNAde & RNA cross attention fusion module
-class MolRNADataset(Dataset):
+class MolRNADataset_(Dataset):
     """
     Dataset that returns:
       (gRNAde_graph, morgan_fp, rdkit_desc, ernie_rna_emb, label)
@@ -160,7 +186,7 @@ class MolRNADataset(Dataset):
         )
 
 # with pt ft gRNAde, without rna cross-attention fusion module    
-class MolRNADataset_(Dataset):
+class MolRNADataset(Dataset):
     """
     Dataset that returns:
       (gRNAde_graph, morgan_fp, rdkit_desc, ernie_rna_emb, label)
@@ -171,20 +197,27 @@ class MolRNADataset_(Dataset):
     * We clone() the cached Data to avoid accidental in-place modification across samples.
     * Features are returned as torch.FloatTensor so collate_fn can stack them cleanly.
     """
-    def __init__(self, ds_):
+    def __init__(self, ds_, setting=1, aug=False):
         """
         ds_ columns:
         SMILES | Target_RNA_sequence | ... | pKd
         """
         
         self.data = ds_.reset_index(drop=True)
+        self.aug = aug
+
         # replace all invalid nucleotides ('T', 'X' and 'Y') -> 'U'
         self.data["Target_RNA_sequence"] = (
              self.data["Target_RNA_sequence"].str.replace("T", "U").str.replace("Y", "U").str.replace("X", "U")
         )
+
         # dictionary that maps 'rna_seq': graph object (pyG.Data()). Inspired by gRNAde which
         # is a 3D RNA inverse design by CK Joshi et al.
-        self.seq_to_g = torch.load(SEQ_TO_G_PATH, map_location="cpu") 
+        train_seq_to_g_setting = _get_seq_to_g_setting(setting=train_setting)
+        self.train_seq_to_g = torch.load(train_seq_to_g_setting, map_location="cpu")
+
+        eval_seq_to_g_setting = _get_seq_to_g_setting(setting=eval_setting)
+        self.eval_seq_to_g = torch.load(eval_seq_to_g_setting, map_location="cpu") 
 
         self.rna_emb = h5py.File(RNA_EMB_PATH, "r")
 
@@ -226,6 +259,10 @@ class MolRNADataset_(Dataset):
         self.smiles_rdkit_features = scale_nonzero(smiles_features_dict["chemical descriptors"])
         self.mordred_descriptors_features = scale_nonzero(smiles_features_dict["mordred descriptors"])
 
+    def set_mode(self, mode: str):
+        assert mode in ("train", "eval")
+        self.mode = mode
+
     @staticmethod
     def collate_fn(batch):
         graphs, ernie, morgan, rdkit, chemberta, y = zip(*batch)
@@ -258,7 +295,14 @@ class MolRNADataset_(Dataset):
         smiles = self.data.loc[idx, "SMILES"]
         rna_seq = self.data.loc[idx, "Target_RNA_sequence"]
         #print(f'seq len -> {len(rna_seq)}')
-        base_g = self.seq_to_g[rna_seq]
+
+        if self.aug:
+            # settings (3)/(6): seq_to_g[seq] is a list[Data] (5 conformers)
+            graphs_list = self.seq_to_g[rna_seq]
+            base_g = random.choice(graphs_list)
+        else:
+            # settings (1)/(2)/(4)/(5): seq_to_g[seq] is a single Data
+            base_g = self.seq_to_g[rna_seq]
 
         # RNA features & graph
         g = base_g.clone()

@@ -547,17 +547,19 @@ class MultiMRSMA(nn.Module):
         self.gated_fusion = GatedFeatureFusion(128)
         self.gated_rna_fusion = GatedFeatureFusion(128)
 
+        #################################################################################3
+        # adapted from gRNAde framework - https://github.com/chaitjo/geometric-rna-design.git
         # gRNAde encoder layers (for fine-tuning)
         self.W_v = pretrained.W_v
         self.W_e = pretrained.W_e
         self.encoder_layers = pretrained.encoder_layers
-
     
-        # For fine-tuning - unfreeze gRNAde encoder layers (p.requires_grad = True)
+        # for fine-tuning - unfreeze gRNAde encoder layers (p.requires_grad = True)
         for p in self.W_v.parameters(): p.requires_grad = True
         for p in self.W_e.parameters(): p.requires_grad = True
         for p in self.encoder_layers.parameters(): p.requires_grad = True        
-        
+        #################################################################################
+
         # learnable global attention pooling for gRNAde GNN encoder output 
         self.attn_pooling = AttnPool(128)
 
@@ -581,10 +583,10 @@ class MultiMRSMA(nn.Module):
             nn.LayerNorm(512),
             nn.ReLU(),
             nn.Dropout(0.1),
-            nn.Linear(512, 128, bias=False),
-            nn.LayerNorm(128),
-            nn.ReLU(),
-            nn.Dropout(0.1)
+            #nn.Linear(512, 128, bias=False),
+            #nn.LayerNorm(128),
+            #nn.ReLU(),
+            #nn.Dropout(0.1)
         )
 
         self.fp_mlp = nn.Sequential(
@@ -592,14 +594,14 @@ class MultiMRSMA(nn.Module):
             nn.LayerNorm(512),
             nn.ReLU(),
             nn.Dropout(0.1),
-            nn.Linear(512, 128, bias=False),
-            nn.LayerNorm(128),
-            nn.ReLU(),
-            nn.Dropout(0.1)
+            #nn.Linear(512, 128, bias=False),
+            #nn.LayerNorm(128),
+            #nn.ReLU(),
+            #nn.Dropout(0.1)
         )
 
         self.expert_mlp = nn.Sequential(
-            nn.Linear(1024 + 1205, 512, bias=False),
+            nn.Linear(512 + 512, 512, bias=False),
             nn.LayerNorm(512),
             nn.ReLU(),
             nn.Dropout(0.1),
@@ -608,6 +610,7 @@ class MultiMRSMA(nn.Module):
             nn.ReLU(),
             nn.Dropout(0.1)
         )
+
 
         self.mol_mlp = nn.Sequential(
             nn.Linear(2*128, 128, bias=False),
@@ -676,6 +679,8 @@ class MultiMRSMA(nn.Module):
             h_V = layer(h_V, edge_index, h_E)
 
         # pool over conformers -> per-node
+        if graphs.mask_confs.size(1) == 1:
+            print(True)
         h_V, h_E = self.pool_multi_conf(h_V, h_E, graphs.mask_confs, edge_index)
         node_scalar = h_V[0]  # shape ->  (N_total_nodes, 128)
         graph_emb = self.attn_pooling(node_scalar, graphs.batch)  # shape -> (B, node_h_dim[0]=128)
@@ -687,10 +692,10 @@ class MultiMRSMA(nn.Module):
         #rna_emb = torch.cat([ernie_rna_emb, graph_emb], dim=1)  # (B, 128 + 128)
         rna_emb = self.gated_rna_fusion(ernie_rna_emb, graph_emb)
         # ----- SMILES branch -----
-        #fp_smi_emb = self.fp_mlp(morgan_fp)
-        #desc_smi_emb = self.mordred_mlp(mordred_desc)
+        fp_smi_emb = self.fp_mlp(morgan_fp)
+        desc_smi_emb = self.mordred_mlp(mordred_desc)
 
-        expert_smi_emb = torch.cat([morgan_fp, mordred_desc], dim=1)
+        expert_smi_emb = torch.cat([fp_smi_emb, desc_smi_emb], dim=1)
         expert_smi_emb = self.expert_mlp(expert_smi_emb)
         chemberta_mol_emb = self.chemberta_mlp(chemberta_emb) # [B, 128]
         mol_emb = self.mol_mlp(torch.cat([expert_smi_emb, chemberta_mol_emb], dim=1))

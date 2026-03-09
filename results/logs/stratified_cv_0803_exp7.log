@@ -1,0 +1,12 @@
+2026-03-09 13:53:43,793 - stratified_cv_0803_exp7 - model w ft gRNAde @ w RNA cross-attention fusion
+2026-03-09 13:53:43,805 - 
+==================== ALL FAMILIES  ====================
+2026-03-09 13:53:43,805 - K folds:5, seed:1, batch size:1, max epochs:1000, lr:2e-05, weight decay:1e-05, patience:20, warm up epo:60, delta:0.0001
+2026-03-09 13:53:43,805 - --- Start statified 5-fold cross-validation; pd.DataFrame shape -> (1439, 8), lr=2e-05 ---
+2026-03-09 13:53:43,805 - W/O PADDING -> MolRNACDataset with for training setting=4 and aug=False - for RNA cross-attention fusion
+2026-03-09 13:53:45,171 - W/O PADDING -> MolRNACDataset with for evaluating setting=4 and aug=False - for RNA cross-attention fusion
+2026-03-09 13:53:45,596 - 
+Fold number 4/5
+2026-03-09 13:53:45,597 - Train len -> 1151, Test len -> 288
+2026-03-09 13:53:45,597 - MultiRSMA - with ft gRNAde & with cross-attention fusion; without padding
+2026-03-09 13:53:45,597 - hyperparameters -> BiDirectionalCrossFusion dropout:0.1, Encoder MLPs dropout:0.1; Last MLP dropout:0.1

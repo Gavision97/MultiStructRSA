@@ -1,0 +1,11 @@
+2026-03-07 14:37:56,021 - stratified_cv_0703_exp2 - model w ft gRNAde
+2026-03-07 14:37:56,029 - 
+==================== ALL FAMILIES  ====================
+2026-03-07 14:37:56,029 - K folds:5, seed:1, batch size:1, max epochs:1000, lr:5e-05, weight decay:1e-05, mlp dropout:0.2 patience:50, warm up epo:100, delta:0.0001
+2026-03-07 14:37:56,029 - --- Start statified 5-fold cross-validation; pd.DataFrame shape -> (1439, 8), lr=5e-05 ---
+2026-03-07 14:37:56,029 - Initializing MolRNADataset with for training setting=2 and aug=False
+2026-03-07 14:38:09,432 - Initializing MolRNADataset with for evaluating setting=1 and aug=False
+2026-03-07 14:38:13,382 - 
+Fold number 1/5
+2026-03-07 14:38:13,382 - Train len -> 1151, Test len -> 288
+2026-03-07 14:38:13,382 - --- POC - model w ft gRNAde (BioLLMNet style  26/02) gate & gate ---

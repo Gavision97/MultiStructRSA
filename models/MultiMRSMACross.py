@@ -3,18 +3,28 @@ import torch.nn as nn
 
 from models.gRNAde import *
 from models.model_utils import *
+from models.BiDirectionalCrossFusion import BiDirectionalCrossFusionSingle
 import logging
 logger = logging.getLogger(__name__)
 
 gRNAde_WEIGHT_PATH = "saved_objects/gRNAde_checkpoints/gRNAde_drop3d@0.75_maxlen@500.h5"
 
+BDCF_DROPOUT = 0.1 # BiDirectionalCrossFusion dropout
+DROPOUT = 0.1 # all MLP dropout values
+LST_DROPOUT = 0.1 # last MLP (affinity head) dropout values
+
+# WITHOUT PADDING
 class MultiMRSMA(nn.Module):
     def __init__(
-        self,
-        dropout=0.1,
+        self
     ):
         super().__init__()
-        
+        logging.info('MultiRSMA - with ft gRNAde & with cross-attention fusion; without padding')
+        logger.info(f'hyperparameters -> BiDirectionalCrossFusion dropout:{BDCF_DROPOUT}, Encoder MLPs dropout:{DROPOUT}; Last MLP dropout:{LST_DROPOUT}')
+        #################################################################################3
+        # adapted from gRNAde framework - https://github.com/chaitjo/geometric-rna-design.git
+        # gRNAde encoder layers (for fine-tuning)
+
         pretrained = gRNAde()  # MUST match training defaults (num_layers=4 etc.)
         state_dict = torch.load(gRNAde_WEIGHT_PATH, map_location="cpu")
         pretrained.load_state_dict(state_dict, strict=True)
@@ -22,10 +32,173 @@ class MultiMRSMA(nn.Module):
         self.W_v = pretrained.W_v
         self.W_e = pretrained.W_e
         self.encoder_layers = pretrained.encoder_layers
-
+    
+        # for fine-tuning - unfreeze gRNAde encoder layers (p.requires_grad = True)
         for p in self.W_v.parameters(): p.requires_grad = True
         for p in self.W_e.parameters(): p.requires_grad = True
         for p in self.encoder_layers.parameters(): p.requires_grad = True        
+        #################################################################################     
+        
+        # RiNALMo -> 1280, ERNIE-RNA -> 768
+        self.rna_fusion = BiDirectionalCrossFusionSingle(a_in_dim=768, b_in_dim=128, d_model=128,
+                                                         n_heads=4, dropout=BDCF_DROPOUT)
+        self.gated_fusion = GatedFeatureFusion(256)
+
+
+        self.chemberta_mlp = nn.Sequential(
+            nn.Linear(384, 256, bias=False),
+            nn.LayerNorm(256),
+            nn.ReLU(),
+            nn.Dropout(DROPOUT)
+        )
+
+        # cat -> fuse; got best results from 03/03 exp3
+        self.expert_mlp = nn.Sequential(
+            nn.Linear(1024 + 1205, 512, bias=False),
+            nn.LayerNorm(512),
+            nn.ReLU(),
+            nn.Dropout(DROPOUT),
+            nn.Linear(512, 256, bias=False),
+            nn.LayerNorm(256),
+            nn.ReLU(),
+            nn.Dropout(DROPOUT)
+        )
+
+
+        self.mol_mlp = nn.Sequential(
+            nn.Linear(2*256, 256, bias=False),
+            nn.LayerNorm(256),
+            nn.ReLU(),
+            nn.Dropout(DROPOUT)
+        )
+
+
+        # ---- fusion head ----
+        # note - without gRNAde substract 128
+        self.head = nn.Sequential(
+            nn.Linear(256, 128, bias=False),
+            nn.LayerNorm(128),
+            nn.ReLU(),
+            nn.Dropout(LST_DROPOUT),
+            nn.Linear(128, 64, bias=False),
+            nn.LayerNorm(64),
+            nn.ReLU(),
+            nn.Dropout(LST_DROPOUT),
+            nn.Linear(64, 1, bias=True)
+        )
+
+    def pool_multi_conf(self, h_V, h_E, mask_confs, edge_index):
+        # paste your gRNAde pool_multi_conf here exactly (same as you already have)
+        if mask_confs.size(1) == 1:
+            return (h_V[0][:, 0], h_V[1][:, 0]), (h_E[0][:, 0], h_E[1][:, 0])
+
+        n_conf_true = mask_confs.sum(1, keepdim=True)
+
+        mask = mask_confs.unsqueeze(2)
+        h_V0 = h_V[0] * mask
+        h_E0 = h_E[0] * mask[edge_index[0]]
+
+        mask = mask.unsqueeze(3)
+        h_V1 = h_V[1] * mask
+        h_E1 = h_E[1] * mask[edge_index[0]]
+
+        h_V = (
+            h_V0.sum(dim=1) / n_conf_true,
+            h_V1.sum(dim=1) / n_conf_true.unsqueeze(2),
+        )
+        h_E = (
+            h_E0.sum(dim=1) / n_conf_true[edge_index[0]],
+            h_E1.sum(dim=1) / n_conf_true[edge_index[0]].unsqueeze(2),
+        )
+        return h_V, h_E
+
+    def forward(self, graph, ernie_emb, rinalmo_emb, morgan_fp, mordred_desc, chemberta_emb):
+        """
+        Single-sample forward.
+
+        Inputs
+        ------
+        graph: a single PyG Data object
+        ernie_emb: (L_max, 768) or already trimmed (L, 768)
+        seq_len: int
+        chemberta_emb: (384,)
+
+        Returns
+        -------
+        pkd: (1,)
+        """
+        #ernie_seq = ernie_emb[:seq_len]   # (L, 768)
+        
+        # --------------- RNA module --------------- #
+        # gRNAde encoder -----
+        h_V = (graph.node_s, graph.node_v)
+        h_E = (graph.edge_s, graph.edge_v)
+        edge_index = graph.edge_index
+
+        h_V = self.W_v(h_V)
+        h_E = self.W_e(h_E)
+
+        for layer in self.encoder_layers:
+            h_V = layer(h_V, edge_index, h_E)
+
+        h_V, h_E = self.pool_multi_conf(h_V, h_E, graph.mask_confs, edge_index)
+
+        # node_scalar: (N_nodes, 128)
+        node_scalar = h_V[0]
+
+        ernie_emb, rinalmo_emb = ernie_emb.squeeze(0), rinalmo_emb.squeeze(0) # (1, L, |f|) -> (L, |f|)
+        rna_emb = ernie_emb
+        # bidirectional RNA fusion 
+        rna_emb, nodes_fused = self.rna_fusion(
+            A=rna_emb,      # (L, 768) / (L, 1280)
+            B=node_scalar     # (N, 128)
+        )
+
+        
+        rna_emb = rna_emb.mean(dim=0)   # (128,)
+        nodes_vec = nodes_fused.mean(dim=0)   # (128,)
+
+        rna_vec = torch.cat([rna_emb, nodes_vec], dim=0).unsqueeze(0) # (1, 256)
+
+        # --------------- small molecule module ---------------
+        expert_smi_emb = torch.cat([morgan_fp, mordred_desc], dim=1) # (1, 1024 + 1205)
+        expert_smi_emb = self.expert_mlp(expert_smi_emb) # (1, 128)
+        chemberta_mol_emb = self.chemberta_mlp(chemberta_emb) # (1, 128)
+        mol_vec = self.mol_mlp(torch.cat([expert_smi_emb, chemberta_mol_emb], dim=1))
+
+
+        # --------------- gated fusion + prediction module ---------------
+        fused_emb = self.gated_fusion(mol_vec, rna_vec)   # (256,)
+        pkd = self.head(fused_emb)  # (1,)
+
+        return pkd
+
+
+# WITH PADDING
+class MultiMRSMA_(nn.Module):
+    def __init__(
+        self,
+        dropout=0.1,
+    ):
+        super().__init__()
+        
+        #################################################################################3
+        # adapted from gRNAde framework - https://github.com/chaitjo/geometric-rna-design.git
+        # gRNAde encoder layers (for fine-tuning)
+
+        pretrained = gRNAde()  # MUST match training defaults (num_layers=4 etc.)
+        state_dict = torch.load(gRNAde_WEIGHT_PATH, map_location="cpu")
+        pretrained.load_state_dict(state_dict, strict=True)
+
+        self.W_v = pretrained.W_v
+        self.W_e = pretrained.W_e
+        self.encoder_layers = pretrained.encoder_layers
+    
+        # for fine-tuning - unfreeze gRNAde encoder layers (p.requires_grad = True)
+        for p in self.W_v.parameters(): p.requires_grad = True
+        for p in self.W_e.parameters(): p.requires_grad = True
+        for p in self.encoder_layers.parameters(): p.requires_grad = True        
+        #################################################################################     
         
         logger.info(f'--- Uses gRNAde encoder with finetune the layers & Cross-Attention Fustion (RNA) ---')       
 

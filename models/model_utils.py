@@ -37,6 +37,7 @@ class AttnPool(nn.Module):
         return out                             # (B, dim)
 
 
+
 def pad_nodes_by_graph(node_scalar, batch_idx, B):
     """
     Method that pad graphs G in batch B with True values according to the biggest graph

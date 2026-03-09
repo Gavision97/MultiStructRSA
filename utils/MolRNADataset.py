@@ -40,6 +40,8 @@ SEQ_TO_G_PATH_4 = "saved_objects/seq_to_g4.pt" # no aug & no multi-conformer - j
 SEQ_TO_G_PATH_5 = "saved_objects/seq_to_g5.pt" # multi-conformer @ conf = 5
 SEQ_TO_G_PATH_6 = "saved_objects/seq_to_g6.pt" # data-augmentation; rna -> |list|=5 conformations
 
+import logging
+logger = logging.getLogger(__name__)
 
 def _get_seq_to_g_setting(setting=1):
     if setting == 1:
@@ -197,12 +199,12 @@ class MolRNADataset(Dataset):
     * We clone() the cached Data to avoid accidental in-place modification across samples.
     * Features are returned as torch.FloatTensor so collate_fn can stack them cleanly.
     """
-    def __init__(self, ds_, setting=1, aug=False):
+    def __init__(self, ds_, setting=1, aug=False, task='training'):
         """
         ds_ columns:
         SMILES | Target_RNA_sequence | ... | pKd
         """
-        
+        logger.info(f'Initializing MolRNADataset with for {task} setting={setting} and aug={aug}')
         self.data = ds_.reset_index(drop=True)
         self.aug = aug
 
@@ -213,13 +215,8 @@ class MolRNADataset(Dataset):
 
         # dictionary that maps 'rna_seq': graph object (pyG.Data()). Inspired by gRNAde which
         # is a 3D RNA inverse design by CK Joshi et al.
-        train_seq_to_g_setting = _get_seq_to_g_setting(setting=train_setting)
-        self.train_seq_to_g = torch.load(train_seq_to_g_setting, map_location="cpu")
-
-        eval_seq_to_g_setting = _get_seq_to_g_setting(setting=eval_setting)
-        self.eval_seq_to_g = torch.load(eval_seq_to_g_setting, map_location="cpu") 
-
-        self.rna_emb = h5py.File(RNA_EMB_PATH, "r")
+        seq_to_g_setting = _get_seq_to_g_setting(setting=setting)
+        self.seq_to_g = torch.load(seq_to_g_setting, map_location="cpu")
 
         # rna features
         ernie_rna_emb_ = pd.read_parquet(ERNIE_RNA_EMB_PATH)
@@ -296,16 +293,11 @@ class MolRNADataset(Dataset):
         rna_seq = self.data.loc[idx, "Target_RNA_sequence"]
         #print(f'seq len -> {len(rna_seq)}')
 
+        _g = self.seq_to_g[rna_seq]
         if self.aug:
             # settings (3)/(6): seq_to_g[seq] is a list[Data] (5 conformers)
-            graphs_list = self.seq_to_g[rna_seq]
-            base_g = random.choice(graphs_list)
-        else:
-            # settings (1)/(2)/(4)/(5): seq_to_g[seq] is a single Data
-            base_g = self.seq_to_g[rna_seq]
-
-        # RNA features & graph
-        g = base_g.clone()
+            _g = random.choice(_g)
+        g = _g.clone()
 
         ernie = torch.from_numpy(self.ernie_rna_emb.iloc[idx].values.astype(np.float32))
 

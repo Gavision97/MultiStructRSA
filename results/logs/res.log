@@ -1,101 +1,88 @@
-2026-03-03 14:18:08,737 - log message
-2026-03-03 14:18:08,746 - 
+2026-03-08 20:09:57,399 - log message
+2026-03-08 20:09:57,407 - 
 ==================== ALL FAMILIES  ====================
-2026-03-03 14:18:08,746 - K folds:5, seed:1, batch size:1, max epochs:1000, lr:5e-05, weight decay:1e-05, mlp dropout:0.2 patience:30, warm up epo:75, delta:0.0005
-2026-03-03 14:18:08,746 - --- Start statified 5-fold cross-validation; pd.DataFrame shape -> (1439, 8), lr=5e-05 ---
-2026-03-03 14:18:09,106 - ==========================================================================
-2026-03-03 14:18:09,106 - generating chemBERTa feature dataset ...
-2026-03-03 14:18:10,706 - finished & saved - chemberta features dataframe shape -> (759, 385)
-2026-03-03 14:18:10,706 - ==========================================================================
-2026-03-03 14:18:10,706 - generating rdkit chemical descriptors feature dataset ...
-2026-03-03 14:18:20,148 - finished & saved - rdkit chemical descriptiors features dataframe shape -> (759, 195)
-2026-03-03 14:18:20,148 - ==========================================================================
-2026-03-03 14:18:20,148 - generating morgan fingerprints feature dataset ...
-2026-03-03 14:18:21,186 - finished & saved - morgan fingerprints features dataframe shape -> (759, 1025)
-2026-03-03 14:18:21,186 - finished generating all 4 smiles features dataset successfully!
-2026-03-03 14:18:21,190 - 
+2026-03-08 20:09:57,407 - K folds:5, seed:1, batch size:1, max epochs:1000, lr:5e-05, weight decay:1e-05, mlp dropout:0.2 patience:50, warm up epo:100, delta:0.0001
+2026-03-08 20:09:57,407 - --- Start statified 5-fold cross-validation; pd.DataFrame shape -> (1439, 8), lr=5e-05 ---
+2026-03-08 20:09:57,408 - W/O PADDING -> MolRNACDataset with for training setting=1 and aug=False - for RNA cross-attention fusion
+2026-03-08 20:09:58,283 - W/O PADDING -> MolRNACDataset with for evaluating setting=1 and aug=False - for RNA cross-attention fusion
+2026-03-08 20:09:59,123 - 
 Fold number 1/5
-2026-03-03 14:18:21,190 - Train len -> 1151, Test len -> 288
-2026-03-03 14:18:21,191 - --- POC - model w ft gRNAde (BioLLMNet style  26/02) gate & gate ---
-2026-03-03 14:23:04,241 - log message
-2026-03-03 14:23:04,250 - 
+2026-03-08 20:09:59,123 - Train len -> 1151, Test len -> 288
+2026-03-08 20:09:59,124 - MultiRSMA - with ft gRNAde & with cross-attention fusion; without padding
+2026-03-08 20:17:29,745 - log message
+2026-03-08 20:17:29,753 - 
 ==================== ALL FAMILIES  ====================
-2026-03-03 14:23:04,250 - K folds:5, seed:1, batch size:1, max epochs:1000, lr:5e-05, weight decay:1e-05, mlp dropout:0.2 patience:30, warm up epo:75, delta:0.0005
-2026-03-03 14:23:04,250 - --- Start statified 5-fold cross-validation; pd.DataFrame shape -> (1439, 8), lr=5e-05 ---
-2026-03-03 14:23:04,609 - ==========================================================================
-2026-03-03 14:23:04,610 - generating chemBERTa feature dataset ...
-2026-03-03 14:23:06,197 - finished & saved - chemberta features dataframe shape -> (759, 385)
-2026-03-03 14:23:06,197 - ==========================================================================
-2026-03-03 14:23:06,197 - generating rdkit chemical descriptors feature dataset ...
-2026-03-03 14:23:15,640 - finished & saved - rdkit chemical descriptiors features dataframe shape -> (759, 195)
-2026-03-03 14:23:15,640 - ==========================================================================
-2026-03-03 14:23:15,640 - generating morgan fingerprints feature dataset ...
-2026-03-03 14:23:16,753 - finished & saved - morgan fingerprints features dataframe shape -> (759, 1025)
-2026-03-03 14:23:16,753 - finished generating all 4 smiles features dataset successfully!
-2026-03-03 14:23:16,757 - 
+2026-03-08 20:17:29,753 - K folds:5, seed:1, batch size:1, max epochs:1000, lr:5e-05, weight decay:1e-05, mlp dropout:0.2 patience:50, warm up epo:100, delta:0.0001
+2026-03-08 20:17:29,754 - --- Start statified 5-fold cross-validation; pd.DataFrame shape -> (1439, 8), lr=5e-05 ---
+2026-03-08 20:17:29,754 - W/O PADDING -> MolRNACDataset with for training setting=1 and aug=False - for RNA cross-attention fusion
+2026-03-08 20:17:30,631 - W/O PADDING -> MolRNACDataset with for evaluating setting=1 and aug=False - for RNA cross-attention fusion
+2026-03-08 20:17:31,485 - 
 Fold number 1/5
-2026-03-03 14:23:16,757 - Train len -> 1151, Test len -> 288
-2026-03-03 14:23:17,039 - --- Uses gRNAde encoder with finetune the layers & Cross-Attention Fustion (RNA) ---
-2026-03-03 14:24:37,688 - log message
-2026-03-03 14:24:37,697 - 
+2026-03-08 20:17:31,485 - Train len -> 1151, Test len -> 288
+2026-03-08 20:17:31,486 - MultiRSMA - with ft gRNAde & with cross-attention fusion; without padding
+2026-03-08 20:27:12,798 - log message
+2026-03-08 20:27:12,806 - 
 ==================== ALL FAMILIES  ====================
-2026-03-03 14:24:37,697 - K folds:5, seed:1, batch size:1, max epochs:1000, lr:5e-05, weight decay:1e-05, mlp dropout:0.2 patience:30, warm up epo:75, delta:0.0005
-2026-03-03 14:24:37,697 - --- Start statified 5-fold cross-validation; pd.DataFrame shape -> (1439, 8), lr=5e-05 ---
-2026-03-03 14:24:38,077 - ==========================================================================
-2026-03-03 14:24:38,077 - generating chemBERTa feature dataset ...
-2026-03-03 14:24:39,611 - finished & saved - chemberta features dataframe shape -> (759, 385)
-2026-03-03 14:24:39,611 - ==========================================================================
-2026-03-03 14:24:39,611 - generating rdkit chemical descriptors feature dataset ...
-2026-03-03 14:24:49,062 - finished & saved - rdkit chemical descriptiors features dataframe shape -> (759, 195)
-2026-03-03 14:24:49,062 - ==========================================================================
-2026-03-03 14:24:49,062 - generating morgan fingerprints feature dataset ...
-2026-03-03 14:24:50,101 - finished & saved - morgan fingerprints features dataframe shape -> (759, 1025)
-2026-03-03 14:24:50,101 - finished generating all 4 smiles features dataset successfully!
-2026-03-03 14:24:50,104 - 
+2026-03-08 20:27:12,806 - K folds:5, seed:1, batch size:1, max epochs:1000, lr:5e-05, weight decay:1e-05, mlp dropout:0.2 patience:50, warm up epo:100, delta:0.0001
+2026-03-08 20:27:12,806 - --- Start statified 5-fold cross-validation; pd.DataFrame shape -> (1439, 8), lr=5e-05 ---
+2026-03-08 20:27:12,807 - W/O PADDING -> MolRNACDataset with for training setting=1 and aug=False - for RNA cross-attention fusion
+2026-03-08 20:27:13,691 - W/O PADDING -> MolRNACDataset with for evaluating setting=1 and aug=False - for RNA cross-attention fusion
+2026-03-08 20:27:14,565 - 
 Fold number 1/5
-2026-03-03 14:24:50,105 - Train len -> 1151, Test len -> 288
-2026-03-03 14:24:50,388 - --- Uses gRNAde encoder with finetune the layers & Cross-Attention Fustion (RNA) ---
-2026-03-03 14:28:48,704 - NEW BEST @ epoch 1: val loss=1.9233, ppc=0.0093, ssc=0.0852, r2=-0.9447; train loss=2.5286
-2026-03-03 14:32:46,492 - NEW BEST @ epoch 2: val loss=1.4228, ppc=0.1478, ssc=0.1707, r2=-0.0644; train loss=1.4001
-2026-03-03 14:36:47,239 - NEW BEST @ epoch 3: val loss=1.3789, ppc=0.4487, ssc=0.3926, r2=0.0004; train loss=1.1889
-2026-03-03 14:40:46,578 - NEW BEST @ epoch 4: val loss=1.2707, ppc=0.4852, ssc=0.4340, r2=0.1511; train loss=1.1340
-2026-03-03 14:44:44,955 - NEW BEST @ epoch 5: val loss=1.1584, ppc=0.5605, ssc=0.5013, r2=0.2945; train loss=1.0429
-2026-03-06 14:38:37,326 - log message
-2026-03-06 14:38:37,345 - 
+2026-03-08 20:27:14,565 - Train len -> 1151, Test len -> 288
+2026-03-08 20:27:14,566 - MultiRSMA - with ft gRNAde & with cross-attention fusion; without padding
+2026-03-08 20:29:14,495 - log message
+2026-03-08 20:29:14,503 - 
 ==================== ALL FAMILIES  ====================
-2026-03-06 14:38:37,345 - K folds:5, seed:1, batch size:1, max epochs:1000, lr:5e-05, weight decay:1e-05, mlp dropout:0.2 patience:20, warm up epo:50, delta:0.0005
-2026-03-06 14:38:37,345 - --- Start statified 5-fold cross-validation; pd.DataFrame shape -> (1439, 8), lr=5e-05 ---
-2026-03-06 14:38:39,319 - 
+2026-03-08 20:29:14,503 - K folds:5, seed:1, batch size:1, max epochs:1000, lr:5e-05, weight decay:1e-05, mlp dropout:0.2 patience:50, warm up epo:100, delta:0.0001
+2026-03-08 20:29:14,504 - --- Start statified 5-fold cross-validation; pd.DataFrame shape -> (1439, 8), lr=5e-05 ---
+2026-03-08 20:29:14,504 - W/O PADDING -> MolRNACDataset with for training setting=1 and aug=False - for RNA cross-attention fusion
+2026-03-08 20:29:15,385 - W/O PADDING -> MolRNACDataset with for evaluating setting=1 and aug=False - for RNA cross-attention fusion
+2026-03-08 20:29:16,486 - 
 Fold number 1/5
-2026-03-06 14:38:39,319 - Train len -> 1151, Test len -> 288
-2026-03-06 14:38:39,319 - --- POC - model w ft gRNAde (BioLLMNet style  26/02) gate & gate ---
-2026-03-06 14:40:18,092 - log message
-2026-03-06 14:40:18,099 - 
+2026-03-08 20:29:16,486 - Train len -> 1151, Test len -> 288
+2026-03-08 20:29:16,487 - MultiRSMA - with ft gRNAde & with cross-attention fusion; without padding
+2026-03-08 20:32:01,131 - log message
+2026-03-08 20:32:01,140 - 
 ==================== ALL FAMILIES  ====================
-2026-03-06 14:40:18,100 - K folds:5, seed:1, batch size:1, max epochs:1000, lr:5e-05, weight decay:1e-05, mlp dropout:0.2 patience:20, warm up epo:50, delta:0.0005
-2026-03-06 14:40:18,100 - --- Start statified 5-fold cross-validation; pd.DataFrame shape -> (1439, 8), lr=5e-05 ---
-2026-03-06 14:40:18,998 - 
+2026-03-08 20:32:01,140 - K folds:5, seed:1, batch size:1, max epochs:1000, lr:5e-05, weight decay:1e-05, mlp dropout:0.2 patience:50, warm up epo:100, delta:0.0001
+2026-03-08 20:32:01,140 - --- Start statified 5-fold cross-validation; pd.DataFrame shape -> (1439, 8), lr=5e-05 ---
+2026-03-08 20:32:01,141 - W/O PADDING -> MolRNACDataset with for training setting=4 and aug=False - for RNA cross-attention fusion
+2026-03-08 20:32:02,538 - W/O PADDING -> MolRNACDataset with for evaluating setting=4 and aug=False - for RNA cross-attention fusion
+2026-03-08 20:32:03,126 - 
 Fold number 1/5
-2026-03-06 14:40:18,998 - Train len -> 1151, Test len -> 288
-2026-03-06 14:40:18,999 - --- POC - model w ft gRNAde (BioLLMNet style  26/02) gate & gate ---
-2026-03-06 14:42:18,740 - NEW BEST @ epoch 1: val loss=2.7485, ppc=0.0378, ssc=0.0424, r2=-2.9718; train loss=3.2154
-2026-03-06 14:44:15,698 - NEW BEST @ epoch 2: val loss=1.9532, ppc=0.2518, ssc=0.2484, r2=-1.0057; train loss=2.1218
-2026-03-06 14:46:14,756 - NEW BEST @ epoch 3: val loss=1.5510, ppc=-0.0187, ssc=-0.0043, r2=-0.2647; train loss=1.5147
-2026-03-06 16:50:46,451 - log message
-2026-03-06 16:50:46,459 - 
+2026-03-08 20:32:03,126 - Train len -> 1151, Test len -> 288
+2026-03-08 20:32:03,127 - MultiRSMA - with ft gRNAde & with cross-attention fusion; without padding
+2026-03-08 20:34:12,536 - NEW BEST @ epoch 1: val loss=1.7693, ppc=-0.0761, ssc=-0.0845, r2=-0.6458; train loss=2.2899
+2026-03-08 20:38:45,250 - log message
+2026-03-08 20:38:45,257 - 
 ==================== ALL FAMILIES  ====================
-2026-03-06 16:50:46,459 - K folds:5, seed:1, batch size:1, max epochs:1000, lr:5e-05, weight decay:1e-05, mlp dropout:0.2 patience:50, warm up epo:100, delta:0.0005
-2026-03-06 16:50:46,459 - --- Start statified 5-fold cross-validation; pd.DataFrame shape -> (1439, 8), lr=5e-05 ---
-2026-03-06 16:50:47,349 - 
+2026-03-08 20:38:45,258 - K folds:5, seed:1, batch size:1, max epochs:1000, lr:5e-05, weight decay:1e-05, mlp dropout:0.2 patience:50, warm up epo:100, delta:0.0001
+2026-03-08 20:38:45,258 - --- Start statified 5-fold cross-validation; pd.DataFrame shape -> (1439, 8), lr=5e-05 ---
+2026-03-08 20:38:45,259 - W/O PADDING -> MolRNACDataset with for training setting=4 and aug=False - for RNA cross-attention fusion
+2026-03-08 20:38:45,988 - W/O PADDING -> MolRNACDataset with for evaluating setting=4 and aug=False - for RNA cross-attention fusion
+2026-03-08 20:38:46,585 - 
 Fold number 1/5
-2026-03-06 16:50:47,349 - Train len -> 1151, Test len -> 288
-2026-03-06 16:50:47,349 - --- POC - model w ft gRNAde (BioLLMNet style  26/02) gate & gate ---
-2026-03-06 16:52:42,822 - log message
-2026-03-06 16:52:42,831 - 
+2026-03-08 20:38:46,585 - Train len -> 1151, Test len -> 288
+2026-03-08 20:38:46,586 - MultiRSMA - with ft gRNAde & with cross-attention fusion; without padding
+2026-03-08 20:39:56,774 - log message
+2026-03-08 20:39:56,782 - 
 ==================== ALL FAMILIES  ====================
-2026-03-06 16:52:42,831 - K folds:5, seed:1, batch size:1, max epochs:1000, lr:5e-05, weight decay:1e-05, mlp dropout:0.2 patience:50, warm up epo:100, delta:0.0005
-2026-03-06 16:52:42,831 - --- Start statified 5-fold cross-validation; pd.DataFrame shape -> (1439, 8), lr=5e-05 ---
-2026-03-06 16:52:43,725 - 
+2026-03-08 20:39:56,782 - K folds:5, seed:1, batch size:1, max epochs:1000, lr:5e-05, weight decay:1e-05, mlp dropout:0.2 patience:50, warm up epo:100, delta:0.0001
+2026-03-08 20:39:56,782 - --- Start statified 5-fold cross-validation; pd.DataFrame shape -> (1439, 8), lr=5e-05 ---
+2026-03-08 20:39:56,783 - W/O PADDING -> MolRNACDataset with for training setting=4 and aug=False - for RNA cross-attention fusion
+2026-03-08 20:39:57,391 - W/O PADDING -> MolRNACDataset with for evaluating setting=4 and aug=False - for RNA cross-attention fusion
+2026-03-08 20:39:57,990 - 
 Fold number 1/5
-2026-03-06 16:52:43,725 - Train len -> 1151, Test len -> 288
-2026-03-06 16:52:43,726 - --- POC - model w ft gRNAde (BioLLMNet style  26/02) gate & gate ---
+2026-03-08 20:39:57,991 - Train len -> 1151, Test len -> 288
+2026-03-08 20:39:57,991 - MultiRSMA - with ft gRNAde & with cross-attention fusion; without padding
+2026-03-08 20:42:08,384 - NEW BEST @ epoch 1: val loss=2.0508, ppc=-0.0309, ssc=-0.0554, r2=-1.2112; train loss=2.6239
+2026-03-08 20:44:18,933 - NEW BEST @ epoch 2: val loss=1.4521, ppc=0.3799, ssc=0.3223, r2=-0.1085; train loss=1.4537
+2026-03-08 20:46:28,927 - NEW BEST @ epoch 3: val loss=1.3521, ppc=0.5266, ssc=0.4265, r2=0.0389; train loss=1.2037
+2026-03-08 20:48:39,306 - NEW BEST @ epoch 4: val loss=1.1602, ppc=0.5597, ssc=0.5274, r2=0.2923; train loss=1.0409
+2026-03-08 20:50:49,540 - NEW BEST @ epoch 5: val loss=1.1435, ppc=0.6069, ssc=0.5613, r2=0.3126; train loss=0.9727
+2026-03-08 20:52:59,532 - NEW BEST @ epoch 6: val loss=1.1202, ppc=0.5880, ssc=0.6196, r2=0.3402; train loss=0.9250
+2026-03-08 20:55:09,625 - NEW BEST @ epoch 7: val loss=1.0502, ppc=0.6568, ssc=0.6747, r2=0.4202; train loss=0.8560
+2026-03-08 20:59:31,331 - NEW BEST @ epoch 9: val loss=0.9844, ppc=0.7044, ssc=0.7454, r2=0.4905; train loss=0.7939
+2026-03-08 21:08:15,626 - NEW BEST @ epoch 13: val loss=0.9426, ppc=0.7333, ssc=0.7668, r2=0.5328; train loss=0.7184
+2026-03-08 21:14:51,111 - NEW BEST @ epoch 16: val loss=0.8907, ppc=0.7662, ssc=0.7895, r2=0.5829; train loss=0.6663

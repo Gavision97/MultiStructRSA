@@ -1,0 +1,16 @@
+2026-03-09 13:42:12,197 - stratified_cv_0803_exp10 - model w ft gRNAde @ w RNA cross-attention fusion
+2026-03-09 13:42:12,209 - 
+==================== ALL FAMILIES  ====================
+2026-03-09 13:42:12,209 - K folds:5, seed:1, batch size:1, max epochs:1000, lr:5e-05, weight decay:1e-05patience:20, warm up epo:60, delta:0.0001
+2026-03-09 13:42:12,209 - --- Start statified 5-fold cross-validation; pd.DataFrame shape -> (1439, 8), lr=5e-05 ---
+2026-03-09 13:42:12,209 - W/O PADDING -> MolRNACDataset with for training setting=4 and aug=False - for RNA cross-attention fusion
+2026-03-09 13:42:13,544 - W/O PADDING -> MolRNACDataset with for evaluating setting=4 and aug=False - for RNA cross-attention fusion
+2026-03-09 13:42:14,002 - 
+Fold number 4/5
+2026-03-09 13:42:14,003 - Train len -> 1151, Test len -> 288
+2026-03-09 13:42:14,003 - MultiRSMA - with ft gRNAde & with cross-attention fusion; without padding
+2026-03-09 13:42:14,003 - hyperparameters -> BiDirectionalCrossFusion dropout:0.1, Encoder MLPs dropout:0.1; Last MLP dropout:0.1
+2026-03-09 13:44:31,834 - NEW BEST @ epoch 1: val loss=2.0723, ppc=-0.0515, ssc=-0.0007, r2=-1.2164; train loss=2.6323
+2026-03-09 13:46:43,780 - NEW BEST @ epoch 2: val loss=1.4721, ppc=0.4038, ssc=0.3315, r2=-0.1185; train loss=1.4561
+2026-03-09 13:48:51,842 - NEW BEST @ epoch 3: val loss=1.2893, ppc=0.4417, ssc=0.3189, r2=0.1421; train loss=1.1517
+2026-03-09 13:51:00,353 - NEW BEST @ epoch 4: val loss=1.2298, ppc=0.4760, ssc=0.4197, r2=0.2195; train loss=1.0096

@@ -1,14 +1,10 @@
 import os
 import random
 import numpy as np
-import pandas as pd
 import torch
-import torch.nn as nn
-import torch.optim as optim
 
 from torch.utils.data import DataLoader, Subset
 from scipy.stats import pearsonr, spearmanr
-import statistics
 from sklearn.metrics import mean_squared_error, r2_score
 
 torch.use_deterministic_algorithms(True)
@@ -19,11 +15,13 @@ torch.backends.cudnn.deterministic = True
 
 from evaluate.evaluate_utils import train_one_epoch, predict, EarlyStopping, regressor_stratified_cv, plot_train_val_loss, EarlyStopping
 
-# Project-specific imports
-from utils.MolRNADataset import MolRNADataset
-from models.MultiMRSMA import MultiMRSMA
+#from utils.MolRNADataset import MolRNADataset # w/o RNA cross-attention fusion mechanism
+from utils.MolRNACDataset import MolRNADataset # w RNA cross-attention fusion mechanism
 
-# Logging setup
+#from models.MultiMRSMA import MultiMRSMA # w/o RNA cross-attention fusion mechanism
+from models.MultiMRSMACross import MultiMRSMA # w RNA cross-attention fusion mechanism
+
+
 import logging
 logger = logging.getLogger(__name__)
 
@@ -31,19 +29,23 @@ logger = logging.getLogger(__name__)
 
 # same seed as in DeepRSMA
 SEED = 1
-DROPOUT = 0.2
+#DROPOUT = 0.2
 DEVICE = 'cuda'
 BATCH_SIZE = 1
 MAX_EPOCHS = 1000
-PATIENCE = 50 # for early stopping
-WARM_UP_EPOCHS= 100
+PATIENCE = 20 # for early stopping
+WARM_UP_EPOCHS= 60
 MODE = 'min'
-DELTA = 5e-4 # for early stopping
-LR = 0.00005 # 0.00001 
+DELTA = 1e-4 # 0.0001 ;for early stopping
+LR = 0.00005 # 0.00005
 WEIGHT_DECAY = 1e-5
 SEED_DATASET = 2 # same as in DeepRSMA
 NUM_WORKERS = 8
 
+
+TRAIN_SETTING = 4
+VAL_SETTING = 4
+AUG = False
 # 31/1 experiments - lr -> 1e-4 (0.0001)
 # 07/2 experiments - lr -> 5e-4 (0.0005)
 
@@ -80,15 +82,16 @@ def cv_eval(df,
             delta: float = DELTA):
     logger.info(
         f'K folds:{n}, seed:{SEED}, batch size:{BATCH_SIZE}, '
-        f'max epochs:{MAX_EPOCHS}, lr:{LR}, weight decay:{WEIGHT_DECAY}, mlp dropout:{DROPOUT} '
+        f'max epochs:{MAX_EPOCHS}, lr:{LR}, weight decay:{WEIGHT_DECAY}, '
         f'patience:{PATIENCE}, warm up epo:{WARM_UP_EPOCHS}, delta:{DELTA}'
     )
     #all_df = pd.read_csv(ALL_SF_DATASET_PATH, sep="\t")
     all_df = df
     logging.info(f"--- Start statified {n}-fold cross-validation; pd.DataFrame shape -> {all_df.shape}, lr={LR} ---")
 
-    ds = MolRNADataset(all_df)
-    Y = ds.data["pKd"].to_numpy(dtype=np.float32)
+    train_ds = MolRNADataset(all_df, setting=TRAIN_SETTING, aug=AUG, task="training")
+    val_ds = MolRNADataset(all_df, setting=VAL_SETTING, aug=False, task='evaluating')
+    Y = train_ds.data["pKd"].to_numpy(dtype=np.float32)
 
     # same initialization as in DeepRSMA 
     skf = regressor_stratified_cv(
@@ -100,6 +103,8 @@ def cv_eval(df,
     set_seed(SEED)
 
     for fold, (train_index, test_index) in enumerate(skf.split(np.zeros(len(Y)), Y)):
+        if fold+1 < 4:
+            continue
         # determinism per fold
         g = torch.Generator().manual_seed(SEED)
 
@@ -107,17 +112,15 @@ def cv_eval(df,
 
 
         # Initialize current fold train & test dataloaders
-        train_subset = Subset(ds, train_index)
-        test_subset  = Subset(ds, test_index)
-        
-        train_loader = DataLoader(Subset(ds, train_index), batch_size=BATCH_SIZE, generator=g, shuffle=True, collate_fn=MolRNADataset.collate_fn, num_workers=NUM_WORKERS)
-        test_loader = DataLoader(Subset(ds, test_index), batch_size=BATCH_SIZE, shuffle=False, collate_fn=MolRNADataset.collate_fn, num_workers=NUM_WORKERS)
+
+        train_loader = DataLoader(Subset(train_ds, train_index), batch_size=BATCH_SIZE, generator=g, shuffle=True, collate_fn=MolRNADataset.collate_fn, num_workers=NUM_WORKERS)
+        test_loader = DataLoader(Subset(val_ds, test_index), batch_size=BATCH_SIZE, shuffle=False, collate_fn=MolRNADataset.collate_fn, num_workers=NUM_WORKERS)
         logger.info(f'Train len -> {len(train_loader.dataset)}, Test len -> {len(test_loader.dataset)}')
 
 
         early_stopping = EarlyStopping(mode=MODE, patience=PATIENCE, warm_up_epochs=WARM_UP_EPOCHS, delta=DELTA) # early stopping object 
         
-        model = MultiMRSMA(dropout=DROPOUT).to(device)
+        model = MultiMRSMA().to(device)
         optimizer = torch.optim.Adam(model.parameters(), lr=LR, weight_decay=WEIGHT_DECAY)
         criterion = rmse_loss
 

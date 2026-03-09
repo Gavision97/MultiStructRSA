@@ -1,12 +1,16 @@
 from typing import Optional
-
 import torch
-import torch.nn.functional as F
-import torch_geometric
 from torch import nn
+import torch.nn.functional as F
 from torch.distributions import Categorical
-
 from utils.layers import *
+
+
+#############################################################################################
+# Adapted from gRNAde framework - https://github.com/chaitjo/geometric-rna-design.git
+# more for information, refer to their paper -> 
+#############################################################################################
+
 
 class gRNAde(torch.nn.Module):
     """gRNAde: Generative model for RNA inverse design.

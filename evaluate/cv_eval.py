@@ -13,7 +13,8 @@ torch.backends.cudnn.allow_tf32 = False
 torch.backends.cudnn.benchmark = False
 torch.backends.cudnn.deterministic = True
 
-from evaluate.evaluate_utils import train_one_epoch, predict, EarlyStopping, regressor_stratified_cv, plot_train_val_loss, EarlyStopping
+from evaluate.evaluate_utils import (train_one_epoch, predict, EarlyStopping,
+                                     regressor_stratified_cv, plot_train_val_loss, safe_regression_metrics)
 
 #from utils.MolRNADataset import MolRNADataset # w/o RNA cross-attention fusion mechanism
 from utils.MolRNACDataset import MolRNADataset # w RNA cross-attention fusion mechanism
@@ -103,8 +104,6 @@ def cv_eval(df,
     set_seed(SEED)
 
     for fold, (train_index, test_index) in enumerate(skf.split(np.zeros(len(Y)), Y)):
-        if fold+1 < 4:
-            continue
         # determinism per fold
         g = torch.Generator().manual_seed(SEED)
 
@@ -133,11 +132,8 @@ def cv_eval(df,
             # predict on the test set
             y_true, y_pred = predict(model, test_loader, device)
 
-            p = pearsonr(y_true, y_pred)[0]
-            s = spearmanr(y_true, y_pred)[0]
-            rmse = np.sqrt(mean_squared_error(y_true, y_pred))
+            p, s, rmse, r2 = safe_regression_metrics(y_true, y_pred)
             val_losses.append(rmse)
-            r2 = r2_score(y_true, y_pred)
 
             early_stopping.check_early_stop(rmse, [p, s, r2], train_loss, epo)   
             if early_stopping.stop_training:

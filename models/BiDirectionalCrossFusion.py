@@ -12,8 +12,8 @@ class CrossAttentionBlockSingle(nn.Module):
     def __init__(self, q_in_dim, kv_in_dim, d_model=128, n_heads=4, dropout=0.1, ffn_mult=4):
         super().__init__()
 
-        self.q_proj = nn.Linear(q_in_dim, d_model) if q_in_dim != d_model else nn.Identity()
-        self.kv_proj = nn.Linear(kv_in_dim, d_model) if kv_in_dim != d_model else nn.Identity()
+        self.q_proj = nn.Linear(q_in_dim, d_model, bias=True) if q_in_dim != d_model else nn.Identity()
+        self.kv_proj = nn.Linear(kv_in_dim, d_model, bias=True) if kv_in_dim != d_model else nn.Identity()
 
         self.norm_q = nn.LayerNorm(d_model)
         self.norm_kv = nn.LayerNorm(d_model)

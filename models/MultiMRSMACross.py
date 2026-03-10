@@ -40,9 +40,32 @@ class MultiMRSMA(nn.Module):
         #################################################################################     
         
         # RiNALMo -> 1280, ERNIE-RNA -> 768
-        self.rna_fusion = BiDirectionalCrossFusionSingle(a_in_dim=768, b_in_dim=128, d_model=128,
+        self.rna_fusion = BiDirectionalCrossFusionSingle(a_in_dim=128, b_in_dim=128, d_model=128,
                                                          n_heads=4, dropout=BDCF_DROPOUT)
         self.gated_fusion = GatedFeatureFusion(256)
+        self.pt_language_gated_fusion = GatedFeatureFusion(128)
+        self.bidcf_fated_fuse = GatedFeatureFusion(128)
+
+        self.rna_pt_language_mlp = nn.Sequential(
+            nn.Linear(768 + 1280, 512, bias=False),
+            nn.LayerNorm(512),
+            nn.ReLU(),
+            nn.Linear(512, 128, bias=False),
+            nn.LayerNorm(128),
+            nn.ReLU()
+        )
+
+        self.ernie_mlp = nn.Sequential(
+            nn.Linear(768, 128, bias=False),
+            nn.LayerNorm(128),
+            nn.ReLU()
+        )
+
+        self.rinalmo_mlp = nn.Sequential(
+            nn.Linear(1280, 128, bias=False),
+            nn.LayerNorm(128),
+            nn.ReLU()
+        )
 
 
         self.chemberta_mlp = nn.Sequential(
@@ -71,7 +94,6 @@ class MultiMRSMA(nn.Module):
             nn.ReLU(),
             nn.Dropout(DROPOUT)
         )
-
 
         # ---- fusion head ----
         # note - without gRNAde substract 128
@@ -146,19 +168,25 @@ class MultiMRSMA(nn.Module):
         # node_scalar: (N_nodes, 128)
         node_scalar = h_V[0]
 
-        ernie_emb, rinalmo_emb = ernie_emb.squeeze(0), rinalmo_emb.squeeze(0) # (1, L, |f|) -> (L, |f|)
-        rna_emb = ernie_emb
+        # option 1 -> cat(rinalmo, ernie) -> MLP(..) -> (L, 256) #
+        #ernie_emb, rinalmo_emb = ernie_emb.squeeze(0), rinalmo_emb.squeeze(0) # (1, L, |f|) -> (L, |f|)
+        #rna_emb = torch.cat([ernie_emb, rinalmo_emb], dim=1) # (L, 768 + 1280)
+        #rna_emb = self.rna_pt_language_mlp(rna_emb) # (L, 768 + 1280) -> (L, 256)
+
+        # option 2 -> proj(ernie), proj(rinalmo) -> gated_fuse(128) -> (L, 128) #
+        ernie_emb, rinalmo_emb = self.ernie_mlp(ernie_emb.squeeze(0)), self.rinalmo_mlp(rinalmo_emb.squeeze(0))
+        rna_emb = self.pt_language_gated_fusion(ernie_emb, rinalmo_emb)
         # bidirectional RNA fusion 
         rna_emb, nodes_fused = self.rna_fusion(
-            A=rna_emb,      # (L, 768) / (L, 1280)
-            B=node_scalar     # (N, 128)
+            A=rna_emb,      # (L, 768) / (L, 1280) or (L, 768 + 1280) if fused
+            B=node_scalar     # (N, 128) gRNAde GNN encoder output
         )
 
+        rna_vec = self.bidcf_fated_fuse(rna_emb, nodes_fused).mean(dim=0) # (L, 128)
         
-        rna_emb = rna_emb.mean(dim=0)   # (128,)
-        nodes_vec = nodes_fused.mean(dim=0)   # (128,)
-
-        rna_vec = torch.cat([rna_emb, nodes_vec], dim=0).unsqueeze(0) # (1, 256)
+        #rna_emb = rna_emb.mean(dim=0)   # (128,)
+        #nodes_vec = nodes_fused.mean(dim=0)   # (128,)
+        #rna_vec = torch.cat([rna_emb, nodes_vec], dim=0).unsqueeze(0) # (1, 256)
 
         # --------------- small molecule module ---------------
         expert_smi_emb = torch.cat([morgan_fp, mordred_desc], dim=1) # (1, 1024 + 1205)
@@ -174,7 +202,7 @@ class MultiMRSMA(nn.Module):
         return pkd
 
 
-# WITH PADDING
+# WITH PADDING & BATCH TRAINING
 class MultiMRSMA_(nn.Module):
     def __init__(
         self,

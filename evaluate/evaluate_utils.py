@@ -7,6 +7,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from sklearn.preprocessing import KBinsDiscretizer
+from scipy.stats import pearsonr, spearmanr
+from sklearn.metrics import mean_squared_error, r2_score
 from sklearn.model_selection import (
     KFold,
     StratifiedKFold,
@@ -37,6 +39,7 @@ def train_one_epoch(model, loader, optimizer, criterion, device):
         pred = model(*inputs)
         loss = criterion(pred, y)
         loss.backward()
+        torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)  # clip gradients to prevent exploding gradients that may cause NaN/Inf values during training
         optimizer.step()
 
         """
@@ -65,6 +68,45 @@ def predict(model, loader, device):
 
     y_true, y_pred = np.concatenate(y_true).astype(np.float32), np.concatenate(y_pred).astype(np.float32)
     return y_true, y_pred
+
+
+def safe_regression_metrics(y_true, y_pred):
+    """
+    Compute regression metrics while handling potential NaN/Inf predictions.
+
+    During training some hyperparameter configurations may produce non-finite
+    values (NaN/Inf) in the model predictions due to numerical instability.
+    Since sklearn metrics cannot handle such values, we first filter out
+    non-finite (prediction, target) pairs.
+
+    If all predictions are invalid, rmse is set to +inf so the epoch is treated
+    as very poor by early stopping while preventing the training job from
+    crashing.
+
+    Returns:
+    -   p : float - Pearson correlation
+    -   s : float - Spearman correlation
+    -   rmse : float - Root Mean Squared Error
+    -   r2 : float - R² score
+    """
+
+    y_true = np.asarray(y_true, dtype=np.float32)
+    y_pred = np.asarray(y_pred, dtype=np.float32)
+
+    mask = np.isfinite(y_true) & np.isfinite(y_pred)
+
+    if mask.sum() == 0:
+        return np.nan, np.nan, np.inf, np.nan
+
+    y_true = y_true[mask]
+    y_pred = y_pred[mask]
+
+    p = pearsonr(y_true, y_pred)[0]
+    s = spearmanr(y_true, y_pred)[0]
+    rmse = np.sqrt(mean_squared_error(y_true, y_pred))
+    r2 = r2_score(y_true, y_pred)
+
+    return p, s, rmse, r2 
 
 
 # stratified CV (same object used in RSAPred & DeepRSMA)

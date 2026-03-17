@@ -1,0 +1,22 @@
+2026-03-17 10:30:42,301 - stratified_cv_1503_exp11 - model w gRNAde @ w/o RNA cross-attention fusion
+2026-03-17 10:30:42,313 - 
+==================== ALL FAMILIES  ====================
+2026-03-17 10:30:42,313 - K folds:5, seed:1, batch size:1, max epochs:1000, lr:5e-05, weight decay:1e-05, patience:30, warm up epo:30, delta:1e-06
+2026-03-17 10:30:42,318 - --- Start statified 5-fold cross-validation; pd.DataFrame shape -> (1439, 8), lr=5e-05 ---
+2026-03-17 10:30:42,318 - W/O PADDING -> MolRNACDataset with for training setting=4 and aug=False - for RNA cross-attention fusion
+2026-03-17 10:30:43,596 - W/O PADDING -> MolRNACDataset with for evaluating setting=4 and aug=False - for RNA cross-attention fusion
+2026-03-17 10:30:44,036 - 
+Fold number 1/5
+2026-03-17 10:32:01,186 - stratified_cv_1503_exp11 - model w gRNAde @ w/o RNA cross-attention fusion
+2026-03-17 10:32:01,197 - 
+==================== ALL FAMILIES  ====================
+2026-03-17 10:32:01,197 - K folds:5, seed:1, batch size:1, max epochs:1000, lr:5e-05, weight decay:1e-05, patience:30, warm up epo:30, delta:1e-06
+2026-03-17 10:32:01,202 - --- Start statified 5-fold cross-validation; pd.DataFrame shape -> (1439, 8), lr=5e-05 ---
+2026-03-17 10:32:01,202 - W/O PADDING -> MolRNACDataset with for training setting=4 and aug=False - for RNA cross-attention fusion
+2026-03-17 10:32:02,221 - W/O PADDING -> MolRNACDataset with for evaluating setting=4 and aug=False - for RNA cross-attention fusion
+2026-03-17 10:32:02,648 - 
+Fold number 1/5
+2026-03-17 10:32:02,649 - Train len -> 1151, Test len -> 288
+2026-03-17 10:32:02,649 - --- POC - w/o fusion (BDCF; just cat(mlm, gnn))---
+2026-03-17 10:33:57,089 - NEW BEST @ epoch 1: val loss=1.7115, ppc=-0.1519, ssc=-0.1405, r2=-0.5401; train loss=2.2124
+2026-03-17 10:35:50,170 - NEW BEST @ epoch 2: val loss=1.4347, ppc=0.4657, ssc=0.4097, r2=-0.0821; train loss=1.2899

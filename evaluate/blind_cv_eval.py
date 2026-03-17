@@ -3,46 +3,39 @@ import random
 import numpy as np
 import pandas as pd
 import torch
-import torch.nn as nn
 import torch.optim as optim
-
 from torch.utils.data import DataLoader
-from scipy.stats import pearsonr, spearmanr
-import statistics
-from sklearn.metrics import mean_squared_error, r2_score
 
-torch.use_deterministic_algorithms(True)
-torch.backends.cuda.matmul.allow_tf32 = False
-torch.backends.cudnn.allow_tf32 = False
-torch.backends.cudnn.benchmark = False
-torch.backends.cudnn.deterministic = True
+from evaluate.evaluate_utils import (train_one_epoch, predict, EarlyStopping, 
+                                     safe_regression_metrics)
 
-from evaluate.evaluate_utils import train_one_epoch, predict, EarlyStopping
-
-# Project-specific imports
 from utils.MolRNADataset import MolRNADataset
 from models.MultiMRSMA import MultiMRSMA
 
-# Logging setup
+
 import logging
 logger = logging.getLogger(__name__)
 
 
-
 # same seed as in DeepRSMA
-SEED = 2
-DROPOUT = 0.2
+SEED = 1
+#DROPOUT = 0.2
 DEVICE = 'cuda'
-BATCH_SIZE = 1 
-MAX_EPOCHS = 100
-PATIENCE = 20 # for early stopping
-DELTA = 5e-4 # for early stopping
-LR_START = 1e-4 # 0.0001 
-WEIGHT_DECAY = 1e-5
+BATCH_SIZE = 1
+MAX_EPOCHS = 1000
+PATIENCE = 30 # for early stopping
+WARM_UP_EPOCHS = 50
+MODE = 'min'
+DELTA = 5e-5 # 0.0001 ;for early stopping (11/03, 1e-4 -> 5e-5)
+LR = 0.00005 # 0.00005
+WEIGHT_DECAY = 5e-5
 SEED_DATASET = 2 # same as in DeepRSMA
+NUM_WORKERS = 8
 
-# 31/1 experiments - lr -> 1e-4 (0.0001)
-# 07/2 experiments - lr -> 5e-4 (0.0005)
+
+TRAIN_SETTING = 4
+VAL_SETTING = 4
+AUG = False
 
 COLD_PATH = os.path.join("datasets", "blind_test", "processed")
 RSIM_PATH = os.path.join("datasets", "RSIM")
@@ -59,29 +52,19 @@ def set_seed(seed_):
     torch.backends.cudnn.deterministic = True
 
 # custom RMSE loss function
-def rmse(y_true, y_pred):
+def rmse_loss(y_true, y_pred):
     return torch.sqrt(torch.mean((y_true - y_pred) ** 2))
 
-def preform_cold_blind_cv(
-    cold_type: str,                 # 'rna' | 'mole' | 'rm'
-    folds_dir: str = COLD_PATH,
-    device: str = "cuda",
-    batch_size: int = BATCH_SIZE,
-    epochs: int = MAX_EPOCHS,
-    lr: float = LR_START,
-    weight_decay: float = WEIGHT_DECAY,
-    patience: int = PATIENCE,
-    delta: float = DELTA
-):
+def preform_cold_blind_cv(cold_type: str = "rna", device: str = "cuda"):
 
     set_seed(SEED) # SEED = 2 as in DeepRSMA setting
     assert cold_type in ['rna', 'mol', 'rm'] # senaty check for cold type input
 
-    logger.info(f"Performing Blind Test with Cold Start Setting = {cold_type}, lr={LR_START}")
+    logger.info(f"Performing Blind Test with Cold Start Setting = {cold_type}, lr={LR}")
     p_list, s_list, rmse_list, r2_list = [], [], [], []
 
     # Outer 5 fold cold start setting loop
-    for i in range(1,6):
+    for fold in range(1,6):
         logger.info(f"Fold number {i}/5")
         curr_fold_path = os.path.join(COLD_PATH, cold_type, f'outer_fold_{i}')
         
@@ -89,47 +72,41 @@ def preform_cold_blind_cv(
         cold_test_df = pd.read_csv(os.path.join(curr_fold_path, 'test.csv'))
         logger.info(f"(|train|, |test|) -> ({cold_train_df.shape[0]}, {cold_test_df.shape[0]})")
 
-        best_p = -1
-        best_s = 0
-        best_rmse = 0
 
-        train_dataset = MolRNADataset(cold_train_df)
-        test_dataset  = MolRNADataset(cold_test_df)
+        train_ds = MolRNADataset(cold_train_df, setting=TRAIN_SETTING, aug=AUG, task="training")
+        val_ds = MolRNADataset(cold_test_df, setting=VAL_SETTING, aug=False, task='evaluating')
 
-        train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, collate_fn=MolRNADataset.collate_fn)
-        test_loader = DataLoader(test_dataset, batch_size=batch_size, collate_fn=MolRNADataset.collate_fn)
+        g = torch.Generator().manual_seed(SEED) # determinism per fold
+        train_loader = DataLoader(train_ds, batch_size=BATCH_SIZE, generator=g, shuffle=True, collate_fn=MolRNADataset.collate_fn, num_workers=NUM_WORKERS)
+        test_loader = DataLoader(val_ds, batch_size=BATCH_SIZE, shuffle=False, collate_fn=MolRNADataset.collate_fn, num_workers=NUM_WORKERS)
 
-        model = MultiMRSMA(dropout=0.2).to(device)
-        optimizer = optim.Adam(model.parameters(), lr=lr, weight_decay=weight_decay)
-        criterion = nn.MSELoss()
+        early_stopping = EarlyStopping(mode=MODE, patience=PATIENCE, warm_up_epochs=WARM_UP_EPOCHS, delta=DELTA) # early stopping object 
 
-        for epoch in range(MAX_EPOCHS):
-            # train & evaluate
-            train_loss = train_one_epoch(model, train_loader, optimizer, criterion, device)
-            y_true, y_pred = predict(model, test_loader, device)
+        model = MultiMRSMA().to(device)
+        optimizer = optim.Adam(model.parameters(), lr=LR, weight_decay=WEIGHT_DECAY)
+        criterion = rmse_loss
 
-            p = pearsonr(y_true, y_pred)[0]
-            s = spearmanr(y_true, y_pred)[0]
-            rmse = np.sqrt(mean_squared_error(y_true, y_pred))
-            r2 = r2_score(y_true, y_pred)
+        train_losses, val_losses = [], []
+        for epo in range(MAX_EPOCHS):
+                # uses your functions
+                train_loss = train_one_epoch(model, train_loader, optimizer, criterion, device)
+                train_losses.append(train_loss)
+                # predict on the test set
+                y_true, y_pred = predict(model, test_loader, device)
 
-            if p > best_p:
-                best_p = p
-                best_s = s
-                best_rmse = rmse
-                best_r2  = r2
+                p, s, rmse, r2 = safe_regression_metrics(y_true, y_pred)
+                val_losses.append(rmse)
 
-                logger.info(
-                    f"[Fold {i}/5] NEW BEST @ epoch {epoch+1}: "
-                    f"ppc={best_p:.4f}, ssc={best_s:.4f}, rmse={best_rmse:.4f}, r2={best_r2:.4f}; train loss={train_loss}"
-                )
+                early_stopping.check_early_stop(rmse, [p, s, r2], train_loss, epo)   
+                if early_stopping.stop_training:
+                    logger.info(f"[Fold {fold}/5] Early stopping at epoch {epo+1}. "
+                                f"Best rmse={early_stopping.best_score:.4f} @ epoch {early_stopping.best_epoch+1}")
+                    break
 
-     
-
-        p_list.append(best_p)
-        s_list.append(best_s)
-        rmse_list.append(best_rmse)
-        r2_list.append(best_r2)
+        rmse_list.append(early_stopping.best_score)
+        p_list.append(early_stopping.best_metrics[0])
+        s_list.append(early_stopping.best_metrics[1])
+        r2_list.append(early_stopping.best_metrics[2])
 
     logger.info(f"p: {np.mean(p_list)}")
     logger.info(f"s: {np.mean(s_list)}")
@@ -153,7 +130,7 @@ def preform_cold_blind_cv(
         }
     }
 
-    logger.info("\nBlind Test (cold start setting):")
+    logger.info("\nStratified k-fold cross validation:")
     for k, v in res.items():
         logger.info(f"{k}: {v}")
 

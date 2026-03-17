@@ -1,0 +1,77 @@
+2026-03-15 20:52:12,442 - stratified_cv_1503_exp6 - model w/o gRNAde @ w/o RNA cross-attention fusion
+2026-03-15 20:52:12,675 - 
+==================== ALL FAMILIES  ====================
+2026-03-15 20:52:12,675 - K folds:5, seed:1, batch size:1, max epochs:1000, lr:5e-05, weight decay:1e-05, patience:30, warm up epo:30, delta:1e-06
+2026-03-15 20:52:12,684 - --- Start statified 5-fold cross-validation; pd.DataFrame shape -> (1439, 8), lr=5e-05 ---
+2026-03-15 20:52:12,684 - W/O PADDING -> MolRNACDataset with for training setting=4 and aug=False - for RNA cross-attention fusion
+2026-03-15 20:52:15,181 - W/O PADDING -> MolRNACDataset with for evaluating setting=4 and aug=False - for RNA cross-attention fusion
+2026-03-15 20:52:15,917 - 
+Fold number 1/5
+2026-03-15 20:52:15,918 - Train len -> 1151, Test len -> 288
+2026-03-15 20:52:15,918 - --- POC - w/o sequence (rinalmo & ernie-rna)---
+2026-03-15 20:54:51,707 - NEW BEST @ epoch 1: val loss=2.5639, ppc=-0.1197, ssc=-0.1245, r2=-2.4560; train loss=3.0091
+2026-03-15 20:57:25,681 - NEW BEST @ epoch 2: val loss=1.8204, ppc=0.2925, ssc=0.2544, r2=-0.7422; train loss=1.9540
+2026-03-15 21:00:05,290 - NEW BEST @ epoch 3: val loss=1.4899, ppc=0.3442, ssc=0.2920, r2=-0.1671; train loss=1.4476
+2026-03-15 21:02:41,095 - NEW BEST @ epoch 4: val loss=1.3316, ppc=0.4956, ssc=0.4298, r2=0.0678; train loss=1.2286
+2026-03-15 21:05:15,023 - NEW BEST @ epoch 5: val loss=1.2050, ppc=0.5293, ssc=0.4762, r2=0.2367; train loss=1.1103
+2026-03-15 21:07:47,567 - NEW BEST @ epoch 6: val loss=1.1865, ppc=0.5229, ssc=0.4518, r2=0.2599; train loss=1.0461
+2026-03-15 21:10:20,215 - NEW BEST @ epoch 7: val loss=1.1780, ppc=0.5218, ssc=0.5711, r2=0.2704; train loss=1.0191
+2026-03-15 21:12:53,017 - NEW BEST @ epoch 8: val loss=1.1590, ppc=0.5590, ssc=0.5708, r2=0.2938; train loss=0.9774
+2026-03-15 21:15:26,581 - NEW BEST @ epoch 9: val loss=1.0956, ppc=0.6194, ssc=0.6800, r2=0.3689; train loss=0.9840
+2026-03-15 21:18:00,879 - NEW BEST @ epoch 10: val loss=1.0753, ppc=0.6509, ssc=0.6918, r2=0.3921; train loss=0.9155
+2026-03-15 21:23:08,552 - NEW BEST @ epoch 12: val loss=1.0256, ppc=0.6874, ssc=0.7092, r2=0.4469; train loss=0.8859
+2026-03-15 21:28:15,986 - NEW BEST @ epoch 14: val loss=1.0054, ppc=0.6850, ssc=0.7242, r2=0.4685; train loss=0.8823
+2026-03-15 21:33:20,925 - NEW BEST @ epoch 16: val loss=0.9875, ppc=0.6981, ssc=0.7128, r2=0.4873; train loss=0.8304
+2026-03-15 21:43:30,878 - NEW BEST @ epoch 20: val loss=0.9442, ppc=0.7302, ssc=0.7431, r2=0.5313; train loss=0.7851
+2026-03-15 21:58:52,342 - NEW BEST @ epoch 26: val loss=0.9435, ppc=0.7311, ssc=0.7424, r2=0.5320; train loss=0.7364
+2026-03-15 22:32:03,626 - NEW BEST @ epoch 39: val loss=0.9417, ppc=0.7363, ssc=0.7433, r2=0.5337; train loss=0.6929
+2026-03-15 22:34:36,296 - NEW BEST @ epoch 40: val loss=0.9263, ppc=0.7436, ssc=0.7495, r2=0.5489; train loss=0.6656
+2026-03-15 22:47:21,220 - NEW BEST @ epoch 45: val loss=0.9075, ppc=0.7584, ssc=0.7644, r2=0.5670; train loss=0.6524
+2026-03-15 23:10:21,392 - NEW BEST @ epoch 54: val loss=0.8732, ppc=0.7751, ssc=0.7942, r2=0.5992; train loss=0.6352
+2026-03-16 00:27:23,123 - [Fold 1/5] Early stopping at epoch 84. Best rmse=0.8732 @ epoch 54
+2026-03-16 00:27:23,755 - 
+Fold number 2/5
+2026-03-16 00:27:23,755 - Train len -> 1151, Test len -> 288
+2026-03-16 00:27:23,755 - --- POC - w/o sequence (rinalmo & ernie-rna)---
+2026-03-16 00:29:56,737 - NEW BEST @ epoch 1: val loss=3.4288, ppc=-0.2707, ssc=-0.2336, r2=-4.8290; train loss=3.9143
+2026-03-16 00:32:30,989 - NEW BEST @ epoch 2: val loss=2.3961, ppc=0.0755, ssc=0.0564, r2=-1.8467; train loss=2.6661
+2026-03-16 00:35:04,141 - NEW BEST @ epoch 3: val loss=1.7314, ppc=0.1628, ssc=0.2530, r2=-0.4863; train loss=1.7762
+2026-03-16 00:37:37,736 - NEW BEST @ epoch 4: val loss=1.4793, ppc=0.2183, ssc=0.2926, r2=-0.0850; train loss=1.3245
+2026-03-16 00:40:11,400 - NEW BEST @ epoch 5: val loss=1.4157, ppc=0.4465, ssc=0.4570, r2=0.0063; train loss=1.2028
+2026-03-16 00:42:44,947 - NEW BEST @ epoch 6: val loss=1.3075, ppc=0.4397, ssc=0.4966, r2=0.1523; train loss=1.0884
+2026-03-16 00:45:18,092 - NEW BEST @ epoch 7: val loss=1.2645, ppc=0.4622, ssc=0.5087, r2=0.2072; train loss=1.0191
+2026-03-16 00:47:49,688 - NEW BEST @ epoch 8: val loss=1.2604, ppc=0.4626, ssc=0.5203, r2=0.2124; train loss=1.0061
+2026-03-16 00:50:22,495 - NEW BEST @ epoch 9: val loss=1.2025, ppc=0.5332, ssc=0.5716, r2=0.2830; train loss=0.9856
+2026-03-16 00:55:29,594 - NEW BEST @ epoch 11: val loss=1.1756, ppc=0.5650, ssc=0.6001, r2=0.3148; train loss=0.9080
+2026-03-16 00:58:01,575 - NEW BEST @ epoch 12: val loss=1.1333, ppc=0.6045, ssc=0.6599, r2=0.3631; train loss=0.8810
+2026-03-16 01:00:35,386 - NEW BEST @ epoch 13: val loss=1.1016, ppc=0.6340, ssc=0.6877, r2=0.3983; train loss=0.8352
+2026-03-16 01:08:17,835 - NEW BEST @ epoch 16: val loss=1.0722, ppc=0.6588, ssc=0.6866, r2=0.4300; train loss=0.8134
+2026-03-16 01:51:42,375 - NEW BEST @ epoch 33: val loss=1.0715, ppc=0.6565, ssc=0.6629, r2=0.4308; train loss=0.7256
+2026-03-16 01:59:22,065 - NEW BEST @ epoch 36: val loss=1.0687, ppc=0.6602, ssc=0.6764, r2=0.4337; train loss=0.7084
+2026-03-16 02:01:54,790 - NEW BEST @ epoch 37: val loss=1.0421, ppc=0.6806, ssc=0.7017, r2=0.4615; train loss=0.7396
+2026-03-16 02:33:25,391 - NEW BEST @ epoch 49: val loss=1.0355, ppc=0.6876, ssc=0.7071, r2=0.4684; train loss=0.6469
+2026-03-16 02:38:53,089 - NEW BEST @ epoch 51: val loss=1.0072, ppc=0.7086, ssc=0.7239, r2=0.4971; train loss=0.6613
+2026-03-16 02:52:31,646 - NEW BEST @ epoch 56: val loss=1.0068, ppc=0.7073, ssc=0.7293, r2=0.4974; train loss=0.6372
+2026-03-16 03:17:10,286 - NEW BEST @ epoch 65: val loss=0.9951, ppc=0.7137, ssc=0.7323, r2=0.5090; train loss=0.6017
+2026-03-16 04:39:12,473 - [Fold 2/5] Early stopping at epoch 95. Best rmse=0.9951 @ epoch 65
+2026-03-16 04:39:13,097 - 
+Fold number 3/5
+2026-03-16 04:39:13,097 - Train len -> 1151, Test len -> 288
+2026-03-16 04:39:13,097 - --- POC - w/o sequence (rinalmo & ernie-rna)---
+2026-03-16 04:41:57,053 - NEW BEST @ epoch 1: val loss=2.6925, ppc=-0.0474, ssc=-0.0571, r2=-2.6290; train loss=2.9964
+2026-03-16 04:44:40,733 - NEW BEST @ epoch 2: val loss=1.9251, ppc=0.2542, ssc=0.2981, r2=-0.8551; train loss=1.9393
+2026-03-16 04:47:23,856 - NEW BEST @ epoch 3: val loss=1.5509, ppc=0.1883, ssc=0.1837, r2=-0.2040; train loss=1.4200
+2026-03-16 04:50:07,992 - NEW BEST @ epoch 4: val loss=1.4462, ppc=0.4150, ssc=0.4362, r2=-0.0469; train loss=1.2279
+2026-03-16 04:52:51,176 - NEW BEST @ epoch 5: val loss=1.2943, ppc=0.4586, ssc=0.5238, r2=0.1614; train loss=1.1735
+2026-03-16 04:55:34,389 - NEW BEST @ epoch 6: val loss=1.2275, ppc=0.5513, ssc=0.5603, r2=0.2458; train loss=1.0163
+2026-03-16 04:58:17,439 - NEW BEST @ epoch 7: val loss=1.1780, ppc=0.5879, ssc=0.5690, r2=0.3054; train loss=0.9672
+2026-03-16 05:14:39,496 - NEW BEST @ epoch 13: val loss=1.1738, ppc=0.6011, ssc=0.6076, r2=0.3103; train loss=0.8292
+2026-03-16 05:20:05,492 - NEW BEST @ epoch 15: val loss=1.1605, ppc=0.5786, ssc=0.6194, r2=0.3259; train loss=0.7532
+2026-03-16 05:28:16,473 - NEW BEST @ epoch 18: val loss=1.1033, ppc=0.6418, ssc=0.6489, r2=0.3907; train loss=0.7535
+2026-03-16 06:01:09,420 - NEW BEST @ epoch 30: val loss=1.0942, ppc=0.6462, ssc=0.6228, r2=0.4007; train loss=0.6968
+2026-03-16 07:22:44,907 - [Fold 3/5] Early stopping at epoch 60. Best rmse=1.0942 @ epoch 30
+2026-03-16 07:22:45,518 - 
+Fold number 4/5
+2026-03-16 07:22:45,518 - Train len -> 1151, Test len -> 288
+2026-03-16 07:22:45,518 - --- POC - w/o sequence (rinalmo & ernie-rna)---
+2026-03-16 07:25:30,539 - NEW BEST @ epoch 1: val loss=2.9373, ppc=0.0821, ssc=0.0973, r2=-3.4528; train loss=3.3415

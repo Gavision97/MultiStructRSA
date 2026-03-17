@@ -157,7 +157,7 @@ def main():
     parser.add_argument("--cv_method", type=str, default='all', choices=['all', 'per_fam'], help="The split for 10-fold cross-validation - all data or per RNA subtype ")
     parser.add_argument("--cold_type", type=str, default='rna', choices=['rna', 'smiles', 'rna_and_smiles'], help="The type of cold start setting - deafult 'rna'")
     parser.add_argument("--plot_name", type=str, default='loss_curve', help="loss curve plot name; will be saved to results/plots/plot_name.png")
-    parser.add_argument("--log_file_name", type=str, default="res", help="name of the logger file (e.g., result.log)")
+    parser.add_argument("--log_file_name", type=str, default="eval_method_date_expnum", help="name of the logger file (e.g., result.log)")
     parser.add_argument("--k_fold", type=int,  default=5, help="Number of folds for stratified K-fold cross-validation (default: 10)")
     parser.add_argument("--device", type=str, default='cuda', choices=['cuda', 'cpu'], help="device to use - cuda/cpu")
     args = parser.parse_args()
@@ -174,7 +174,8 @@ def main():
 
 
     # constract log file in order to log the results
-    log_dir = os.path.join("results", "logs")
+    log_sub_dir = log_file_name.split('_')[-2] # get date from -> '{eval_method}_{date}_{exp_num}'
+    log_dir = os.path.join("results", "logs", log_sub_dir)
     os.makedirs(log_dir, exist_ok=True)
     log_path = os.path.join(log_dir, f"{log_file_name}.log")
     logging.basicConfig(filename=log_path, level=logging.INFO,

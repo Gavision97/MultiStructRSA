@@ -1,11 +1,9 @@
 import os
 import random
 import numpy as np
+import pandas as pd
 import torch
-
 from torch.utils.data import DataLoader, Subset
-from scipy.stats import pearsonr, spearmanr
-from sklearn.metrics import mean_squared_error, r2_score
 
 torch.use_deterministic_algorithms(True)
 torch.backends.cuda.matmul.allow_tf32 = False
@@ -19,42 +17,39 @@ from evaluate.evaluate_utils import (train_one_epoch, predict, EarlyStopping,
 #from utils.MolRNADataset import MolRNADataset # w/o RNA cross-attention fusion mechanism
 from utils.MolRNACDataset import MolRNADataset # w RNA cross-attention fusion mechanism
 
-#from models.MultiMRSMA import MultiMRSMA # w/o RNA cross-attention fusion mechanism
-from models.MultiMRSMACross import MultiMRSMA # w RNA cross-attention fusion mechanism
+from models.MultiMRSMA import MultiMRSMA # w/o RNA cross-attention fusion mechanism
+#from models.MultiMRSMACross import MultiMRSMA # w RNA cross-attention fusion mechanism
 
 
 import logging
 logger = logging.getLogger(__name__)
 
-
-
-# same seed as in DeepRSMA
+# same seeds as in DeepRSMA
 SEED = 1
-#DROPOUT = 0.2
-DEVICE = 'cuda'
+SEED_DATASET = 2 
+
+# early stopping hyperparameters: 
+PATIENCE = 30 # for early stopping
+WARM_UP_EPOCHS = 30
+MODE = 'min'
+DELTA = 1e-6 # 0.0001 ;for early stopping (11/03, 1e-4 -> 5e-5 -> 1e-6)
+
+# MultiStructRSA training hyperparameters:
+LR = 0.00005 # from 0.00005 -> 0.0001
+WEIGHT_DECAY = 1e-5
 BATCH_SIZE = 1
 MAX_EPOCHS = 1000
-PATIENCE = 20 # for early stopping
-WARM_UP_EPOCHS= 60
-MODE = 'min'
-DELTA = 1e-4 # 0.0001 ;for early stopping
-LR = 0.00005 # 0.00005
-WEIGHT_DECAY = 1e-5
-SEED_DATASET = 2 # same as in DeepRSMA
 NUM_WORKERS = 8
 
-
+# MolRNACDataset hyperparameters:
 TRAIN_SETTING = 4
 VAL_SETTING = 4
 AUG = False
-# 31/1 experiments - lr -> 1e-4 (0.0001)
-# 07/2 experiments - lr -> 5e-4 (0.0005)
 
 COLD_PATH = os.path.join("datasets", "blind_test", "processed")
 RSIM_PATH = os.path.join("datasets", "RSIM")
 
 ALL_SF_DATASET_PATH = os.path.join("datasets", "RSIM", "All_sf_dataset_v1.csv")
-
 
 # same style as their code
 def set_seed(seed_):
@@ -71,47 +66,35 @@ def set_seed(seed_):
 def rmse_loss(y_true, y_pred):
     return torch.sqrt(torch.mean((y_true - y_pred) ** 2))
 
-def cv_eval(df,
-            n: int =10,
-            plot_name: str = "loss_curve",
-            device: str = "cuda",
-            batch_size: int = BATCH_SIZE,
-            epochs: int = MAX_EPOCHS,
-            lr: float = LR,
-            weight_decay: float = WEIGHT_DECAY,
-            patience: int = PATIENCE,
-            delta: float = DELTA):
+def cv_eval(dataset: pd.DataFrame = None, n: int = 10, plot_name: str = "loss_curve", device: str = "cuda"):
     logger.info(
         f'K folds:{n}, seed:{SEED}, batch size:{BATCH_SIZE}, '
         f'max epochs:{MAX_EPOCHS}, lr:{LR}, weight decay:{WEIGHT_DECAY}, '
         f'patience:{PATIENCE}, warm up epo:{WARM_UP_EPOCHS}, delta:{DELTA}'
     )
-    #all_df = pd.read_csv(ALL_SF_DATASET_PATH, sep="\t")
-    all_df = df
+    set_seed(SEED) # set seed (same as in DeepRSMA and others)
+    all_df = dataset
     logging.info(f"--- Start statified {n}-fold cross-validation; pd.DataFrame shape -> {all_df.shape}, lr={LR} ---")
 
     train_ds = MolRNADataset(all_df, setting=TRAIN_SETTING, aug=AUG, task="training")
     val_ds = MolRNADataset(all_df, setting=VAL_SETTING, aug=False, task='evaluating')
     Y = train_ds.data["pKd"].to_numpy(dtype=np.float32)
 
-    # same initialization as in DeepRSMA 
-    skf = regressor_stratified_cv(
-        n_splits=n, n_repeats=1, random_state=SEED_DATASET, group_count=5, strategy="uniform"
-    )
+    # same initialization as in DeepRSMA and others
+    skf = regressor_stratified_cv(n_splits=n, n_repeats=1, random_state=SEED_DATASET, group_count=5, strategy="uniform")
 
-    # store per-fold best results
     p_list, s_list, rmse_list, r2_list = [], [], [], []
-    set_seed(SEED)
+
+    # extract date & fold name in order to create experiment 
+    # plot directory at -> results/plots/date/plot_name/
+    date, plot = plot_name.split('_') # format -> 'date_name' -> ['date', 'name']
 
     for fold, (train_index, test_index) in enumerate(skf.split(np.zeros(len(Y)), Y)):
-        # determinism per fold
-        g = torch.Generator().manual_seed(SEED)
+        g = torch.Generator().manual_seed(SEED) # determinism per fold
 
         logger.info(f"\nFold number {fold+1}/{n}")
 
-
-        # Initialize current fold train & test dataloaders
-
+        # initialize current fold train & test dataloaders
         train_loader = DataLoader(Subset(train_ds, train_index), batch_size=BATCH_SIZE, generator=g, shuffle=True, collate_fn=MolRNADataset.collate_fn, num_workers=NUM_WORKERS)
         test_loader = DataLoader(Subset(val_ds, test_index), batch_size=BATCH_SIZE, shuffle=False, collate_fn=MolRNADataset.collate_fn, num_workers=NUM_WORKERS)
         logger.info(f'Train len -> {len(train_loader.dataset)}, Test len -> {len(test_loader.dataset)}')
@@ -124,7 +107,6 @@ def cv_eval(df,
         criterion = rmse_loss
 
         train_losses, val_losses = [], []
-        # train the model with the best number of epochs found after inner cross-validation
         for epo in range(MAX_EPOCHS):
             # uses your functions
             train_loss = train_one_epoch(model, train_loader, optimizer, criterion, device)
@@ -142,8 +124,8 @@ def cv_eval(df,
                 break
 
 
-        # ---- plot train vs. validation losses over time (epoch) ---- #
-        plots_dir = os.path.join("results", "plots", f"{plot_name}")
+        # ---- plot train vs. validation losses over time (epoch) ---- # 
+        plots_dir = os.path.join("results", "plots", date, plot)
         os.makedirs(plots_dir, exist_ok=True)
         plot_train_val_loss(
             train_losses,

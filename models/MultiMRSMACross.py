@@ -19,7 +19,7 @@ class MultiMRSMA(nn.Module):
         self
     ):
         super().__init__()
-        logging.info('MultiRSMA - with ft gRNAde & with cross-attention fusion; without padding')
+        logging.info('MultiStructRSA (frozen) - w 3D struct, w seq & with cross-attention fusion; without padding')
         logger.info(f'hyperparameters -> BiDirectionalCrossFusion dropout:{BDCF_DROPOUT}, Encoder MLPs dropout:{DROPOUT}; Last MLP dropout:{LST_DROPOUT}')
         #################################################################################3
         # adapted from gRNAde framework - https://github.com/chaitjo/geometric-rna-design.git
@@ -34,39 +34,18 @@ class MultiMRSMA(nn.Module):
         self.encoder_layers = pretrained.encoder_layers
     
         # for fine-tuning - unfreeze gRNAde encoder layers (p.requires_grad = True)
-        for p in self.W_v.parameters(): p.requires_grad = True
-        for p in self.W_e.parameters(): p.requires_grad = True
-        for p in self.encoder_layers.parameters(): p.requires_grad = True        
+        for p in self.W_v.parameters(): p.requires_grad = False
+        for p in self.W_e.parameters(): p.requires_grad = False
+        for p in self.encoder_layers.parameters(): p.requires_grad = False        
         #################################################################################     
         
-        # RiNALMo -> 1280, ERNIE-RNA -> 768
-        self.rna_fusion = BiDirectionalCrossFusionSingle(a_in_dim=128, b_in_dim=128, d_model=128,
+        # RiNALMo -> 1280, ERNIE-RNA -> 768; gRNAde -> 128 + 3*16
+        self.rna_fusion = BiDirectionalCrossFusionSingle(a_in_dim=768 + 1280, b_in_dim=128 + 48, d_model=128,
                                                          n_heads=4, dropout=BDCF_DROPOUT)
         self.gated_fusion = GatedFeatureFusion(256)
         self.pt_language_gated_fusion = GatedFeatureFusion(128)
         self.bidcf_fated_fuse = GatedFeatureFusion(128)
-
-        self.rna_pt_language_mlp = nn.Sequential(
-            nn.Linear(768 + 1280, 512, bias=False),
-            nn.LayerNorm(512),
-            nn.ReLU(),
-            nn.Linear(512, 128, bias=False),
-            nn.LayerNorm(128),
-            nn.ReLU()
-        )
-
-        self.ernie_mlp = nn.Sequential(
-            nn.Linear(768, 128, bias=False),
-            nn.LayerNorm(128),
-            nn.ReLU()
-        )
-
-        self.rinalmo_mlp = nn.Sequential(
-            nn.Linear(1280, 128, bias=False),
-            nn.LayerNorm(128),
-            nn.ReLU()
-        )
-
+        self.attn_pooling = AttnPool(128)
 
         self.chemberta_mlp = nn.Sequential(
             nn.Linear(384, 256, bias=False),
@@ -109,6 +88,8 @@ class MultiMRSMA(nn.Module):
             nn.Linear(64, 1, bias=True)
         )
 
+    #########################################################################################
+    # adapted from gRNAde framework - https://github.com/chaitjo/geometric-rna-design.git
     def pool_multi_conf(self, h_V, h_E, mask_confs, edge_index):
         # paste your gRNAde pool_multi_conf here exactly (same as you already have)
         if mask_confs.size(1) == 1:
@@ -133,60 +114,38 @@ class MultiMRSMA(nn.Module):
             h_E1.sum(dim=1) / n_conf_true[edge_index[0]].unsqueeze(2),
         )
         return h_V, h_E
-
+    
+    #########################################################################################
     def forward(self, graph, ernie_emb, rinalmo_emb, morgan_fp, mordred_desc, chemberta_emb):
-        """
-        Single-sample forward.
-
-        Inputs
-        ------
-        graph: a single PyG Data object
-        ernie_emb: (L_max, 768) or already trimmed (L, 768)
-        seq_len: int
-        chemberta_emb: (384,)
-
-        Returns
-        -------
-        pkd: (1,)
-        """
-        #ernie_seq = ernie_emb[:seq_len]   # (L, 768)
         
         # --------------- RNA module --------------- #
-        # gRNAde encoder -----
-        h_V = (graph.node_s, graph.node_v)
-        h_E = (graph.edge_s, graph.edge_v)
+        # gRNAde GNN encoder 
+        h_V, h_E = (graph.node_s, graph.node_v), (graph.edge_s, graph.edge_v)
+        h_V, h_E = self.W_v(h_V), self.W_e(h_E)
         edge_index = graph.edge_index
-
-        h_V = self.W_v(h_V)
-        h_E = self.W_e(h_E)
 
         for layer in self.encoder_layers:
             h_V = layer(h_V, edge_index, h_E)
 
-        h_V, h_E = self.pool_multi_conf(h_V, h_E, graph.mask_confs, edge_index)
-
-        # node_scalar: (N_nodes, 128)
-        node_scalar = h_V[0]
-
-        # option 1 -> cat(rinalmo, ernie) -> MLP(..) -> (L, 256) #
-        #ernie_emb, rinalmo_emb = ernie_emb.squeeze(0), rinalmo_emb.squeeze(0) # (1, L, |f|) -> (L, |f|)
-        #rna_emb = torch.cat([ernie_emb, rinalmo_emb], dim=1) # (L, 768 + 1280)
-        #rna_emb = self.rna_pt_language_mlp(rna_emb) # (L, 768 + 1280) -> (L, 256)
-
-        # option 2 -> proj(ernie), proj(rinalmo) -> gated_fuse(128) -> (L, 128) #
-        ernie_emb, rinalmo_emb = self.ernie_mlp(ernie_emb.squeeze(0)), self.rinalmo_mlp(rinalmo_emb.squeeze(0))
-        rna_emb = self.pt_language_gated_fusion(ernie_emb, rinalmo_emb)
+        h_V, _ = self.pool_multi_conf(h_V, h_E, graph.mask_confs, edge_index)
+        encoder_emb = torch.cat([h_V[0], h_V[1].reshape(h_V[1].size(0), -1)], dim=1) # (N, 128+48)
+        #encoder_emb = h_V[0]
+        # option 1 -> cat(rinalmo, ernie) -> BiDirectionalCrossFusion(..) #
+        ernie_emb, rinalmo_emb = ernie_emb.squeeze(0), rinalmo_emb.squeeze(0) # (1, L, |f|) -> (L, |f|)
+        rna_emb = torch.cat([rinalmo_emb, ernie_emb], dim=1) # (L, 768 + 1280)
+        
+        
         # bidirectional RNA fusion 
         rna_emb, nodes_fused = self.rna_fusion(
             A=rna_emb,      # (L, 768) / (L, 1280) or (L, 768 + 1280) if fused
-            B=node_scalar     # (N, 128) gRNAde GNN encoder output
+            B=encoder_emb     # (N, 128) gRNAde GNN encoder output
         )
 
-        rna_vec = self.bidcf_fated_fuse(rna_emb, nodes_fused).mean(dim=0) # (L, 128)
+        #rna_vec = self.bidcf_fated_fuse(rna_emb, nodes_fused).mean(dim=0) # (L, 128)
         
-        #rna_emb = rna_emb.mean(dim=0)   # (128,)
-        #nodes_vec = nodes_fused.mean(dim=0)   # (128,)
-        #rna_vec = torch.cat([rna_emb, nodes_vec], dim=0).unsqueeze(0) # (1, 256)
+        rna_emb = rna_emb.mean(dim=0)   # (L, 128) -> (128,)
+        nodes_vec = self.attn_pooling(nodes_fused, graph.batch).squeeze(0)  # (L, 128) -> (128,)
+        rna_vec = torch.cat([rna_emb, nodes_vec], dim=0).unsqueeze(0) # (1, 256)
 
         # --------------- small molecule module ---------------
         expert_smi_emb = torch.cat([morgan_fp, mordred_desc], dim=1) # (1, 1024 + 1205)
@@ -203,10 +162,9 @@ class MultiMRSMA(nn.Module):
 
 
 # WITH PADDING & BATCH TRAINING
-class MultiMRSMA_(nn.Module):
+class MultiMRSMABatched(nn.Module):
     def __init__(
-        self,
-        dropout=0.1,
+        self
     ):
         super().__init__()
         
@@ -238,7 +196,7 @@ class MultiMRSMA_(nn.Module):
             nn.Linear(384, 256, bias=False),
             nn.LayerNorm(256),
             nn.ReLU(),
-            nn.Dropout(0.1)
+            nn.Dropout(DROPOUT)
         )
 
 
@@ -248,11 +206,11 @@ class MultiMRSMA_(nn.Module):
             nn.Linear(128 + 128, 128, bias=False),
             nn.LayerNorm(128),
             nn.ReLU(),
-            nn.Dropout(0.1),
+            nn.Dropout(LST_DROPOUT),
             nn.Linear(128, 64, bias=False),
             nn.LayerNorm(64),
             nn.ReLU(),
-            nn.Dropout(0.1),
+            nn.Dropout(LST_DROPOUT),
             nn.Linear(64, 1)
         )
 

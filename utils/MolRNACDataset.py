@@ -69,10 +69,10 @@ class MolRNADataset(Dataset):
     * We clone() the cached Data to avoid accidental in-place modification across samples.
     * Features are returned as torch.FloatTensor so collate_fn can stack them cleanly.
     """
-    def __init__(self, ds_ ,setting=1, aug=False, task='training'): 
+    def __init__(self, ds_ ,setting=1, aug=False, task='training', is_seq_emb=True): 
         logger.info(f'W/O PADDING -> MolRNACDataset with for {task} setting={setting} and aug={aug} - for RNA cross-attention fusion')
 
-
+        self.is_seq_emb = is_seq_emb
         self.data = ds_.reset_index(drop=True)
         self.aug = aug
         self.task = task
@@ -137,8 +137,8 @@ class MolRNADataset(Dataset):
         g = _g.clone()
 
         curr_rna_emb = self.rna_emb[rna_seq] # get current RNA nucleotide level embedding group (ERNIE-RNA & RiNALMo)
-        ernie = torch.from_numpy(curr_rna_emb["ernie"][:]).float()        # (max_seq_len, 768) -> (2922, 768)
-        rinalmo = torch.from_numpy(curr_rna_emb["rinalmo"][:]).float()    # (max_seq_len, 1280) -> (2922, 1280)
+        ernie = torch.from_numpy(curr_rna_emb["ernie"][:]).float() if not self.is_seq_emb else torch.from_numpy(curr_rna_emb["ernie"][:]).float().mean(dim=0)       # (max_seq_len, 768) -> (2922, 768)
+        rinalmo = torch.from_numpy(curr_rna_emb["rinalmo"][:]).float() if not self.is_seq_emb else torch.from_numpy(curr_rna_emb["rinalmo"][:]).float().mean(dim=0)    # (max_seq_len, 1280) -> (2922, 1280)
 
         # Small molecule features
         chemberta = torch.from_numpy(self.smiles_chemberta_features.loc[self.smiles_chemberta_features['SMILES'] == smiles].iloc[0, 1:].values.astype(np.float32))

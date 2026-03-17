@@ -262,17 +262,20 @@ class MolRNADataset(Dataset):
 
     @staticmethod
     def collate_fn(batch):
-        graphs, ernie, morgan, rdkit, chemberta, y = zip(*batch)
+        graphs, ernie, rinalmo, morgan, mordred, chemberta, y = zip(*batch)
 
         graphs = Batch.from_data_list(list(graphs))
         morgan = torch.stack(morgan, dim=0)
-        rdkit  = torch.stack(rdkit, dim=0)
+        mordred  = torch.stack(mordred, dim=0)
         chemberta = torch.stack(chemberta, dim=0)
         ernie  = torch.stack(ernie, dim=0) # (B, 768)
+        rinalmo  = torch.stack(rinalmo, dim=0) # (B, 768)
+
         y = torch.tensor(y)
 
         # List of RNA & small molecule representations
-        inputs = [graphs, ernie, morgan, rdkit, chemberta]
+        inputs = {'g':graphs, 'ernie':ernie, 'rinalmo':rinalmo, 'morgan':morgan, 'mordred':mordred, 'chemberta':chemberta }
+        inputs = [graphs, ernie, morgan, mordred, chemberta]
         return inputs, y
 
     def make_loader(self, batch_size=8, shuffle=True, num_workers=0, pin_memory=True):

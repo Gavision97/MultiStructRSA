@@ -69,7 +69,7 @@ class MolRNADataset(Dataset):
     * We clone() the cached Data to avoid accidental in-place modification across samples.
     * Features are returned as torch.FloatTensor so collate_fn can stack them cleanly.
     """
-    def __init__(self, ds_ ,setting=1, aug=False, task='training', is_seq_emb=True): 
+    def __init__(self, ds_ ,setting=1, aug=False, task='training', is_seq_emb=False): 
         logger.info(f'W/O PADDING -> MolRNACDataset with for {task} setting={setting} and aug={aug} - for RNA cross-attention fusion')
 
         self.is_seq_emb = is_seq_emb

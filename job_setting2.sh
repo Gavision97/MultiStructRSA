@@ -10,7 +10,7 @@
 #SBATCH --job-name research_project			### name of the job
 #SBATCH --output jobs/job-%J.out			### output log for running job - %J for job number
 #SBATCH --error jobs/job-%J.err
-#SBATCH --gpus=rtx_3090:1				### number of GPUs, allocating more than 1 requires IT team's permission. Example to request 3090 gpu: #SBATCH --gpus=1
+#SBATCH --gpus=rtx_6000:1				### number of GPUs, allocating more than 1 requires IT team's permission. Example to request 3090 gpu: #SBATCH --gpus=1
 
 # Note: the following 4 lines are commented out
 
@@ -48,6 +48,6 @@ nvcc --version
 # Check nvidia-smi
 nvidia-smi
 					### this command executes jupyter lab – replace with your own command
-python main.py --exp_name "ex6v2" --res_file_name "cv_all_1503" --plot_name "1503_exp5" --log_msg "stratified_cv_1503_exp6 - model w/o gRNAde @ w/o RNA cross-attention fusion" --log_file_name "stratified_cv_1503_exp6v2" --eval_method 'cv' --k_fold 5 --device 'cuda'
+python main.py --exp_name "ex3" --res_file_name "cv_all_1703" --plot_name "1703_exp3" --log_msg "stratified_cv_1703_exp3 - model w gRNAde @ w RNA cross-attention fusion" --log_file_name "stratified_cv_1703_exp3" --eval_method 'cv' --k_fold 5 --device 'cuda'
 #python main.py --log_msg "cold_1802_exp1 - model w ft pt gRNAde & cross attn" --log_file_name "cold_1802_exp1" --eval_method 'cold_blind_cv' --cold_type 'rna' --device 'cuda'
 #jupyter lab

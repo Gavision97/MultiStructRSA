@@ -2,6 +2,8 @@ import torch
 import torch.nn as nn
 from torch.nn.utils.rnn import pad_sequence
 
+import logging
+logger = logging.getLogger(__name__)
 
 ##################################################################################################
 # BiDirectionalCrossFusion when batch_size = 1;
@@ -21,12 +23,15 @@ class CrossAttentionBlockSingle(nn.Module):
     Returns:
       (Lq, d_model)
     """
-    def __init__(self, q_in_dim, kv_in_dim, d_model=128, n_heads=4, dropout=0.1, ffn_mult=4):
+    def __init__(self, q_in_dim, kv_in_dim, d_model=128, n_heads=4, dropout=0.1, ffn_mult=6):
         super().__init__()
 
-        self.q_proj = nn.Linear(q_in_dim, d_model, bias=False) if q_in_dim != d_model else nn.Identity()
-        self.kv_proj = nn.Linear(kv_in_dim, d_model, bias=False) if kv_in_dim != d_model else nn.Identity()
+        #self.q_proj = nn.Linear(q_in_dim, d_model, bias=False) if q_in_dim != d_model else nn.Identity()
+        #self.kv_proj = nn.Linear(kv_in_dim, d_model, bias=False) if kv_in_dim != d_model else nn.Identity()
 
+        self.q_proj = nn.Linear(q_in_dim, d_model, bias=False) if q_in_dim != d_model else nn.Linear(d_model, d_model, bias=False)
+        self.kv_proj = nn.Linear(kv_in_dim, d_model, bias=False) if kv_in_dim != d_model else nn.Linear(d_model, d_model, bias=False)
+        
         self.norm_q = nn.LayerNorm(d_model)
         self.norm_kv = nn.LayerNorm(d_model)
 
@@ -85,20 +90,13 @@ class BiDirectionalCrossFusionSingle(nn.Module):
     """
     def __init__(self, a_in_dim, b_in_dim, d_model=128, n_heads=4, dropout=0.1):
         super().__init__()
-        self.a_from_b = CrossAttentionBlockSingle(
-            q_in_dim=a_in_dim,
-            kv_in_dim=b_in_dim,
-            d_model=d_model,
-            n_heads=n_heads,
-            dropout=dropout
-        )
-        self.b_from_a = CrossAttentionBlockSingle(
-            q_in_dim=b_in_dim,
-            kv_in_dim=a_in_dim,
-            d_model=d_model,
-            n_heads=n_heads,
-            dropout=dropout
-        )
+        logger.info(f'BiDirectionalCrossFusion @ 2 CrossAttnetionsBlock(s); hyperparam -> d_model:{d_model}, n_heads:{n_heads}, dropout:{dropout}')
+
+        self.a_from_b_1 = CrossAttentionBlockSingle(q_in_dim=a_in_dim, kv_in_dim=b_in_dim, d_model=d_model, n_heads=n_heads, dropout=dropout)
+        self.a_from_b_2 = CrossAttentionBlockSingle(q_in_dim=d_model, kv_in_dim=d_model, d_model=d_model, n_heads=n_heads, dropout=dropout)
+
+        self.b_from_a_1 = CrossAttentionBlockSingle(q_in_dim=b_in_dim, kv_in_dim=a_in_dim, d_model=d_model, n_heads=n_heads, dropout=dropout)
+        self.b_from_a_2 = CrossAttentionBlockSingle(q_in_dim=d_model, kv_in_dim=d_model, d_model=d_model, n_heads=n_heads, dropout=dropout)
 
     def forward(self, A, B):
         """
@@ -109,9 +107,15 @@ class BiDirectionalCrossFusionSingle(nn.Module):
           A_fused: (LA, d_model)
           B_fused: (LB, d_model)
         """
-        A_fused = self.a_from_b(A, B)
-        B_fused = self.b_from_a(B, A)
-        return A_fused, B_fused
+        
+        # first block
+        A_fused_1 = self.a_from_b_1(A, B)
+        B_fused_1 = self.b_from_a_1(B, A)
+
+        # second block
+        A_fused_2 = self.a_from_b_2(A_fused_1, B_fused_1)
+        B_fused_2 = self.b_from_a_2(B_fused_1, A_fused_1)
+        return A_fused_2, B_fused_2
     
 
 

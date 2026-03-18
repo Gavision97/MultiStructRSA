@@ -17,22 +17,24 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-# same seed as in DeepRSMA
+# same seeds as in DeepRSMA
 SEED = 1
-#DROPOUT = 0.2
-DEVICE = 'cuda'
+SEED_DATASET = 2 
+
+# early stopping hyperparameters: 
+PATIENCE = 30 # for early stopping
+WARM_UP_EPOCHS = 30
+MODE = 'min'
+DELTA = 1e-6 # 0.0001 ;for early stopping (11/03, 1e-4 -> 5e-5 -> 1e-6)
+
+# MultiStructRSA training hyperparameters:
+LR = 0.00005 # from 0.00005 -> 0.0001
+WEIGHT_DECAY = 1e-5
 BATCH_SIZE = 1
 MAX_EPOCHS = 1000
-PATIENCE = 30 # for early stopping
-WARM_UP_EPOCHS = 50
-MODE = 'min'
-DELTA = 5e-5 # 0.0001 ;for early stopping (11/03, 1e-4 -> 5e-5)
-LR = 0.00005 # 0.00005
-WEIGHT_DECAY = 5e-5
-SEED_DATASET = 2 # same as in DeepRSMA
 NUM_WORKERS = 8
 
-
+# MolRNACDataset hyperparameters:
 TRAIN_SETTING = 4
 VAL_SETTING = 4
 AUG = False
@@ -64,7 +66,7 @@ def preform_cold_blind_cv(cold_type: str = "rna", device: str = "cuda"):
     p_list, s_list, rmse_list, r2_list = [], [], [], []
 
     # Outer 5 fold cold start setting loop
-    for fold in range(1,6):
+    for i in range(1,6):
         logger.info(f"Fold number {i}/5")
         curr_fold_path = os.path.join(COLD_PATH, cold_type, f'outer_fold_{i}')
         
@@ -99,7 +101,7 @@ def preform_cold_blind_cv(cold_type: str = "rna", device: str = "cuda"):
 
                 early_stopping.check_early_stop(rmse, [p, s, r2], train_loss, epo)   
                 if early_stopping.stop_training:
-                    logger.info(f"[Fold {fold}/5] Early stopping at epoch {epo+1}. "
+                    logger.info(f"[Fold {i}/5] Early stopping at epoch {epo+1}. "
                                 f"Best rmse={early_stopping.best_score:.4f} @ epoch {early_stopping.best_epoch+1}")
                     break
 

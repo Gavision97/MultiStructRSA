@@ -1,7 +1,6 @@
 import os
 import logging
 import warnings
-import argparse
 warnings.filterwarnings('ignore')
 
 import pickle
@@ -22,9 +21,6 @@ import torch
 import torch.nn as nn
 
 from transformers import RobertaTokenizer, RobertaModel
-
-
-from chemprop import models, data, featurizers  # ensure these imports are correct
 from utils.tools import clean, scale_nonzero
 
 import logging
@@ -165,111 +161,6 @@ class ChemBERTaPT(nn.Module):
         res_df = pd.concat([smiles_df, embedding_df], axis=1)
 
         #res_df = scale_nonzero_rows(res_df)
-        return res_df
-
-
-###################################################################################################
-
-# NOTE - invalid smiles will get zeros embeddings size of 1200
-
-class ChempropModelPT(nn.Module):
-    def __init__(self, checkpoints_path, smiles, batch_size, device="cuda"):
-        super(ChempropModelPT, self).__init__()
-        self.device = torch.device(device)
-        self.mpnn = self.load_pretrained_model(checkpoints_path)
-        self.featurizer = featurizers.SimpleMoleculeMolGraphFeaturizer()
-        self.smiles_list = smiles
-        self.batch_size = batch_size
-        self.embedding_dim = 1200 
-        
-    def forward(self, smiles):
-        # keep track of valid & invalid smiles values
-        valid_smiles = []
-        invalid_indices = []
-        
-        # build MoleculeDatapoint list, tagging invalid ones
-        for idx, smi in enumerate(smiles):
-            mol = Chem.MolFromSmiles(smi)
-            if mol is None:
-                invalid_indices.append(idx)
-                valid_smiles.append(None)
-            else:
-                dp = data.MoleculeDatapoint.from_smi(smi)
-                valid_smiles.append(dp)
-
-        # collect only valid datapoints for Chemprop processing
-        valid_dp = [dp for dp in valid_smiles if dp is not None]
-        # in case all invalid -> return zero embeddings
-        if len(valid_dp) == 0:
-            return torch.zeros((len(smiles), self.embedding_dim), device=self.device)
-
-        valid_dset = data.MoleculeDataset(valid_dp, featurizer=self.featurizer)
-        valid_loader = data.build_dataloader(valid_dset, batch_size=self.batch_size, shuffle=False)
-
-        # encode valid molecules
-        valid_embeddings = []
-        for batch in valid_loader:
-            emb = self.mpnn.predictor.encode(
-                self.fingerprints_from_batch_molecular_graph(batch, self.mpnn),
-                i=-1
-            )
-            valid_embeddings.append(emb)
-        valid_embeddings = torch.cat(valid_embeddings, dim=0)
-
-        # fill back invalid indices with zero embeddings
-        full_embeddings = torch.zeros((len(smiles), self.embedding_dim), device=self.device)
-        valid_ptr = 0 # keep track of valid smiles indeces
-        for i in range(len(smiles)):
-            '''
-            if i in invalid_indeces -> emb=0*1200, else valid_embeddings[valid_ptr]
-            & increment the valid indecces pointer 
-            '''
-            if i in invalid_indices:
-                continue
-            full_embeddings[i] = valid_embeddings[valid_ptr]
-            valid_ptr += 1
-
-        return full_embeddings.to(self.device)
-
-    def fingerprints_from_batch_molecular_graph(self, batch, mpnn):
-        batch.bmg.to(self.device)
-        H_v = mpnn.message_passing(batch.bmg, batch.V_d)
-        H = mpnn.agg(H_v, batch.bmg.batch)
-        H = mpnn.bn(H)
-        fingerprints = H if batch.X_d is None else torch.cat((H, mpnn.batch.X_d_transform(X_d)), 1)
-        return fingerprints
-
-    def load_pretrained_model(self, checkpoints_path):
-        mpnn = models.MPNN.load_from_checkpoint(checkpoints_path, map_location=self.device).to(self.device)
-        return mpnn
-
-    # model -> became self, inserted that inside
-    def batch_encode(self):
-        self.eval() 
-        embeddings = []
-        smiles_list = self.smiles_list
-        
-        with torch.no_grad(): 
-            for i in range(0, len(smiles_list), self.batch_size):
-                batch_smiles = smiles_list[i:i + self.batch_size]
-    
-                output_embeddings = self(batch_smiles)
-                embeddings.append(output_embeddings)
-        
-        embedding_df = pd.DataFrame(torch.cat(embeddings, dim=0).squeeze().cpu().numpy())
-        embedding_df.columns = [f"chemprop_feature_{i}" for i in range(embedding_df.shape[1])]
-    
-        smiles_df = pd.DataFrame(smiles_list, columns=['SMILES'])
-        res_df =  pd.concat([smiles_df, embedding_df], axis=1)
-
-        # scale features using standart scaler -> mean 0 & std 1
-        #res_df = scale_nonzero_rows(res_df)
-        '''
-        if res_df.shape[0] > 2:
-            scaler = StandardScaler()
-            feature_columns = res_df.columns[1:]  
-            res_df[feature_columns] = scaler.fit_transform(res_df[feature_columns])
-        '''
         return res_df
 
 

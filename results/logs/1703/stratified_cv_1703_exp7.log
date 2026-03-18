@@ -1,0 +1,24 @@
+2026-03-18 17:02:43,247 - stratified_cv_1703_exp7 - model w gRNAde @ w RNA cross-attention fusion
+2026-03-18 17:02:43,258 - 
+==================== ALL FAMILIES  ====================
+2026-03-18 17:02:43,258 - K folds:5, seed:1, batch size:1, max epochs:1000, lr:5e-05, weight decay:1e-05, patience:30, warm up epo:30, delta:1e-06
+2026-03-18 17:02:43,265 - --- Start statified 5-fold cross-validation; pd.DataFrame shape -> (1439, 8), lr=5e-05 ---
+2026-03-18 17:02:43,265 - W/O PADDING -> MolRNACDataset with for training setting=4 and aug=False - for RNA cross-attention fusion
+2026-03-18 17:02:49,999 - W/O PADDING -> MolRNACDataset with for evaluating setting=4 and aug=False - for RNA cross-attention fusion
+2026-03-18 17:02:50,559 - 
+Fold number 1/5
+2026-03-18 17:02:50,560 - Train len -> 1151, Test len -> 288
+2026-03-18 17:02:50,560 - MultiStructRSA - w 3D struct, w seq & with cross-attention fusion; without padding
+2026-03-18 17:02:50,560 - hyperparameters -> BiDirectionalCrossFusion dropout:0.2, Encoder MLPs dropout:0.1; Last MLP dropout:0.1
+2026-03-18 17:02:50,808 - BiDirectionalCrossFusion @ 2 CrossAttnetionsBlock(s); hyperparam -> d_model:128, n_heads:4, dropout:0.2
+2026-03-18 17:05:56,221 - NEW BEST @ epoch 1: val loss=1.5849, ppc=-0.0276, ssc=-0.0223, r2=-0.3206; train loss=1.9762
+2026-03-18 17:09:00,775 - NEW BEST @ epoch 2: val loss=1.3861, ppc=0.4852, ssc=0.4096, r2=-0.0102; train loss=1.2319
+2026-03-18 17:12:04,355 - NEW BEST @ epoch 3: val loss=1.1929, ppc=0.5337, ssc=0.5011, r2=0.2519; train loss=1.1165
+2026-03-18 17:15:08,725 - NEW BEST @ epoch 4: val loss=1.1372, ppc=0.5724, ssc=0.5450, r2=0.3201; train loss=0.9742
+2026-03-18 17:18:14,074 - NEW BEST @ epoch 5: val loss=1.1097, ppc=0.6040, ssc=0.6191, r2=0.3526; train loss=0.9553
+2026-03-18 17:21:20,641 - NEW BEST @ epoch 6: val loss=1.0854, ppc=0.6242, ssc=0.6343, r2=0.3806; train loss=0.9134
+2026-03-18 17:24:25,796 - NEW BEST @ epoch 7: val loss=1.0304, ppc=0.6755, ssc=0.7341, r2=0.4418; train loss=0.8754
+2026-03-18 17:27:32,007 - NEW BEST @ epoch 8: val loss=1.0147, ppc=0.6810, ssc=0.7177, r2=0.4586; train loss=0.8119
+2026-03-18 17:33:41,468 - NEW BEST @ epoch 10: val loss=0.9385, ppc=0.7330, ssc=0.7733, r2=0.5370; train loss=0.7530
+2026-03-18 17:49:21,943 - NEW BEST @ epoch 15: val loss=0.9330, ppc=0.7456, ssc=0.7873, r2=0.5424; train loss=0.6791
+2026-03-18 17:52:27,539 - NEW BEST @ epoch 16: val loss=0.8892, ppc=0.7648, ssc=0.7938, r2=0.5843; train loss=0.6859

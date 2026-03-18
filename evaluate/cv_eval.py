@@ -17,9 +17,7 @@ from evaluate.evaluate_utils import (train_one_epoch, predict, EarlyStopping,
 #from utils.MolRNADataset import MolRNADataset # w/o RNA cross-attention fusion mechanism
 from utils.MolRNACDataset import MolRNADataset # w RNA cross-attention fusion mechanism
 
-from models.MultiMRSMA import MultiMRSMA # w/o RNA cross-attention fusion mechanism
-#from models.MultiMRSMACross import MultiMRSMA # w RNA cross-attention fusion mechanism
-
+from models.MultiStructRSA import *
 
 import logging
 logger = logging.getLogger(__name__)
@@ -66,7 +64,48 @@ def set_seed(seed_):
 def rmse_loss(y_true, y_pred):
     return torch.sqrt(torch.mean((y_true - y_pred) ** 2))
 
-def cv_eval(dataset: pd.DataFrame = None, n: int = 10, plot_name: str = "loss_curve", device: str = "cuda"):
+def cv_eval(dataset=None, model_setting="full", n=10, plot_name="loss_curve", device="cuda"):
+    """
+    Run stratified k-fold cross-validation for a selected MultiStructRSA model setting.
+
+    The function trains and evaluates the chosen model configuration on `n`
+    stratified folds of the input dataset. For each fold, it trains the model,
+    evaluates it after every epoch on the validation split, applies early
+    stopping based on validation RMSE, saves a loss plot, and records the best
+    validation metrics.
+
+    Parameters
+    ----------
+    dataset : pandas.DataFrame, optional
+        Full dataset used for cross-validation. Must be compatible with
+        `MolRNADataset` and include the target column `pKd`.
+
+    model_setting : str, default="full"
+        Model variant passed to `choose_model_setting()`, such as:
+        `"full"`, `"freezed"`, `"w/o seq"`, `"w/o 3D struct"`, or `"w/o fusion"`.
+
+    n : int, default=10
+        Number of cross-validation folds.
+
+    plot_name : str, default="loss_curve"
+        Plot naming string in the format `"date_name"`. Determines the directory
+        structure for saved fold loss curves under `results/plots/`.
+
+    device : str, default="cuda"
+        Device used for training and evaluation.
+
+    Returns
+    -------
+    dict
+        Dictionary with mean/std metrics across folds and per-fold results:
+        Pearson (`p`), Spearman (`s`), RMSE, and R^2.
+
+    Notes
+    -----
+    Early stopping is based on validation RMSE. The best metrics from each fold
+    are stored and aggregated at the end of the procedure.
+    """
+        
     logger.info(
         f'K folds:{n}, seed:{SEED}, batch size:{BATCH_SIZE}, '
         f'max epochs:{MAX_EPOCHS}, lr:{LR}, weight decay:{WEIGHT_DECAY}, '
@@ -102,7 +141,7 @@ def cv_eval(dataset: pd.DataFrame = None, n: int = 10, plot_name: str = "loss_cu
 
         early_stopping = EarlyStopping(mode=MODE, patience=PATIENCE, warm_up_epochs=WARM_UP_EPOCHS, delta=DELTA) # early stopping object 
         
-        model = MultiMRSMA().to(device)
+        model = choose_model_setting(option=model_setting).to(device)
         optimizer = torch.optim.Adam(model.parameters(), lr=LR, weight_decay=WEIGHT_DECAY)
         criterion = rmse_loss
 

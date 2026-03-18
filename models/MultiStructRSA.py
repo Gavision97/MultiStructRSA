@@ -127,9 +127,7 @@ class MultiStructRSAFull(MultiStructRSA):
 
         self.chemberta_mlp = nn.Sequential(
             nn.Linear(384, 256, bias=False),
-            nn.LayerNorm(256),
-            nn.ReLU(),
-            nn.Dropout(DROPOUT)
+            nn.LayerNorm(256)
         )
 
         self.expert_mlp = nn.Sequential(

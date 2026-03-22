@@ -10,7 +10,7 @@ from evaluate.evaluate_utils import (train_one_epoch, predict, EarlyStopping,
                                      safe_regression_metrics)
 
 from utils.MolRNADataset import MolRNADataset
-from models.MultiMRSMA import MultiMRSMA
+from models.MultiStructRSA import *
 
 
 import logging

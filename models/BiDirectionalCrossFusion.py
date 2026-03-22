@@ -23,7 +23,7 @@ class CrossAttentionBlockSingle(nn.Module):
     Returns:
       (Lq, d_model)
     """
-    def __init__(self, q_in_dim, kv_in_dim, d_model=128, n_heads=4, dropout=0.1, ffn_mult=6):
+    def __init__(self, q_in_dim, kv_in_dim, d_model=128, n_heads=4, dropout=0.1, ffn_mult=4):
         super().__init__()
 
         #self.q_proj = nn.Linear(q_in_dim, d_model, bias=False) if q_in_dim != d_model else nn.Identity()
@@ -90,7 +90,7 @@ class BiDirectionalCrossFusionSingle(nn.Module):
     """
     def __init__(self, a_in_dim, b_in_dim, d_model=128, n_heads=4, dropout=0.1):
         super().__init__()
-        logger.info(f'BiDirectionalCrossFusion @ 2 CrossAttnetionsBlock(s); hyperparam -> d_model:{d_model}, n_heads:{n_heads}, dropout:{dropout}')
+        logger.info(f'BiDirectionalCrossFusion @ 1 CrossAttnetionsBlock(s); hyperparam -> d_model:{d_model}, n_heads:{n_heads}, dropout:{dropout}')
 
         self.a_from_b_1 = CrossAttentionBlockSingle(q_in_dim=a_in_dim, kv_in_dim=b_in_dim, d_model=d_model, n_heads=n_heads, dropout=dropout)
         self.a_from_b_2 = CrossAttentionBlockSingle(q_in_dim=d_model, kv_in_dim=d_model, d_model=d_model, n_heads=n_heads, dropout=dropout)
@@ -113,9 +113,9 @@ class BiDirectionalCrossFusionSingle(nn.Module):
         B_fused_1 = self.b_from_a_1(B, A)
 
         # second block
-        A_fused_2 = self.a_from_b_2(A_fused_1, B_fused_1)
-        B_fused_2 = self.b_from_a_2(B_fused_1, A_fused_1)
-        return A_fused_2, B_fused_2
+        #A_fused_2 = self.a_from_b_2(A_fused_1, B_fused_1)
+        #B_fused_2 = self.b_from_a_2(B_fused_1, A_fused_1)
+        return A_fused_1, B_fused_1
     
 
 

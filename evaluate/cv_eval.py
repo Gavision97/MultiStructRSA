@@ -23,8 +23,8 @@ import logging
 logger = logging.getLogger(__name__)
 
 # same seeds as in DeepRSMA
-SEED = 1
-SEED_DATASET = 2 
+#SEED = 1
+#SEED_DATASET = 2 
 
 # early stopping hyperparameters: 
 PATIENCE = 30 # for early stopping
@@ -40,9 +40,9 @@ MAX_EPOCHS = 1000
 NUM_WORKERS = 8
 
 # MolRNACDataset hyperparameters:
-TRAIN_SETTING = 4
-VAL_SETTING = 4
-AUG = False
+#TRAIN_SETTING = 5
+#VAL_SETTING = 5
+#AUG = False
 
 COLD_PATH = os.path.join("datasets", "blind_test", "processed")
 RSIM_PATH = os.path.join("datasets", "RSIM")
@@ -64,7 +64,8 @@ def set_seed(seed_):
 def rmse_loss(y_true, y_pred):
     return torch.sqrt(torch.mean((y_true - y_pred) ** 2))
 
-def cv_eval(dataset=None, model_setting="full", n=10, plot_name="loss_curve", device="cuda"):
+def cv_eval(dataset=None, model_setting="full", train_setting=4, val_setting=4, aug=False, is_plot=False, is_seq_emb=False, n=10,
+            fam_name=None, plot_name="loss_curve", device="cuda", dataset_seed=2, seed=1):
     """
     Run stratified k-fold cross-validation for a selected MultiStructRSA model setting.
 
@@ -107,29 +108,24 @@ def cv_eval(dataset=None, model_setting="full", n=10, plot_name="loss_curve", de
     """
         
     logger.info(
-        f'K folds:{n}, seed:{SEED}, batch size:{BATCH_SIZE}, '
+        f'K folds:{n}, seed:{seed}, dataset seed:{dataset_seed} batch size:{BATCH_SIZE}, '
         f'max epochs:{MAX_EPOCHS}, lr:{LR}, weight decay:{WEIGHT_DECAY}, '
         f'patience:{PATIENCE}, warm up epo:{WARM_UP_EPOCHS}, delta:{DELTA}'
     )
-    set_seed(SEED) # set seed (same as in DeepRSMA and others)
+    set_seed(seed) # set seed (same as in DeepRSMA and others)
     all_df = dataset
     logging.info(f"--- Start statified {n}-fold cross-validation; pd.DataFrame shape -> {all_df.shape}, lr={LR} ---")
 
-    train_ds = MolRNADataset(all_df, setting=TRAIN_SETTING, aug=AUG, task="training")
-    val_ds = MolRNADataset(all_df, setting=VAL_SETTING, aug=False, task='evaluating')
+    train_ds = MolRNADataset(all_df, setting=train_setting, aug=aug, task="training", is_seq_emb=is_seq_emb)
+    val_ds = MolRNADataset(all_df, setting=val_setting, aug=False, task='evaluating', is_seq_emb=is_seq_emb)
     Y = train_ds.data["pKd"].to_numpy(dtype=np.float32)
 
     # same initialization as in DeepRSMA and others
-    skf = regressor_stratified_cv(n_splits=n, n_repeats=1, random_state=SEED_DATASET, group_count=5, strategy="uniform")
-
+    skf = regressor_stratified_cv(n_splits=n, n_repeats=1, random_state=dataset_seed, group_count=5, strategy="uniform")
     p_list, s_list, rmse_list, r2_list = [], [], [], []
 
-    # extract date & fold name in order to create experiment 
-    # plot directory at -> results/plots/date/plot_name/
-    date, plot = plot_name.split('_') # format -> 'date_name' -> ['date', 'name']
-
     for fold, (train_index, test_index) in enumerate(skf.split(np.zeros(len(Y)), Y)):
-        g = torch.Generator().manual_seed(SEED) # determinism per fold
+        g = torch.Generator().manual_seed(seed) # determinism per fold
 
         logger.info(f"\nFold number {fold+1}/{n}")
 
@@ -162,17 +158,23 @@ def cv_eval(dataset=None, model_setting="full", n=10, plot_name="loss_curve", de
                             f"Best rmse={early_stopping.best_score:.4f} @ epoch {early_stopping.best_epoch+1}")
                 break
 
-
+        ########################################################################
         # ---- plot train vs. validation losses over time (epoch) ---- # 
-        plots_dir = os.path.join("results", "plots", date, plot)
-        os.makedirs(plots_dir, exist_ok=True)
-        plot_train_val_loss(
-            train_losses,
-            val_losses,
-            save_path=f"{plots_dir}/{plot_name}_fold_{fold+1}.png",
-            title="Loss Curve (train vs. val MSE)"
-        )
-
+        if is_plot:
+            # extract date & fold name in order to create experiment plot directory at -> results/plots/date/plot_name/
+            date, plot = plot_name.split('_') # format -> 'date_name' -> ['date', 'name']   
+            if fam_name:
+                plots_dir = os.path.join("results", "plots", date, plot, fam_name)
+            else:
+                plots_dir = os.path.join("results", "plots", date, plot)
+            os.makedirs(plots_dir, exist_ok=True)
+            plot_train_val_loss(
+                train_losses,
+                val_losses,
+                save_path=f"{plots_dir}/{plot_name}_fold_{fold+1}.png",
+                title="Loss Curve (train vs. val MSE)"
+            )
+        ########################################################################
 
         rmse_list.append(early_stopping.best_score)
         p_list.append(early_stopping.best_metrics[0])
@@ -185,14 +187,14 @@ def cv_eval(dataset=None, model_setting="full", n=10, plot_name="loss_curve", de
     logger.info(f"r2: {np.mean(r2_list)}")
 
     res = {
-        "p_mean": float(np.mean(p_list)),
-        "p_std": float(np.std(p_list)),
-        "s_mean": float(np.mean(s_list)),
-        "s_std": float(np.std(s_list)),
-        "rmse_mean": float(np.mean(rmse_list)),
-        "rmse_std": float(np.std(rmse_list)),
-        "r2_mean": float(np.mean(r2_list)),
-        "r2_std": float(np.std(r2_list)),
+        "p_mean": round(float(np.mean(p_list)), 5),
+        "p_std": round(float(np.std(p_list)), 5),
+        "s_mean": round(float(np.mean(s_list)), 5),
+        "s_std": round(float(np.std(s_list)), 5),
+        "rmse_mean": round(float(np.mean(rmse_list)), 5),
+        "rmse_std": round(float(np.std(rmse_list)), 5),
+        "r2_mean": round(float(np.mean(r2_list)), 5),
+        "r2_std": round(float(np.std(r2_list)), 5),
         "per_fold": {
             "p": p_list,
             "s": s_list,

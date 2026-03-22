@@ -1,17 +1,69 @@
 import os
-import warnings
-
+import random
+import numpy as np
 import pandas as pd
+import torch
 
 
 from rdkit import Chem
-from rdkit.Chem import AllChem
-
 from sklearn.preprocessing import StandardScaler
-
 
 import logging
 logger = logging.getLogger(__name__)
+
+COLD_PATH = 'datasets/blind_test/'
+
+#################################################################################################3
+# same style as their code
+def set_seed(seed_):
+    random.seed(seed_)
+    os.environ["PYTHONHASHSEED"] = str(seed_)
+    np.random.seed(seed_)
+    torch.manual_seed(seed_)
+    torch.cuda.manual_seed(seed_)
+    torch.cuda.manual_seed_all(seed_)
+    torch.backends.cudnn.benchmark = False
+    torch.backends.cudnn.deterministic = True
+#################################################################################################
+
+def load_cold_data(cold_type="cold_rna"):
+    _ ,cold = cold_type.split('_')
+    df1 = pd.read_csv(COLD_PATH + cold + '/' + cold_type +'1.csv', delimiter=',')
+    df2 = pd.read_csv(COLD_PATH + cold + '/' + cold_type +'2.csv', delimiter=',')
+    df3 = pd.read_csv(COLD_PATH + cold + '/' + cold_type +'3.csv', delimiter=',')
+    df4 = pd.read_csv(COLD_PATH + cold + '/' + cold_type +'4.csv', delimiter=',')
+    df5 = pd.read_csv(COLD_PATH + cold + '/' + cold_type +'5.csv', delimiter=',')
+    cold_dfs = [df1, df2, df3, df4, df5]
+    return cold_dfs
+
+def get_cold_splits(curr_cold_df=None, cold_dfs=None, all_df=None, fold=0):
+    """
+    Generate train/test indices for a given cold-start fold.
+
+    Args:
+        curr_cold_df (pd.DataFrame): current fold dataframe used as test set.
+        cold_dfs (list[pd.DataFrame]): list of all cold split dataframes.
+        all_df (pd.DataFrame): full dataset containing Entry_ID column.
+        fold (int): index of the current test fold.
+
+    Returns:
+        tuple[list[int], list[int]]: train indices, test indices.
+    """
+    if curr_cold_df is None or cold_dfs is None or all_df is None:
+        raise ValueError("Either curr_cold_df/cold_dfs/all_df is None")
+
+    test_id = curr_cold_df['Entry_ID'].tolist()
+    test_id = all_df[all_df['Entry_ID'].isin(test_id)].index.tolist()
+
+    train_id = []
+    for j, other_df in enumerate(cold_dfs):
+        if j != fold:
+            train_id.extend(other_df['Entry_ID'].tolist())
+
+    train_id = all_df[all_df['Entry_ID'].isin(train_id)].index.tolist()
+    return train_id, test_id
+#################################################################################################
+
 
 # NOTE -> Scale after splitting to train/test (val) in order to avoid data leakage!
 def scale(df: pd.DataFrame) -> pd.DataFrame:
@@ -89,7 +141,7 @@ def scale_chem_features(chem_descriptors_df):
     scaled_chem_descriptors_df[non_binary_columns] = scaler.fit_transform(scaled_chem_descriptors_df[non_binary_columns])
 
     return scaled_chem_descriptors_df
-
+#################################################################################################
 
 def validate_smiles(smi):
     '''
@@ -119,4 +171,4 @@ def clean(smiles_features_df):
         logger.info(f'after filling nulls with zeros, there are -> {smiles_features_df.isna().sum().sum()} nulls')
    
     return smiles_features_df
-    
+  #################################################################################################  

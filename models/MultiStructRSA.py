@@ -13,8 +13,8 @@ from models.gRNAde import *
 from utils.utils import *
 from models.BiDirectionalCrossFusion import *
 
-
-BDCF_DROPOUT = 0.2 # BiDirectionalCrossFusion dropout
+# TODO - add that as hyperparameter to parser.py
+BDCF_DROPOUT = 0.1 # BiDirectionalCrossFusion dropout
 DROPOUT = 0.1 # all MLP dropout values
 LST_DROPOUT = 0.1 # last MLP (affinity head) dropout values
 
@@ -40,6 +40,9 @@ def choose_model_setting(option: str = "full"):
 class MultiStructRSA(nn.Module, ABC):
     def __init__(self):
         super().__init__()
+
+    #######################################################################################
+    # adapted from gRNAde framework - https://github.com/chaitjo/geometric-rna-design.git #
 
     @staticmethod
     def pool_multi_conf(h_V, h_E, mask_confs, edge_index):
@@ -75,7 +78,8 @@ class MultiStructRSA(nn.Module, ABC):
         self.W_e = pretrained.W_e
         self.encoder_layers = pretrained.encoder_layers
 
-        requires_grad = not freeze
+        # for fine-tune gRNAde, freeze=False will give requires_grad=True, else False
+        requires_grad = not freeze 
         for p in self.W_v.parameters():
             p.requires_grad = requires_grad
         for p in self.W_e.parameters():
@@ -95,6 +99,7 @@ class MultiStructRSA(nn.Module, ABC):
 
         h_V, h_E = self.pool_multi_conf(h_V, h_E, graph.mask_confs, edge_index)
         return h_V, h_E, edge_index
+    ####################################################################################
 
     @abstractmethod
     def forward(self, graph, ernie_emb, rinalmo_emb, morgan_fp, mordred_desc, chemberta_emb):
@@ -168,8 +173,7 @@ class MultiStructRSAFull(MultiStructRSA):
             dim=1
         )  # (N, 128+48)
 
-        ernie_emb = ernie_emb.squeeze(0)
-        rinalmo_emb = rinalmo_emb.squeeze(0)
+        ernie_emb, rinalmo_emb = ernie_emb.squeeze(0), rinalmo_emb.squeeze(0) # we train with batch_size=1
         rna_seq_emb = torch.cat([rinalmo_emb, ernie_emb], dim=1)  # (L, 2048)
 
         rna_emb, nodes_fused = self.rna_fusion(A=rna_seq_emb, B=encoder_emb)

@@ -1,6 +1,3 @@
-import argparse
-import logging
-
 import warnings
 warnings.filterwarnings("ignore", category=UserWarning)
 warnings.filterwarnings("ignore", category=RuntimeWarning)
@@ -8,13 +5,10 @@ warnings.filterwarnings("ignore", category=FutureWarning)
 
 import pandas as pd
 import os
-import matplotlib.pyplot as plt
-import seaborn as sns
-
-import torch
+import json
 
 from evaluate.cv_eval import cv_eval
-from evaluate.blind_cv_eval import preform_cold_blind_cv
+from evaluate.cold_eval import preform_cold_blind_cv
 
 from utils.generate_smiles_features import generate_smiles_features
 from utils.parser import get_args
@@ -25,7 +19,77 @@ logger = logging.getLogger(__name__)
 RSIM_PATH = os.path.join("datasets", "RSIM")
 ALL_SF_DATASET_PATH = os.path.join("datasets", "RSIM", "All_sf_dataset_v1.csv")
 
-def preform_k_fold_cv_all(model_setting = "full", exp_name = 'exp', res_file_name="cv10_all_results", n=10, plot_name='loss_plot' ,device="cuda"):
+def preform_cold_blind_cv_(exp_name='exp', res_file_name="cold_eval", cold_type="cold_rna",
+                           model_setting="full", train_setting=4, val_setting=4, aug=False,
+                           is_plot=False, is_seq_emb=False, plot_name="loss_curve",
+                           device="cuda", seed=1):
+    """
+    Run cold-start blind evaluation and append results to a summary CSV file.
+
+    The function:
+    1. Executes cold-start evaluation using `preform_cold_blind_cv`.
+    2. Collects mean/std metrics and per-fold results.
+    3. Saves (or appends) a single-row summary to a CSV file.
+
+    Parameters
+    ----------
+    exp_name : str, default="exp"
+        Experiment name stored in the results table.
+
+    res_file_name : str, default="cold_eval"
+        Output CSV file name (saved under `results/table_results/`).
+
+    cold_type : str, default="cold_rna"
+        Cold-start setting ('cold_rna', 'cold_mol', or 'cold_rm').
+
+    model_setting : str, default="full"
+        Model configuration passed to the training pipeline.
+
+    device : str, default="cuda"
+        Device used for training and evaluation.
+
+    seed : int, default=1
+        Random seed for reproducibility.
+
+    Returns
+    -------
+    None
+        Results are appended to the specified CSV file.
+    """
+    res = preform_cold_blind_cv(exp_name = exp_name, cold_type=cold_type, model_setting=model_setting, train_setting=train_setting, val_setting=val_setting,
+                                aug=aug, is_plot=is_plot, is_seq_emb=is_seq_emb, plot_name=plot_name,
+                                device=device, seed=seed)
+    # summary (single row, same fields as the per-family version)
+    summary_dict = {"exp": exp_name, "cold_type": cold_type, **res}
+    summary_dict["per_fold"] = json.dumps(summary_dict["per_fold"])
+
+    summary_df = pd.DataFrame([summary_dict])
+
+    logger.info(
+        f"Cold evaluation on {cold_type}"
+        f"rmse_mean: {res.get('rmse_mean')}, p_mean: {res.get('p_mean')}, "
+        f"s_mean: {res.get('s_mean')}, r2_mean: {res.get('r2_mean')}"
+    )
+
+    out_dir = os.path.join("results", "table_results")
+    os.makedirs(out_dir, exist_ok=True)
+    summary_path = os.path.join(out_dir, f"{res_file_name}.csv")
+
+    if os.path.exists(summary_path):
+        # File exists, append new row
+        existing_df = pd.read_csv(summary_path)
+        updated_df = pd.concat([existing_df, summary_df], ignore_index=True)
+    else:
+        # File does not exist, create new one
+        updated_df = summary_df
+
+    updated_df.to_csv(summary_path, index=False)
+
+    logging.info(f"\nSaved/updated summary to: {summary_path}")
+
+def preform_k_fold_cv_all(exp_name = 'exp', res_file_name="cv10_all_results", model_setting = "full", train_setting=4, val_setting=4, aug=False, is_plot=False, is_seq_emb=False,
+                          n=10, plot_name='loss_plot', 
+                          device="cuda", seed=1, dataset_seed=2):
     """
     Run k-fold cross-validation on the full dataset (all RNA families combined) and save a summary of the results.
 
@@ -37,11 +101,11 @@ def preform_k_fold_cv_all(model_setting = "full", exp_name = 'exp', res_file_nam
 
     Parameters
     ----------
-    model_setting : str, default="full"
-        Model variant passed to `cv_eval` via `choose_model_setting`.
-
     exp_name : str, default="exp"
         Name of the experiment (saved in the results table).
+
+    model_setting : str, default="full"
+        Model variant passed to `cv_eval` via `choose_model_setting`.
 
     res_file_name : str, default="cv10_all_results"
         Output CSV file name (stored under `results/table_results/`).
@@ -69,7 +133,8 @@ def preform_k_fold_cv_all(model_setting = "full", exp_name = 'exp', res_file_nam
     logging.info(f"\n==================== ALL FAMILIES  ====================")
 
     all_df = pd.read_csv(ALL_SF_DATASET_PATH, sep="\t")
-    res = cv_eval(dataset=all_df, model_setting=model_setting, n=n, plot_name=plot_name ,device=device)
+    res = cv_eval(dataset=all_df, model_setting=model_setting,train_setting=train_setting, val_setting=val_setting,
+                  aug=aug, is_plot=is_plot, is_seq_emb=is_seq_emb, n=n, plot_name=plot_name ,device=device, seed=seed, dataset_seed=dataset_seed)
 
 
     # summary (single row, same fields as the per-family version)
@@ -108,7 +173,9 @@ def preform_k_fold_cv_all(model_setting = "full", exp_name = 'exp', res_file_nam
     logging.info(f"\nSaved/updated summary to: {summary_path}")
 
 
-def preform_k_fold_cv_all_rna_fam(model_setting = "full", exp_name='cv_rna_fam', res_file_name='cv10_all_results_by_family', n=10, plot_name='loss_plot', device='cuda'):
+def preform_k_fold_cv_all_rna_fam(model_setting = "full", train_setting=4, val_setting=4, aug=False, is_plot=False, is_seq_emb=False,
+                                   exp_name='cv_rna_fam', res_file_name='cv10_all_results_by_family', n=10, plot_name='loss_plot',
+                                   device='cuda', seed=1, dataset_seed=2):
     """
     Run k-fold cross-validation separately for each RNA family and save a summary table.
 
@@ -164,7 +231,8 @@ def preform_k_fold_cv_all_rna_fam(model_setting = "full", exp_name='cv_rna_fam',
     for fam_name, fam_df in rna_families.items():
         logging.info(f"\n==================== {fam_name.upper()} ====================")
         #res = cv_eval(fam_df, name=fam_name, device=device)  # make sure cv_eval has name param or ignore
-        res = cv_eval(dataset=fam_df, model_setting=model_setting, name=fam_name, n=n, plot_name=plot_name, device=device)
+        res = cv_eval(dataset=fam_df, model_setting=model_setting, train_setting=train_setting, val_setting=val_setting,
+                      aug=aug, is_plot=is_plot, is_seq_emb=is_seq_emb, fam_name=fam_name, n=n, plot_name=plot_name, device=device, seed=seed, dataset_seed=dataset_seed)
         # ---- summary row ----
         summary_row = {
             "exp": exp_name,
@@ -222,7 +290,15 @@ def main():
     cold_type = args.cold_type
     plot_name = args.plot_name
     k_fold = args.k_fold
+
+    train_setting = args.train_setting
+    val_setting = args.val_setting
+    aug = True if args.aug == "True" else False
+    is_plot = True if args.is_plot == "True" else False
+    is_seq_emb = True if args.is_seq_emb == "True" else False
     device = args.device
+    seed = args.seed # controls model initialization, dataloader shuffle, etc.
+    dataset_seed = args.dataset_seed # controls cross-validation fold creation (for statified K-fold CV)
 
     # ---- construct log file path ---- #
     # expected format: {eval_method}_{date}_{exp_num}
@@ -244,20 +320,34 @@ def main():
         if cv_method == "all":
             preform_k_fold_cv_all(
                 model_setting = model_setting,
+                train_setting=train_setting,
+                val_setting=val_setting,
+                aug=aug,
+                is_plot=is_plot,
+                is_seq_emb=is_seq_emb,
                 exp_name=exp_name,
                 res_file_name=res_file_name,
                 n=k_fold,
                 plot_name=plot_name,
-                device=device
+                device=device,
+                seed=seed,
+                dataset_seed=dataset_seed
             )
         else:
             preform_k_fold_cv_all_rna_fam(
                 model_setting = model_setting,
+                train_setting=train_setting,
+                val_setting=val_setting,
+                aug=aug,
+                is_plot=is_plot,
+                is_seq_emb=is_seq_emb,
                 exp_name=exp_name,
                 res_file_name=res_file_name,
                 n=k_fold,
                 plot_name=plot_name,
-                device=device
+                device=device,
+                seed=seed,
+                dataset_seed=dataset_seed
             )
 
     elif eval_method == "cold_blind_cv":

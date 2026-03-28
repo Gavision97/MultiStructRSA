@@ -19,30 +19,28 @@
 ### Experiment variables ###
 ############################
 
-EXP_ID=6   # experiment ID
-DATE=1903  # for log & result directory creation
+EXP_ID=4   # experiment ID
+DATE=2203  # for log & result directory creation
 
-MODEL_SETTING="full"
+MODEL_SETTING="w/o 3D struct" # ["full", "freezed", "w/o seq", "w/o 3D struct", "w/o fusion"]
 TRAIN_SETTING=4
 VAL_SETTING=4
+IS_SEQ_EMB="True"
 AUG="False"
+IS_PLOT="True"
 
-EXP_NAME="exp${EXP_ID}"  
+EXP_NAME="exp${EXP_ID}"
+EVAL_METHOD="cold_blind_cv"
+COLD_TYPE="cold_rna"
 
-RES_FILE_NAME="cv_all_${DATE}"
+RES_FILE_NAME="blind_test_${COLD_TYPE}_${DATE}"
 PLOT_NAME="${DATE}_exp${EXP_ID}"
 
-LOG_FILE_NAME="stratified_cv_${DATE}_exp${EXP_ID}"
-
-EVAL_METHOD="cv"
-CV_METHOD="all"
-K_FOLD=5
+LOG_FILE_NAME="blind_test_${COLD_TYPE}_${DATE}_exp${EXP_ID}"
 DEVICE="cuda"
 
-SEED=7
-DATASET_SEED=99
-
-LOG_MSG="stratified_cv_${DATE}_exp${EXP_ID} - MultiStructRSA (${MODEL_SETTING} version) - TRAIN SETTING=${TRAIN_SETTING}; VAL SETTING=${VAL_SETTING}; AUG=${AUG}; SEED=${SEED}; DATASET SEED=${DATASET_SEED}"
+SEED=1
+LOG_MSG="${RES_FILE_NAME} - MultiStructRSA (${MODEL_SETTING} version) - TRAIN SETTING=${TRAIN_SETTING}; VAL SETTING=${VAL_SETTING}; AUG=${AUG}; SEED=${SEED}"
 
 
 
@@ -71,13 +69,13 @@ python main.py \
   --train_setting "$TRAIN_SETTING" \
   --val_setting "$VAL_SETTING" \
   --aug "$AUG" \
+  --is_seq_emb "$IS_SEQ_EMB" \
+  --is_plot "$IS_PLOT" \
   --res_file_name "$RES_FILE_NAME" \
   --plot_name "$PLOT_NAME" \
   --log_msg "$LOG_MSG" \
   --log_file_name "$LOG_FILE_NAME" \
   --eval_method "$EVAL_METHOD" \
-  --cv_method "$CV_METHOD" \
-  --k_fold "$K_FOLD" \
+  --cold_type "$COLD_TYPE" \
   --device "$DEVICE" \
-  --seed "$SEED" \
-  --dataset_seed "$DATASET_SEED"
+  --seed "$SEED" 

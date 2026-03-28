@@ -65,21 +65,32 @@ def get_args():
     parser.add_argument(
         "--eval_method",
         type=str,
-        default="cold_blind_cv",
-        choices=["cv", "loo_cv", "cold_blind_cv"],
+        default="cv",
+        choices=["cv", "loo_cv", "cold_blind_cv", "cv_ns"],
         help="Evaluation strategy"
     )
     parser.add_argument(
         "--cv_method",
         type=str,
-        default="per_fam",
+        default="all",
         choices=["all", "per_fam"],
         help="Cross-validation split: full dataset or per RNA family"
+    )
+    
+    parser.add_argument(
+        "--ev_setting",
+        type=int,
+        default=4,
+        choices=[1, 2, 3, 4],
+        help=("# 1 - like in DeepRSMA, early stopping on the test set (test-leakage, overoptimistic) "
+             "# 2 - early stopping on the validation loss & test best mode "
+             "# 3 - early stopping on the validation loss & then retrain new model with chosen N epochs using train+val data"
+             )
     )
     parser.add_argument(
         "--k_fold",
         type=int,
-        default=10,
+        default=5,
         help="Number of folds for cross-validation"
     )
 
@@ -103,6 +114,32 @@ def get_args():
         default="False",
         choices=["True", "False"],
         help="whether to use data-augmentation while training"
+    )
+
+    parser.add_argument(
+        "--smoothing_factor",
+        type=float,
+        default=0.75,
+        help="Power-law smoothing exponent (alpha) for frequency-based negative sampling"
+    )
+
+    parser.add_argument(
+        "--negative_factor",
+        type=float,
+        default=1.0,
+        help="Number of synthetic negatives per positive sample (can be fractional)"
+    )
+    parser.add_argument(
+        "--lr",
+        type=float,
+        default=5e-5,
+        help="training learning rate"
+    )
+    parser.add_argument(
+        "--wd",
+        type=float,
+        default=1e-5,
+        help="training weight decay for generalization control"
     )
     parser.add_argument(
         "--is_plot",

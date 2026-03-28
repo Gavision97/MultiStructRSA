@@ -10,7 +10,7 @@
 #SBATCH --job-name=research_project
 #SBATCH --output=jobs/job-%J.out
 #SBATCH --error=jobs/job-%J.err
-#SBATCH --gpus=rtx_6000:1
+#SBATCH --gpus=rtx_4090:1
 #SBATCH --mail-user=gavrilev@post.bgu.ac.il
 #SBATCH --mail-type=ALL
 #SBATCH --mem=24G
@@ -20,9 +20,9 @@
 ############################
 
 EXP_ID=3   # experiment ID
-DATE=2103  # for log & result directory creation
+DATE=2803  # for log & result directory creation
 
-MODEL_SETTING="w/o seq" # ["full", "freezed", "w/o seq", "w/o 3D struct", "w/o fusion"]
+MODEL_SETTING="full" # ["full", "freezed", "w/o seq", "w/o 3D struct", "w/o fusion"]
 TRAIN_SETTING=4
 VAL_SETTING=4
 AUG="False"
@@ -36,8 +36,11 @@ LOG_FILE_NAME="stratified_cv_${DATE}_exp${EXP_ID}"
 
 EVAL_METHOD="cv"
 CV_METHOD="all"
-K_FOLD=10
+K_FOLD=5
 DEVICE="cuda"
+
+SMOOTHING_FACTOR=0.75
+NEGATIVE_FACTOR=3
 
 SEED=1
 DATASET_SEED=2
@@ -56,7 +59,7 @@ export PYTHONPATH="${PYTHONPATH}:$(pwd)"
 
 export CUBLAS_WORKSPACE_CONFIG=:4096:8
 export CUDA_LAUNCH_BLOCKING=1
-export TORCH_USE_CUDA_DSA=1
+#export TORCH_USE_CUDA_DSA=1
 
 export HF_HUB_ETAG_TIMEOUT=60
 export HF_HUB_DOWNLOAD_TIMEOUT=300
@@ -71,6 +74,8 @@ python main.py \
   --train_setting "$TRAIN_SETTING" \
   --val_setting "$VAL_SETTING" \
   --aug "$AUG" \
+  --smoothing_factor "$SMOOTHING_FACTOR" \
+  --negative_factor "$NEGATIVE_FACTOR" \
   --res_file_name "$RES_FILE_NAME" \
   --plot_name "$PLOT_NAME" \
   --log_msg "$LOG_MSG" \

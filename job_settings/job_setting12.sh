@@ -19,30 +19,33 @@
 ### Experiment variables ###
 ############################
 
-EXP_ID=1   # experiment ID
-DATE=1903  # for log & result directory creation
+EXP_ID=9   # experiment ID
+DATE=2203  # for log & result directory creation
 
 MODEL_SETTING="full"
 TRAIN_SETTING=4
 VAL_SETTING=4
 AUG="False"
 
+LR=2e-5 # same as before
+WD=3e-5 # same as before
+
 EXP_NAME="exp${EXP_ID}"  
 
 RES_FILE_NAME="cv_all_${DATE}"
 PLOT_NAME="${DATE}_exp${EXP_ID}"
-
+IS_SEQ_EMB="False"
 LOG_FILE_NAME="stratified_cv_${DATE}_exp${EXP_ID}"
-
-LOG_MSG="stratified_cv_${DATE}_exp${EXP_ID} - MultiStructRSA (${MODEL_SETTING} version) - TRAIN SETTING=${TRAIN_SETTING}; VAL SETTING=${VAL_SETTING}; AUG=${AUG}"
 
 EVAL_METHOD="cv"
 CV_METHOD="all"
 K_FOLD=5
 DEVICE="cuda"
 
-SEED=42
+SEED=1
 DATASET_SEED=2
+
+LOG_MSG="stratified_cv_${DATE}_exp${EXP_ID} - MultiStructRSA (${MODEL_SETTING} version) - TRAIN SETTING=${TRAIN_SETTING}; VAL SETTING=${VAL_SETTING}; AUG=${AUG}; SEED=${SEED}; DATASET SEED=${DATASET_SEED}"
 
 ################  Following lines will be executed by a compute node  ################
 
@@ -69,6 +72,9 @@ python main.py \
   --train_setting "$TRAIN_SETTING" \
   --val_setting "$VAL_SETTING" \
   --aug "$AUG" \
+  --is_seq_emb "$IS_SEQ_EMB" \
+  --lr "$LR" \
+  --wd "$WD" \
   --res_file_name "$RES_FILE_NAME" \
   --plot_name "$PLOT_NAME" \
   --log_msg "$LOG_MSG" \
@@ -76,4 +82,6 @@ python main.py \
   --eval_method "$EVAL_METHOD" \
   --cv_method "$CV_METHOD" \
   --k_fold "$K_FOLD" \
-  --device "$DEVICE"
+  --device "$DEVICE" \
+  --seed "$SEED" \
+  --dataset_seed "$DATASET_SEED"

@@ -1,0 +1,19 @@
+2026-03-28 13:41:27,586 - stratified_cv_2803_exp1 - MultiStructRSA (full version) - TRAIN SETTING=4; VAL SETTING=4; AUG=False; SEED=1; DATASET SEED=2
+2026-03-28 13:41:27,586 - 
+==================== ALL FAMILIES  ==================== (setting:4)
+2026-03-28 13:41:27,597 - Smoothing Factor -> 0.75, Negative Factor -> 1.0
+2026-03-28 13:41:27,597 - K folds:5, seed:1, dataset seed:2, batch size:1, max epochs:1000, lr:5e-05, weight decay:1e-05, patience:30, warm up epo:30, delta:0, val_ratio:0.1
+2026-03-28 13:41:27,603 - --- Start stratified 5-fold cross-validation; pd.DataFrame shape -> (1439, 8), lr=5e-05 ---
+2026-03-28 13:41:27,603 - W/O PADDING -> MolRNACDataset with for training setting=4 and aug=False - for RNA cross-attention fusion
+2026-03-28 13:41:29,182 - 
+Fold number 1/5
+2026-03-28 13:41:30,477 - Outer train rows before augmentation: 1151 | synthetic negatives: 962 | outer train rows after augmentation: 2113
+2026-03-28 13:41:30,481 - Inner split sizes -> train: 1901, val: 212, test: 288
+2026-03-28 13:41:30,481 - W/O PADDING -> MolRNACDataset with for training setting=4 and aug=False - for RNA cross-attention fusion
+2026-03-28 13:41:31,048 - W/O PADDING -> MolRNACDataset with for evaluating setting=4 and aug=False - for RNA cross-attention fusion
+2026-03-28 13:41:31,498 - W/O PADDING -> MolRNACDataset with for evaluating setting=4 and aug=False - for RNA cross-attention fusion
+2026-03-28 13:41:32,030 - MultiStructRSA - full: w 3D struct, w seq, w cross-attention fusion
+2026-03-28 13:41:32,030 - hyperparameters -> BiDirectionalCrossFusion dropout:0.1, Encoder MLPs dropout:0.1; Last MLP dropout:0.1
+2026-03-28 13:41:32,202 - BiDirectionalCrossFusion @ 1 CrossAttnetionsBlock(s); hyperparam -> d_model:128, n_heads:4, dropout:0.1
+2026-03-28 13:41:32,225 - Initialized model setting: full
+2026-03-28 13:45:53,020 - NEW BEST @ epoch 1: val loss=1.7581, ppc=-0.0289, ssc=-0.0494, r2=-0.1165; train loss=1.4971

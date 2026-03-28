@@ -1,0 +1,560 @@
+2026-03-24 12:12:04,330 - stratified_cv_2203_exp15 - MultiStructRSA (full version) - TRAIN SETTING=4; VAL SETTING=4; AUG=False; SEED=1; DATASET SEED=2
+2026-03-24 12:12:04,330 - 
+==================== ALL FAMILIES  ==================== (setting:3)
+2026-03-24 12:12:04,338 - K folds:5, seed:1, dataset seed:2, batch size:1, max epochs:1000, lr:2e-05, weight decay:1e-05, patience:50, warm up epo:50, delta:0, val_ratio:0.1
+2026-03-24 12:12:04,341 - --- Start stratified 5-fold cross-validation; pd.DataFrame shape -> (1439, 8), lr=2e-05 ---
+2026-03-24 12:12:04,341 - W/O PADDING -> MolRNACDataset with for training setting=4 and aug=False - for RNA cross-attention fusion
+2026-03-24 12:12:04,849 - W/O PADDING -> MolRNACDataset with for evaluating setting=4 and aug=False - for RNA cross-attention fusion
+2026-03-24 12:12:05,451 - 
+Fold number 1/5
+2026-03-24 12:12:05,453 - Inner split sizes -> train: 1035, val: 116, test: 288
+2026-03-24 12:12:05,453 - MultiStructRSA - full: w 3D struct, w seq, w cross-attention fusion
+2026-03-24 12:12:05,453 - hyperparameters -> BiDirectionalCrossFusion dropout:0.1, Encoder MLPs dropout:0.1; Last MLP dropout:0.1
+2026-03-24 12:12:05,553 - BiDirectionalCrossFusion @ 1 CrossAttnetionsBlock(s); hyperparam -> d_model:128, n_heads:4, dropout:0.1
+2026-03-24 12:12:05,571 - Initialized model setting: full
+2026-03-24 12:13:55,591 - NEW BEST @ epoch 1: val loss=2.3143, ppc=0.0480, ssc=0.1511, r2=-1.6109; train loss=2.5191
+2026-03-24 12:15:46,361 - NEW BEST @ epoch 2: val loss=1.8995, ppc=0.2322, ssc=0.2367, r2=-0.7589; train loss=1.8460
+2026-03-24 12:17:36,816 - NEW BEST @ epoch 3: val loss=1.6370, ppc=0.3425, ssc=0.3277, r2=-0.3063; train loss=1.4850
+2026-03-24 12:19:25,921 - NEW BEST @ epoch 4: val loss=1.5031, ppc=0.3797, ssc=0.2968, r2=-0.1013; train loss=1.2801
+2026-03-24 12:21:16,131 - NEW BEST @ epoch 5: val loss=1.4245, ppc=0.4917, ssc=0.4640, r2=0.0109; train loss=1.2050
+2026-03-24 12:23:06,443 - NEW BEST @ epoch 6: val loss=1.2711, ppc=0.5480, ssc=0.5866, r2=0.2123; train loss=1.0696
+2026-03-24 12:24:57,169 - NEW BEST @ epoch 7: val loss=1.2145, ppc=0.5649, ssc=0.6178, r2=0.2809; train loss=0.9881
+2026-03-24 12:26:47,868 - NEW BEST @ epoch 8: val loss=1.1636, ppc=0.6252, ssc=0.6527, r2=0.3400; train loss=0.9263
+2026-03-24 12:28:38,379 - NEW BEST @ epoch 9: val loss=1.1104, ppc=0.6606, ssc=0.6929, r2=0.3990; train loss=0.8761
+2026-03-24 12:30:30,649 - NEW BEST @ epoch 10: val loss=1.0876, ppc=0.6686, ssc=0.7060, r2=0.4234; train loss=0.8458
+2026-03-24 12:32:21,525 - NEW BEST @ epoch 11: val loss=1.0521, ppc=0.6831, ssc=0.7564, r2=0.4604; train loss=0.8228
+2026-03-24 12:34:12,328 - NEW BEST @ epoch 12: val loss=1.0182, ppc=0.7097, ssc=0.7630, r2=0.4946; train loss=0.7919
+2026-03-24 12:37:54,156 - NEW BEST @ epoch 14: val loss=0.9896, ppc=0.7264, ssc=0.7861, r2=0.5226; train loss=0.7437
+2026-03-24 12:43:26,861 - NEW BEST @ epoch 17: val loss=0.9617, ppc=0.7448, ssc=0.7887, r2=0.5491; train loss=0.6757
+2026-03-24 12:47:08,693 - NEW BEST @ epoch 19: val loss=0.9455, ppc=0.7552, ssc=0.7654, r2=0.5642; train loss=0.6529
+2026-03-24 12:52:41,907 - NEW BEST @ epoch 22: val loss=0.9363, ppc=0.7650, ssc=0.7775, r2=0.5726; train loss=0.6351
+2026-03-24 12:54:34,724 - NEW BEST @ epoch 23: val loss=0.9255, ppc=0.7643, ssc=0.7853, r2=0.5825; train loss=0.6361
+2026-03-24 13:02:01,266 - NEW BEST @ epoch 27: val loss=0.9141, ppc=0.7700, ssc=0.7921, r2=0.5927; train loss=0.5885
+2026-03-24 13:09:27,983 - NEW BEST @ epoch 31: val loss=0.9026, ppc=0.7772, ssc=0.7881, r2=0.6029; train loss=0.5665
+2026-03-24 13:24:20,834 - NEW BEST @ epoch 39: val loss=0.8825, ppc=0.7896, ssc=0.8128, r2=0.6204; train loss=0.5380
+2026-03-24 14:40:23,675 - NEW BEST @ epoch 80: val loss=0.8814, ppc=0.7951, ssc=0.8198, r2=0.6213; train loss=0.4423
+2026-03-24 16:11:17,081 - NEW BEST @ epoch 129: val loss=0.8793, ppc=0.7925, ssc=0.7884, r2=0.6231; train loss=0.3955
+2026-03-24 17:44:10,707 - [Fold 1/5] Early stopping at epoch 179. Best val_rmse=0.8793 @ epoch 129
+2026-03-24 17:44:10,708 - [Fold 1/5] Selected epoch from validation: 129
+2026-03-24 17:44:10,709 - MultiStructRSA - full: w 3D struct, w seq, w cross-attention fusion
+2026-03-24 17:44:10,709 - hyperparameters -> BiDirectionalCrossFusion dropout:0.1, Encoder MLPs dropout:0.1; Last MLP dropout:0.1
+2026-03-24 17:44:10,766 - BiDirectionalCrossFusion @ 1 CrossAttnetionsBlock(s); hyperparam -> d_model:128, n_heads:4, dropout:0.1
+2026-03-24 17:44:10,784 - Initialized model setting: full
+2026-03-24 17:44:10,794 - [Fold 1/5] Retraining fresh model on full outer-train for 129 epoch(s)
+2026-03-24 17:46:08,838 - Retrain epoch 1/129: train loss=2.4702
+2026-03-24 17:48:07,331 - Retrain epoch 2/129: train loss=1.7721
+2026-03-24 17:50:05,635 - Retrain epoch 3/129: train loss=1.4309
+2026-03-24 17:52:03,962 - Retrain epoch 4/129: train loss=1.2451
+2026-03-24 17:54:01,451 - Retrain epoch 5/129: train loss=1.1881
+2026-03-24 17:55:58,880 - Retrain epoch 6/129: train loss=1.0692
+2026-03-24 17:57:56,955 - Retrain epoch 7/129: train loss=0.9640
+2026-03-24 17:59:54,417 - Retrain epoch 8/129: train loss=0.9139
+2026-03-24 18:01:51,973 - Retrain epoch 9/129: train loss=0.8661
+2026-03-24 18:03:49,672 - Retrain epoch 10/129: train loss=0.8378
+2026-03-24 18:05:46,186 - Retrain epoch 11/129: train loss=0.8185
+2026-03-24 18:07:41,460 - Retrain epoch 12/129: train loss=0.7636
+2026-03-24 18:09:35,968 - Retrain epoch 13/129: train loss=0.7390
+2026-03-24 18:11:30,669 - Retrain epoch 14/129: train loss=0.7408
+2026-03-24 18:13:25,619 - Retrain epoch 15/129: train loss=0.7310
+2026-03-24 18:15:20,805 - Retrain epoch 16/129: train loss=0.6983
+2026-03-24 18:17:16,363 - Retrain epoch 17/129: train loss=0.6874
+2026-03-24 18:19:11,209 - Retrain epoch 18/129: train loss=0.6722
+2026-03-24 18:21:05,852 - Retrain epoch 19/129: train loss=0.6838
+2026-03-24 18:23:02,366 - Retrain epoch 20/129: train loss=0.6550
+2026-03-24 18:24:59,931 - Retrain epoch 21/129: train loss=0.6467
+2026-03-24 18:26:57,480 - Retrain epoch 22/129: train loss=0.6375
+2026-03-24 18:28:54,965 - Retrain epoch 23/129: train loss=0.6348
+2026-03-24 18:30:52,659 - Retrain epoch 24/129: train loss=0.6281
+2026-03-24 18:32:50,202 - Retrain epoch 25/129: train loss=0.6068
+2026-03-24 18:34:48,081 - Retrain epoch 26/129: train loss=0.6049
+2026-03-24 18:36:45,762 - Retrain epoch 27/129: train loss=0.5990
+2026-03-24 18:38:43,397 - Retrain epoch 28/129: train loss=0.5958
+2026-03-24 18:40:41,359 - Retrain epoch 29/129: train loss=0.5910
+2026-03-24 18:42:38,632 - Retrain epoch 30/129: train loss=0.5708
+2026-03-24 18:44:36,219 - Retrain epoch 31/129: train loss=0.5818
+2026-03-24 18:46:34,024 - Retrain epoch 32/129: train loss=0.5560
+2026-03-24 18:48:31,494 - Retrain epoch 33/129: train loss=0.5693
+2026-03-24 18:50:29,051 - Retrain epoch 34/129: train loss=0.5690
+2026-03-24 18:52:26,067 - Retrain epoch 35/129: train loss=0.5628
+2026-03-24 18:54:20,243 - Retrain epoch 36/129: train loss=0.5484
+2026-03-24 18:56:14,755 - Retrain epoch 37/129: train loss=0.5480
+2026-03-24 18:58:09,246 - Retrain epoch 38/129: train loss=0.5345
+2026-03-24 19:00:05,479 - Retrain epoch 39/129: train loss=0.5127
+2026-03-24 19:02:01,655 - Retrain epoch 40/129: train loss=0.5269
+2026-03-24 19:03:56,428 - Retrain epoch 41/129: train loss=0.5177
+2026-03-24 19:05:51,887 - Retrain epoch 42/129: train loss=0.5327
+2026-03-24 19:07:48,049 - Retrain epoch 43/129: train loss=0.5217
+2026-03-24 19:09:44,296 - Retrain epoch 44/129: train loss=0.5114
+2026-03-24 19:11:39,635 - Retrain epoch 45/129: train loss=0.5146
+2026-03-24 19:13:34,272 - Retrain epoch 46/129: train loss=0.5014
+2026-03-24 19:15:29,057 - Retrain epoch 47/129: train loss=0.5186
+2026-03-24 19:17:23,828 - Retrain epoch 48/129: train loss=0.4992
+2026-03-24 19:19:18,982 - Retrain epoch 49/129: train loss=0.4897
+2026-03-24 19:21:14,551 - Retrain epoch 50/129: train loss=0.5031
+2026-03-24 19:23:08,899 - Retrain epoch 51/129: train loss=0.5002
+2026-03-24 19:25:03,572 - Retrain epoch 52/129: train loss=0.5112
+2026-03-24 19:26:58,213 - Retrain epoch 53/129: train loss=0.4849
+2026-03-24 19:28:52,776 - Retrain epoch 54/129: train loss=0.4847
+2026-03-24 19:30:47,480 - Retrain epoch 55/129: train loss=0.4877
+2026-03-24 19:32:42,378 - Retrain epoch 56/129: train loss=0.4839
+2026-03-24 19:34:37,093 - Retrain epoch 57/129: train loss=0.4820
+2026-03-24 19:36:31,620 - Retrain epoch 58/129: train loss=0.4768
+2026-03-24 19:38:25,658 - Retrain epoch 59/129: train loss=0.4735
+2026-03-24 19:40:20,038 - Retrain epoch 60/129: train loss=0.4569
+2026-03-24 19:42:15,195 - Retrain epoch 61/129: train loss=0.4818
+2026-03-24 19:44:09,960 - Retrain epoch 62/129: train loss=0.4593
+2026-03-24 19:46:03,755 - Retrain epoch 63/129: train loss=0.4716
+2026-03-24 19:47:58,455 - Retrain epoch 64/129: train loss=0.4718
+2026-03-24 19:49:53,077 - Retrain epoch 65/129: train loss=0.4659
+2026-03-24 19:51:47,753 - Retrain epoch 66/129: train loss=0.4616
+2026-03-24 19:53:42,260 - Retrain epoch 67/129: train loss=0.4480
+2026-03-24 19:55:36,940 - Retrain epoch 68/129: train loss=0.4495
+2026-03-24 19:57:31,106 - Retrain epoch 69/129: train loss=0.4628
+2026-03-24 19:59:26,162 - Retrain epoch 70/129: train loss=0.4593
+2026-03-24 20:01:21,222 - Retrain epoch 71/129: train loss=0.4608
+2026-03-24 20:03:16,123 - Retrain epoch 72/129: train loss=0.4360
+2026-03-24 20:05:10,610 - Retrain epoch 73/129: train loss=0.4451
+2026-03-24 20:07:07,932 - Retrain epoch 74/129: train loss=0.4553
+2026-03-24 20:09:08,590 - Retrain epoch 75/129: train loss=0.4451
+2026-03-24 20:11:10,015 - Retrain epoch 76/129: train loss=0.4395
+2026-03-24 20:13:10,476 - Retrain epoch 77/129: train loss=0.4270
+2026-03-24 20:15:08,902 - Retrain epoch 78/129: train loss=0.4222
+2026-03-24 20:17:03,602 - Retrain epoch 79/129: train loss=0.4350
+2026-03-24 20:18:58,811 - Retrain epoch 80/129: train loss=0.4466
+2026-03-24 20:20:53,368 - Retrain epoch 81/129: train loss=0.4301
+2026-03-24 20:22:48,551 - Retrain epoch 82/129: train loss=0.4146
+2026-03-24 20:24:43,195 - Retrain epoch 83/129: train loss=0.4325
+2026-03-24 20:26:37,845 - Retrain epoch 84/129: train loss=0.4342
+2026-03-24 20:28:32,945 - Retrain epoch 85/129: train loss=0.4203
+2026-03-24 20:30:27,608 - Retrain epoch 86/129: train loss=0.4183
+2026-03-24 20:32:22,411 - Retrain epoch 87/129: train loss=0.4237
+2026-03-24 20:34:16,973 - Retrain epoch 88/129: train loss=0.4162
+2026-03-24 20:36:11,566 - Retrain epoch 89/129: train loss=0.4161
+2026-03-24 20:38:06,849 - Retrain epoch 90/129: train loss=0.4177
+2026-03-24 20:40:01,869 - Retrain epoch 91/129: train loss=0.4175
+2026-03-24 20:41:56,620 - Retrain epoch 92/129: train loss=0.4249
+2026-03-24 20:43:51,671 - Retrain epoch 93/129: train loss=0.3981
+2026-03-24 20:45:49,208 - Retrain epoch 94/129: train loss=0.4227
+2026-03-24 20:47:46,188 - Retrain epoch 95/129: train loss=0.4153
+2026-03-24 20:49:43,406 - Retrain epoch 96/129: train loss=0.4169
+2026-03-24 20:51:40,290 - Retrain epoch 97/129: train loss=0.4044
+2026-03-24 20:53:37,669 - Retrain epoch 98/129: train loss=0.4291
+2026-03-24 20:55:34,793 - Retrain epoch 99/129: train loss=0.4159
+2026-03-24 20:57:32,464 - Retrain epoch 100/129: train loss=0.4147
+2026-03-24 20:59:29,720 - Retrain epoch 101/129: train loss=0.4179
+2026-03-24 21:01:26,807 - Retrain epoch 102/129: train loss=0.4041
+2026-03-24 21:03:24,616 - Retrain epoch 103/129: train loss=0.4158
+2026-03-24 21:05:21,755 - Retrain epoch 104/129: train loss=0.3946
+2026-03-24 21:07:19,437 - Retrain epoch 105/129: train loss=0.4085
+2026-03-24 21:09:16,598 - Retrain epoch 106/129: train loss=0.4070
+2026-03-24 21:11:13,835 - Retrain epoch 107/129: train loss=0.4132
+2026-03-24 21:13:10,905 - Retrain epoch 108/129: train loss=0.3970
+2026-03-24 21:15:08,340 - Retrain epoch 109/129: train loss=0.3951
+2026-03-24 21:17:05,310 - Retrain epoch 110/129: train loss=0.3959
+2026-03-24 21:19:00,950 - Retrain epoch 111/129: train loss=0.3903
+2026-03-24 21:20:55,821 - Retrain epoch 112/129: train loss=0.4132
+2026-03-24 21:22:50,700 - Retrain epoch 113/129: train loss=0.4026
+2026-03-24 21:24:45,307 - Retrain epoch 114/129: train loss=0.3939
+2026-03-24 21:26:39,992 - Retrain epoch 115/129: train loss=0.3965
+2026-03-24 21:28:34,817 - Retrain epoch 116/129: train loss=0.3964
+2026-03-24 21:30:29,709 - Retrain epoch 117/129: train loss=0.3950
+2026-03-24 21:32:24,518 - Retrain epoch 118/129: train loss=0.3788
+2026-03-24 21:34:19,073 - Retrain epoch 119/129: train loss=0.4096
+2026-03-24 21:36:14,042 - Retrain epoch 120/129: train loss=0.3860
+2026-03-24 21:38:08,991 - Retrain epoch 121/129: train loss=0.3776
+2026-03-24 21:40:03,572 - Retrain epoch 122/129: train loss=0.4013
+2026-03-24 21:41:58,475 - Retrain epoch 123/129: train loss=0.4025
+2026-03-24 21:43:53,379 - Retrain epoch 124/129: train loss=0.3926
+2026-03-24 21:45:48,533 - Retrain epoch 125/129: train loss=0.3816
+2026-03-24 21:47:43,381 - Retrain epoch 126/129: train loss=0.3966
+2026-03-24 21:49:38,429 - Retrain epoch 127/129: train loss=0.3835
+2026-03-24 21:51:33,755 - Retrain epoch 128/129: train loss=0.3782
+2026-03-24 21:53:28,674 - Retrain epoch 129/129: train loss=0.3922
+2026-03-24 21:53:42,980 - [Fold 1/5] TEST -> p=0.7771, s=0.8175, rmse=0.8956, r2=0.5783
+2026-03-24 21:53:43,353 - 
+Fold number 2/5
+2026-03-24 21:53:43,357 - Inner split sizes -> train: 1035, val: 116, test: 288
+2026-03-24 21:53:43,357 - MultiStructRSA - full: w 3D struct, w seq, w cross-attention fusion
+2026-03-24 21:53:43,357 - hyperparameters -> BiDirectionalCrossFusion dropout:0.1, Encoder MLPs dropout:0.1; Last MLP dropout:0.1
+2026-03-24 21:53:43,428 - BiDirectionalCrossFusion @ 1 CrossAttnetionsBlock(s); hyperparam -> d_model:128, n_heads:4, dropout:0.1
+2026-03-24 21:53:43,446 - Initialized model setting: full
+2026-03-24 21:55:34,851 - NEW BEST @ epoch 1: val loss=2.5109, ppc=0.0069, ssc=0.0117, r2=-2.5531; train loss=2.8135
+2026-03-24 21:57:25,483 - NEW BEST @ epoch 2: val loss=2.0202, ppc=-0.0827, ssc=-0.0968, r2=-1.3002; train loss=2.0456
+2026-03-24 21:59:17,123 - NEW BEST @ epoch 3: val loss=1.6784, ppc=0.4187, ssc=0.3220, r2=-0.5876; train loss=1.6382
+2026-03-24 22:01:08,772 - NEW BEST @ epoch 4: val loss=1.4729, ppc=0.4921, ssc=0.3365, r2=-0.2227; train loss=1.3734
+2026-03-24 22:02:59,865 - NEW BEST @ epoch 5: val loss=1.3778, ppc=0.5891, ssc=0.4253, r2=-0.0698; train loss=1.2475
+2026-03-24 22:04:50,965 - NEW BEST @ epoch 6: val loss=1.1963, ppc=0.5746, ssc=0.5285, r2=0.1935; train loss=1.1412
+2026-03-24 22:06:42,673 - NEW BEST @ epoch 7: val loss=1.0744, ppc=0.6432, ssc=0.6178, r2=0.3494; train loss=0.9941
+2026-03-24 22:08:33,877 - NEW BEST @ epoch 8: val loss=1.0068, ppc=0.6886, ssc=0.5509, r2=0.4287; train loss=0.9481
+2026-03-24 22:10:24,927 - NEW BEST @ epoch 9: val loss=0.9856, ppc=0.6920, ssc=0.6655, r2=0.4525; train loss=0.9230
+2026-03-24 22:12:15,542 - NEW BEST @ epoch 10: val loss=0.9592, ppc=0.7230, ssc=0.7290, r2=0.4814; train loss=0.8848
+2026-03-24 22:14:06,735 - NEW BEST @ epoch 11: val loss=0.9262, ppc=0.7246, ssc=0.6970, r2=0.5165; train loss=0.8510
+2026-03-24 22:15:58,204 - NEW BEST @ epoch 12: val loss=0.8842, ppc=0.7583, ssc=0.7369, r2=0.5594; train loss=0.8137
+2026-03-24 22:19:40,659 - NEW BEST @ epoch 14: val loss=0.8528, ppc=0.7695, ssc=0.7896, r2=0.5902; train loss=0.7448
+2026-03-24 22:25:13,977 - NEW BEST @ epoch 17: val loss=0.8378, ppc=0.7941, ssc=0.8163, r2=0.6044; train loss=0.7117
+2026-03-24 22:27:05,536 - NEW BEST @ epoch 18: val loss=0.8073, ppc=0.7995, ssc=0.8016, r2=0.6327; train loss=0.6920
+2026-03-24 22:28:56,612 - NEW BEST @ epoch 19: val loss=0.7830, ppc=0.8095, ssc=0.8109, r2=0.6545; train loss=0.6886
+2026-03-24 22:32:38,397 - NEW BEST @ epoch 21: val loss=0.7786, ppc=0.8157, ssc=0.8272, r2=0.6583; train loss=0.6706
+2026-03-24 22:36:21,019 - NEW BEST @ epoch 23: val loss=0.7434, ppc=0.8301, ssc=0.8083, r2=0.6886; train loss=0.6426
+2026-03-24 22:40:02,247 - NEW BEST @ epoch 25: val loss=0.7199, ppc=0.8420, ssc=0.8353, r2=0.7079; train loss=0.6066
+2026-03-24 22:45:34,838 - NEW BEST @ epoch 28: val loss=0.7187, ppc=0.8420, ssc=0.8167, r2=0.7089; train loss=0.5902
+2026-03-24 23:00:23,128 - NEW BEST @ epoch 36: val loss=0.7001, ppc=0.8528, ssc=0.8303, r2=0.7237; train loss=0.5691
+2026-03-24 23:20:46,532 - NEW BEST @ epoch 47: val loss=0.6908, ppc=0.8568, ssc=0.8315, r2=0.7310; train loss=0.5012
+2026-03-25 00:59:11,950 - [Fold 2/5] Early stopping at epoch 100. Best val_rmse=0.6908 @ epoch 47
+2026-03-25 00:59:11,950 - [Fold 2/5] Selected epoch from validation: 50
+2026-03-25 00:59:11,951 - MultiStructRSA - full: w 3D struct, w seq, w cross-attention fusion
+2026-03-25 00:59:11,951 - hyperparameters -> BiDirectionalCrossFusion dropout:0.1, Encoder MLPs dropout:0.1; Last MLP dropout:0.1
+2026-03-25 00:59:12,007 - BiDirectionalCrossFusion @ 1 CrossAttnetionsBlock(s); hyperparam -> d_model:128, n_heads:4, dropout:0.1
+2026-03-25 00:59:12,025 - Initialized model setting: full
+2026-03-25 00:59:12,036 - [Fold 2/5] Retraining fresh model on full outer-train for 50 epoch(s)
+2026-03-25 01:01:07,359 - Retrain epoch 1/50: train loss=2.4614
+2026-03-25 01:03:02,227 - Retrain epoch 2/50: train loss=1.7614
+2026-03-25 01:04:57,345 - Retrain epoch 3/50: train loss=1.4373
+2026-03-25 01:06:53,004 - Retrain epoch 4/50: train loss=1.2616
+2026-03-25 01:08:47,658 - Retrain epoch 5/50: train loss=1.1345
+2026-03-25 01:10:42,878 - Retrain epoch 6/50: train loss=1.0123
+2026-03-25 01:12:39,404 - Retrain epoch 7/50: train loss=0.9306
+2026-03-25 01:14:34,785 - Retrain epoch 8/50: train loss=0.8776
+2026-03-25 01:16:29,960 - Retrain epoch 9/50: train loss=0.8541
+2026-03-25 01:18:25,312 - Retrain epoch 10/50: train loss=0.7919
+2026-03-25 01:20:20,540 - Retrain epoch 11/50: train loss=0.7717
+2026-03-25 01:22:15,906 - Retrain epoch 12/50: train loss=0.7707
+2026-03-25 01:24:10,614 - Retrain epoch 13/50: train loss=0.7254
+2026-03-25 01:26:05,801 - Retrain epoch 14/50: train loss=0.7293
+2026-03-25 01:28:01,260 - Retrain epoch 15/50: train loss=0.6926
+2026-03-25 01:29:56,934 - Retrain epoch 16/50: train loss=0.6875
+2026-03-25 01:31:51,772 - Retrain epoch 17/50: train loss=0.6650
+2026-03-25 01:33:46,695 - Retrain epoch 18/50: train loss=0.6555
+2026-03-25 01:35:42,400 - Retrain epoch 19/50: train loss=0.6339
+2026-03-25 01:37:37,605 - Retrain epoch 20/50: train loss=0.6137
+2026-03-25 01:39:32,880 - Retrain epoch 21/50: train loss=0.6178
+2026-03-25 01:41:28,046 - Retrain epoch 22/50: train loss=0.6133
+2026-03-25 01:43:23,333 - Retrain epoch 23/50: train loss=0.6014
+2026-03-25 01:45:18,489 - Retrain epoch 24/50: train loss=0.5959
+2026-03-25 01:47:13,733 - Retrain epoch 25/50: train loss=0.6064
+2026-03-25 01:49:08,561 - Retrain epoch 26/50: train loss=0.5886
+2026-03-25 01:51:03,835 - Retrain epoch 27/50: train loss=0.5746
+2026-03-25 01:52:59,005 - Retrain epoch 28/50: train loss=0.5975
+2026-03-25 01:54:53,945 - Retrain epoch 29/50: train loss=0.5913
+2026-03-25 01:56:49,092 - Retrain epoch 30/50: train loss=0.5693
+2026-03-25 01:58:44,609 - Retrain epoch 31/50: train loss=0.5505
+2026-03-25 02:00:39,764 - Retrain epoch 32/50: train loss=0.5636
+2026-03-25 02:02:34,734 - Retrain epoch 33/50: train loss=0.5473
+2026-03-25 02:04:29,789 - Retrain epoch 34/50: train loss=0.5620
+2026-03-25 02:06:24,880 - Retrain epoch 35/50: train loss=0.5425
+2026-03-25 02:08:20,146 - Retrain epoch 36/50: train loss=0.5356
+2026-03-25 02:10:15,573 - Retrain epoch 37/50: train loss=0.5480
+2026-03-25 02:12:10,683 - Retrain epoch 38/50: train loss=0.5561
+2026-03-25 02:14:06,081 - Retrain epoch 39/50: train loss=0.5268
+2026-03-25 02:16:01,249 - Retrain epoch 40/50: train loss=0.5298
+2026-03-25 02:17:56,253 - Retrain epoch 41/50: train loss=0.5089
+2026-03-25 02:19:51,320 - Retrain epoch 42/50: train loss=0.5227
+2026-03-25 02:21:47,494 - Retrain epoch 43/50: train loss=0.5046
+2026-03-25 02:23:42,526 - Retrain epoch 44/50: train loss=0.5186
+2026-03-25 02:25:37,833 - Retrain epoch 45/50: train loss=0.5066
+2026-03-25 02:27:33,047 - Retrain epoch 46/50: train loss=0.5155
+2026-03-25 02:29:28,131 - Retrain epoch 47/50: train loss=0.4867
+2026-03-25 02:31:23,534 - Retrain epoch 48/50: train loss=0.5158
+2026-03-25 02:33:18,821 - Retrain epoch 49/50: train loss=0.5017
+2026-03-25 02:35:13,686 - Retrain epoch 50/50: train loss=0.4899
+2026-03-25 02:35:28,153 - [Fold 2/5] TEST -> p=0.7549, s=0.7677, rmse=0.9333, r2=0.5681
+2026-03-25 02:35:28,503 - 
+Fold number 3/5
+2026-03-25 02:35:28,506 - Inner split sizes -> train: 1035, val: 116, test: 288
+2026-03-25 02:35:28,506 - MultiStructRSA - full: w 3D struct, w seq, w cross-attention fusion
+2026-03-25 02:35:28,506 - hyperparameters -> BiDirectionalCrossFusion dropout:0.1, Encoder MLPs dropout:0.1; Last MLP dropout:0.1
+2026-03-25 02:35:28,573 - BiDirectionalCrossFusion @ 1 CrossAttnetionsBlock(s); hyperparam -> d_model:128, n_heads:4, dropout:0.1
+2026-03-25 02:35:28,591 - Initialized model setting: full
+2026-03-25 02:37:19,064 - NEW BEST @ epoch 1: val loss=2.5176, ppc=-0.0003, ssc=0.0284, r2=-2.3633; train loss=2.8157
+2026-03-25 02:39:10,001 - NEW BEST @ epoch 2: val loss=2.0377, ppc=-0.0002, ssc=0.0575, r2=-1.2033; train loss=2.0297
+2026-03-25 02:41:00,671 - NEW BEST @ epoch 3: val loss=1.6949, ppc=0.2252, ssc=0.1676, r2=-0.5243; train loss=1.6200
+2026-03-25 02:42:51,660 - NEW BEST @ epoch 4: val loss=1.5072, ppc=0.2358, ssc=0.1767, r2=-0.2054; train loss=1.3537
+2026-03-25 02:44:42,479 - NEW BEST @ epoch 5: val loss=1.4202, ppc=0.3446, ssc=0.2710, r2=-0.0703; train loss=1.2380
+2026-03-25 02:46:33,563 - NEW BEST @ epoch 6: val loss=1.3586, ppc=0.4391, ssc=0.4275, r2=0.0205; train loss=1.1805
+2026-03-25 02:48:24,072 - NEW BEST @ epoch 7: val loss=1.2357, ppc=0.5027, ssc=0.5540, r2=0.1897; train loss=1.0646
+2026-03-25 02:50:14,902 - NEW BEST @ epoch 8: val loss=1.1894, ppc=0.5319, ssc=0.5482, r2=0.2492; train loss=0.9476
+2026-03-25 02:52:05,731 - NEW BEST @ epoch 9: val loss=1.1453, ppc=0.5582, ssc=0.5975, r2=0.3039; train loss=0.9185
+2026-03-25 02:53:57,198 - NEW BEST @ epoch 10: val loss=1.1341, ppc=0.5854, ssc=0.5951, r2=0.3175; train loss=0.8695
+2026-03-25 02:55:47,851 - NEW BEST @ epoch 11: val loss=1.1092, ppc=0.5949, ssc=0.5821, r2=0.3471; train loss=0.8131
+2026-03-25 02:57:38,791 - NEW BEST @ epoch 12: val loss=1.0997, ppc=0.6051, ssc=0.6663, r2=0.3582; train loss=0.8004
+2026-03-25 02:59:29,736 - NEW BEST @ epoch 13: val loss=1.0429, ppc=0.6585, ssc=0.7129, r2=0.4229; train loss=0.7782
+2026-03-25 03:05:02,373 - NEW BEST @ epoch 16: val loss=1.0211, ppc=0.6693, ssc=0.7316, r2=0.4467; train loss=0.7055
+2026-03-25 03:08:44,863 - NEW BEST @ epoch 18: val loss=0.9929, ppc=0.6937, ssc=0.7595, r2=0.4769; train loss=0.6827
+2026-03-25 03:16:07,222 - NEW BEST @ epoch 22: val loss=0.9797, ppc=0.7147, ssc=0.7640, r2=0.4907; train loss=0.6495
+2026-03-25 03:17:57,939 - NEW BEST @ epoch 23: val loss=0.9623, ppc=0.7136, ssc=0.7439, r2=0.5086; train loss=0.6132
+2026-03-25 03:19:49,154 - NEW BEST @ epoch 24: val loss=0.9535, ppc=0.7213, ssc=0.7507, r2=0.5176; train loss=0.6113
+2026-03-25 03:36:25,237 - NEW BEST @ epoch 33: val loss=0.9489, ppc=0.7236, ssc=0.7412, r2=0.5222; train loss=0.5658
+2026-03-25 03:38:15,920 - NEW BEST @ epoch 34: val loss=0.9356, ppc=0.7372, ssc=0.7781, r2=0.5355; train loss=0.5406
+2026-03-25 03:47:29,448 - NEW BEST @ epoch 39: val loss=0.9297, ppc=0.7367, ssc=0.7665, r2=0.5413; train loss=0.5346
+2026-03-25 03:54:51,963 - NEW BEST @ epoch 43: val loss=0.9244, ppc=0.7508, ssc=0.7781, r2=0.5465; train loss=0.5073
+2026-03-25 04:07:47,920 - NEW BEST @ epoch 50: val loss=0.9172, ppc=0.7519, ssc=0.7679, r2=0.5536; train loss=0.4743
+2026-03-25 04:11:29,692 - NEW BEST @ epoch 52: val loss=0.9051, ppc=0.7674, ssc=0.7791, r2=0.5653; train loss=0.4846
+2026-03-25 04:13:20,671 - NEW BEST @ epoch 53: val loss=0.9019, ppc=0.7544, ssc=0.7571, r2=0.5683; train loss=0.4787
+2026-03-25 04:17:04,118 - NEW BEST @ epoch 55: val loss=0.8832, ppc=0.7685, ssc=0.7836, r2=0.5861; train loss=0.4716
+2026-03-25 05:49:25,817 - [Fold 3/5] Early stopping at epoch 105. Best val_rmse=0.8832 @ epoch 55
+2026-03-25 05:49:25,817 - [Fold 3/5] Selected epoch from validation: 55
+2026-03-25 05:49:25,818 - MultiStructRSA - full: w 3D struct, w seq, w cross-attention fusion
+2026-03-25 05:49:25,818 - hyperparameters -> BiDirectionalCrossFusion dropout:0.1, Encoder MLPs dropout:0.1; Last MLP dropout:0.1
+2026-03-25 05:49:25,872 - BiDirectionalCrossFusion @ 1 CrossAttnetionsBlock(s); hyperparam -> d_model:128, n_heads:4, dropout:0.1
+2026-03-25 05:49:25,890 - Initialized model setting: full
+2026-03-25 05:49:25,901 - [Fold 3/5] Retraining fresh model on full outer-train for 55 epoch(s)
+2026-03-25 05:51:20,926 - Retrain epoch 1/55: train loss=2.4723
+2026-03-25 05:53:15,848 - Retrain epoch 2/55: train loss=1.7624
+2026-03-25 05:55:10,544 - Retrain epoch 3/55: train loss=1.4402
+2026-03-25 05:57:05,121 - Retrain epoch 4/55: train loss=1.2419
+2026-03-25 05:58:59,598 - Retrain epoch 5/55: train loss=1.1547
+2026-03-25 06:00:53,896 - Retrain epoch 6/55: train loss=1.0164
+2026-03-25 06:02:47,982 - Retrain epoch 7/55: train loss=0.9297
+2026-03-25 06:04:42,507 - Retrain epoch 8/55: train loss=0.8817
+2026-03-25 06:06:36,979 - Retrain epoch 9/55: train loss=0.8430
+2026-03-25 06:08:30,989 - Retrain epoch 10/55: train loss=0.7909
+2026-03-25 06:10:25,021 - Retrain epoch 11/55: train loss=0.7720
+2026-03-25 06:12:19,254 - Retrain epoch 12/55: train loss=0.7494
+2026-03-25 06:14:13,876 - Retrain epoch 13/55: train loss=0.6948
+2026-03-25 06:16:08,503 - Retrain epoch 14/55: train loss=0.7046
+2026-03-25 06:18:02,978 - Retrain epoch 15/55: train loss=0.6760
+2026-03-25 06:19:57,479 - Retrain epoch 16/55: train loss=0.6574
+2026-03-25 06:21:51,887 - Retrain epoch 17/55: train loss=0.6614
+2026-03-25 06:23:46,276 - Retrain epoch 18/55: train loss=0.6667
+2026-03-25 06:25:40,673 - Retrain epoch 19/55: train loss=0.6565
+2026-03-25 06:27:35,445 - Retrain epoch 20/55: train loss=0.6158
+2026-03-25 06:29:30,112 - Retrain epoch 21/55: train loss=0.6296
+2026-03-25 06:31:24,677 - Retrain epoch 22/55: train loss=0.5993
+2026-03-25 06:33:18,966 - Retrain epoch 23/55: train loss=0.6237
+2026-03-25 06:35:13,451 - Retrain epoch 24/55: train loss=0.5959
+2026-03-25 06:37:08,147 - Retrain epoch 25/55: train loss=0.5922
+2026-03-25 06:39:02,578 - Retrain epoch 26/55: train loss=0.5792
+2026-03-25 06:40:57,173 - Retrain epoch 27/55: train loss=0.5872
+2026-03-25 06:42:51,572 - Retrain epoch 28/55: train loss=0.5858
+2026-03-25 06:44:46,432 - Retrain epoch 29/55: train loss=0.5809
+2026-03-25 06:46:41,512 - Retrain epoch 30/55: train loss=0.5771
+2026-03-25 06:48:36,099 - Retrain epoch 31/55: train loss=0.5432
+2026-03-25 06:50:31,211 - Retrain epoch 32/55: train loss=0.5573
+2026-03-25 06:52:25,811 - Retrain epoch 33/55: train loss=0.5476
+2026-03-25 06:54:20,277 - Retrain epoch 34/55: train loss=0.5352
+2026-03-25 06:56:15,058 - Retrain epoch 35/55: train loss=0.5225
+2026-03-25 06:58:09,551 - Retrain epoch 36/55: train loss=0.5249
+2026-03-25 07:00:04,460 - Retrain epoch 37/55: train loss=0.5484
+2026-03-25 07:01:59,544 - Retrain epoch 38/55: train loss=0.5359
+2026-03-25 07:03:53,606 - Retrain epoch 39/55: train loss=0.5199
+2026-03-25 07:05:48,481 - Retrain epoch 40/55: train loss=0.5158
+2026-03-25 07:07:43,217 - Retrain epoch 41/55: train loss=0.5134
+2026-03-25 07:09:38,165 - Retrain epoch 42/55: train loss=0.5103
+2026-03-25 07:11:32,744 - Retrain epoch 43/55: train loss=0.5124
+2026-03-25 07:13:26,654 - Retrain epoch 44/55: train loss=0.5244
+2026-03-25 07:15:20,852 - Retrain epoch 45/55: train loss=0.4934
+2026-03-25 07:17:15,445 - Retrain epoch 46/55: train loss=0.5215
+2026-03-25 07:19:09,453 - Retrain epoch 47/55: train loss=0.5033
+2026-03-25 07:21:03,714 - Retrain epoch 48/55: train loss=0.4864
+2026-03-25 07:22:58,401 - Retrain epoch 49/55: train loss=0.5035
+2026-03-25 07:24:52,733 - Retrain epoch 50/55: train loss=0.4942
+2026-03-25 07:26:47,271 - Retrain epoch 51/55: train loss=0.4957
+2026-03-25 07:28:41,736 - Retrain epoch 52/55: train loss=0.4862
+2026-03-25 07:30:36,799 - Retrain epoch 53/55: train loss=0.4815
+2026-03-25 07:32:31,223 - Retrain epoch 54/55: train loss=0.4792
+2026-03-25 07:34:25,937 - Retrain epoch 55/55: train loss=0.4669
+2026-03-25 07:34:40,785 - [Fold 3/5] TEST -> p=0.7285, s=0.7271, rmse=1.0312, r2=0.4677
+2026-03-25 07:34:41,140 - 
+Fold number 4/5
+2026-03-25 07:34:41,144 - Inner split sizes -> train: 1035, val: 116, test: 288
+2026-03-25 07:34:41,145 - MultiStructRSA - full: w 3D struct, w seq, w cross-attention fusion
+2026-03-25 07:34:41,145 - hyperparameters -> BiDirectionalCrossFusion dropout:0.1, Encoder MLPs dropout:0.1; Last MLP dropout:0.1
+2026-03-25 07:34:41,224 - BiDirectionalCrossFusion @ 1 CrossAttnetionsBlock(s); hyperparam -> d_model:128, n_heads:4, dropout:0.1
+2026-03-25 07:34:41,242 - Initialized model setting: full
+2026-03-25 07:36:31,984 - NEW BEST @ epoch 1: val loss=2.4750, ppc=-0.0517, ssc=0.0604, r2=-2.3389; train loss=2.8253
+2026-03-25 07:38:22,874 - NEW BEST @ epoch 2: val loss=1.9900, ppc=0.0749, ssc=0.0704, r2=-1.1585; train loss=2.0413
+2026-03-25 07:40:13,931 - NEW BEST @ epoch 3: val loss=1.6635, ppc=0.2362, ssc=0.1832, r2=-0.5083; train loss=1.6103
+2026-03-25 07:42:04,835 - NEW BEST @ epoch 4: val loss=1.4753, ppc=0.2341, ssc=0.1889, r2=-0.1863; train loss=1.3750
+2026-03-25 07:43:55,501 - NEW BEST @ epoch 5: val loss=1.3848, ppc=0.4538, ssc=0.3889, r2=-0.0452; train loss=1.2349
+2026-03-25 07:45:46,869 - NEW BEST @ epoch 6: val loss=1.2256, ppc=0.5010, ssc=0.4458, r2=0.1812; train loss=1.1119
+2026-03-25 07:47:37,290 - NEW BEST @ epoch 7: val loss=1.1664, ppc=0.5306, ssc=0.4763, r2=0.2584; train loss=0.9657
+2026-03-25 07:49:28,085 - NEW BEST @ epoch 8: val loss=1.1344, ppc=0.5637, ssc=0.4818, r2=0.2986; train loss=0.9171
+2026-03-25 07:51:19,104 - NEW BEST @ epoch 9: val loss=1.1218, ppc=0.5671, ssc=0.5043, r2=0.3141; train loss=0.9109
+2026-03-25 07:55:01,266 - NEW BEST @ epoch 11: val loss=1.1027, ppc=0.5810, ssc=0.6637, r2=0.3372; train loss=0.8369
+2026-03-25 07:56:52,388 - NEW BEST @ epoch 12: val loss=1.0612, ppc=0.6227, ssc=0.6681, r2=0.3862; train loss=0.7873
+2026-03-25 07:58:43,128 - NEW BEST @ epoch 13: val loss=1.0508, ppc=0.6404, ssc=0.6925, r2=0.3981; train loss=0.7736
+2026-03-25 08:02:25,252 - NEW BEST @ epoch 15: val loss=0.9891, ppc=0.6876, ssc=0.6908, r2=0.4668; train loss=0.7423
+2026-03-25 08:06:07,151 - NEW BEST @ epoch 17: val loss=0.9601, ppc=0.7076, ssc=0.7255, r2=0.4975; train loss=0.7181
+2026-03-25 08:09:50,289 - NEW BEST @ epoch 19: val loss=0.9463, ppc=0.7215, ssc=0.7275, r2=0.5119; train loss=0.6848
+2026-03-25 08:11:41,954 - NEW BEST @ epoch 20: val loss=0.8557, ppc=0.7774, ssc=0.7941, r2=0.6009; train loss=0.6571
+2026-03-25 08:30:11,596 - NEW BEST @ epoch 30: val loss=0.8273, ppc=0.7970, ssc=0.8095, r2=0.6270; train loss=0.5763
+2026-03-25 08:37:35,374 - NEW BEST @ epoch 34: val loss=0.8108, ppc=0.8018, ssc=0.8069, r2=0.6416; train loss=0.5664
+2026-03-25 08:50:30,992 - NEW BEST @ epoch 41: val loss=0.7953, ppc=0.8108, ssc=0.8030, r2=0.6553; train loss=0.5306
+2026-03-25 08:52:21,913 - NEW BEST @ epoch 42: val loss=0.7845, ppc=0.8161, ssc=0.8148, r2=0.6646; train loss=0.5177
+2026-03-25 08:56:04,055 - NEW BEST @ epoch 44: val loss=0.7789, ppc=0.8252, ssc=0.8222, r2=0.6693; train loss=0.5443
+2026-03-25 09:25:39,608 - NEW BEST @ epoch 60: val loss=0.7731, ppc=0.8272, ssc=0.8120, r2=0.6742; train loss=0.4683
+2026-03-25 10:58:10,647 - [Fold 4/5] Early stopping at epoch 110. Best val_rmse=0.7731 @ epoch 60
+2026-03-25 10:58:10,648 - [Fold 4/5] Selected epoch from validation: 60
+2026-03-25 10:58:10,649 - MultiStructRSA - full: w 3D struct, w seq, w cross-attention fusion
+2026-03-25 10:58:10,649 - hyperparameters -> BiDirectionalCrossFusion dropout:0.1, Encoder MLPs dropout:0.1; Last MLP dropout:0.1
+2026-03-25 10:58:10,706 - BiDirectionalCrossFusion @ 1 CrossAttnetionsBlock(s); hyperparam -> d_model:128, n_heads:4, dropout:0.1
+2026-03-25 10:58:10,724 - Initialized model setting: full
+2026-03-25 10:58:10,735 - [Fold 4/5] Retraining fresh model on full outer-train for 60 epoch(s)
+2026-03-25 11:00:05,689 - Retrain epoch 1/60: train loss=2.4577
+2026-03-25 11:02:00,753 - Retrain epoch 2/60: train loss=1.7678
+2026-03-25 11:03:55,865 - Retrain epoch 3/60: train loss=1.4483
+2026-03-25 11:05:50,964 - Retrain epoch 4/60: train loss=1.2583
+2026-03-25 11:07:46,004 - Retrain epoch 5/60: train loss=1.1448
+2026-03-25 11:09:41,028 - Retrain epoch 6/60: train loss=1.0049
+2026-03-25 11:11:36,286 - Retrain epoch 7/60: train loss=0.9236
+2026-03-25 11:13:31,323 - Retrain epoch 8/60: train loss=0.8837
+2026-03-25 11:15:26,170 - Retrain epoch 9/60: train loss=0.8653
+2026-03-25 11:17:21,207 - Retrain epoch 10/60: train loss=0.8121
+2026-03-25 11:19:16,051 - Retrain epoch 11/60: train loss=0.7870
+2026-03-25 11:21:10,983 - Retrain epoch 12/60: train loss=0.7579
+2026-03-25 11:23:05,885 - Retrain epoch 13/60: train loss=0.7322
+2026-03-25 11:25:00,773 - Retrain epoch 14/60: train loss=0.6992
+2026-03-25 11:26:56,004 - Retrain epoch 15/60: train loss=0.6795
+2026-03-25 11:28:51,296 - Retrain epoch 16/60: train loss=0.6802
+2026-03-25 11:30:44,790 - Retrain epoch 17/60: train loss=0.6735
+2026-03-25 11:32:39,759 - Retrain epoch 18/60: train loss=0.6428
+2026-03-25 11:34:34,856 - Retrain epoch 19/60: train loss=0.6182
+2026-03-25 11:36:29,674 - Retrain epoch 20/60: train loss=0.6274
+2026-03-25 11:38:24,433 - Retrain epoch 21/60: train loss=0.6163
+2026-03-25 11:40:19,160 - Retrain epoch 22/60: train loss=0.6115
+2026-03-25 11:42:14,306 - Retrain epoch 23/60: train loss=0.5927
+2026-03-25 11:44:08,932 - Retrain epoch 24/60: train loss=0.6132
+2026-03-25 11:46:04,015 - Retrain epoch 25/60: train loss=0.6028
+2026-03-25 11:47:59,475 - Retrain epoch 26/60: train loss=0.5894
+2026-03-25 11:49:54,440 - Retrain epoch 27/60: train loss=0.5956
+2026-03-25 11:51:49,529 - Retrain epoch 28/60: train loss=0.5896
+2026-03-25 11:53:44,499 - Retrain epoch 29/60: train loss=0.5666
+2026-03-25 11:55:39,633 - Retrain epoch 30/60: train loss=0.5653
+2026-03-25 11:57:34,498 - Retrain epoch 31/60: train loss=0.5430
+2026-03-25 11:59:29,265 - Retrain epoch 32/60: train loss=0.5457
+2026-03-25 12:01:23,822 - Retrain epoch 33/60: train loss=0.5373
+2026-03-25 12:03:18,925 - Retrain epoch 34/60: train loss=0.5277
+2026-03-25 12:05:13,841 - Retrain epoch 35/60: train loss=0.5317
+2026-03-25 12:07:08,971 - Retrain epoch 36/60: train loss=0.5271
+2026-03-25 12:09:03,624 - Retrain epoch 37/60: train loss=0.5361
+2026-03-25 12:10:59,001 - Retrain epoch 38/60: train loss=0.5326
+2026-03-25 12:12:53,791 - Retrain epoch 39/60: train loss=0.5112
+2026-03-25 12:14:48,418 - Retrain epoch 40/60: train loss=0.5040
+2026-03-25 12:16:43,229 - Retrain epoch 41/60: train loss=0.5375
+2026-03-25 12:18:39,055 - Retrain epoch 42/60: train loss=0.4960
+2026-03-25 12:20:34,550 - Retrain epoch 43/60: train loss=0.5098
+2026-03-25 12:22:29,772 - Retrain epoch 44/60: train loss=0.4915
+2026-03-25 12:24:24,752 - Retrain epoch 45/60: train loss=0.4920
+2026-03-25 12:26:19,882 - Retrain epoch 46/60: train loss=0.5056
+2026-03-25 12:28:14,566 - Retrain epoch 47/60: train loss=0.4896
+2026-03-25 12:30:09,527 - Retrain epoch 48/60: train loss=0.4844
+2026-03-25 12:32:04,329 - Retrain epoch 49/60: train loss=0.4971
+2026-03-25 12:33:59,087 - Retrain epoch 50/60: train loss=0.4863
+2026-03-25 12:35:54,061 - Retrain epoch 51/60: train loss=0.4831
+2026-03-25 12:37:49,102 - Retrain epoch 52/60: train loss=0.4939
+2026-03-25 12:39:44,249 - Retrain epoch 53/60: train loss=0.4732
+2026-03-25 12:41:39,422 - Retrain epoch 54/60: train loss=0.4769
+2026-03-25 12:43:34,735 - Retrain epoch 55/60: train loss=0.4666
+2026-03-25 12:45:30,072 - Retrain epoch 56/60: train loss=0.4745
+2026-03-25 12:47:25,161 - Retrain epoch 57/60: train loss=0.4498
+2026-03-25 12:49:20,664 - Retrain epoch 58/60: train loss=0.4887
+2026-03-25 12:51:15,748 - Retrain epoch 59/60: train loss=0.4702
+2026-03-25 12:53:10,916 - Retrain epoch 60/60: train loss=0.4716
+2026-03-25 12:53:25,413 - [Fold 4/5] TEST -> p=0.7820, s=0.7805, rmse=0.9010, r2=0.5810
+2026-03-25 12:53:25,765 - 
+Fold number 5/5
+2026-03-25 12:53:25,769 - Inner split sizes -> train: 1036, val: 116, test: 287
+2026-03-25 12:53:25,769 - MultiStructRSA - full: w 3D struct, w seq, w cross-attention fusion
+2026-03-25 12:53:25,769 - hyperparameters -> BiDirectionalCrossFusion dropout:0.1, Encoder MLPs dropout:0.1; Last MLP dropout:0.1
+2026-03-25 12:53:25,844 - BiDirectionalCrossFusion @ 1 CrossAttnetionsBlock(s); hyperparam -> d_model:128, n_heads:4, dropout:0.1
+2026-03-25 12:53:25,862 - Initialized model setting: full
+2026-03-25 12:55:17,890 - NEW BEST @ epoch 1: val loss=2.6034, ppc=-0.1512, ssc=-0.1619, r2=-2.1106; train loss=2.8010
+2026-03-25 12:57:09,263 - NEW BEST @ epoch 2: val loss=2.1248, ppc=-0.1304, ssc=-0.1267, r2=-1.0721; train loss=2.0163
+2026-03-25 12:59:01,015 - NEW BEST @ epoch 3: val loss=1.8042, ppc=0.2354, ssc=0.2653, r2=-0.4939; train loss=1.6205
+2026-03-25 13:00:52,490 - NEW BEST @ epoch 4: val loss=1.6121, ppc=-0.0849, ssc=-0.0271, r2=-0.1928; train loss=1.3413
+2026-03-25 13:02:43,777 - NEW BEST @ epoch 5: val loss=1.5242, ppc=0.3319, ssc=0.2426, r2=-0.0662; train loss=1.2318
+2026-03-25 13:04:35,493 - NEW BEST @ epoch 6: val loss=1.4224, ppc=0.4445, ssc=0.4521, r2=0.0715; train loss=1.1591
+2026-03-25 13:06:26,657 - NEW BEST @ epoch 7: val loss=1.3377, ppc=0.4697, ssc=0.4956, r2=0.1787; train loss=1.0298
+2026-03-25 13:08:18,940 - NEW BEST @ epoch 8: val loss=1.2998, ppc=0.4998, ssc=0.5621, r2=0.2246; train loss=0.9460
+2026-03-25 13:10:09,972 - NEW BEST @ epoch 9: val loss=1.2550, ppc=0.5429, ssc=0.5772, r2=0.2771; train loss=0.9138
+2026-03-25 13:12:01,478 - NEW BEST @ epoch 10: val loss=1.2302, ppc=0.5723, ssc=0.6197, r2=0.3055; train loss=0.8635
+2026-03-25 13:13:53,422 - NEW BEST @ epoch 11: val loss=1.2198, ppc=0.5686, ssc=0.6282, r2=0.3171; train loss=0.8508
+2026-03-25 13:15:44,371 - NEW BEST @ epoch 12: val loss=1.1953, ppc=0.5955, ssc=0.6567, r2=0.3443; train loss=0.8117
+2026-03-25 13:17:35,882 - NEW BEST @ epoch 13: val loss=1.1590, ppc=0.6280, ssc=0.6870, r2=0.3835; train loss=0.7702
+2026-03-25 13:19:27,404 - NEW BEST @ epoch 14: val loss=1.1583, ppc=0.6244, ssc=0.7045, r2=0.3843; train loss=0.7606
+2026-03-25 13:23:10,951 - NEW BEST @ epoch 16: val loss=1.1405, ppc=0.6367, ssc=0.7104, r2=0.4030; train loss=0.7310
+2026-03-25 13:25:02,549 - NEW BEST @ epoch 17: val loss=1.1246, ppc=0.6496, ssc=0.7185, r2=0.4195; train loss=0.6999
+2026-03-25 13:26:54,185 - NEW BEST @ epoch 18: val loss=1.0835, ppc=0.6870, ssc=0.7393, r2=0.4612; train loss=0.6703
+2026-03-25 13:28:45,403 - NEW BEST @ epoch 19: val loss=1.0668, ppc=0.6944, ssc=0.7378, r2=0.4776; train loss=0.6779
+2026-03-25 13:30:36,902 - NEW BEST @ epoch 20: val loss=1.0618, ppc=0.6953, ssc=0.7609, r2=0.4826; train loss=0.6532
+2026-03-25 13:32:28,153 - NEW BEST @ epoch 21: val loss=1.0403, ppc=0.7155, ssc=0.7656, r2=0.5033; train loss=0.6459
+2026-03-25 13:43:36,844 - NEW BEST @ epoch 27: val loss=1.0181, ppc=0.7417, ssc=0.7782, r2=0.5243; train loss=0.5908
+2026-03-25 13:58:26,598 - NEW BEST @ epoch 35: val loss=1.0157, ppc=0.7282, ssc=0.7492, r2=0.5265; train loss=0.5646
+2026-03-25 14:02:09,158 - NEW BEST @ epoch 37: val loss=1.0060, ppc=0.7418, ssc=0.7721, r2=0.5355; train loss=0.5320
+2026-03-25 14:04:00,523 - NEW BEST @ epoch 38: val loss=0.9786, ppc=0.7504, ssc=0.7879, r2=0.5605; train loss=0.5486
+2026-03-25 15:59:20,264 - [Fold 5/5] Early stopping at epoch 100. Best val_rmse=0.9786 @ epoch 38
+2026-03-25 15:59:20,265 - [Fold 5/5] Selected epoch from validation: 50
+2026-03-25 15:59:20,266 - MultiStructRSA - full: w 3D struct, w seq, w cross-attention fusion
+2026-03-25 15:59:20,266 - hyperparameters -> BiDirectionalCrossFusion dropout:0.1, Encoder MLPs dropout:0.1; Last MLP dropout:0.1
+2026-03-25 15:59:20,320 - BiDirectionalCrossFusion @ 1 CrossAttnetionsBlock(s); hyperparam -> d_model:128, n_heads:4, dropout:0.1
+2026-03-25 15:59:20,338 - Initialized model setting: full
+2026-03-25 15:59:20,349 - [Fold 5/5] Retraining fresh model on full outer-train for 50 epoch(s)
+2026-03-25 16:01:16,300 - Retrain epoch 1/50: train loss=2.4887
+2026-03-25 16:03:11,764 - Retrain epoch 2/50: train loss=1.7904
+2026-03-25 16:05:07,466 - Retrain epoch 3/50: train loss=1.4516
+2026-03-25 16:07:02,870 - Retrain epoch 4/50: train loss=1.2688
+2026-03-25 16:08:58,444 - Retrain epoch 5/50: train loss=1.1908
+2026-03-25 16:10:53,997 - Retrain epoch 6/50: train loss=1.0246
+2026-03-25 16:12:49,563 - Retrain epoch 7/50: train loss=0.9525
+2026-03-25 16:14:45,221 - Retrain epoch 8/50: train loss=0.9056
+2026-03-25 16:16:40,829 - Retrain epoch 9/50: train loss=0.8884
+2026-03-25 16:18:36,239 - Retrain epoch 10/50: train loss=0.8345
+2026-03-25 16:20:31,840 - Retrain epoch 11/50: train loss=0.8334
+2026-03-25 16:22:27,563 - Retrain epoch 12/50: train loss=0.7832
+2026-03-25 16:24:23,011 - Retrain epoch 13/50: train loss=0.7755
+2026-03-25 16:26:18,346 - Retrain epoch 14/50: train loss=0.7309
+2026-03-25 16:28:13,986 - Retrain epoch 15/50: train loss=0.7275
+2026-03-25 16:30:09,821 - Retrain epoch 16/50: train loss=0.7077
+2026-03-25 16:32:05,475 - Retrain epoch 17/50: train loss=0.6811
+2026-03-25 16:34:01,021 - Retrain epoch 18/50: train loss=0.7093
+2026-03-25 16:35:56,526 - Retrain epoch 19/50: train loss=0.6655
+2026-03-25 16:37:51,765 - Retrain epoch 20/50: train loss=0.6710
+2026-03-25 16:39:47,170 - Retrain epoch 21/50: train loss=0.6543
+2026-03-25 16:41:42,677 - Retrain epoch 22/50: train loss=0.6597
+2026-03-25 16:43:37,939 - Retrain epoch 23/50: train loss=0.6377
+2026-03-25 16:45:33,551 - Retrain epoch 24/50: train loss=0.6460
+2026-03-25 16:47:29,168 - Retrain epoch 25/50: train loss=0.6172
+2026-03-25 16:49:24,671 - Retrain epoch 26/50: train loss=0.6269
+2026-03-25 16:51:19,828 - Retrain epoch 27/50: train loss=0.6066
+2026-03-25 16:53:15,121 - Retrain epoch 28/50: train loss=0.6160
+2026-03-25 16:55:10,612 - Retrain epoch 29/50: train loss=0.5812
+2026-03-25 16:57:06,483 - Retrain epoch 30/50: train loss=0.5966
+2026-03-25 16:59:02,444 - Retrain epoch 31/50: train loss=0.5900
+2026-03-25 17:00:58,077 - Retrain epoch 32/50: train loss=0.5896
+2026-03-25 17:02:53,503 - Retrain epoch 33/50: train loss=0.5688
+2026-03-25 17:04:48,599 - Retrain epoch 34/50: train loss=0.5778
+2026-03-25 17:06:43,918 - Retrain epoch 35/50: train loss=0.5713
+2026-03-25 17:08:39,469 - Retrain epoch 36/50: train loss=0.5650
+2026-03-25 17:10:34,962 - Retrain epoch 37/50: train loss=0.5531
+2026-03-25 17:12:30,588 - Retrain epoch 38/50: train loss=0.5462
+2026-03-25 17:14:26,068 - Retrain epoch 39/50: train loss=0.5594
+2026-03-25 17:16:21,679 - Retrain epoch 40/50: train loss=0.5577
+2026-03-25 17:18:17,259 - Retrain epoch 41/50: train loss=0.5343
+2026-03-25 17:20:13,841 - Retrain epoch 42/50: train loss=0.5385
+2026-03-25 17:22:09,780 - Retrain epoch 43/50: train loss=0.5425
+2026-03-25 17:24:05,011 - Retrain epoch 44/50: train loss=0.5407
+2026-03-25 17:26:00,442 - Retrain epoch 45/50: train loss=0.5116
+2026-03-25 17:27:56,385 - Retrain epoch 46/50: train loss=0.5135
+2026-03-25 17:29:51,651 - Retrain epoch 47/50: train loss=0.5323
+2026-03-25 17:31:47,055 - Retrain epoch 48/50: train loss=0.5202
+2026-03-25 17:33:42,507 - Retrain epoch 49/50: train loss=0.5128
+2026-03-25 17:35:37,926 - Retrain epoch 50/50: train loss=0.5086
+2026-03-25 17:35:52,604 - [Fold 5/5] TEST -> p=0.8159, s=0.8177, rmse=0.8282, r2=0.6368
+2026-03-25 17:35:52,948 - p: 0.7716650605201721
+2026-03-25 17:35:52,948 - s: 0.7820926322089037
+2026-03-25 17:35:52,948 - rmse: 0.9178639054298401
+2026-03-25 17:35:52,948 - r2: 0.5663846850395202
+2026-03-25 17:35:52,948 - 
+Stratified k-fold cross validation:
+2026-03-25 17:35:52,948 - p_mean: 0.77167
+2026-03-25 17:35:52,948 - p_std: 0.02913
+2026-03-25 17:35:52,948 - s_mean: 0.78209
+2026-03-25 17:35:52,948 - s_std: 0.03392
+2026-03-25 17:35:52,948 - rmse_mean: 0.91786
+2026-03-25 17:35:52,948 - rmse_std: 0.0662
+2026-03-25 17:35:52,948 - r2_mean: 0.56638
+2026-03-25 17:35:52,948 - r2_std: 0.05489
+2026-03-25 17:35:52,948 - per_fold: [{'fold': 1, 'best_epoch': 129, 'p': 0.7770894765853882, 's': 0.817476908690341, 'rmse': 0.8956401944160461, 'r2': 0.5782573223114014}, {'fold': 2, 'best_epoch': 50, 'p': 0.7548903226852417, 's': 0.767713167956604, 'rmse': 0.9332826733589172, 'r2': 0.5681374073028564}, {'fold': 3, 'best_epoch': 55, 'p': 0.7284636497497559, 's': 0.7270700767926371, 'rmse': 1.0312336683273315, 'r2': 0.4676726460456848}, {'fold': 4, 'best_epoch': 60, 'p': 0.7819578051567078, 's': 0.7805401178773455, 'rmse': 0.9009929299354553, 'r2': 0.581039547920227}, {'fold': 5, 'best_epoch': 50, 'p': 0.8159240484237671, 's': 0.8176628897275912, 'rmse': 0.8281700611114502, 'r2': 0.6368165016174316}]
+2026-03-25 17:35:53,033 - RNA family: all_families_concat, n_samples: 1439, rmse_mean: 0.91786, p_mean: 0.77167, s_mean: 0.78209, r2_mean: 0.56638
+2026-03-25 17:35:53,041 - 
+Saved/updated summary to: results/table_results/cv_all_2203.csv

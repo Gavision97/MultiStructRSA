@@ -22,9 +22,10 @@
 EXP_ID=1   # experiment ID
 DATE=2203  # for log & result directory creation
 
-MODEL_SETTING="full"
+MODEL_SETTING="full" # ["full", "freezed", "w/o seq", "w/o 3D struct", "w/o fusion"]
 TRAIN_SETTING=4
 VAL_SETTING=4
+IS_SEQ_EMB="False"
 AUG="False"
 IS_PLOT="True"
 
@@ -68,12 +69,13 @@ python main.py \
   --train_setting "$TRAIN_SETTING" \
   --val_setting "$VAL_SETTING" \
   --aug "$AUG" \
+  --is_seq_emb "$IS_SEQ_EMB" \
   --is_plot "$IS_PLOT" \
   --res_file_name "$RES_FILE_NAME" \
   --plot_name "$PLOT_NAME" \
   --log_msg "$LOG_MSG" \
   --log_file_name "$LOG_FILE_NAME" \
   --eval_method "$EVAL_METHOD" \
-  --cold_type "$COLD_TYPE"
+  --cold_type "$COLD_TYPE" \
   --device "$DEVICE" \
   --seed "$SEED" 

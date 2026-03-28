@@ -30,9 +30,10 @@ PATIENCE = 30 # for early stopping
 WARM_UP_EPOCHS = 30
 MODE = 'min'
 DELTA = 1e-6 # 0.0001 ;for early stopping (11/03, 1e-4 -> 5e-5 -> 1e-6)
+MIN_EPOCHS = 50
 
 # MultiStructRSA training hyperparameters:
-LR = 0.00005 # from 0.00005 -> 0.0001
+LR = 0.00001 # from 0.00005 -> 0.0001
 WEIGHT_DECAY = 1e-5
 BATCH_SIZE = 1
 MAX_EPOCHS = 1000
@@ -48,8 +49,8 @@ RSIM_PATH = os.path.join("datasets", "RSIM")
 ALL_SF_DATASET_PATH = os.path.join("datasets", "RSIM", "All_sf_dataset_v1.csv")
 
 
-def preform_cold_blind_cv(cold_type="cold_rna", model_setting="full", train_setting=4, val_setting=4, aug=False, is_plot=False,
-                          is_seq_emb=False, plot_name="loss_curve", device="cuda", seed=1):
+def preform_cold_blind_cv(cold_type="cold_rna", model_setting="full", train_setting=4, val_setting=4, aug=False,
+                           is_plot=False, lr=5e-5, wd=1e-5, is_seq_emb=False, plot_name="loss_curve", device="cuda", seed=1):
 
     set_seed(seed_=seed) # SEED = 2 as in DeepRSMA setting
     
@@ -59,7 +60,7 @@ def preform_cold_blind_cv(cold_type="cold_rna", model_setting="full", train_sett
     
     logger.info(
          f'Performing Blind Test with Cold Start Setting = {cold_type}, seed:{seed}, batch size:{BATCH_SIZE}, '
-         f'max epochs:{MAX_EPOCHS}, lr:{LR}, weight decay:{WEIGHT_DECAY}, '
+         f'max epochs:{MAX_EPOCHS}, lr:{lr}, weight decay:{wd}, '
          f'patience:{PATIENCE}, warm up epo:{WARM_UP_EPOCHS}, delta:{DELTA}'
     )
 
@@ -86,7 +87,7 @@ def preform_cold_blind_cv(cold_type="cold_rna", model_setting="full", train_sett
         early_stopping = EarlyStopping(mode=MODE, patience=PATIENCE, warm_up_epochs=WARM_UP_EPOCHS, delta=DELTA) # early stopping object 
         
         model = choose_model_setting(option=model_setting).to(device)
-        optimizer = torch.optim.Adam(model.parameters(), lr=LR, weight_decay=WEIGHT_DECAY)
+        optimizer = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=wd)
         criterion = rmse_loss
 
         train_losses, val_losses = [], []
@@ -100,7 +101,7 @@ def preform_cold_blind_cv(cold_type="cold_rna", model_setting="full", train_sett
             p, s, rmse, r2 = safe_regression_metrics(y_true, y_pred)
             val_losses.append(rmse)
 
-            early_stopping.check_early_stop(rmse, [p, s, r2], train_loss, epo)   
+            early_stopping.check_early_stop(model, rmse, [p, s, r2], train_loss, epo)   
             if early_stopping.stop_training:
                 logger.info(f"[Fold {i+1}/{5}] Early stopping at epoch {epo+1}. "
                             f"Best rmse={early_stopping.best_score:.4f} @ epoch {early_stopping.best_epoch+1}")

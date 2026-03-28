@@ -128,6 +128,7 @@ class EarlyStopping:
         self.best_score = float("inf") if mode == "min" else -float("inf")
         self.best_epoch = -1
         self.no_improvement = 0
+        self.best_model = False
         self.stop_training = False
         self.best_metrics = [float("-inf"), float("-inf"), float("-inf")]  # p, s, r2
 
@@ -137,11 +138,12 @@ class EarlyStopping:
         else:  # "max"
             return score > self.best_score + self.delta
 
-    def check_early_stop(self, score, metrics, train_loss, epoch):
+    def check_early_stop(self, model, score, metrics, train_loss, epoch):
         if self._is_improvement(score):
             self.best_score = score
             self.best_metrics[0], self.best_metrics[1], self.best_metrics[2] = metrics[0], metrics[1], metrics[2]
             self.best_epoch = epoch
+            self.best_model = model # save best model 
             self.no_improvement = 0
             logger.info(f"NEW BEST @ epoch {epoch+1}: val loss={self.best_score:.4f}, "
                     f"ppc={self.best_metrics[0]:.4f}, ssc={self.best_metrics[1]:.4f}, r2={self.best_metrics[2]:.4f}; train loss={train_loss:.4f}")
@@ -153,6 +155,7 @@ class EarlyStopping:
                 self.stop_training = True
                 if self.verbose:
                     logger.info(f"Early stop at {epoch+1}. Best={self.best_score} @ {self.best_epoch+1}")
+
 
 
 def plot_train_val_loss(

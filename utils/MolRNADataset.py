@@ -128,7 +128,7 @@ class MolRNADataset_(Dataset):
     @staticmethod
     def collate_fn(batch):
         graphs, ernie, seq_len, morgan, rdkit, chemberta, y = zip(*batch)
-
+        
         graphs = Batch.from_data_list(list(graphs))
         morgan = torch.stack(morgan, dim=0)
         rdkit  = torch.stack(rdkit, dim=0)

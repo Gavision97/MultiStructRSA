@@ -20,7 +20,7 @@
 ############################
 
 EXP_ID=2   # experiment ID
-DATE=2803  # for log & result directory creation
+DATE=3003  # for log & result directory creation
 
 MODEL_SETTING="full" # ["full", "freezed", "w/o seq", "w/o 3D struct", "w/o fusion"]
 TRAIN_SETTING=4
@@ -34,18 +34,17 @@ PLOT_NAME="${DATE}_exp${EXP_ID}"
 
 LOG_FILE_NAME="stratified_cv_${DATE}_exp${EXP_ID}"
 
-EVAL_METHOD="cv"
-CV_METHOD="all"
-K_FOLD=5
+EVAL_METHOD="cold"
+COLD_TYPE="cold_rna"
+
+LR=2e-5
+WD=1e-5
+
 DEVICE="cuda"
 
-SMOOTHING_FACTOR=0.75
-NEGATIVE_FACTOR=2
 
-SEED=1
-DATASET_SEED=2
 
-LOG_MSG="stratified_cv_${DATE}_exp${EXP_ID} - MultiStructRSA (${MODEL_SETTING} version) - TRAIN SETTING=${TRAIN_SETTING}; VAL SETTING=${VAL_SETTING}; AUG=${AUG}; SEED=${SEED}; DATASET SEED=${DATASET_SEED}"
+LOG_MSG="cold_${DATE}_exp${EXP_ID} - MultiStructRSA (${MODEL_SETTING} version) - TRAIN SETTING=${TRAIN_SETTING}; VAL SETTING=${VAL_SETTING}; AUG=${AUG}"
 
 
 
@@ -74,15 +73,12 @@ python main.py \
   --train_setting "$TRAIN_SETTING" \
   --val_setting "$VAL_SETTING" \
   --aug "$AUG" \
-  --smoothing_factor "$SMOOTHING_FACTOR" \
-  --negative_factor "$NEGATIVE_FACTOR" \
+  --lr "$LR" \
+  --wd "$WD" \
   --res_file_name "$RES_FILE_NAME" \
   --plot_name "$PLOT_NAME" \
   --log_msg "$LOG_MSG" \
   --log_file_name "$LOG_FILE_NAME" \
   --eval_method "$EVAL_METHOD" \
-  --cv_method "$CV_METHOD" \
-  --k_fold "$K_FOLD" \
-  --device "$DEVICE" \
-  --seed "$SEED" \
-  --dataset_seed "$DATASET_SEED"
+  --cold_type "$COLD_TYPE" \
+  --device "$DEVICE"

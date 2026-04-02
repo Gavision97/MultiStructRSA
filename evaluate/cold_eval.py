@@ -33,8 +33,6 @@ DELTA = 1e-6 # 0.0001 ;for early stopping (11/03, 1e-4 -> 5e-5 -> 1e-6)
 MIN_EPOCHS = 50
 
 # MultiStructRSA training hyperparameters:
-LR = 0.00001 # from 0.00005 -> 0.0001
-WEIGHT_DECAY = 1e-5
 BATCH_SIZE = 1
 MAX_EPOCHS = 1000
 NUM_WORKERS = 8
@@ -45,19 +43,23 @@ VAL_SETTING = 4
 AUG = False
 
 COLD_PATH = os.path.join("datasets", "blind_test", "processed")
+RNA_COLD_PATH = os.path.join("datasets", "blind_test", "rna", "train_test_splits")
 RSIM_PATH = os.path.join("datasets", "RSIM")
-ALL_SF_DATASET_PATH = os.path.join("datasets", "RSIM", "All_sf_dataset_v1.csv")
 
 
-def preform_cold_blind_cv(cold_type="cold_rna", model_setting="full", train_setting=4, val_setting=4, aug=False,
+def choose_cold_type(cold_type= "cold_rna"):
+     assert cold_type in ['cold_rna', 'cold_mol', 'cold_rm'] # senaty check for cold type input
+     if cold_type == "cold_rna":
+          return RNA_COLD_PATH, "rna"
+     else:
+          return None # TODO -> add cold_mol & cold_rm
+
+
+def preform_cold_blind_eval(cold_type="cold_rna", model_setting="full", train_setting=4, val_setting=4, aug=False,
                            is_plot=False, lr=5e-5, wd=1e-5, is_seq_emb=False, plot_name="loss_curve", device="cuda", seed=1):
 
-    set_seed(seed_=seed) # SEED = 2 as in DeepRSMA setting
     
-    assert cold_type in ['cold_rna', 'cold_mol', 'cold_rm'] # senaty check for cold type input
-    all_df = pd.read_csv(ALL_SF_DATASET_PATH, delimiter='\t') # full R-SIM dataset
-    cold_dfs = load_cold_data(cold_type=cold_type) # get all 5 cold type dataframes in list
-    
+    cold_path, cold_name = choose_cold_type(cold_type=cold_type)    
     logger.info(
          f'Performing Blind Test with Cold Start Setting = {cold_type}, seed:{seed}, batch size:{BATCH_SIZE}, '
          f'max epochs:{MAX_EPOCHS}, lr:{lr}, weight decay:{wd}, '
@@ -67,15 +69,13 @@ def preform_cold_blind_cv(cold_type="cold_rna", model_setting="full", train_sett
     p_list, s_list, rmse_list, r2_list = [], [], [], []
 
     # Outer 5 fold cold start setting loop
-    for i, curr_cold_df in enumerate(cold_dfs):
-        logger.info(f"Fold number {i+1}/5")
-
-        train_id, test_id = get_cold_splits(curr_cold_df=curr_cold_df, cold_dfs=cold_dfs, all_df=all_df, fold=i)
-        train_df, test_df = all_df.iloc[train_id].reset_index(drop=True), all_df.iloc[test_id].reset_index(drop=True)
-
+    for i in range(1, 6):
+        set_seed(seed_=seed) # SEED = 2 as in DeepRSMA setting
+        logger.info(f"Fold number {i}/5")
+        train_df = pd.read_csv(os.path.join(cold_path, f"cold_{cold_name}_train_fold{i}.csv")).loc[:, ["SMILES", "Target_RNA_sequence", "pKd"]]
+        test_df = pd.read_csv(os.path.join(cold_path, f"cold_{cold_name}_test_fold{i}.csv")).loc[:, ["SMILES", "Target_RNA_sequence", "pKd"]]
         logger.info(f"(|train|, |test|) -> ({train_df.shape[0]}, {test_df.shape[0]})")
 
-        train_df, test_df = all_df.iloc[train_id].reset_index(drop=True), all_df.iloc[test_id].reset_index(drop=True)
 
         train_ds = MolRNADataset(ds_=train_df, setting=train_setting, aug=aug, is_seq_emb=is_seq_emb, task="training")
         val_ds = MolRNADataset(ds_=test_df, setting=val_setting, aug=False, is_seq_emb=is_seq_emb, task='evaluating')

@@ -263,7 +263,7 @@ class BiDirectionalCrossFusion(nn.Module):
 
 
 def main():
-    device = 'cuda'
+    device = 'cpu'
     node_scalar_t = torch.randn((100, 128)).to(device=device)
     # number of nodes per graph (must sum to 100)
     lengths = torch.tensor([5, 5, 5, 5, 10, 10, 10, 50], device=device)  # example
@@ -277,9 +277,9 @@ def main():
                                                             batch_idx=batch_index_t,
                                                             B=8)
     print(f'kv_padded shape -> {kv_padded.shape}') # (8, 50, 128), padded to the graph with the max number of nodes with (0x128) vectors to achive (50,128) tensors
-    print(f'first graph with padded 50-5=45 padded nodes:\n{kv_padded[1, :, :]}')
+    print(f'first graph with padded 50-5=45 padded nodes:\n{kv_padded[0, :, :]}')
     print(f'kv_pad_mask shape -> {kv_pad_mask.shape}') # (8, 50), tells what nodes should be padded in each graph
-    print(f'first graph with padded 50-5=45 padded nodes:\n{kv_pad_mask[1, :]}') # 5 False values & 45 True values for torch.nn.MultiheadAttention key_padding_mask value
+    print(f'first graph with padded 50-5=45 padded nodes:\n{kv_pad_mask[0, :]}') # 5 False values & 45 True values for torch.nn.MultiheadAttention key_padding_mask value
     
 
 if __name__ == '__main__':

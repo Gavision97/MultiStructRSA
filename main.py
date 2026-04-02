@@ -9,7 +9,7 @@ import json
 
 from evaluate.cv_eval import cv_eval, cv_eval_, cv_eval__
 from evaluate.cv_eval_ns import cv_eval_ns
-from evaluate.cold_eval import preform_cold_blind_cv
+from evaluate.cold_eval import preform_cold_blind_eval
 
 from utils.generate_smiles_features import generate_smiles_features
 from utils.parser import get_args
@@ -20,7 +20,7 @@ logger = logging.getLogger(__name__)
 RSIM_PATH = os.path.join("datasets", "RSIM")
 ALL_SF_DATASET_PATH = os.path.join("datasets", "RSIM", "All_sf_dataset_v1.csv")
 
-def preform_cold_blind_cv_(exp_name='exp', res_file_name="cold_eval", cold_type="cold_rna",
+def preform_cold_blind_eval_(exp_name='exp', res_file_name="cold_eval", cold_type="cold_rna",
                            model_setting="full", train_setting=4, val_setting=4,smoothing_factor=0.75, negative_factor=1,
                              aug=False, lr=5e-5, wd=1e-5, is_plot=False, is_seq_emb=False, plot_name="loss_curve",
                            device="cuda", seed=1):
@@ -57,7 +57,7 @@ def preform_cold_blind_cv_(exp_name='exp', res_file_name="cold_eval", cold_type=
     None
         Results are appended to the specified CSV file.
     """
-    res = preform_cold_blind_cv(cold_type=cold_type, model_setting=model_setting, train_setting=train_setting, val_setting=val_setting,
+    res = preform_cold_blind_eval(cold_type=cold_type, model_setting=model_setting, train_setting=train_setting, val_setting=val_setting,
                                 aug=aug, lr=lr, wd=wd, is_plot=is_plot, is_seq_emb=is_seq_emb, plot_name=plot_name,
                                 device=device, seed=seed)
     # summary (single row, same fields as the per-family version)
@@ -353,8 +353,8 @@ def main():
                 dataset_seed=dataset_seed
             )
 
-    elif eval_method == "cold_blind_cv":
-        preform_cold_blind_cv_(exp_name=exp_name,
+    elif eval_method == "cold":
+        preform_cold_blind_eval_(exp_name=exp_name,
                                res_file_name=res_file_name,
                                cold_type=cold_type,
                                model_setting=model_setting,

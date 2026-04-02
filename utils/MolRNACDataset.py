@@ -23,9 +23,11 @@ import torch
 
 from utils.tools import scale_nonzero
 
-# RNA & Small molecule embeddings files paths
-RNA_EMB_PATH = "embeddings/rna/rna_embeddings_clean.h5"
-RNA_EMB_PATH_PADDED = "embeddings/rna/rna_embeddings_padded.h5"
+# RNA & Small molecule pre-computed embeddings files paths
+#RNA_EMB_PATH = "embeddings/rna/rna_embeddings_clean.h5" # w/o padding
+RNA_EMB_PATH = "embeddings/rna/rna_embeddings_padded.h5" # w padding
+
+# small molecule pre-computer embeddings (for R-SIM dataset)
 SMILES_EMB_PATH = "embeddings/smiles/smiles_embeddings.pkl"
 
 
@@ -99,18 +101,20 @@ class MolRNADataset(Dataset):
     @staticmethod
     def collate_fn(batch):
         inputs, y = zip(*batch)
-        graphs, ernie, rinalmo, mordred, morgan, chemberta = zip(*inputs)
+        graphs, ernie, rinalmo, seq_len, mordred, morgan, chemberta = zip(*inputs)
 
+        # stack -> list of tensors, tensor -> list of scalars
         graphs = Batch.from_data_list(list(graphs))   # real PyG objct
-        mordred = torch.stack(mordred, dim=0)         # (1, Dm)
-        morgan = torch.stack(morgan, dim=0)           # (1, 1024)
-        chemberta = torch.stack(chemberta, dim=0)     # (1, 384)
-        y = torch.stack(y, dim=0)                     # (1,)
+        mordred = torch.stack(mordred, dim=0)         # (1, Dm) / (B, Dm)
+        morgan = torch.stack(morgan, dim=0)           # (1, 1024) / (B, 1024)
+        chemberta = torch.stack(chemberta, dim=0)     # (1, 384) / (B, 384)
+        y = torch.stack(y, dim=0)                     # (1,) / (B,)
 
-        ernie  = torch.stack(ernie, dim=0) # (1, L, 768)
-        rinalmo = torch.stack(rinalmo, dim=0) # (1, L, 1280)
+        ernie  = torch.stack(ernie, dim=0) # (1, L, 768) / (B, L, 768)
+        rinalmo = torch.stack(rinalmo, dim=0) # (1, L, 1280) (1, L, 1280)
+        seq_len = torch.tensor(seq_len) # (B,)
 
-        inputs = [graphs, ernie, rinalmo, mordred, morgan, chemberta]
+        inputs = [graphs, ernie, rinalmo, seq_len, mordred, morgan, chemberta]
         return inputs, y
 
     def make_loader(self, batch_size=8, shuffle=True, num_workers=0, pin_memory=True):
@@ -129,7 +133,7 @@ class MolRNADataset(Dataset):
     def __getitem__(self, idx):
         smiles = self.data.loc[idx, "SMILES"]
         rna_seq = self.data.loc[idx, "Target_RNA_sequence"]
-        
+  
         _g = self.seq_to_g[rna_seq]
         if self.aug:
             # settings (3)/(6): seq_to_g[seq] is a list[Data] (5 conformers)
@@ -137,6 +141,7 @@ class MolRNADataset(Dataset):
         g = _g.clone()
 
         curr_rna_emb = self.rna_emb[rna_seq] # get current RNA nucleotide level embedding group (ERNIE-RNA & RiNALMo)
+        seq_len = int(curr_rna_emb["seq_len"][()])
         ernie = torch.from_numpy(curr_rna_emb["ernie"][:]).float() if not self.is_seq_emb else torch.from_numpy(curr_rna_emb["ernie"][:]).float().mean(dim=0)       # (max_seq_len, 768) -> (2922, 768)
         rinalmo = torch.from_numpy(curr_rna_emb["rinalmo"][:]).float() if not self.is_seq_emb else torch.from_numpy(curr_rna_emb["rinalmo"][:]).float().mean(dim=0)    # (max_seq_len, 1280) -> (2922, 1280)
 
@@ -146,4 +151,44 @@ class MolRNADataset(Dataset):
         mordred_descriptors = torch.from_numpy(self.mordred_descriptors_features.loc[self.mordred_descriptors_features['SMILES'] == smiles].iloc[0, 1:].values.astype(np.float32))
         y = torch.tensor(self.data.iloc[idx]["pKd"], dtype=torch.float32)
 
-        return (g, ernie, rinalmo, mordred_descriptors, morgan_fingerprint, chemberta), y
+        return (g, ernie, rinalmo, seq_len,  mordred_descriptors, morgan_fingerprint, chemberta), y
+    
+
+
+
+def main():
+    
+    # dataset object check: load RSIM RNA patamerts dataset and create MolRNADataset object from it
+    aptamers_dataset_path = os.path.join('..' ,'datasets', 'RSIM', 'Aptamers_dataset_v1.csv')
+    aptamers_df = pd.read_csv(aptamers_dataset_path, sep='\t')
+    print(aptamers_df.head())
+
+    molRNAds = MolRNADataset(aptamers_df)
+    print(len(molRNAds))
+    print(molRNAds[10])
+    
+
+    '''
+    rna_emb = h5py.File(RNA_EMB_PATH, "r")
+    rna_seq = 'GGGAGAGGGUUUAAUUACGAAAGUAAUUGGAUCCGCAAGG'
+    seq_len = len(rna_seq)
+    max_seq_len = 2922
+    grp = rna_emb[rna_seq]
+    print(f'seq ernie embedding shape test -> {grp["ernie"].shape}') # (max_len, 768)
+    print(f'seq rinalmo embedding shape test -> {grp["rinalmo"].shape}') # (max_len, 1280)
+
+    # senaty checks
+    curr_ernie =  torch.from_numpy(np.array(grp["ernie"]))
+    curr_rinalmo =  torch.from_numpy(np.array(grp["rinalmo"]))
+    
+    assert not torch.equal(curr_ernie[len(rna_seq)-1], torch.zeros(768))
+    assert not torch.equal(curr_rinalmo[len(rna_seq)-1], torch.zeros(1280))
+    if len(rna_seq) != max_seq_len:
+        assert torch.equal(curr_ernie[len(rna_seq)], torch.zeros(768))
+        assert torch.equal(curr_rinalmo[len(rna_seq)], torch.zeros(1280))
+    '''
+
+if __name__ == "__main__":
+     main()
+
+    

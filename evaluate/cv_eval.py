@@ -29,7 +29,7 @@ logger = logging.getLogger(__name__)
 
 # early stopping hyperparameters: 
 PATIENCE = 30 # for early stopping
-WARM_UP_EPOCHS = 30
+WARM_UP_EPOCHS = 40
 MODE = 'min'
 DELTA = 1e-6 # 0.0001 ;for early stopping (11/03, 1e-4 -> 5e-5 -> 1e-6)
 MIN_EPOCHS = 50
@@ -425,7 +425,7 @@ def cv_eval__(
     is_plot=False,
     is_seq_emb=False,
     n=10,
-    val_ratio=0.1,
+    val_ratio=0.05,
     fam_name=None,
     plot_name="loss_curve",
     device="cuda",

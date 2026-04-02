@@ -44,15 +44,16 @@ def get_args():
     parser.add_argument(
         "--model_setting",
         type=str,
-        default="full",
-        choices=["full", "freezed", "w/o seq", "w/o 3D struct", "w/o fusion"],
+        default="full batched",
+        choices=["full", "freezed", "w/o seq", "w/o 3D struct", "w/o fusion", "full batched"],
         help=(
             "Model configuration to use. Options:\n"
             "  'full'            -> full model (3D + sequence + fusion)\n"
             "  'freezed'         -> same as full but with frozen gRNAde encoder\n"
             "  'w/o seq'         -> without sequence embeddings (ERNIE/RiNALMo)\n"
             "  'w/o 3D struct'   -> without gRNAde structural encoder\n"
-            "  'w/o fusion'      -> without cross-attention fusion (simple concatenation)"
+            "  'w/o fusion'      -> without cross-attention fusion (simple concatenation)\n"
+            "  'full batched'    -> full model (3D + seq + fusion); for batch_size > 1"
         )
     )
     parser.add_argument(
@@ -65,8 +66,8 @@ def get_args():
     parser.add_argument(
         "--eval_method",
         type=str,
-        default="cv",
-        choices=["cv", "loo_cv", "cold_blind_cv", "cv_ns"],
+        default="cold",
+        choices=["cv", "loo_cv", "cold", "cv_ns"],
         help="Evaluation strategy"
     )
     parser.add_argument(
@@ -80,7 +81,7 @@ def get_args():
     parser.add_argument(
         "--ev_setting",
         type=int,
-        default=4,
+        default=1,
         choices=[1, 2, 3, 4],
         help=("# 1 - like in DeepRSMA, early stopping on the test set (test-leakage, overoptimistic) "
              "# 2 - early stopping on the validation loss & test best mode "
@@ -119,14 +120,14 @@ def get_args():
     parser.add_argument(
         "--smoothing_factor",
         type=float,
-        default=0.75,
+        default=0.9,
         help="Power-law smoothing exponent (alpha) for frequency-based negative sampling"
     )
 
     parser.add_argument(
         "--negative_factor",
         type=float,
-        default=1.0,
+        default=0.5,
         help="Number of synthetic negatives per positive sample (can be fractional)"
     )
     parser.add_argument(

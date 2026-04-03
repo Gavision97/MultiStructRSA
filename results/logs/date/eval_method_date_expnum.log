@@ -30,3 +30,11 @@
 2026-04-02 12:11:44,420 - W/O PADDING -> MolRNACDataset with for evaluating setting=4 and aug=False - for RNA cross-attention fusion
 2026-04-02 12:11:45,100 - --- MultiStructRSA batched: padded sequence + batched graph training ---
 2026-04-02 12:11:45,254 - Initialized model setting: full batched
+2026-04-03 11:40:14,607 - log message
+2026-04-03 11:40:14,607 - Performing Blind Test with Cold Start Setting = cold_rna, seed:1, batch size:1, max epochs:1000, lr:5e-05, weight decay:1e-05, patience:30, warm up epo:30, delta:1e-06
+2026-04-03 11:40:14,612 - Fold number 1/5
+2026-04-03 11:40:14,629 - (|train|, |test|) -> (1256, 183)
+2026-04-03 11:40:14,630 - W/O PADDING -> MolRNACDataset with for training setting=4 and aug=False - for RNA cross-attention fusion
+2026-04-03 11:40:16,159 - W/O PADDING -> MolRNACDataset with for evaluating setting=4 and aug=False - for RNA cross-attention fusion
+2026-04-03 11:40:16,833 - --- MultiStructRSA batched: padded sequence + batched graph training ---
+2026-04-03 11:40:17,019 - Initialized model setting: full batched

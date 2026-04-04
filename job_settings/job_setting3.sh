@@ -10,7 +10,7 @@
 #SBATCH --job-name=research_project
 #SBATCH --output=jobs/job-%J.out
 #SBATCH --error=jobs/job-%J.err
-#SBATCH --gpus=rtx_4090:1
+#SBATCH --gpus=rtx_6000:1
 #SBATCH --mail-user=gavrilev@post.bgu.ac.il
 #SBATCH --mail-type=ALL
 #SBATCH --mem=24G
@@ -19,13 +19,14 @@
 ### Experiment variables ###
 ############################
 
-EXP_ID=3   # experiment ID
-DATE=2803  # for log & result directory creation
+EXP_ID=1   # experiment ID
+DATE=0404  # for log & result directory creation
 
 MODEL_SETTING="full" # ["full", "freezed", "w/o seq", "w/o 3D struct", "w/o fusion"]
 TRAIN_SETTING=4
 VAL_SETTING=4
-AUG="False"
+MOL_AUG="False"
+RNA_AUG="False"
 
 EXP_NAME="exp${EXP_ID}"  
 
@@ -34,13 +35,10 @@ PLOT_NAME="${DATE}_exp${EXP_ID}"
 
 LOG_FILE_NAME="stratified_cv_${DATE}_exp${EXP_ID}"
 
-EVAL_METHOD="cv"
+SETTING="cv"
 CV_METHOD="all"
 K_FOLD=5
 DEVICE="cuda"
-
-SMOOTHING_FACTOR=0.75
-NEGATIVE_FACTOR=3
 
 SEED=1
 DATASET_SEED=2
@@ -73,14 +71,13 @@ python main.py \
   --model_setting "$MODEL_SETTING" \
   --train_setting "$TRAIN_SETTING" \
   --val_setting "$VAL_SETTING" \
-  --aug "$AUG" \
-  --smoothing_factor "$SMOOTHING_FACTOR" \
-  --negative_factor "$NEGATIVE_FACTOR" \
+  --rna_aug "$RNA_AUG" \
+  --mol_aug "$MOL_AUG" \
   --res_file_name "$RES_FILE_NAME" \
   --plot_name "$PLOT_NAME" \
   --log_msg "$LOG_MSG" \
   --log_file_name "$LOG_FILE_NAME" \
-  --eval_method "$EVAL_METHOD" \
+  --setting "$SETTING" \
   --cv_method "$CV_METHOD" \
   --k_fold "$K_FOLD" \
   --device "$DEVICE" \

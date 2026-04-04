@@ -168,6 +168,17 @@ def masked_mean(x, pad_mask):
     denom = keep.sum(dim=1).clamp_min(1.0)    # (B, 1)
     return x.sum(dim=1) / denom               # (B, D)
 
+def masked_max(x, pad_mask):
+    # x: (B, L, D)
+    # pad_mask: (B, L) True = PAD
+
+    x_masked = x.masked_fill(pad_mask.unsqueeze(-1), float('-inf'))
+    out = x_masked.max(dim=1).values  # (B, D)
+
+    # replace -inf (cases where all tokens were PAD) with 0
+    out[out == float('-inf')] = 0.0
+
+    return out
 
 
 class CrossAttentionBlock(nn.Module):

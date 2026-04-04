@@ -61,7 +61,7 @@ def set_seed(seed_):
 def rmse_loss(y_true, y_pred):
     return torch.sqrt(torch.mean((y_true - y_pred) ** 2))
 
-def cv_eval(dataset=None, model_setting="full", train_setting=4, val_setting=4, aug=False, smoothing_factor=0.75, negative_factor=1, lr=5e-5, wd=1e-5,
+def cv_eval(dataset=None, model_setting="full", train_setting=4, val_setting=4, rna_aug=False, mol_aug=False, lr=5e-5, wd=1e-5,
             is_plot=False, is_seq_emb=False, n=10, fam_name=None, plot_name="loss_curve", device="cuda", dataset_seed=2, seed=1):
     """
     Run stratified k-fold cross-validation for a selected MultiStructRSA model setting.
@@ -113,8 +113,8 @@ def cv_eval(dataset=None, model_setting="full", train_setting=4, val_setting=4, 
     all_df = dataset
     logging.info(f"--- Start statified {n}-fold cross-validation; pd.DataFrame shape -> {all_df.shape}, lr={lr} ---")
 
-    train_ds = MolRNADataset(all_df, setting=train_setting, aug=aug, task="training", is_seq_emb=is_seq_emb)
-    val_ds = MolRNADataset(all_df, setting=val_setting, aug=False, task='evaluating', is_seq_emb=is_seq_emb)
+    train_ds = MolRNADataset(all_df, setting=train_setting, rna_aug=rna_aug, mol_aug=mol_aug, task="training", is_seq_emb=is_seq_emb)
+    val_ds = MolRNADataset(all_df, setting=val_setting, rna_aug=False, mol_aug=False, task='evaluating', is_seq_emb=is_seq_emb)
     Y = train_ds.data["pKd"].to_numpy(dtype=np.float32)
 
     # same initialization as in DeepRSMA and others
@@ -214,9 +214,8 @@ def cv_eval_(
     model_setting="full",
     train_setting=4,
     val_setting=4,
-    aug=False,
-    smoothing_factor=0.75,
-    negative_factor=1,
+    rna_aug=False,
+    mol_aug=False,
     lr=5e-5,
     wd=1e-5,
     is_plot=False,
@@ -250,8 +249,8 @@ def cv_eval_(
     all_df = dataset
     logging.info(f"--- Start stratified {n}-fold cross-validation; pd.DataFrame shape -> {all_df.shape}, lr={lr} ---")
 
-    train_ds = MolRNADataset(all_df, setting=train_setting, aug=aug, task="training", is_seq_emb=is_seq_emb)
-    eval_ds = MolRNADataset(all_df, setting=val_setting, aug=False, task="evaluating", is_seq_emb=is_seq_emb)
+    train_ds = MolRNADataset(all_df, setting=train_setting, rna_aug=rna_aug, mol_aug=mol_aug, task="training", is_seq_emb=is_seq_emb)
+    eval_ds = MolRNADataset(all_df, setting=val_setting, rna_aug=False, mol_aug=False, task="evaluating", is_seq_emb=is_seq_emb)
 
     Y = train_ds.data["pKd"].to_numpy(dtype=np.float32)
 
@@ -417,9 +416,8 @@ def cv_eval__(
     model_setting="full",
     train_setting=4,
     val_setting=4,
-    aug=False,
-    smoothing_factor=0.75,
-    negative_factor=1,
+    rna_aug=False,
+    mol_aug=False,
     lr=5e-5,
     wd=1e-5,
     is_plot=False,
@@ -456,8 +454,8 @@ def cv_eval__(
         f"--- Start stratified {n}-fold cross-validation; pd.DataFrame shape -> {all_df.shape}, lr={lr} ---"
     )
 
-    train_ds = MolRNADataset(all_df, setting=train_setting, aug=aug, task="training", is_seq_emb=is_seq_emb)
-    eval_ds = MolRNADataset(all_df, setting=val_setting, aug=False, task="evaluating", is_seq_emb=is_seq_emb)
+    train_ds = MolRNADataset(all_df, setting=train_setting, rna_aug=rna_aug, mol_aug=mol_aug, task="training", is_seq_emb=is_seq_emb)
+    eval_ds = MolRNADataset(all_df, setting=val_setting, rna_aug=rna_aug, mol_aug=mol_aug, task="evaluating", is_seq_emb=is_seq_emb)
 
     Y = train_ds.data["pKd"].to_numpy(dtype=np.float32)
 

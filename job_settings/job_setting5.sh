@@ -19,14 +19,14 @@
 ### Experiment variables ###
 ############################
 
-EXP_ID=5   # experiment ID
-DATE=2103  # for log & result directory creation
+EXP_ID=3   # experiment ID
+DATE=0404  # for log & result directory creation
 
-MODEL_SETTING="w/o fusion" # ["full", "freezed", "w/o seq", "w/o 3D struct", "w/o fusion"]
+MODEL_SETTING="full" # ["full", "freezed", "w/o seq", "w/o 3D struct", "w/o fusion"]
 TRAIN_SETTING=4
 VAL_SETTING=4
-AUG="False"
-IS_SEQ_EMB="True"
+MOL_AUG="False"
+RNA_AUG="True"
 
 EXP_NAME="exp${EXP_ID}"  
 
@@ -35,9 +35,9 @@ PLOT_NAME="${DATE}_exp${EXP_ID}"
 
 LOG_FILE_NAME="stratified_cv_${DATE}_exp${EXP_ID}"
 
-EVAL_METHOD="cv"
+SETTING="cv"
 CV_METHOD="all"
-K_FOLD=10
+K_FOLD=5
 DEVICE="cuda"
 
 SEED=1
@@ -57,7 +57,7 @@ export PYTHONPATH="${PYTHONPATH}:$(pwd)"
 
 export CUBLAS_WORKSPACE_CONFIG=:4096:8
 export CUDA_LAUNCH_BLOCKING=1
-export TORCH_USE_CUDA_DSA=1
+#export TORCH_USE_CUDA_DSA=1
 
 export HF_HUB_ETAG_TIMEOUT=60
 export HF_HUB_DOWNLOAD_TIMEOUT=300
@@ -71,13 +71,13 @@ python main.py \
   --model_setting "$MODEL_SETTING" \
   --train_setting "$TRAIN_SETTING" \
   --val_setting "$VAL_SETTING" \
-  --aug "$AUG" \
-  --is_seq_emb "$IS_SEQ_EMB" \
+  --rna_aug "$RNA_AUG" \
+  --mol_aug "$MOL_AUG" \
   --res_file_name "$RES_FILE_NAME" \
   --plot_name "$PLOT_NAME" \
   --log_msg "$LOG_MSG" \
   --log_file_name "$LOG_FILE_NAME" \
-  --eval_method "$EVAL_METHOD" \
+  --setting "$SETTING" \
   --cv_method "$CV_METHOD" \
   --k_fold "$K_FOLD" \
   --device "$DEVICE" \

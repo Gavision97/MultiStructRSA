@@ -1,40 +1,64 @@
+
+# standard library
 import os
 import logging
 import warnings
-warnings.filterwarnings('ignore')
-
 import pickle
+import pathlib
+import importlib.util
+
+warnings.filterwarnings("ignore")
+
+import numpy as np
 import pandas as pd
 
-from rdkit import Chem
-from rdkit.Chem import AllChem
-from rdkit.Chem import Descriptors
-
 from sklearn.feature_selection import VarianceThreshold
-import numpy as np
 
-
+from rdkit import Chem
+from rdkit.Chem import AllChem, Descriptors
 from mordred import Calculator, descriptors
-
 
 import torch
 import torch.nn as nn
 
+# transformers (ChemBERTa)
 from transformers import RobertaTokenizer, RobertaModel
+
+# project utils
 from utils.tools import clean, scale_nonzero
+
+# SimSon config (without sys.path)
+SIMSON_PT_WEIGHTS = "/home/gavrilev/Thesis/src/saved_objects/simson_pretrained_best_model.pth"
+SIMSON_TOKENIZER_PATH = "/home/gavrilev/Thesis/src/saved_objects/pubchem_part_tokenizer.json"
+_SIMSON_DIR = pathlib.Path("/home/gavrilev/Thesis/Transfer Learning: PT Models/SimSon")
+
+from tokenizers import Tokenizer # SimSon tokenizer
+
+# ---- SimSon config.py ----
+_config_spec = importlib.util.spec_from_file_location("simson_config", _SIMSON_DIR / "config.py")
+_simson_config = importlib.util.module_from_spec(_config_spec)
+_config_spec.loader.exec_module(_simson_config)
+get_Config = _simson_config.get_Config
+
+# ---- SimSon model.py ----
+_model_spec = importlib.util.spec_from_file_location("simson_model", _SIMSON_DIR / "model.py")
+_simson_model = importlib.util.module_from_spec(_model_spec)
+_model_spec.loader.exec_module(_simson_model)
+Xtransformer_Encoder = _simson_model.Xtransformer_Encoder
 
 import logging
 logger = logging.getLogger(__name__)
 
-SMILES_EMB_PATH = os.path.join("embeddings", "smiles", "smiles_embeddings.pkl")
+SMILES_EMB_PATH = os.path.join("embeddings", "smiles")
 
-def save_dict_pkl(obj, path=SMILES_EMB_PATH):
-    with open(path, "wb") as f:
+def save_dict_pkl(obj, save_name):
+    smi_emb_save_path = os.path.join(SMILES_EMB_PATH, f'{save_name}.pkl')
+    with open(smi_emb_save_path, "wb") as f:
         pickle.dump(obj, f, protocol=pickle.HIGHEST_PROTOCOL)
-    logger.info(f'Successfully saved SMILES embeddings to -> {SMILES_EMB_PATH}')
+    logger.info(f'Successfully saved SMILES embeddings to -> {smi_emb_save_path}')
 
 
-def generate_smiles_features(mol_set, save=False, device='cuda'):
+def generate_smiles_features(mol_set, save_name="smiles_embeddings", features=['simson', 'chemberta', 'morgan_fp', 'desc'], save=False, device='cuda'):
     '''
     Generates molecule feature dictionary which maps feature name (key) -> feature pd.DataFrame object (value)
     Featrues - morgan fingerprints, chemical secriptors (from rdkit), chembera & chemprop features
@@ -44,58 +68,56 @@ def generate_smiles_features(mol_set, save=False, device='cuda'):
     valid_smiles=mol_set
     smiles_features_dict = {}
 
+    ### SMILES - SimSon features ###
+    if 'simson' in features:
+        logger.info(f'==========================================================================')
+        logger.info('generating SimSon feature dataset ...')
+        simson_smiles_df = generate_simson_embeddings_df(mol_set=mol_set)
+        simson_smiles_df = clean(simson_smiles_df)
+        logger.info(f'finished & saved - simson features dataframe shape -> {simson_smiles_df.shape}')
+        smiles_features_dict['simson'] = simson_smiles_df
     ### SMILES - chemBERTa features ###
-    logger.info(f'==========================================================================')
-    logger.info('generating chemBERTa feature dataset ...')
-    chemberta_model = ChemBERTaPT(smiles=valid_smiles, batch_size = 32, device=device) # initialize pre-trained chemBERTa model (with custom changes)
-    chemberta_smiles_df = chemberta_model.batch_encode()
-    chemberta_smiles_df = clean(chemberta_smiles_df) # check for nulls & fix (fill with 0)
-    #chemberta_smiles_df.to_csv(os.path.join(dir_path, f'{name}_chemberta_smiles_df.csv'), index=False)
-    logger.info(f'finished & saved - chemberta features dataframe shape -> {chemberta_smiles_df.shape}')
-    smiles_features_dict['chemberta'] = chemberta_smiles_df
-    
-    ### SMILES - rdkit expert features - chemical descriptors (194 features in total) ###
-    logger.info(f'==========================================================================')
-    logger.info('generating rdkit chemical descriptors feature dataset ...')
-    chem_descriptors_ls_path = os.path.join('saved_objects', 'chemical_descriptors_list.pkl') # load list of first 194 chemical descriptors feature names
-    with open(chem_descriptors_ls_path, 'rb') as f:
-        chem_descriptors_ls = pickle.load(f)
-
-    chemical_descriptors_smiles_df = generate_descriptors(valid_smiles, chem_descriptors_ls)
-    chemical_descriptors_smiles_df = clean(chemical_descriptors_smiles_df) # check for nulls & fix (fill with 0)
-    #chemical_descriptors_smiles_df.to_csv(os.path.join(dir_path, f'{name}_chemical_descriptors_smiles_df.csv'), index=False)
-    logger.info(f'finished & saved - rdkit chemical descriptiors features dataframe shape -> {chemical_descriptors_smiles_df.shape}')   
-    smiles_features_dict['chemical descriptors'] = chemical_descriptors_smiles_df
+    if 'chemberta' in features:
+        logger.info(f'==========================================================================')
+        logger.info('generating chemBERTa feature dataset ...')
+        chemberta_model = ChemBERTaPT(smiles=valid_smiles, batch_size = 32, device=device) # initialize pre-trained chemBERTa model (with custom changes)
+        chemberta_smiles_df = chemberta_model.batch_encode()
+        chemberta_smiles_df = clean(chemberta_smiles_df) # check for nulls & fix (fill with 0)
+        #chemberta_smiles_df.to_csv(os.path.join(dir_path, f'{name}_chemberta_smiles_df.csv'), index=False)
+        logger.info(f'finished & saved - chemberta features dataframe shape -> {chemberta_smiles_df.shape}')
+        smiles_features_dict['chemberta'] = chemberta_smiles_df
     
     ### SMILES - morgan fingerprints - binary 0/1 1024 features ###
-    logger.info(f'==========================================================================')
-    logger.info('generating morgan fingerprints feature dataset ...')
-    morgan_fingerprints_smiles_df = generate_morgan_fingerprints(valid_smiles)
-    morgan_fingerprints_smiles_df = clean(morgan_fingerprints_smiles_df) # check for nulls & fix (fill with 0)
-    #morgan_fingerprints_smiles_df.to_csv(os.path.join(dir_path, f'{name}_morgan_fingerprints_smiles_df.csv'), index=False)
-    logger.info(f'finished & saved - morgan fingerprints features dataframe shape -> {morgan_fingerprints_smiles_df.shape}')
-    smiles_features_dict['morgan fingerprints'] = morgan_fingerprints_smiles_df
+    if 'morgan_fp' in features:
+        logger.info(f'==========================================================================')
+        logger.info('generating morgan fingerprints feature dataset ...')
+        morgan_fingerprints_smiles_df = generate_morgan_fingerprints(valid_smiles)
+        morgan_fingerprints_smiles_df = clean(morgan_fingerprints_smiles_df) # check for nulls & fix (fill with 0)
+        #morgan_fingerprints_smiles_df.to_csv(os.path.join(dir_path, f'{name}_morgan_fingerprints_smiles_df.csv'), index=False)
+        logger.info(f'finished & saved - morgan fingerprints features dataframe shape -> {morgan_fingerprints_smiles_df.shape}')
+        smiles_features_dict['morgan fingerprints'] = morgan_fingerprints_smiles_df
     
     ### SMILES - Mordred chemical descriptors  ###
-    #logger.info(f'==========================================================================')
-    #logger.info('generating Mordred chemical descriptors feature dataset ...')
-    #mordred_descriptors_smiles = calc_mordred_desc(valid_smiles, ignore_3D=True)
-    #mordred_descriptors_smiles_df = clean(mordred_descriptors_smiles[0])
-    #smiles_features_dict['mordred descriptors'] = mordred_descriptors_smiles_df
-    #logger.info(f'finished & saved - Mordred descriptors features dataframe shape -> {mordred_descriptors_smiles_df.shape}')
+    if 'desc' in features:
+        logger.info(f'==========================================================================')
+        logger.info('generating Mordred chemical descriptors feature dataset ...')
+        mordred_descriptors_smiles = calc_mordred_desc(valid_smiles, ignore_3D=True)
+        mordred_descriptors_smiles_df = clean(mordred_descriptors_smiles[0])
+        smiles_features_dict['mordred descriptors'] = mordred_descriptors_smiles_df
+        logger.info(f'finished & saved - Mordred descriptors features dataframe shape -> {mordred_descriptors_smiles_df.shape}')
 
-    logger.info('finished generating all 4 smiles features dataset successfully!')
+    logger.info(f'finished generating all {len(list(smiles_features_dict.keys()))} smiles features dataset successfully!')
 
     # save feature dictionary as pickle file
     if save:
-        save_dict_pkl(smiles_features_dict)
+        save_dict_pkl(smiles_features_dict, save_name)
 
     return smiles_features_dict
 
 
 ###################################################################################################
 
-
+## ChemBERTa Embeddings ##
 class ChemBERTaPT(nn.Module):
     def __init__(self, smiles, batch_size, device="cuda"):
         super(ChemBERTaPT, self).__init__()
@@ -165,6 +187,9 @@ class ChemBERTaPT(nn.Module):
 
 
 ###################################################################################################
+
+## Mordred Chemical Descriptors Embeddigns ##
+
 def preprocess_mordred_descriptors(mordred_ls, smi_ls):
     desc_df = pd.DataFrame(mordred_ls)
     desc_df.insert(0, "SMILES", list(smi_ls))
@@ -221,120 +246,8 @@ def calc_mordred_desc(smi_ls, ignore_3D=True):
     return desc_df, desc_map
 
 ##################################################################################################
-def generate_descriptors(smiles, all_descriptors_list):
-    # Split descriptor list
-    first_ten_descriptors = all_descriptors_list[:10]
-    descriptors_list = all_descriptors_list[10:]
-    descriptor_values = []
 
-    for smile in smiles:
-        mol = Chem.MolFromSmiles(smile)
-
-        if mol:
-            # Calculate first 10 core descriptors
-            initial_descriptors = [
-                AllChem.CalcNumAtomStereoCenters(mol),
-                AllChem.CalcNumAmideBonds(mol),
-                Descriptors.MolWt(mol),
-                Descriptors.NumValenceElectrons(mol),
-                Descriptors.TPSA(mol),
-                Descriptors.MolLogP(mol),
-                Descriptors.NumHeteroatoms(mol),
-                Descriptors.NumRotatableBonds(mol),
-                Descriptors.HeavyAtomCount(mol),
-                Descriptors.FractionCSP3(mol)
-            ]
-
-            # Compute the rest safely, fallback = 0
-            extra_desc = []
-            for descriptor in descriptors_list:
-                try:
-                    if hasattr(Descriptors, descriptor):
-                        val = getattr(Descriptors, descriptor)(mol)
-                        # handle None or NaN explicitly
-                        if val is None or (isinstance(val, float) and pd.isna(val)):
-                            val = 0
-                    else:
-                        val = 0
-                except Exception as e:
-                    print(f"[Warning] Descriptor '{descriptor}' failed for SMILES '{smile}': {e}")
-                    val = 0
-                extra_desc.append(val)
-
-            all_descriptors = initial_descriptors + extra_desc
-
-        else:
-            # Invalid SMILES → vector of zeros
-            all_descriptors = [0] * len(all_descriptors_list)
-
-        descriptor_values.append(all_descriptors)
-
-    # Create DataFrame with correct column names
-    feature_df = pd.DataFrame(descriptor_values, columns=first_ten_descriptors + descriptors_list)
-
-    '''
-    # Scale if enough samples
-    if feature_df.shape[0] > 2:
-        feature_df = scale_chem_features(feature_df)
-    '''
-    
-    # Return SMILES + features
-    chemical_descriptors_smiles_df = pd.concat(
-        [pd.Series(smiles, name='SMILES'), feature_df],
-        axis=1
-    )
-    
-    chemical_descriptors_smiles_df = scale_nonzero(chemical_descriptors_smiles_df)
-    return chemical_descriptors_smiles_df
-
-
-
-def generate_descriptors_(smiles, all_descriptors_list):
-
-    # extract first 10 descriptors
-    first_ten_descriptors = all_descriptors_list[:10]
-
-    descriptors_list = all_descriptors_list[10:]
-    descriptor_values = []
-
-    for smile in smiles:
-        mol = Chem.MolFromSmiles(smile)
-        
-        # if the molecule is valid, calculate the descriptors (already checked for validity beofre ..)
-        if mol:
-            initial_descriptors = [
-                AllChem.CalcNumAtomStereoCenters(mol),
-                AllChem.CalcNumAmideBonds(mol),
-                Descriptors.MolWt(mol),
-                Descriptors.NumValenceElectrons(mol),
-                Descriptors.TPSA(mol),
-                Descriptors.MolLogP(mol),
-                Descriptors.NumHeteroatoms(mol),
-                Descriptors.NumRotatableBonds(mol),
-                Descriptors.HeavyAtomCount(mol),
-                Descriptors.FractionCSP3(mol)
-            ]
-            all_descriptors = initial_descriptors + [getattr(Descriptors, descriptor)(mol) if hasattr(Descriptors, descriptor) else None for descriptor in descriptors_list]
-            descriptor_values.append(all_descriptors)
-        else:
-            # in case mol is invalid, it will get zero embedding
-            descriptor_values.append([0] * len(descriptors_list))
-    
-    feature_df = pd.DataFrame(descriptor_values, columns=first_ten_descriptors + descriptors_list)
-    
-
-    '''
-        if feature_df.shape[0] > 2:
-        # scale non-binary features using standart scaler (in order to scale & keep feature distribution)
-        feature_df = scale_chem_features(feature_df)
-    '''
-
-    # return smiles column back to scaled data frame
-    chemical_descriptors_smiles_df = pd.concat([pd.Series(smiles, name='SMILES'), feature_df], axis=1)
-    
-    return chemical_descriptors_smiles_df
-    
-###################################################################################################
+## Morgan Fingerprints Embeddings ##
 
 def generate_morgan_fingerprints(smiles_list, radius=4, nbits=1024):
     fingerprint_data = []
@@ -361,3 +274,101 @@ def generate_morgan_fingerprints(smiles_list, radius=4, nbits=1024):
     
 ###################################################################################################
 
+## SimSon Embeddings ##
+
+def load_simson_encoder(
+    model_path=SIMSON_PT_WEIGHTS,
+    tokenizer_path=SIMSON_TOKENIZER_PATH,
+    device="cpu"
+):
+    device = device if torch.cuda.is_available() else "cpu"
+
+    # same as SimSom default arguments in their parser object
+    args = get_Config()
+    args.dic_size = 300
+    args.max_len = 512
+    args.d_model = 768
+    args.nlayers = 2
+    args.nhead = 8
+
+    tokenizer = Tokenizer.from_file(tokenizer_path)
+
+    model = Xtransformer_Encoder(args).to(device)
+    state_dict = torch.load(model_path, map_location=device)
+    model.load_state_dict(state_dict)
+    model.eval()
+
+    return model, tokenizer, args, device
+
+
+def smiles_to_tensor(smiles_list, tokenizer, device):
+    token_ids = []
+
+    for smi in smiles_list:
+        ids = tokenizer.encode(smi).ids
+        token_ids.append(ids)
+
+    x = torch.tensor(token_ids, dtype=torch.long, device=device)
+    return x
+
+def generate_simson_embeddings_df(mol_set):
+    """
+    Generate SimSon embeddings dataframe from a list of SMILES strings.
+
+    Parameters
+    ----------
+    mol_set : list of str
+        List of SMILES strings.
+
+    Returns
+    -------
+    pd.DataFrame
+        DataFrame where the first column is 'SMILES' and the remaining
+        columns are SimSon embedding features.
+    """
+    emb = extract_simson_embeddings(mol_set)   # shape: (N, D)
+    emb_np = emb.numpy()
+
+    feature_cols = [f"simson_{i}" for i in range(emb_np.shape[1])]
+    simson_df = pd.DataFrame(emb_np, columns=feature_cols)
+    simson_df.insert(0, "SMILES", mol_set)
+
+    return simson_df
+
+def extract_simson_embeddings(smiles_list, batch_size=32, device="cpu"):
+    model, tokenizer, args, device = load_simson_encoder(device=device)
+
+    all_embs = []
+
+    with torch.no_grad():
+        for start in range(0, len(smiles_list), batch_size):
+            batch_smiles = smiles_list[start:start + batch_size]
+
+            x = smiles_to_tensor(
+                smiles_list=batch_smiles,
+                tokenizer=tokenizer,
+                device=device
+            )
+
+            emb = model(x)
+            all_embs.append(emb.cpu())
+
+            del x, emb
+            if device == "cuda": # free chace mem
+                torch.cuda.empty_cache()
+
+    return torch.cat(all_embs, dim=0)
+
+def extract_simson_embeddings_(smiles_list):
+    model, tokenizer, args, device = load_simson_encoder()
+
+    x = smiles_to_tensor(
+        smiles_list=smiles_list,
+        tokenizer=tokenizer,
+        device=device
+    )
+    
+    with torch.no_grad():
+        emb = model(x)
+        
+    return emb.cpu()

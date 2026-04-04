@@ -103,7 +103,7 @@ class MultiStructRSA(nn.Module, ABC):
     ####################################################################################
 
     @abstractmethod
-    def forward(self, graph, ernie_emb, rinalmo_emb, seq_len, morgan_fp, mordred_desc, chemberta_emb):
+    def forward(self, graph, ernie_emb, rinalmo_emb, seq_len, morgan_fp, mordred_desc, chemberta_emb, simson_emb):
         pass
 
 
@@ -131,8 +131,13 @@ class MultiStructRSAFull(MultiStructRSA):
         self.gated_fusion = GatedFeatureFusion(256)
         self.attn_pooling = AttnPool(128)
 
-        self.chemberta_mlp = nn.Sequential(
+        self.chemberta_proj = nn.Sequential(
             nn.Linear(384, 256, bias=False),
+            nn.LayerNorm(256)
+        )
+
+        self.simson_proj = nn.Sequential(
+            nn.Linear(512, 256, bias=False),
             nn.LayerNorm(256)
         )
         ''''
@@ -180,7 +185,7 @@ class MultiStructRSAFull(MultiStructRSA):
             nn.Linear(64, 1, bias=True)
         )
 
-    def forward(self, graph, ernie_emb, rinalmo_emb, seq_len, morgan_fp, mordred_desc, chemberta_emb):
+    def forward(self, graph, ernie_emb, rinalmo_emb, seq_len, morgan_fp, mordred_desc, chemberta_emb, simson_emb):
         h_V, _, _ = self._encode_3d_structure(graph)
 
         encoder_emb = torch.cat(
@@ -198,7 +203,7 @@ class MultiStructRSAFull(MultiStructRSA):
         rna_vec = torch.cat([rna_emb, nodes_vec], dim=0).unsqueeze(0)  # (1, 256)
 
         expert_smi_emb = self.expert_mlp(torch.cat([morgan_fp, mordred_desc], dim=1))
-        chemberta_mol_emb = self.chemberta_mlp(chemberta_emb)
+        chemberta_mol_emb = self.chemberta_proj(chemberta_emb)
         mol_vec = self.mol_mlp(torch.cat([expert_smi_emb, chemberta_mol_emb], dim=1))
 
         fused_emb = self.gated_fusion(mol_vec, rna_vec)
@@ -226,11 +231,14 @@ class MultiStructRSAFreezed(MultiStructRSA):
         self.gated_fusion = GatedFeatureFusion(256)
         self.attn_pooling = AttnPool(128)
 
-        self.chemberta_mlp = nn.Sequential(
+        self.chemberta_proj = nn.Sequential(
             nn.Linear(384, 256, bias=False),
-            nn.LayerNorm(256),
-            nn.ReLU(),
-            nn.Dropout(DROPOUT)
+            nn.LayerNorm(256)
+        )
+
+        self.simson_proj = nn.Sequential(
+            nn.Linear(512, 256, bias=False),
+            nn.LayerNorm(256)
         )
 
         self.expert_mlp = nn.Sequential(
@@ -263,7 +271,7 @@ class MultiStructRSAFreezed(MultiStructRSA):
             nn.Linear(64, 1, bias=True)
         )
 
-    def forward(self, graph, ernie_emb, rinalmo_emb, seq_len, morgan_fp, mordred_desc, chemberta_emb):
+    def forward(self, graph, ernie_emb, rinalmo_emb, seq_len, morgan_fp, mordred_desc, chemberta_emb, simson_emb):
         h_V, _, _ = self._encode_3d_structure(graph)
         encoder_emb = torch.cat([h_V[0], h_V[1].reshape(h_V[1].size(0), -1)],dim=1)
 
@@ -278,7 +286,7 @@ class MultiStructRSAFreezed(MultiStructRSA):
         rna_vec = torch.cat([rna_emb, nodes_vec], dim=0).unsqueeze(0)
 
         expert_smi_emb = self.expert_mlp(torch.cat([morgan_fp, mordred_desc], dim=1))
-        chemberta_mol_emb = self.chemberta_mlp(chemberta_emb)
+        chemberta_mol_emb = self.chemberta_proj(chemberta_emb)
         mol_vec = self.mol_mlp(torch.cat([expert_smi_emb, chemberta_mol_emb], dim=1))
 
         fused_emb = self.gated_fusion(mol_vec, rna_vec)
@@ -296,11 +304,14 @@ class MultiStructRSAWithout3D(MultiStructRSA):
 
         self.gated_fusion = GatedFeatureFusion(128)
 
-        self.chemberta_mlp = nn.Sequential(
-            nn.Linear(384, 128, bias=False),
-            nn.LayerNorm(128),
-            nn.ReLU(),
-            nn.Dropout(DROPOUT)
+        self.chemberta_proj = nn.Sequential(
+            nn.Linear(384, 256, bias=False),
+            nn.LayerNorm(256)
+        )
+
+        self.simson_proj = nn.Sequential(
+            nn.Linear(512, 256, bias=False),
+            nn.LayerNorm(256)
         )
 
         self.expert_mlp = nn.Sequential(
@@ -338,11 +349,11 @@ class MultiStructRSAWithout3D(MultiStructRSA):
             nn.Linear(32, 1, bias=True)
         )
 
-    def forward(self, graph, ernie_emb, rinalmo_emb, seq_len, morgan_fp, mordred_desc, chemberta_emb):
+    def forward(self, graph, ernie_emb, rinalmo_emb, seq_len, morgan_fp, mordred_desc, chemberta_emb, simson_emb):
         rna_emb = self.rna_proj(torch.cat([ernie_emb, rinalmo_emb], dim=1))
 
         expert_smi_emb = self.expert_mlp(torch.cat([morgan_fp, mordred_desc], dim=1))
-        chemberta_mol_emb = self.chemberta_mlp(chemberta_emb)
+        chemberta_mol_emb = self.chemberta_proj(chemberta_emb)
         mol_emb = self.mol_mlp(torch.cat([expert_smi_emb, chemberta_mol_emb], dim=1))
 
         x = self.gated_fusion(mol_emb, rna_emb)
@@ -368,11 +379,14 @@ class MultiStructRSAWithoutSeq(MultiStructRSA):
             nn.LayerNorm(128)
         )
 
-        self.chemberta_mlp = nn.Sequential(
+        self.chemberta_proj = nn.Sequential(
             nn.Linear(384, 256, bias=False),
-            nn.LayerNorm(256),
-            nn.ReLU(),
-            nn.Dropout(DROPOUT)
+            nn.LayerNorm(256)
+        )
+
+        self.simson_proj = nn.Sequential(
+            nn.Linear(512, 256, bias=False),
+            nn.LayerNorm(256)
         )
 
         self.expert_mlp = nn.Sequential(
@@ -405,7 +419,7 @@ class MultiStructRSAWithoutSeq(MultiStructRSA):
             nn.Linear(32, 1, bias=True)
         )
 
-    def forward(self, graph, ernie_emb, rinalmo_emb, seq_len, morgan_fp, mordred_desc, chemberta_emb):
+    def forward(self, graph, ernie_emb, rinalmo_emb, seq_len, morgan_fp, mordred_desc, chemberta_emb, simson_emb):
         h_V, h_E, edge_index = self._encode_3d_structure(graph)
 
         node_scalar = self.struct_proj(
@@ -414,7 +428,7 @@ class MultiStructRSAWithoutSeq(MultiStructRSA):
         rna_emb = self.attn_pooling(node_scalar, graph.batch)
 
         expert_smi_emb = self.expert_mlp(torch.cat([morgan_fp, mordred_desc], dim=1))
-        chemberta_mol_emb = self.chemberta_mlp(chemberta_emb)
+        chemberta_mol_emb = self.chemberta_proj(chemberta_emb)
         mol_emb = self.mol_mlp(torch.cat([expert_smi_emb, chemberta_mol_emb], dim=1))
 
         x = self.gated_fusion(mol_emb, rna_emb)
@@ -445,11 +459,14 @@ class MultiStructRSAWithoutFusion(MultiStructRSA):
             nn.LayerNorm(128)
         )
 
-        self.chemberta_mlp = nn.Sequential(
+        self.chemberta_proj = nn.Sequential(
             nn.Linear(384, 256, bias=False),
-            nn.LayerNorm(256),
-            nn.ReLU(),
-            nn.Dropout(DROPOUT)
+            nn.LayerNorm(256)
+        )
+
+        self.simson_proj = nn.Sequential(
+            nn.Linear(512, 256, bias=False),
+            nn.LayerNorm(256)
         )
 
         self.expert_mlp = nn.Sequential(
@@ -482,7 +499,7 @@ class MultiStructRSAWithoutFusion(MultiStructRSA):
             nn.Linear(64, 1, bias=True)
         )
 
-    def forward(self, graph, ernie_emb, rinalmo_emb, seq_len, morgan_fp, mordred_desc, chemberta_emb):
+    def forward(self, graph, ernie_emb, rinalmo_emb, seq_len, morgan_fp, mordred_desc, chemberta_emb, simson_emb):
         h_V, h_E, edge_index = self._encode_3d_structure(graph)
 
         node_scalar = self.struct_proj(
@@ -494,7 +511,7 @@ class MultiStructRSAWithoutFusion(MultiStructRSA):
         rna_emb = torch.cat([rna_mlm_emb, graph_emb], dim=1)  # (B, 256)
 
         expert_smi_emb = self.expert_mlp(torch.cat([morgan_fp, mordred_desc], dim=1))
-        chemberta_mol_emb = self.chemberta_mlp(chemberta_emb)
+        chemberta_mol_emb = self.chemberta_proj(chemberta_emb)
         mol_emb = self.mol_mlp(torch.cat([expert_smi_emb, chemberta_mol_emb], dim=1))
 
         x = self.gated_fusion(mol_emb, rna_emb)
@@ -533,13 +550,15 @@ class MultiMRSMABatched(nn.Module):
         self.gated_fusion = GatedFeatureFusion(256)
 
 
-        self.chemberta_mlp = nn.Sequential(
+        self.chemberta_proj = nn.Sequential(
             nn.Linear(384, 256, bias=False),
-            nn.LayerNorm(256),
-            nn.ReLU(),
-            nn.Dropout(DROPOUT)
+            nn.LayerNorm(256)
         )
 
+        self.simson_proj = nn.Sequential(
+            nn.Linear(512, 256, bias=False),
+            nn.LayerNorm(256)
+        )
 
         # ---- fusion head ----
         # note - without gRNAde substract 128
@@ -580,7 +599,7 @@ class MultiMRSMABatched(nn.Module):
         )
         return h_V, h_E
 
-    def forward(self, graphs, ernie_emb, seq_lens, morgan_fp, chemical_desc, chemberta_emb):
+    def forward(self, graphs, ernie_emb, seq_lens, morgan_fp, chemical_desc, chemberta_emb, simson_emb):
         """
         graphs: torch_geometric.data.Batch (from Batch.from_data_list)
         ernie_emb: [B, 768]
@@ -651,10 +670,16 @@ class MultiStructRSABatched(MultiStructRSA):
 
         self.gated_fusion = GatedFeatureFusion(256)
 
-        self.chemberta_mlp = nn.Sequential(
+        self.chemberta_proj = nn.Sequential(
             nn.Linear(384, 256, bias=False),
             nn.LayerNorm(256)
         )
+
+        self.simson_proj = nn.Sequential(
+            nn.Linear(512, 256, bias=False),
+            nn.LayerNorm(256)
+        )
+
 
         self.expert_mlp = nn.Sequential(
             nn.Linear(1024 + 1205, 512, bias=False),
@@ -711,12 +736,12 @@ class MultiStructRSABatched(MultiStructRSA):
             B_pad_mask=node_pad_mask
         )
 
-        seq_vec = masked_mean(seq_fused, rna_pad_mask)   # (B, 128)
-        nodes_vec = masked_mean(nodes_fused, node_pad_mask)    # (B, 128)
+        seq_vec = masked_max(seq_fused, rna_pad_mask)   # (B, 128)
+        nodes_vec = masked_max(nodes_fused, node_pad_mask)    # (B, 128)
         rna_vec = torch.cat([seq_vec, nodes_vec], dim=1)     # (B, 256)
 
         expert_smi_emb = self.expert_mlp(torch.cat([morgan_fp, mordred_desc], dim=1))
-        chemberta_mol_emb = self.chemberta_mlp(chemberta_emb)
+        chemberta_mol_emb = self.chemberta_proj(chemberta_emb)
         mol_vec = self.mol_mlp(torch.cat([expert_smi_emb, chemberta_mol_emb], dim=1))
 
         fused_emb = self.gated_fusion(mol_vec, rna_vec)

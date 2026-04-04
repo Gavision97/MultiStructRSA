@@ -44,7 +44,7 @@ def get_args():
     parser.add_argument(
         "--model_setting",
         type=str,
-        default="full batched",
+        default="full",
         choices=["full", "freezed", "w/o seq", "w/o 3D struct", "w/o fusion", "full batched"],
         help=(
             "Model configuration to use. Options:\n"
@@ -64,11 +64,30 @@ def get_args():
         help="Whether its seuqence based embedding with shape (, F) or nucleotide-based shape (L, F) where L is sequence length and F is feature dimension"
     )   
     parser.add_argument(
-        "--eval_method",
+        "--setting",
         type=str,
-        default="cold",
-        choices=["cv", "loo_cv", "cold", "cv_ns"],
-        help="Evaluation strategy"
+        default="cv",
+        choices=["cv", "loo_cv", "cold", "smi_emb_gen"],
+        help="execution setting (e.g., smiles feature generation, stratified k-fold CV evaluation, etc.)"
+    )
+    parser.add_argument(
+        "--smiles_path",
+        type=str,
+        default="/home/gavrilev/Thesis/src/saved_objects/rsim_unique_smiles.pkl",
+        help="Path to pickled SMILES molecule set"
+    )
+    parser.add_argument(
+        "--smiles_features_gen",
+        nargs="+",
+        default=["simson", "chemberta", "morgan_fp", "desc"],
+        choices=["simson", "chemberta", "morgan_fp", "desc"],
+        help="SMILES feature types to generate"
+    )
+    parser.add_argument(
+        "--save_name",
+        type=str,
+        default="smiles_embeddings",
+        help="generated SMILES embeddings save name; will be saved to -> embeddings/smiles/'save_name'.pkl"
     )
     parser.add_argument(
         "--cv_method",
@@ -99,7 +118,7 @@ def get_args():
     parser.add_argument(
         "--train_setting",
         type=int,
-        default=4,
+        default=6,
         help="gRNAde graph featurizer setting for training"
     )
     parser.add_argument(
@@ -110,12 +129,21 @@ def get_args():
     )
 
     parser.add_argument(
-        "--aug",
+        "--rna_aug",
+        type=str,
+        default="True",
+        choices=["True", "False"],
+        help="whether to use RNA data-augmentation while training"
+    )
+
+    parser.add_argument(
+        "--mol_aug",
         type=str,
         default="False",
         choices=["True", "False"],
-        help="whether to use data-augmentation while training"
+        help="whether to use SMILES data-augmentation while training"
     )
+
 
     parser.add_argument(
         "--smoothing_factor",
@@ -176,7 +204,7 @@ def get_args():
     parser.add_argument(
         "--device",
         type=str,
-        default="cuda",
+        default="cpu",
         choices=["cuda", "cpu"],
         help="Computation device"
     )

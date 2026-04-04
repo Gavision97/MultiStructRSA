@@ -24,12 +24,15 @@ import torch
 from utils.tools import scale_nonzero
 
 # RNA & Small molecule pre-computed embeddings files paths
-#RNA_EMB_PATH = "embeddings/rna/rna_embeddings_clean.h5" # w/o padding
-RNA_EMB_PATH = "embeddings/rna/rna_embeddings_padded.h5" # w padding
+RNA_EMB_PATH = "embeddings/rna/rna_embeddings_clean.h5" # w/o padding
+#RNA_EMB_PATH = "embeddings/rna/rna_embeddings_padded.h5" # w padding
 
 # small molecule pre-computer embeddings (for R-SIM dataset)
-SMILES_EMB_PATH = "embeddings/smiles/smiles_embeddings.pkl"
+#SMILES_EMB_PATH = "embeddings/smiles/smiles_embeddings.pkl"
+SMILES_EMB_PATH = "embeddings/smiles/smiles_emb.pkl"
 
+SMILES_AUG_EMB_PATH = "embeddings/smiles/smiles_seq_aug_emb.pkl"
+SMILES2AUG_PATH = "saved_objects/smiles2aug.pkl"
 
 # k = 32
 SEQ_TO_G_PATH_1 = "saved_objects/seq_to_g1.pt" # no aug & no multi-conformer - just 'model_0'
@@ -71,12 +74,13 @@ class MolRNADataset(Dataset):
     * We clone() the cached Data to avoid accidental in-place modification across samples.
     * Features are returned as torch.FloatTensor so collate_fn can stack them cleanly.
     """
-    def __init__(self, ds_ ,setting=1, aug=False, task='training', is_seq_emb=False): 
-        logger.info(f'W/O PADDING -> MolRNACDataset with for {task} setting={setting} and aug={aug} - for RNA cross-attention fusion')
+    def __init__(self, ds_ ,setting=1, rna_aug=False, mol_aug=False, task='training', is_seq_emb=False): 
+        logger.info(f'W/O PADDING -> MolRNACDataset with for {task} setting={setting} rna aug={rna_aug} mol aug={mol_aug} - for RNA cross-attention fusion')
 
         self.is_seq_emb = is_seq_emb
         self.data = ds_.reset_index(drop=True)
-        self.aug = aug
+        self.rna_aug = rna_aug
+        self.mol_aug = mol_aug
         self.task = task
 
         self.data["Target_RNA_sequence"] = (
@@ -89,32 +93,45 @@ class MolRNADataset(Dataset):
         seq_to_g_setting = _get_seq_to_g_setting(setting=setting)
         self.seq_to_g = torch.load(seq_to_g_setting, map_location="cpu")
 
+        # load RNA pre-computed embeddings (gRNAde, RiNALMo, ERNIE-RNA)
         self.rna_emb = h5py.File(RNA_EMB_PATH, "r")
 
-        with open(SMILES_EMB_PATH, "rb") as f:
-            smiles_features_dict = pickle.load(f)
-
+        # load SMILES pre-computed embeddings (Mordred, Morgan Fingerprints, chemBERTa, SimSon)
+        '''
+        Note: We compute augmented embeddings only for SimSon and ChemBERTa, since
+        descriptor-based features and molecular fingerprints remain identical across
+        augmented SMILES that correspond to the same unique molecule in the R-SIM dataset.
+        '''
+        smiles_features_dict = self.open_pkl(SMILES_EMB_PATH)
         self.smiles_chemberta_features = smiles_features_dict["chemberta"]
+        self.smiles_simson_features = smiles_features_dict["simson"]
+        if self.mol_aug:
+            self.smiles2aug = self.open_pkl(SMILES2AUG_PATH) # dictionary that maps unique R-SIM SMILES -> augmented SMILES list
+            smiles_seq_aug_emb = self.open_pkl(SMILES_AUG_EMB_PATH)
+            self.smiles_chemberta_features = smiles_seq_aug_emb["chemberta"]
+            self.smiles_simson_features = smiles_seq_aug_emb["simson"]
+
         self.smiles_morgan_features = smiles_features_dict["morgan fingerprints"]
         self.mordred_descriptors_features = scale_nonzero(smiles_features_dict["mordred descriptors"])
 
     @staticmethod
     def collate_fn(batch):
         inputs, y = zip(*batch)
-        graphs, ernie, rinalmo, seq_len, mordred, morgan, chemberta = zip(*inputs)
+        graphs, ernie, rinalmo, seq_len, mordred, morgan, chemberta, simson = zip(*inputs)
 
         # stack -> list of tensors, tensor -> list of scalars
         graphs = Batch.from_data_list(list(graphs))   # real PyG objct
         mordred = torch.stack(mordred, dim=0)         # (1, Dm) / (B, Dm)
         morgan = torch.stack(morgan, dim=0)           # (1, 1024) / (B, 1024)
         chemberta = torch.stack(chemberta, dim=0)     # (1, 384) / (B, 384)
+        simson = torch.stack(simson, dim=0)           # (1, 512) / (B, 512)
         y = torch.stack(y, dim=0)                     # (1,) / (B,)
 
         ernie  = torch.stack(ernie, dim=0) # (1, L, 768) / (B, L, 768)
         rinalmo = torch.stack(rinalmo, dim=0) # (1, L, 1280) (1, L, 1280)
         seq_len = torch.tensor(seq_len) # (B,)
 
-        inputs = [graphs, ernie, rinalmo, seq_len, mordred, morgan, chemberta]
+        inputs = [graphs, ernie, rinalmo, seq_len, mordred, morgan, chemberta, simson]
         return inputs, y
 
     def make_loader(self, batch_size=8, shuffle=True, num_workers=0, pin_memory=True):
@@ -127,6 +144,11 @@ class MolRNADataset(Dataset):
             collate_fn=MolRNADataset.collate_fn,
         )
 
+    def open_pkl(self, path):
+        with open(path, "rb") as f:
+            result = pickle.load(f)
+        return result
+    
     def __len__(self):
         return len(self.data)
 
@@ -135,7 +157,7 @@ class MolRNADataset(Dataset):
         rna_seq = self.data.loc[idx, "Target_RNA_sequence"]
   
         _g = self.seq_to_g[rna_seq]
-        if self.aug:
+        if self.rna_aug:
             # settings (3)/(6): seq_to_g[seq] is a list[Data] (5 conformers)
             _g = random.choice(_g)
         g = _g.clone()
@@ -146,12 +168,15 @@ class MolRNADataset(Dataset):
         rinalmo = torch.from_numpy(curr_rna_emb["rinalmo"][:]).float() if not self.is_seq_emb else torch.from_numpy(curr_rna_emb["rinalmo"][:]).float().mean(dim=0)    # (max_seq_len, 1280) -> (2922, 1280)
 
         # Small molecule features
+        if self.mol_aug:
+            smiles = random.choice(self.smiles2aug[smiles])
+        simson = torch.from_numpy(self.smiles_simson_features.loc[self.smiles_simson_features['SMILES'] == smiles].iloc[0, 1:].values.astype(np.float32))
         chemberta = torch.from_numpy(self.smiles_chemberta_features.loc[self.smiles_chemberta_features['SMILES'] == smiles].iloc[0, 1:].values.astype(np.float32))
         morgan_fingerprint = torch.from_numpy(self.smiles_morgan_features.loc[self.smiles_morgan_features['SMILES'] == smiles].iloc[0, 1:].values.astype(np.float32))
         mordred_descriptors = torch.from_numpy(self.mordred_descriptors_features.loc[self.mordred_descriptors_features['SMILES'] == smiles].iloc[0, 1:].values.astype(np.float32))
         y = torch.tensor(self.data.iloc[idx]["pKd"], dtype=torch.float32)
 
-        return (g, ernie, rinalmo, seq_len,  mordred_descriptors, morgan_fingerprint, chemberta), y
+        return (g, ernie, rinalmo, seq_len,  mordred_descriptors, morgan_fingerprint, chemberta, simson), y
     
 
 

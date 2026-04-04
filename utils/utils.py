@@ -68,16 +68,21 @@ def randomize_smiles(smiles, canonical=False, isomericSmiles=True):
         isomericSmiles=isomericSmiles
     )
 
-def enumerate_unique(smiles, n=10):
+
+def enumerate_unique(smiles, n=10, max_tries=100):
     """
     Generate up to n unique randomized SMILES for the same molecule
     using atom-order randomization.
     """
-    seen = set([smiles])
-    while len(seen) < n:
+    seen = {smiles}
+    tries = 0
+
+    while len(seen) < n and tries < max_tries:
         s = randomize_smiles(smiles)
-        if s:
+        if s is not None:
             seen.add(s)
+        tries += 1
+
     return list(seen)
 
 #########################################################################################

@@ -1,0 +1,15 @@
+2026-04-04 12:24:57,799 - log message
+2026-04-04 12:24:57,800 - ==========================================================================
+2026-04-04 12:24:57,800 - generating SimSon feature dataset ...
+2026-04-04 12:25:50,884 - finished & saved - simson features dataframe shape -> (759, 513)
+2026-04-04 12:25:50,884 - ==========================================================================
+2026-04-04 12:25:50,884 - generating chemBERTa feature dataset ...
+2026-04-04 12:25:53,470 - finished & saved - chemberta features dataframe shape -> (759, 385)
+2026-04-04 12:25:53,470 - ==========================================================================
+2026-04-04 12:25:53,470 - generating morgan fingerprints feature dataset ...
+2026-04-04 12:25:54,480 - finished & saved - morgan fingerprints features dataframe shape -> (759, 1025)
+2026-04-04 12:25:54,480 - ==========================================================================
+2026-04-04 12:25:54,480 - generating Mordred chemical descriptors feature dataset ...
+2026-04-04 12:34:18,230 - finished & saved - Mordred descriptors features dataframe shape -> (759, 1206)
+2026-04-04 12:34:18,230 - finished generating all 3 smiles features dataset successfully!
+2026-04-04 12:34:18,291 - Successfully saved SMILES embeddings to -> embeddings/smiles/smiles_emb.pkl

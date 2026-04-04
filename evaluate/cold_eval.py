@@ -33,7 +33,7 @@ DELTA = 1e-6 # 0.0001 ;for early stopping (11/03, 1e-4 -> 5e-5 -> 1e-6)
 MIN_EPOCHS = 50
 
 # MultiStructRSA training hyperparameters:
-BATCH_SIZE = 1
+BATCH_SIZE = 16
 MAX_EPOCHS = 1000
 NUM_WORKERS = 8
 

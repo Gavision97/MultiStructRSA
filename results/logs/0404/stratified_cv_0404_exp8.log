@@ -1,0 +1,21 @@
+2026-04-05 14:23:00,664 - stratified_cv_0404_exp8 - MultiStructRSA (full batched version) - TRAIN SETTING=6; VAL SETTING=4; RNA AUG=True; MOL AUG=True SEED=1; DATASET SEED=2
+2026-04-05 14:23:00,664 - 
+==================== ALL FAMILIES  ==================== (setting:1)
+2026-04-05 14:23:00,673 - K folds:5, seed:1, dataset seed:2 batch size:1, max epochs:1000, lr:5e-05, weight decay:1e-05, patience:30, warm up epo:40, delta:1e-06
+2026-04-05 14:23:00,676 - --- Start statified 5-fold cross-validation; pd.DataFrame shape -> (1439, 8), lr=5e-05 ---
+2026-04-05 14:23:00,679 - W/O PADDING -> MolRNACDataset for training setting=6 rna aug=True mol aug=True - for RNA cross-attention fusion
+2026-04-05 14:23:05,528 - W/O PADDING -> MolRNACDataset for evaluating setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
+2026-04-05 14:23:06,371 - 
+Fold number 1/5
+2026-04-05 14:23:06,372 - Train len -> 3427, Test len -> 288
+2026-04-05 14:23:06,372 - --- MultiStructRSA batched: padded sequence + batched graph training ---
+2026-04-05 14:23:06,525 - Initialized model setting: full batched
+2026-04-05 14:29:18,417 - NEW BEST @ epoch 1: val loss=1.1625, ppc=0.5610, ssc=0.5649, r2=0.2895; train loss=1.5651
+2026-04-05 14:35:36,000 - NEW BEST @ epoch 2: val loss=1.0450, ppc=0.6561, ssc=0.6866, r2=0.4259; train loss=0.8716
+2026-04-05 14:41:56,126 - NEW BEST @ epoch 3: val loss=0.9646, ppc=0.7172, ssc=0.7628, r2=0.5108; train loss=0.7580
+2026-04-05 14:54:36,494 - NEW BEST @ epoch 5: val loss=0.9226, ppc=0.7529, ssc=0.7808, r2=0.5525; train loss=0.6572
+2026-04-05 15:07:14,899 - NEW BEST @ epoch 7: val loss=0.8954, ppc=0.7626, ssc=0.7822, r2=0.5785; train loss=0.6018
+2026-04-05 15:45:13,282 - NEW BEST @ epoch 13: val loss=0.8948, ppc=0.7673, ssc=0.7883, r2=0.5790; train loss=0.5140
+2026-04-05 16:10:33,760 - NEW BEST @ epoch 17: val loss=0.8687, ppc=0.7819, ssc=0.8060, r2=0.6032; train loss=0.4827
+2026-04-05 16:29:34,387 - NEW BEST @ epoch 20: val loss=0.8588, ppc=0.7909, ssc=0.8200, r2=0.6123; train loss=0.4529
+2026-04-05 17:45:19,568 - NEW BEST @ epoch 32: val loss=0.8581, ppc=0.7921, ssc=0.8122, r2=0.6129; train loss=0.3901

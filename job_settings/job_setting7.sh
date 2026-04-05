@@ -19,28 +19,31 @@
 ### Experiment variables ###
 ############################
 
-EXP_ID=2   # experiment ID
-DATE=2203  # for log & result directory creation
+EXP_ID=5   # experiment ID
+DATE=0404  # for log & result directory creation
 
-MODEL_SETTING="freezed" # ["full", "freezed", "w/o seq", "w/o 3D struct", "w/o fusion"]
+MODEL_SETTING="full" # ["full", "freezed", "w/o seq", "w/o 3D struct", "w/o fusion"]
 TRAIN_SETTING=4
 VAL_SETTING=4
-IS_SEQ_EMB="False"
-AUG="False"
-IS_PLOT="True"
+MOL_AUG="False"
+RNA_AUG="False"
 
-EXP_NAME="exp${EXP_ID}"
-EVAL_METHOD="cold_blind_cv"
-COLD_TYPE="cold_rna"
+EXP_NAME="exp${EXP_ID}"  
 
-RES_FILE_NAME="blind_test_${COLD_TYPE}_${DATE}"
+RES_FILE_NAME="cv_all_${DATE}"
 PLOT_NAME="${DATE}_exp${EXP_ID}"
 
-LOG_FILE_NAME="blind_test_${COLD_TYPE}_${DATE}_exp${EXP_ID}"
+LOG_FILE_NAME="stratified_cv_${DATE}_exp${EXP_ID}"
+
+SETTING="cv"
+CV_METHOD="all"
+K_FOLD=5
 DEVICE="cuda"
 
 SEED=1
-LOG_MSG="${RES_FILE_NAME} - MultiStructRSA (${MODEL_SETTING} version) - TRAIN SETTING=${TRAIN_SETTING}; VAL SETTING=${VAL_SETTING}; AUG=${AUG}; SEED=${SEED}"
+DATASET_SEED=2
+
+LOG_MSG="stratified_cv_${DATE}_exp${EXP_ID} - MultiStructRSA (${MODEL_SETTING} version) - TRAIN SETTING=${TRAIN_SETTING}; VAL SETTING=${VAL_SETTING}; RNA AUG=${RNA_AUG}; MOL AUG=${MOL_AUG} SEED=${SEED}; DATASET SEED=${DATASET_SEED}"
 
 
 
@@ -54,7 +57,7 @@ export PYTHONPATH="${PYTHONPATH}:$(pwd)"
 
 export CUBLAS_WORKSPACE_CONFIG=:4096:8
 export CUDA_LAUNCH_BLOCKING=1
-export TORCH_USE_CUDA_DSA=1
+#export TORCH_USE_CUDA_DSA=1
 
 export HF_HUB_ETAG_TIMEOUT=60
 export HF_HUB_DOWNLOAD_TIMEOUT=300
@@ -68,14 +71,15 @@ python main.py \
   --model_setting "$MODEL_SETTING" \
   --train_setting "$TRAIN_SETTING" \
   --val_setting "$VAL_SETTING" \
-  --aug "$AUG" \
-  --is_seq_emb "$IS_SEQ_EMB" \
-  --is_plot "$IS_PLOT" \
+  --rna_aug "$RNA_AUG" \
+  --mol_aug "$MOL_AUG" \
   --res_file_name "$RES_FILE_NAME" \
   --plot_name "$PLOT_NAME" \
   --log_msg "$LOG_MSG" \
   --log_file_name "$LOG_FILE_NAME" \
-  --eval_method "$EVAL_METHOD" \
-  --cold_type "$COLD_TYPE" \
+  --setting "$SETTING" \
+  --cv_method "$CV_METHOD" \
+  --k_fold "$K_FOLD" \
   --device "$DEVICE" \
-  --seed "$SEED" 
+  --seed "$SEED" \
+  --dataset_seed "$DATASET_SEED"

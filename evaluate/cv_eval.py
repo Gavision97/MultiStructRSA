@@ -12,9 +12,8 @@ torch.backends.cudnn.allow_tf32 = False
 torch.backends.cudnn.benchmark = False
 torch.backends.cudnn.deterministic = True
 
-from evaluate.evaluate_utils import (train_one_epoch, predict, EarlyStopping,
-                                     regressor_stratified_cv, plot_train_val_loss, safe_regression_metrics)
-
+from utils.utils import *
+from utils.plot_utils import plot_train_val_loss
 #from utils.MolRNADataset import MolRNADataset # w/o RNA cross-attention fusion mechanism
 from utils.MolRNACDataset import MolRNADataset # w RNA cross-attention fusion mechanism
 
@@ -37,7 +36,7 @@ MIN_EPOCHS = 50
 # MultiStructRSA training hyperparameters:
 LR = 0.00005 # from 0.00005 -> 0.0001
 WEIGHT_DECAY = 1e-5
-BATCH_SIZE = 1
+BATCH_SIZE = 4
 MAX_EPOCHS = 1000
 NUM_WORKERS = 8
 
@@ -61,7 +60,7 @@ def set_seed(seed_):
 def rmse_loss(y_true, y_pred):
     return torch.sqrt(torch.mean((y_true - y_pred) ** 2))
 
-def cv_eval(dataset=None, model_setting="full", train_setting=4, val_setting=4, rna_aug=False, mol_aug=False, lr=5e-5, wd=1e-5,
+def cv_eval(dataset=None, model_setting="full", train_setting=4, val_setting=4, rna_aug=False, mol_aug=False, lr=5e-5, wd=1e-5, batch_size=1,
             is_plot=False, is_seq_emb=False, n=10, fam_name=None, plot_name="loss_curve", device="cuda", dataset_seed=2, seed=1):
     """
     Run stratified k-fold cross-validation for a selected MultiStructRSA model setting.
@@ -105,30 +104,32 @@ def cv_eval(dataset=None, model_setting="full", train_setting=4, val_setting=4, 
     """
         
     logger.info(
-        f'K folds:{n}, seed:{seed}, dataset seed:{dataset_seed} batch size:{BATCH_SIZE}, '
+        f'K folds:{n}, seed:{seed}, dataset seed:{dataset_seed} batch size:{batch_size}, '
         f'max epochs:{MAX_EPOCHS}, lr:{lr}, weight decay:{wd}, '
         f'patience:{PATIENCE}, warm up epo:{WARM_UP_EPOCHS}, delta:{DELTA}'
     )
     set_seed(seed) # set seed (same as in DeepRSMA and others)
     all_df = dataset
+    Y = all_df["pKd"].to_numpy(dtype=np.float32)
+
     logging.info(f"--- Start statified {n}-fold cross-validation; pd.DataFrame shape -> {all_df.shape}, lr={lr} ---")
-
-    train_ds = MolRNADataset(all_df, setting=train_setting, rna_aug=rna_aug, mol_aug=mol_aug, task="training", is_seq_emb=is_seq_emb)
-    val_ds = MolRNADataset(all_df, setting=val_setting, rna_aug=False, mol_aug=False, task='evaluating', is_seq_emb=is_seq_emb)
-    Y = train_ds.data["pKd"].to_numpy(dtype=np.float32)
-
+    
     # same initialization as in DeepRSMA and others
     skf = regressor_stratified_cv(n_splits=n, n_repeats=1, random_state=dataset_seed, group_count=5, strategy="uniform")
     p_list, s_list, rmse_list, r2_list = [], [], [], []
-
     for fold, (train_index, test_index) in enumerate(skf.split(np.zeros(len(Y)), Y)):
+        train_df = all_df.iloc[train_index].reset_index(drop=True)
+        test_df = all_df.iloc[test_index].reset_index(drop=True)
+
+        train_ds = MolRNADataset(train_df, setting=train_setting, rna_aug=rna_aug, mol_aug=mol_aug, task="training", is_seq_emb=is_seq_emb)
+        val_ds = MolRNADataset(test_df, setting=val_setting, rna_aug=False, mol_aug=False, task="evaluating", is_seq_emb=is_seq_emb)
         g = torch.Generator().manual_seed(seed) # determinism per fold
 
         logger.info(f"\nFold number {fold+1}/{n}")
 
         # initialize current fold train & test dataloaders
-        train_loader = DataLoader(Subset(train_ds, train_index), batch_size=BATCH_SIZE, generator=g, shuffle=True, collate_fn=MolRNADataset.collate_fn, num_workers=NUM_WORKERS)
-        test_loader = DataLoader(Subset(val_ds, test_index), batch_size=BATCH_SIZE, shuffle=False, collate_fn=MolRNADataset.collate_fn, num_workers=NUM_WORKERS)
+        train_loader = DataLoader(train_ds, batch_size=batch_size, generator=g, shuffle=True, collate_fn=MolRNADataset.collate_fn, num_workers=NUM_WORKERS)
+        test_loader = DataLoader(val_ds, batch_size=batch_size, shuffle=False, collate_fn=MolRNADataset.collate_fn, num_workers=NUM_WORKERS)
         logger.info(f'Train len -> {len(train_loader.dataset)}, Test len -> {len(test_loader.dataset)}')
 
 
@@ -218,6 +219,7 @@ def cv_eval_(
     mol_aug=False,
     lr=5e-5,
     wd=1e-5,
+    batch_size=1,
     is_plot=False,
     is_seq_emb=False,
     n=10,
@@ -240,7 +242,7 @@ def cv_eval_(
     """
 
     logger.info(
-        f'K folds:{n}, seed:{seed}, dataset seed:{dataset_seed}, batch size:{BATCH_SIZE}, '
+        f'K folds:{n}, seed:{seed}, dataset seed:{dataset_seed}, batch size:{batch_size}, '
         f'max epochs:{MAX_EPOCHS}, lr:{lr}, weight decay:{wd}, '
         f'patience:{PATIENCE}, warm up epo:{WARM_UP_EPOCHS}, delta:{DELTA}, val_ratio:{val_ratio}'
     )
@@ -280,9 +282,9 @@ def cv_eval_(
 
         g = torch.Generator().manual_seed(seed + fold)
 
-        train_loader = DataLoader(Subset(train_ds, inner_train_index), batch_size=BATCH_SIZE, generator=g, shuffle=True, collate_fn=MolRNADataset.collate_fn, num_workers=NUM_WORKERS)
-        val_loader = DataLoader(Subset(eval_ds, val_index), batch_size=BATCH_SIZE, shuffle=False, collate_fn=MolRNADataset.collate_fn, num_workers=NUM_WORKERS)
-        test_loader = DataLoader(Subset(eval_ds, test_index), batch_size=BATCH_SIZE, shuffle=False, collate_fn=MolRNADataset.collate_fn, num_workers=NUM_WORKERS)
+        train_loader = DataLoader(Subset(train_ds, inner_train_index), batch_size=batch_size, generator=g, shuffle=True, collate_fn=MolRNADataset.collate_fn, num_workers=NUM_WORKERS)
+        val_loader = DataLoader(Subset(eval_ds, val_index), batch_size=batch_size, shuffle=False, collate_fn=MolRNADataset.collate_fn, num_workers=NUM_WORKERS)
+        test_loader = DataLoader(Subset(eval_ds, test_index), batch_size=batch_size, shuffle=False, collate_fn=MolRNADataset.collate_fn, num_workers=NUM_WORKERS)
 
         model = choose_model_setting(option=model_setting).to(device)
         optimizer = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=wd)

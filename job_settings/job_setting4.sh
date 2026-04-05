@@ -25,8 +25,8 @@ DATE=0404  # for log & result directory creation
 MODEL_SETTING="full" # ["full", "freezed", "w/o seq", "w/o 3D struct", "w/o fusion"]
 TRAIN_SETTING=4
 VAL_SETTING=4
-MOL_AUG="True"
-RNA_AUG="True"
+MOL_AUG="False"
+RNA_AUG="False"
 
 EXP_NAME="exp${EXP_ID}"  
 

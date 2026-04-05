@@ -9,6 +9,32 @@ import matplotlib.colors as mcolors
 from matplotlib.patches import Ellipse
 
 
+def plot_train_val_loss(
+    train_losses,
+    val_losses,
+    save_path=None,
+    title="Loss Curve"
+):
+    steps = range(len(train_losses))
+
+    plt.figure(figsize=(10, 6))
+    plt.plot(steps, train_losses, label="Training Loss", linewidth=2, color="blue")
+    plt.plot(steps, val_losses, label="Validation Loss", linewidth=2, color="green")
+
+    plt.title(title, fontsize=16)
+    plt.xlabel("Training Steps", fontsize=14)
+    plt.ylabel("Loss", fontsize=14)
+
+    plt.grid(True, alpha=0.4)
+    plt.legend(fontsize=12)
+    plt.tight_layout()
+
+    if save_path is not None:
+        plt.savefig(save_path, dpi=300)
+
+    plt.show()
+
+####################################################################################
 def plot_grouped_metrics(
     df: pd.DataFrame,
     metric_cols: list[str],

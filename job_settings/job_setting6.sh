@@ -23,9 +23,9 @@ EXP_ID=4   # experiment ID
 DATE=0404  # for log & result directory creation
 
 MODEL_SETTING="full" # ["full", "freezed", "w/o seq", "w/o 3D struct", "w/o fusion"]
-TRAIN_SETTING=4
+TRAIN_SETTING=6
 VAL_SETTING=4
-MOL_AUG="False"
+MOL_AUG="True"
 RNA_AUG="True"
 
 EXP_NAME="exp${EXP_ID}"  
@@ -43,7 +43,7 @@ DEVICE="cuda"
 SEED=1
 DATASET_SEED=2
 
-LOG_MSG="stratified_cv_${DATE}_exp${EXP_ID} - MultiStructRSA (${MODEL_SETTING} version) - TRAIN SETTING=${TRAIN_SETTING}; VAL SETTING=${VAL_SETTING}; AUG=${AUG}; SEED=${SEED}; DATASET SEED=${DATASET_SEED}"
+LOG_MSG="stratified_cv_${DATE}_exp${EXP_ID} - MultiStructRSA (${MODEL_SETTING} version) - TRAIN SETTING=${TRAIN_SETTING}; VAL SETTING=${VAL_SETTING}; RNA AUG=${RNA_AUG}; MOL AUG=${MOL_AUG} SEED=${SEED}; DATASET SEED=${DATASET_SEED}"
 
 
 

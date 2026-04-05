@@ -13,6 +13,49 @@ logger = logging.getLogger(__name__)
 
 COLD_PATH = 'datasets/blind_test/'
 
+
+"""
+SMILES randomization adapted from:
+
+Bjerrum, E. J. (2017).
+"SMILES enumeration as data augmentation for neural network modeling of molecules."
+arXiv:1703.07076
+
+Official implementation:
+https://github.com/Ebjerrum/SMILES-enumeration
+"""
+def randomize_smiles(smiles, canonical=False, isomericSmiles=True):
+    """Randomize SMILES atom ordering for data augmentation"""
+    m = Chem.MolFromSmiles(smiles)
+    if m is None:
+        return None
+
+    atom_order = list(range(m.GetNumAtoms()))
+    np.random.shuffle(atom_order)
+
+    m = Chem.RenumberAtoms(m, atom_order)
+    return Chem.MolToSmiles(
+        m,
+        canonical=canonical,
+        isomericSmiles=isomericSmiles
+    )
+
+
+def enumerate_unique(smiles, n=10, max_tries=100):
+    """
+    Generate up to n unique randomized SMILES for the same molecule
+    using atom-order randomization.
+    """
+    seen = {smiles}
+    tries = 0
+
+    while len(seen) < n and tries < max_tries:
+        s = randomize_smiles(smiles)
+        if s is not None:
+            seen.add(s)
+        tries += 1
+
+    return list(seen)
 #################################################################################################3
 # same style as their code
 def set_seed(seed_):

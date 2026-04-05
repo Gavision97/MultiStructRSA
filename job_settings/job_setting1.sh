@@ -11,11 +11,11 @@
 #SBATCH --mem=40G
 
 SETTING="smi_emb_gen"
-SMILES_PATH="/home/gavrilev/Thesis/src/saved_objects/rsim_unique_smiles.pkl"
-SAVE_NAME="smiles_emb"
+SMILES_PATH="/home/gavrilev/Thesis/src/saved_objects/rsim_aug_smiles.pkl"
+SAVE_NAME="smiles_seq_aug_emb_all"
 DEVICE="cuda"
 DATE=0404
-EXP_ID=1
+EXP_ID=3
 LOG_FILE_NAME="smi_emb_gen_${DATE}_exp${EXP_ID}"
 
 module load anaconda

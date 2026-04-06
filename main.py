@@ -8,6 +8,7 @@ from pathlib import Path
 import os
 import pickle
 
+from evaluate.cv_eval_ns import cv_eval_ns
 from evaluate.cv_eval import cv_eval, cv_eval_, cv_eval__
 from evaluate.cold_eval import preform_cold_blind_eval
 
@@ -135,11 +136,11 @@ def preform_k_fold_cv_all(ev_setting=1, exp_name = 'exp', res_file_name="cv10_al
     # 1 - like in DeepRSMA, early stopping on the test set (test-leakage, overoptimistic)
     # 2 - early stopping on the validation loss & test best mode 
     # 3 - early stopping on the validation loss & then retrain new model with chosen N epochs using train+val data
-    cv_setting2method = {1 : cv_eval, 2: cv_eval_, 3: cv_eval__} 
+    cv_setting2method = {1 : cv_eval, 2: cv_eval_, 3: cv_eval__, 4:cv_eval_ns} 
     selected_cv_eval  = cv_setting2method[ev_setting]
 
     all_df = pd.read_csv(ALL_SF_DATASET_PATH, sep="\t")
-    res = selected_cv_eval (dataset=all_df, model_setting=model_setting,train_setting=train_setting, val_setting=val_setting,
+    res = selected_cv_eval(dataset=all_df, model_setting=model_setting,train_setting=train_setting, val_setting=val_setting,
                   rna_aug=rna_aug, mol_aug=mol_aug, lr=lr, wd=wd, batch_size=batch_size, is_plot=is_plot, is_seq_emb=is_seq_emb, n=n, plot_name=plot_name ,device=device, seed=seed, dataset_seed=dataset_seed)
 
 

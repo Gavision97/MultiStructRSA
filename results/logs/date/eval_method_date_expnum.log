@@ -1,314 +1,113 @@
-2026-04-04 17:54:05,407 - log message
-2026-04-04 17:54:05,407 - 
+2026-04-05 19:59:13,268 - log message
+2026-04-05 19:59:13,268 - 
 ==================== ALL FAMILIES  ==================== (setting:1)
-2026-04-04 17:54:05,414 - K folds:5, seed:1, dataset seed:2 batch size:1, max epochs:1000, lr:5e-05, weight decay:1e-05, patience:30, warm up epo:40, delta:1e-06
-2026-04-04 17:54:05,416 - --- Start statified 5-fold cross-validation; pd.DataFrame shape -> (1439, 8), lr=5e-05 ---
-2026-04-04 17:54:05,416 - W/O PADDING -> MolRNACDataset with for training setting=6 rna aug=True mol aug=True - for RNA cross-attention fusion
-2026-04-04 17:54:07,212 - W/O PADDING -> MolRNACDataset with for evaluating setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
-2026-04-04 17:54:07,764 - 
+2026-04-05 19:59:13,277 - K folds:5, seed:1, dataset seed:2 batch size:16, max epochs:1000, lr:1e-05, weight decay:1e-05, patience:30, warm up epo:40, delta:1e-06
+2026-04-05 19:59:13,281 - --- Start statified 5-fold cross-validation; pd.DataFrame shape -> (1439, 8), lr=1e-05 ---
+2026-04-05 19:59:13,284 - W/O PADDING -> MolRNACDataset for training setting=6 rna aug=True mol aug=True - for RNA cross-attention fusion
+2026-04-05 19:59:21,365 - W/O PADDING -> MolRNACDataset for evaluating setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
+2026-04-05 19:59:22,898 - 
 Fold number 1/5
-2026-04-04 17:54:07,765 - Train len -> 1151, Test len -> 288
-2026-04-04 17:54:07,765 - MultiStructRSA - full: w 3D struct, w seq, w cross-attention fusion
-2026-04-04 17:54:07,766 - hyperparameters -> BiDirectionalCrossFusion dropout:0.1, Encoder MLPs dropout:0.1; Last MLP dropout:0.1
-2026-04-04 17:54:07,900 - BiDirectionalCrossFusion @ 1 CrossAttnetionsBlock(s); hyperparam -> d_model:128, n_heads:4, dropout:0.1
-2026-04-04 17:54:07,930 - Initialized model setting: full
-2026-04-04 17:58:36,239 - NEW BEST @ epoch 1: val loss=1.9285, ppc=0.0328, ssc=0.0490, r2=-0.9554; train loss=2.5044
-2026-04-04 18:29:42,272 - log message
-2026-04-04 18:29:42,273 - 
+2026-04-05 19:59:22,898 - Train len -> 3427, Test len -> 288
+2026-04-05 19:59:22,899 - --- MultiStructRSA batched: padded sequence + batched graph training ---
+2026-04-05 19:59:23,060 - Initialized model setting: full batched
+2026-04-05 20:01:26,597 - log message
+2026-04-05 20:01:26,597 - 
 ==================== ALL FAMILIES  ==================== (setting:1)
-2026-04-04 18:29:42,281 - K folds:5, seed:1, dataset seed:2 batch size:1, max epochs:1000, lr:5e-05, weight decay:1e-05, patience:30, warm up epo:40, delta:1e-06
-2026-04-04 18:29:42,282 - --- Start statified 5-fold cross-validation; pd.DataFrame shape -> (1439, 8), lr=5e-05 ---
-2026-04-04 18:29:42,282 - W/O PADDING -> MolRNACDataset with for training setting=6 rna aug=True mol aug=True - for RNA cross-attention fusion
-2026-04-04 18:29:47,299 - W/O PADDING -> MolRNACDataset with for evaluating setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
-2026-04-04 18:29:48,667 - 
+2026-04-05 20:01:26,608 - K folds:5, seed:1, dataset seed:2 batch size:32, max epochs:1000, lr:1e-05, weight decay:1e-05, patience:30, warm up epo:40, delta:1e-06
+2026-04-05 20:01:26,612 - --- Start statified 5-fold cross-validation; pd.DataFrame shape -> (1439, 8), lr=1e-05 ---
+2026-04-05 20:01:26,622 - W/O PADDING -> MolRNACDataset for training setting=6 rna aug=True mol aug=True - for RNA cross-attention fusion
+2026-04-05 20:01:36,190 - W/O PADDING -> MolRNACDataset for evaluating setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
+2026-04-05 20:01:37,934 - 
 Fold number 1/5
-2026-04-04 18:29:48,668 - Train len -> 1151, Test len -> 288
-2026-04-04 18:29:48,670 - MultiStructRSA - full: w 3D struct, w seq, w cross-attention fusion
-2026-04-04 18:29:48,671 - hyperparameters -> BiDirectionalCrossFusion dropout:0.1, Encoder MLPs dropout:0.1; Last MLP dropout:0.1
-2026-04-04 18:29:48,824 - BiDirectionalCrossFusion @ 1 CrossAttnetionsBlock(s); hyperparam -> d_model:128, n_heads:4, dropout:0.1
-2026-04-04 18:29:48,855 - Initialized model setting: full
-2026-04-04 18:33:52,930 - NEW BEST @ epoch 1: val loss=1.7199, ppc=0.2266, ssc=0.1421, r2=-0.5552; train loss=2.1636
-2026-04-04 18:37:56,337 - NEW BEST @ epoch 2: val loss=1.5955, ppc=0.4743, ssc=0.4259, r2=-0.3384; train loss=1.2687
-2026-04-04 18:42:01,399 - NEW BEST @ epoch 3: val loss=1.1733, ppc=0.5479, ssc=0.5075, r2=0.2762; train loss=1.0193
-2026-04-04 18:46:04,388 - NEW BEST @ epoch 4: val loss=1.1151, ppc=0.5893, ssc=0.5653, r2=0.3463; train loss=0.9362
-2026-04-04 18:50:10,899 - NEW BEST @ epoch 5: val loss=1.0990, ppc=0.6253, ssc=0.6054, r2=0.3650; train loss=0.8931
-2026-04-04 18:58:29,521 - NEW BEST @ epoch 7: val loss=1.0388, ppc=0.6583, ssc=0.7019, r2=0.4326; train loss=0.8257
-2026-04-04 19:02:31,958 - NEW BEST @ epoch 8: val loss=1.0151, ppc=0.6779, ssc=0.7055, r2=0.4582; train loss=0.7676
-2026-04-04 19:06:49,895 - NEW BEST @ epoch 9: val loss=0.9984, ppc=0.6988, ssc=0.7387, r2=0.4760; train loss=0.7213
-2026-04-04 19:11:52,260 - NEW BEST @ epoch 10: val loss=0.9931, ppc=0.7106, ssc=0.7397, r2=0.4815; train loss=0.7023
-2026-04-04 19:17:37,544 - NEW BEST @ epoch 11: val loss=0.9639, ppc=0.7231, ssc=0.7459, r2=0.5115; train loss=0.6880
-2026-04-04 23:25:56,120 - log message
-2026-04-04 23:25:56,120 - 
+2026-04-05 20:01:37,935 - Train len -> 3427, Test len -> 288
+2026-04-05 20:01:37,936 - --- MultiStructRSA batched: padded sequence + batched graph training ---
+2026-04-05 20:01:38,101 - Initialized model setting: full batched
+2026-04-05 20:06:56,636 - NEW BEST @ epoch 1: val loss=3.5363, ppc=-0.0926, ssc=-0.0757, r2=-5.5747; train loss=4.2508
+2026-04-05 20:12:16,951 - NEW BEST @ epoch 2: val loss=3.2239, ppc=-0.1020, ssc=-0.0927, r2=-4.4644; train loss=3.5426
+2026-04-05 20:16:03,386 - log message
+2026-04-05 20:16:03,387 - 
 ==================== ALL FAMILIES  ==================== (setting:1)
-2026-04-04 23:25:56,132 - K folds:5, seed:1, dataset seed:2 batch size:1, max epochs:1000, lr:0.0005, weight decay:1e-05, patience:30, warm up epo:40, delta:1e-06
-2026-04-04 23:25:56,135 - --- Start statified 5-fold cross-validation; pd.DataFrame shape -> (1439, 8), lr=0.0005 ---
-2026-04-04 23:25:56,135 - W/O PADDING -> MolRNACDataset with for training setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
-2026-04-04 23:25:57,618 - W/O PADDING -> MolRNACDataset with for evaluating setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
-2026-04-04 23:25:58,174 - 
+2026-04-05 20:16:03,395 - K folds:5, seed:1, dataset seed:2 batch size:2, max epochs:1000, lr:1e-05, weight decay:1e-05, patience:30, warm up epo:40, delta:1e-06
+2026-04-05 20:16:03,397 - --- Start statified 5-fold cross-validation; pd.DataFrame shape -> (1439, 8), lr=1e-05 ---
+2026-04-05 20:16:03,400 - W/O PADDING -> MolRNACDataset for training setting=6 rna aug=True mol aug=True - for RNA cross-attention fusion
+2026-04-05 20:16:08,620 - W/O PADDING -> MolRNACDataset for evaluating setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
+2026-04-05 20:16:09,558 - 
 Fold number 1/5
-2026-04-04 23:25:58,174 - Train len -> 1151, Test len -> 288
-2026-04-04 23:25:58,175 - --- MultiStructRSA batched: padded sequence + batched graph training ---
-2026-04-04 23:25:58,358 - Initialized model setting: full batched
-2026-04-04 23:27:20,664 - log message
-2026-04-04 23:27:20,664 - 
-==================== ALL FAMILIES  ==================== (setting:1)
-2026-04-04 23:27:20,672 - K folds:5, seed:1, dataset seed:2 batch size:1, max epochs:1000, lr:0.0005, weight decay:1e-05, patience:30, warm up epo:40, delta:1e-06
-2026-04-04 23:27:20,673 - --- Start statified 5-fold cross-validation; pd.DataFrame shape -> (1439, 8), lr=0.0005 ---
-2026-04-04 23:27:20,673 - W/O PADDING -> MolRNACDataset with for training setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
-2026-04-04 23:27:21,380 - W/O PADDING -> MolRNACDataset with for evaluating setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
-2026-04-04 23:27:21,951 - 
+2026-04-05 20:16:09,558 - Train len -> 3427, Test len -> 288
+2026-04-05 20:16:09,559 - --- MultiStructRSA batched: padded sequence + batched graph training ---
+2026-04-05 20:16:09,709 - Initialized model setting: full batched
+2026-04-05 20:21:27,212 - NEW BEST @ epoch 1: val loss=2.5723, ppc=-0.1436, ssc=-0.1112, r2=-2.4787; train loss=3.0325
+2026-04-05 20:26:43,795 - NEW BEST @ epoch 2: val loss=2.1105, ppc=0.0451, ssc=0.0928, r2=-1.3417; train loss=2.2858
+2026-04-05 20:32:00,599 - NEW BEST @ epoch 3: val loss=1.7515, ppc=0.0684, ssc=0.0871, r2=-0.6128; train loss=1.8623
+2026-04-05 20:37:17,168 - NEW BEST @ epoch 4: val loss=1.5402, ppc=0.0958, ssc=0.1311, r2=-0.2473; train loss=1.5622
+2026-04-05 20:42:33,337 - NEW BEST @ epoch 5: val loss=1.4385, ppc=0.4797, ssc=0.4285, r2=-0.0880; train loss=1.4248
+2026-04-05 20:47:51,172 - NEW BEST @ epoch 6: val loss=1.3516, ppc=0.4573, ssc=0.4389, r2=0.0395; train loss=1.3439
+2026-04-05 20:53:08,524 - NEW BEST @ epoch 7: val loss=1.3196, ppc=0.5535, ssc=0.4896, r2=0.0845; train loss=1.3033
+2026-04-05 20:58:25,099 - NEW BEST @ epoch 8: val loss=1.2831, ppc=0.5662, ssc=0.5341, r2=0.1344; train loss=1.2873
+2026-04-05 21:03:41,257 - NEW BEST @ epoch 9: val loss=1.2239, ppc=0.5840, ssc=0.5727, r2=0.2125; train loss=1.2661
+2026-04-05 21:10:23,089 - log message
+2026-04-05 21:10:23,089 - 
+==================== ALL FAMILIES  ==================== (setting:4)
+2026-04-05 21:11:53,690 - log message
+2026-04-05 21:11:53,690 - 
+==================== ALL FAMILIES  ==================== (setting:4)
+2026-04-05 21:13:09,332 - log message
+2026-04-05 21:13:09,332 - 
+==================== ALL FAMILIES  ==================== (setting:4)
+2026-04-05 21:13:09,342 - Smoothing Factor -> 0.75, Negative Factor -> 1
+2026-04-05 21:13:09,342 - K folds:5, seed:1, dataset seed:2, batch size:1, max epochs:1000, lr:1e-05, weight decay:1e-05, patience:30, warm up epo:30, delta:0, val_ratio:0.1
+2026-04-05 21:13:09,347 - --- Start stratified 5-fold cross-validation; pd.DataFrame shape -> (1439, 8), lr=1e-05 ---
+2026-04-05 21:14:50,843 - log message
+2026-04-05 21:14:50,844 - 
+==================== ALL FAMILIES  ==================== (setting:4)
+2026-04-05 21:14:50,853 - Smoothing Factor -> 0.75, Negative Factor -> 1
+2026-04-05 21:14:50,853 - K folds:5, seed:1, dataset seed:2, batch size:1, max epochs:1000, lr:1e-05, weight decay:1e-05, patience:30, warm up epo:30, delta:0, val_ratio:0.1
+2026-04-05 21:14:50,855 - --- Start stratified 5-fold cross-validation; pd.DataFrame shape -> (1439, 8), lr=1e-05 ---
+2026-04-05 21:14:50,857 - 
 Fold number 1/5
-2026-04-04 23:27:21,952 - Train len -> 1151, Test len -> 288
-2026-04-04 23:27:21,953 - --- MultiStructRSA batched: padded sequence + batched graph training ---
-2026-04-04 23:27:22,113 - Initialized model setting: full batched
-2026-04-04 23:28:03,308 - log message
-2026-04-04 23:28:03,308 - 
-==================== ALL FAMILIES  ==================== (setting:1)
-2026-04-04 23:28:03,317 - K folds:5, seed:1, dataset seed:2 batch size:16, max epochs:1000, lr:0.0005, weight decay:1e-05, patience:30, warm up epo:40, delta:1e-06
-2026-04-04 23:28:03,318 - --- Start statified 5-fold cross-validation; pd.DataFrame shape -> (1439, 8), lr=0.0005 ---
-2026-04-04 23:28:03,318 - W/O PADDING -> MolRNACDataset with for training setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
-2026-04-04 23:28:04,058 - W/O PADDING -> MolRNACDataset with for evaluating setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
-2026-04-04 23:28:04,654 - 
+2026-04-05 21:14:52,028 - Outer train rows before augmentation: 1151 | synthetic negatives: 962 | outer train rows after augmentation: 2113
+2026-04-05 21:14:52,039 - Inner split sizes -> train: 1901, val: 212, test: 288
+2026-04-05 21:14:52,039 - W/O PADDING -> MolRNACDataset for training setting=6 rna aug=True mol aug=True - for RNA cross-attention fusion
+2026-04-05 21:15:02,783 - W/O PADDING -> MolRNACDataset for evaluating setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
+2026-04-05 21:15:04,715 - W/O PADDING -> MolRNACDataset for evaluating setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
+2026-04-05 21:15:05,654 - --- MultiStructRSA batched: padded sequence + batched graph training ---
+2026-04-05 21:15:05,951 - Initialized model setting: full batched
+2026-04-05 21:15:59,230 - log message
+2026-04-05 21:15:59,230 - 
+==================== ALL FAMILIES  ==================== (setting:4)
+2026-04-05 21:15:59,242 - Smoothing Factor -> 0.75, Negative Factor -> 1
+2026-04-05 21:15:59,242 - K folds:5, seed:1, dataset seed:2, batch size:1, max epochs:1000, lr:1e-05, weight decay:1e-05, patience:30, warm up epo:30, delta:0, val_ratio:0.1
+2026-04-05 21:15:59,245 - --- Start stratified 5-fold cross-validation; pd.DataFrame shape -> (1439, 8), lr=1e-05 ---
+2026-04-05 21:15:59,247 - 
 Fold number 1/5
-2026-04-04 23:28:04,655 - Train len -> 1151, Test len -> 288
-2026-04-04 23:28:04,655 - --- MultiStructRSA batched: padded sequence + batched graph training ---
-2026-04-04 23:28:04,821 - Initialized model setting: full batched
-2026-04-04 23:28:29,662 - log message
-2026-04-04 23:28:29,662 - 
-==================== ALL FAMILIES  ==================== (setting:1)
-2026-04-04 23:28:29,670 - K folds:5, seed:1, dataset seed:2 batch size:16, max epochs:1000, lr:0.0005, weight decay:1e-05, patience:30, warm up epo:40, delta:1e-06
-2026-04-04 23:28:29,671 - --- Start statified 5-fold cross-validation; pd.DataFrame shape -> (1439, 8), lr=0.0005 ---
-2026-04-04 23:28:29,672 - W/O PADDING -> MolRNACDataset with for training setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
-2026-04-04 23:28:30,394 - W/O PADDING -> MolRNACDataset with for evaluating setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
-2026-04-04 23:28:30,989 - 
+2026-04-05 21:16:00,432 - Outer train rows before augmentation: 1151 | synthetic negatives: 962 | outer train rows after augmentation: 2113
+2026-04-05 21:16:00,440 - Inner split sizes -> train: 1901, val: 212, test: 288
+2026-04-05 21:16:00,440 - W/O PADDING -> MolRNACDataset for training setting=6 rna aug=True mol aug=True - for RNA cross-attention fusion
+2026-04-05 21:16:10,653 - W/O PADDING -> MolRNACDataset for evaluating setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
+2026-04-05 21:16:12,608 - W/O PADDING -> MolRNACDataset for evaluating setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
+2026-04-05 21:16:13,555 - --- MultiStructRSA batched: padded sequence + batched graph training ---
+2026-04-05 21:16:13,741 - Initialized model setting: full batched
+2026-04-05 21:19:13,054 - log message
+2026-04-05 21:19:13,054 - 
+==================== ALL FAMILIES  ==================== (setting:4)
+2026-04-05 21:19:13,063 - Smoothing Factor -> 0.75, Negative Factor -> 1
+2026-04-05 21:19:13,063 - K folds:5, seed:1, dataset seed:2, batch size:1, max epochs:1000, lr:1e-05, weight decay:1e-05, patience:30, warm up epo:30, delta:0, val_ratio:0.1
+2026-04-05 21:19:13,065 - --- Start stratified 5-fold cross-validation; pd.DataFrame shape -> (1439, 8), lr=1e-05 ---
+2026-04-05 21:19:13,067 - 
 Fold number 1/5
-2026-04-04 23:28:30,989 - Train len -> 1151, Test len -> 288
-2026-04-04 23:28:30,990 - --- MultiStructRSA batched: padded sequence + batched graph training ---
-2026-04-04 23:28:31,152 - Initialized model setting: full batched
-2026-04-04 23:29:35,686 - NEW BEST @ epoch 1: val loss=2.0279, ppc=-0.1931, ssc=-0.1744, r2=-1.1621; train loss=2.7550
-2026-04-04 23:30:39,886 - NEW BEST @ epoch 2: val loss=1.3903, ppc=0.1155, ssc=0.0824, r2=-0.0162; train loss=1.7131
-2026-04-04 23:31:43,623 - NEW BEST @ epoch 3: val loss=1.3814, ppc=0.2043, ssc=0.1732, r2=-0.0033; train loss=1.4397
-2026-04-04 23:33:55,266 - NEW BEST @ epoch 5: val loss=1.3790, ppc=0.1332, ssc=0.1389, r2=0.0002; train loss=1.4332
-2026-04-04 23:39:13,384 - NEW BEST @ epoch 10: val loss=1.3784, ppc=0.3435, ssc=0.3232, r2=0.0011; train loss=1.4363
-2026-04-04 23:43:09,327 - log message
-2026-04-04 23:43:09,327 - 
-==================== ALL FAMILIES  ==================== (setting:1)
-2026-04-04 23:43:09,336 - K folds:5, seed:1, dataset seed:2 batch size:8, max epochs:1000, lr:0.0005, weight decay:1e-05, patience:30, warm up epo:40, delta:1e-06
-2026-04-04 23:43:09,337 - --- Start statified 5-fold cross-validation; pd.DataFrame shape -> (1439, 8), lr=0.0005 ---
-2026-04-04 23:43:09,338 - W/O PADDING -> MolRNACDataset with for training setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
-2026-04-04 23:43:10,091 - W/O PADDING -> MolRNACDataset with for evaluating setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
-2026-04-04 23:43:10,694 - 
-Fold number 1/5
-2026-04-04 23:43:10,694 - Train len -> 1151, Test len -> 288
-2026-04-04 23:43:10,695 - --- MultiStructRSA batched: padded sequence + batched graph training ---
-2026-04-04 23:43:10,861 - Initialized model setting: full batched
-2026-04-04 23:44:13,022 - NEW BEST @ epoch 1: val loss=1.4072, ppc=-0.0064, ssc=0.0162, r2=-0.0411; train loss=2.2152
-2026-04-04 23:45:14,379 - NEW BEST @ epoch 2: val loss=1.3796, ppc=0.1322, ssc=0.1595, r2=-0.0007; train loss=1.4277
-2026-04-04 23:47:13,568 - NEW BEST @ epoch 4: val loss=1.3792, ppc=0.3436, ssc=0.3456, r2=-0.0001; train loss=1.4233
-2026-04-04 23:48:14,085 - NEW BEST @ epoch 5: val loss=1.3775, ppc=0.3703, ssc=0.3420, r2=0.0024; train loss=1.4138
-2026-04-04 23:53:14,759 - NEW BEST @ epoch 10: val loss=1.3767, ppc=0.3960, ssc=0.3836, r2=0.0035; train loss=1.4046
-2026-04-04 23:54:15,138 - NEW BEST @ epoch 11: val loss=1.3765, ppc=0.3744, ssc=0.3583, r2=0.0038; train loss=1.4099
-2026-04-05 00:00:17,214 - NEW BEST @ epoch 17: val loss=1.3683, ppc=0.4234, ssc=0.3665, r2=0.0157; train loss=1.4075
-2026-04-05 00:08:21,190 - NEW BEST @ epoch 25: val loss=1.3649, ppc=0.4532, ssc=0.3800, r2=0.0206; train loss=1.4217
-2026-04-05 12:29:30,470 - log message
-2026-04-05 12:29:30,470 - 
-==================== ALL FAMILIES  ==================== (setting:1)
-2026-04-05 12:29:30,482 - K folds:5, seed:1, dataset seed:2 batch size:1, max epochs:1000, lr:0.0005, weight decay:1e-05, patience:30, warm up epo:40, delta:1e-06
-2026-04-05 12:29:30,486 - --- Start statified 5-fold cross-validation; pd.DataFrame shape -> (1439, 8), lr=0.0005 ---
-2026-04-05 12:29:30,486 - W/O PADDING -> MolRNACDataset for training setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
-2026-04-05 12:29:32,619 - W/O PADDING -> MolRNACDataset for evaluating setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
-2026-04-05 12:29:33,564 - 
-Fold number 1/5
-2026-04-05 12:29:33,565 - Train len -> 1151, Test len -> 288
-2026-04-05 12:29:33,566 - --- MultiStructRSA batched: padded sequence + batched graph training ---
-2026-04-05 12:29:33,728 - Initialized model setting: full batched
-2026-04-05 12:30:48,106 - log message
-2026-04-05 12:30:48,106 - 
-==================== ALL FAMILIES  ==================== (setting:1)
-2026-04-05 12:30:48,115 - K folds:5, seed:1, dataset seed:2 batch size:1, max epochs:1000, lr:0.0005, weight decay:1e-05, patience:30, warm up epo:40, delta:1e-06
-2026-04-05 12:30:48,117 - --- Start statified 5-fold cross-validation; pd.DataFrame shape -> (1439, 8), lr=0.0005 ---
-2026-04-05 12:30:48,117 - W/O PADDING -> MolRNACDataset for training setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
-2026-04-05 12:30:49,228 - W/O PADDING -> MolRNACDataset for evaluating setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
-2026-04-05 12:30:50,180 - 
-Fold number 1/5
-2026-04-05 12:30:50,180 - Train len -> 1151, Test len -> 288
-2026-04-05 12:30:50,181 - --- MultiStructRSA batched: padded sequence + batched graph training ---
-2026-04-05 12:30:50,325 - Initialized model setting: full batched
-2026-04-05 12:31:16,934 - log message
-2026-04-05 12:31:16,935 - 
-==================== ALL FAMILIES  ==================== (setting:1)
-2026-04-05 12:31:16,943 - K folds:5, seed:1, dataset seed:2 batch size:1, max epochs:1000, lr:0.0005, weight decay:1e-05, patience:30, warm up epo:40, delta:1e-06
-2026-04-05 12:31:16,945 - --- Start statified 5-fold cross-validation; pd.DataFrame shape -> (1439, 8), lr=0.0005 ---
-2026-04-05 12:31:16,945 - W/O PADDING -> MolRNACDataset for training setting=4 rna aug=True mol aug=True - for RNA cross-attention fusion
-2026-04-05 12:31:24,184 - W/O PADDING -> MolRNACDataset for evaluating setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
-2026-04-05 12:31:25,112 - 
-Fold number 1/5
-2026-04-05 12:31:25,112 - Train len -> 11399, Test len -> 2850
-2026-04-05 12:31:25,113 - --- MultiStructRSA batched: padded sequence + batched graph training ---
-2026-04-05 12:31:25,254 - Initialized model setting: full batched
-2026-04-05 12:31:45,292 - log message
-2026-04-05 12:31:45,292 - 
-==================== ALL FAMILIES  ==================== (setting:1)
-2026-04-05 12:31:45,301 - K folds:5, seed:1, dataset seed:2 batch size:1, max epochs:1000, lr:0.0005, weight decay:1e-05, patience:30, warm up epo:40, delta:1e-06
-2026-04-05 12:31:45,303 - --- Start statified 5-fold cross-validation; pd.DataFrame shape -> (1439, 8), lr=0.0005 ---
-2026-04-05 12:31:45,303 - W/O PADDING -> MolRNACDataset for training setting=6 rna aug=True mol aug=True - for RNA cross-attention fusion
-2026-04-05 12:31:57,604 - W/O PADDING -> MolRNACDataset for evaluating setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
-2026-04-05 12:31:58,531 - 
-Fold number 1/5
-2026-04-05 12:31:58,532 - Train len -> 11399, Test len -> 2850
-2026-04-05 12:31:58,532 - --- MultiStructRSA batched: padded sequence + batched graph training ---
-2026-04-05 12:31:58,673 - Initialized model setting: full batched
-2026-04-05 12:33:15,375 - log message
-2026-04-05 12:33:15,375 - 
-==================== ALL FAMILIES  ==================== (setting:1)
-2026-04-05 12:33:15,383 - K folds:5, seed:1, dataset seed:2 batch size:16, max epochs:1000, lr:0.0005, weight decay:1e-05, patience:30, warm up epo:40, delta:1e-06
-2026-04-05 12:33:15,385 - --- Start statified 5-fold cross-validation; pd.DataFrame shape -> (1439, 8), lr=0.0005 ---
-2026-04-05 12:33:15,385 - W/O PADDING -> MolRNACDataset for training setting=6 rna aug=True mol aug=True - for RNA cross-attention fusion
-2026-04-05 12:33:23,983 - W/O PADDING -> MolRNACDataset for evaluating setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
-2026-04-05 12:33:24,923 - 
-Fold number 1/5
-2026-04-05 12:33:24,924 - Train len -> 11399, Test len -> 2850
-2026-04-05 12:33:24,924 - --- MultiStructRSA batched: padded sequence + batched graph training ---
-2026-04-05 12:33:25,066 - Initialized model setting: full batched
-2026-04-05 12:34:16,341 - log message
-2026-04-05 12:34:16,341 - 
-==================== ALL FAMILIES  ==================== (setting:1)
-2026-04-05 12:34:16,350 - K folds:5, seed:1, dataset seed:2 batch size:16, max epochs:1000, lr:0.0005, weight decay:1e-05, patience:30, warm up epo:40, delta:1e-06
-2026-04-05 12:34:16,353 - --- Start statified 5-fold cross-validation; pd.DataFrame shape -> (1439, 8), lr=0.0005 ---
-2026-04-05 12:34:16,353 - W/O PADDING -> MolRNACDataset for training setting=6 rna aug=True mol aug=True - for RNA cross-attention fusion
-2026-04-05 12:34:24,866 - W/O PADDING -> MolRNACDataset for evaluating setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
-2026-04-05 12:34:25,798 - 
-Fold number 1/5
-2026-04-05 12:34:25,799 - Train len -> 11399, Test len -> 2850
-2026-04-05 12:34:25,800 - --- MultiStructRSA batched: padded sequence + batched graph training ---
-2026-04-05 12:34:25,943 - Initialized model setting: full batched
-2026-04-05 12:41:49,157 - log message
-2026-04-05 12:41:49,157 - 
-==================== ALL FAMILIES  ==================== (setting:1)
-2026-04-05 12:41:49,166 - K folds:5, seed:1, dataset seed:2 batch size:16, max epochs:1000, lr:0.0005, weight decay:1e-05, patience:30, warm up epo:40, delta:1e-06
-2026-04-05 12:41:49,168 - --- Start statified 5-fold cross-validation; pd.DataFrame shape -> (1439, 8), lr=0.0005 ---
-2026-04-05 12:41:49,171 - W/O PADDING -> MolRNACDataset for training setting=6 rna aug=True mol aug=True - for RNA cross-attention fusion
-2026-04-05 12:41:57,926 - W/O PADDING -> MolRNACDataset for evaluating setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
-2026-04-05 12:41:58,953 - 
-Fold number 1/5
-2026-04-05 12:41:58,954 - Train len -> 1151, Test len -> 288
-2026-04-05 12:41:58,955 - --- MultiStructRSA batched: padded sequence + batched graph training ---
-2026-04-05 12:41:59,096 - Initialized model setting: full batched
-2026-04-05 12:45:06,443 - log message
-2026-04-05 12:45:06,443 - 
-==================== ALL FAMILIES  ==================== (setting:1)
-2026-04-05 12:45:06,456 - K folds:5, seed:1, dataset seed:2 batch size:16, max epochs:1000, lr:0.0005, weight decay:1e-05, patience:30, warm up epo:40, delta:1e-06
-2026-04-05 12:45:06,460 - --- Start statified 5-fold cross-validation; pd.DataFrame shape -> (1439, 8), lr=0.0005 ---
-2026-04-05 12:45:06,462 - W/O PADDING -> MolRNACDataset for training setting=6 rna aug=True mol aug=True - for RNA cross-attention fusion
-2026-04-05 12:45:18,191 - W/O PADDING -> MolRNACDataset for evaluating setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
-2026-04-05 12:45:19,950 - 
-Fold number 1/5
-2026-04-05 12:45:19,951 - Train len -> 11387, Test len -> 288
-2026-04-05 12:45:19,952 - --- MultiStructRSA batched: padded sequence + batched graph training ---
-2026-04-05 12:45:20,114 - Initialized model setting: full batched
-2026-04-05 12:52:19,978 - NEW BEST @ epoch 1: val loss=1.3864, ppc=0.2564, ssc=0.2644, r2=-0.0105; train loss=1.5960
-2026-04-05 12:59:20,215 - NEW BEST @ epoch 2: val loss=1.3803, ppc=0.2426, ssc=0.2315, r2=-0.0017; train loss=1.4348
-2026-04-05 13:03:21,458 - log message
-2026-04-05 13:03:21,458 - 
-==================== ALL FAMILIES  ==================== (setting:1)
-2026-04-05 13:03:21,466 - K folds:5, seed:1, dataset seed:2 batch size:16, max epochs:1000, lr:0.0005, weight decay:1e-05, patience:30, warm up epo:40, delta:1e-06
-2026-04-05 13:03:21,469 - --- Start statified 5-fold cross-validation; pd.DataFrame shape -> (1439, 8), lr=0.0005 ---
-2026-04-05 13:03:21,471 - W/O PADDING -> MolRNACDataset for training setting=6 rna aug=True mol aug=True - for RNA cross-attention fusion
-2026-04-05 13:03:29,915 - W/O PADDING -> MolRNACDataset for evaluating setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
-2026-04-05 13:03:30,948 - 
-Fold number 1/5
-2026-04-05 13:03:30,948 - Train len -> 11387, Test len -> 288
-2026-04-05 13:03:30,949 - --- MultiStructRSA batched: padded sequence + batched graph training ---
-2026-04-05 13:03:31,092 - Initialized model setting: full batched
-2026-04-05 13:05:11,217 - log message
-2026-04-05 13:05:11,217 - 
-==================== ALL FAMILIES  ==================== (setting:1)
-2026-04-05 13:05:11,229 - K folds:5, seed:1, dataset seed:2 batch size:4, max epochs:1000, lr:0.0005, weight decay:1e-05, patience:30, warm up epo:40, delta:1e-06
-2026-04-05 13:05:11,232 - --- Start statified 5-fold cross-validation; pd.DataFrame shape -> (1439, 8), lr=0.0005 ---
-2026-04-05 13:05:11,235 - W/O PADDING -> MolRNACDataset for training setting=6 rna aug=True mol aug=True - for RNA cross-attention fusion
-2026-04-05 13:05:25,369 - W/O PADDING -> MolRNACDataset for evaluating setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
-2026-04-05 13:05:28,981 - 
-Fold number 1/5
-2026-04-05 13:05:28,982 - Train len -> 11387, Test len -> 288
-2026-04-05 13:05:28,982 - --- MultiStructRSA batched: padded sequence + batched graph training ---
-2026-04-05 13:05:29,147 - Initialized model setting: full batched
-2026-04-05 13:13:12,672 - log message
-2026-04-05 13:13:12,672 - 
-==================== ALL FAMILIES  ==================== (setting:1)
-2026-04-05 13:13:12,683 - K folds:5, seed:1, dataset seed:2 batch size:1, max epochs:1000, lr:0.0005, weight decay:1e-05, patience:30, warm up epo:40, delta:1e-06
-2026-04-05 13:13:12,687 - --- Start statified 5-fold cross-validation; pd.DataFrame shape -> (1439, 8), lr=0.0005 ---
-2026-04-05 13:13:12,689 - W/O PADDING -> MolRNACDataset for training setting=6 rna aug=True mol aug=True - for RNA cross-attention fusion
-2026-04-05 13:13:22,550 - W/O PADDING -> MolRNACDataset for evaluating setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
-2026-04-05 13:13:24,254 - 
-Fold number 1/5
-2026-04-05 13:13:24,255 - Train len -> 5702, Test len -> 288
-2026-04-05 13:13:24,256 - --- MultiStructRSA batched: padded sequence + batched graph training ---
-2026-04-05 13:13:24,577 - Initialized model setting: full batched
-2026-04-05 13:25:23,850 - log message
-2026-04-05 13:25:23,850 - 
-==================== ALL FAMILIES  ==================== (setting:1)
-2026-04-05 13:25:23,859 - K folds:5, seed:1, dataset seed:2 batch size:32, max epochs:1000, lr:0.0005, weight decay:1e-05, patience:30, warm up epo:40, delta:1e-06
-2026-04-05 13:25:23,861 - --- Start statified 5-fold cross-validation; pd.DataFrame shape -> (1439, 8), lr=0.0005 ---
-2026-04-05 13:25:23,863 - W/O PADDING -> MolRNACDataset for training setting=6 rna aug=True mol aug=True - for RNA cross-attention fusion
-2026-04-05 13:25:29,603 - W/O PADDING -> MolRNACDataset for evaluating setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
-2026-04-05 13:25:30,514 - 
-Fold number 1/5
-2026-04-05 13:25:30,514 - Train len -> 5702, Test len -> 288
-2026-04-05 13:25:30,515 - --- MultiStructRSA batched: padded sequence + batched graph training ---
-2026-04-05 13:25:30,818 - Initialized model setting: full batched
-2026-04-05 13:27:08,505 - log message
-2026-04-05 13:27:08,505 - 
-==================== ALL FAMILIES  ==================== (setting:1)
-2026-04-05 13:27:08,517 - K folds:5, seed:1, dataset seed:2 batch size:8, max epochs:1000, lr:0.0005, weight decay:1e-05, patience:30, warm up epo:40, delta:1e-06
-2026-04-05 13:27:08,521 - --- Start statified 5-fold cross-validation; pd.DataFrame shape -> (1439, 8), lr=0.0005 ---
-2026-04-05 13:27:08,523 - W/O PADDING -> MolRNACDataset for training setting=6 rna aug=True mol aug=True - for RNA cross-attention fusion
-2026-04-05 13:27:18,728 - W/O PADDING -> MolRNACDataset for evaluating setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
-2026-04-05 13:27:20,487 - 
-Fold number 1/5
-2026-04-05 13:27:20,488 - Train len -> 5702, Test len -> 288
-2026-04-05 13:27:20,489 - --- MultiStructRSA batched: padded sequence + batched graph training ---
-2026-04-05 13:27:20,811 - Initialized model setting: full batched
-2026-04-05 13:31:17,104 - NEW BEST @ epoch 1: val loss=1.3874, ppc=0.2297, ssc=0.3412, r2=-0.0120; train loss=1.5971
-2026-04-05 13:35:14,356 - NEW BEST @ epoch 2: val loss=1.3768, ppc=0.4213, ssc=0.3837, r2=0.0034; train loss=1.4183
-2026-04-05 13:39:10,626 - NEW BEST @ epoch 3: val loss=1.3702, ppc=0.4473, ssc=0.4181, r2=0.0130; train loss=1.4232
-2026-04-05 13:43:09,091 - NEW BEST @ epoch 4: val loss=1.3494, ppc=0.5124, ssc=0.4641, r2=0.0427; train loss=1.4152
-2026-04-05 14:00:48,255 - log message
-2026-04-05 14:00:48,255 - 
-==================== ALL FAMILIES  ==================== (setting:1)
-2026-04-05 14:00:48,263 - K folds:5, seed:1, dataset seed:2 batch size:4, max epochs:1000, lr:5e-05, weight decay:1e-05, patience:30, warm up epo:40, delta:1e-06
-2026-04-05 14:00:48,266 - --- Start statified 5-fold cross-validation; pd.DataFrame shape -> (1439, 8), lr=5e-05 ---
-2026-04-05 14:00:48,268 - W/O PADDING -> MolRNACDataset for training setting=6 rna aug=True mol aug=True - for RNA cross-attention fusion
-2026-04-05 14:00:54,206 - W/O PADDING -> MolRNACDataset for evaluating setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
-2026-04-05 14:00:55,131 - 
-Fold number 1/5
-2026-04-05 14:00:55,132 - Train len -> 5702, Test len -> 288
-2026-04-05 14:00:55,133 - --- MultiStructRSA batched: padded sequence + batched graph training ---
-2026-04-05 14:00:55,437 - Initialized model setting: full batched
-2026-04-05 14:09:31,183 - log message
-2026-04-05 14:09:31,183 - 
-==================== ALL FAMILIES  ==================== (setting:1)
-2026-04-05 14:09:31,195 - K folds:5, seed:1, dataset seed:2 batch size:4, max epochs:1000, lr:5e-05, weight decay:1e-05, patience:30, warm up epo:40, delta:1e-06
-2026-04-05 14:09:31,199 - --- Start statified 5-fold cross-validation; pd.DataFrame shape -> (1439, 8), lr=5e-05 ---
-2026-04-05 14:09:31,201 - W/O PADDING -> MolRNACDataset for training setting=6 rna aug=True mol aug=True - for RNA cross-attention fusion
-2026-04-05 14:09:39,154 - W/O PADDING -> MolRNACDataset for evaluating setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
-2026-04-05 14:09:40,084 - 
-Fold number 1/5
-2026-04-05 14:09:40,085 - Train len -> 5702, Test len -> 288
-2026-04-05 14:09:40,086 - --- MultiStructRSA batched: padded sequence + batched graph training ---
-2026-04-05 14:09:40,388 - Initialized model setting: full batched
-2026-04-05 14:15:02,150 - NEW BEST @ epoch 1: val loss=1.4356, ppc=0.2369, ssc=0.2552, r2=-0.0835; train loss=2.1914
-2026-04-05 14:20:27,332 - NEW BEST @ epoch 2: val loss=1.3627, ppc=0.5223, ssc=0.4596, r2=0.0236; train loss=1.3924
-2026-04-05 14:20:47,092 - log message
-2026-04-05 14:20:47,092 - 
-==================== ALL FAMILIES  ==================== (setting:1)
-2026-04-05 14:20:47,105 - K folds:5, seed:1, dataset seed:2 batch size:1, max epochs:1000, lr:5e-05, weight decay:1e-05, patience:30, warm up epo:40, delta:1e-06
-2026-04-05 14:20:47,108 - --- Start statified 5-fold cross-validation; pd.DataFrame shape -> (1439, 8), lr=5e-05 ---
-2026-04-05 14:20:47,110 - W/O PADDING -> MolRNACDataset for training setting=6 rna aug=True mol aug=True - for RNA cross-attention fusion
-2026-04-05 14:20:58,095 - W/O PADDING -> MolRNACDataset for evaluating setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
-2026-04-05 14:21:00,013 - 
-Fold number 1/5
-2026-04-05 14:21:00,013 - Train len -> 3427, Test len -> 288
-2026-04-05 14:21:00,014 - --- MultiStructRSA batched: padded sequence + batched graph training ---
-2026-04-05 14:21:00,190 - Initialized model setting: full batched
-2026-04-05 14:27:54,811 - NEW BEST @ epoch 1: val loss=1.1606, ppc=0.5624, ssc=0.5333, r2=0.2918; train loss=1.5651
-2026-04-05 14:34:49,914 - NEW BEST @ epoch 2: val loss=1.0508, ppc=0.6546, ssc=0.6907, r2=0.4194; train loss=0.8999
+2026-04-05 21:19:14,248 - Outer train rows before augmentation: 1151 | synthetic negatives: 962 | outer train rows after augmentation: 2113
+2026-04-05 21:19:14,251 - W/O PADDING -> MolRNACDataset for training setting=6 rna aug=True mol aug=True - for RNA cross-attention fusion
+2026-04-05 21:19:20,376 - W/O PADDING -> MolRNACDataset for evaluating setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
+2026-04-05 21:19:21,311 - W/O PADDING -> MolRNACDataset for evaluating setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
+2026-04-05 21:19:22,240 - Inner split sizes -> train: 5659, val: 212, test: 288
+2026-04-05 21:19:22,241 - --- MultiStructRSA batched: padded sequence + batched graph training ---
+2026-04-05 21:19:22,410 - Initialized model setting: full batched
+2026-04-05 21:23:21,330 - NEW BEST @ epoch 1: val loss=2.2365, ppc=0.0417, ssc=0.0646, r2=-0.8068; train loss=2.5637
+2026-04-05 21:27:20,496 - NEW BEST @ epoch 2: val loss=2.0675, ppc=0.0480, ssc=0.1187, r2=-0.5440; train loss=2.1245
+2026-04-05 21:31:14,591 - NEW BEST @ epoch 3: val loss=1.9365, ppc=0.0646, ssc=0.1059, r2=-0.3546; train loss=1.9586
+2026-04-05 21:35:06,574 - NEW BEST @ epoch 4: val loss=1.8344, ppc=0.0168, ssc=0.0499, r2=-0.2156; train loss=1.8305
+2026-04-05 21:38:57,792 - NEW BEST @ epoch 5: val loss=1.7620, ppc=0.0574, ssc=0.0825, r2=-0.1214; train loss=1.7544
+2026-04-05 21:42:49,070 - NEW BEST @ epoch 6: val loss=1.7184, ppc=0.0757, ssc=0.0833, r2=-0.0666; train loss=1.6997
+2026-04-05 21:46:42,765 - NEW BEST @ epoch 7: val loss=1.6925, ppc=0.0735, ssc=0.1257, r2=-0.0348; train loss=1.6684
+2026-04-05 21:50:36,066 - NEW BEST @ epoch 8: val loss=1.6803, ppc=0.1046, ssc=0.1154, r2=-0.0199; train loss=1.6546
+2026-04-05 21:54:30,306 - NEW BEST @ epoch 9: val loss=1.6737, ppc=0.0661, ssc=0.0302, r2=-0.0119; train loss=1.6468

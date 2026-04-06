@@ -1,0 +1,46 @@
+2026-04-05 21:56:26,394 - stratified_cv_0404_exp11 - MultiStructRSA (full batched version) - TRAIN SETTING=6; VAL SETTING=4; RNA AUG=True; MOL AUG=True SEED=1; DATASET SEED=2
+2026-04-05 21:56:26,394 - 
+==================== ALL FAMILIES  ==================== (setting:4)
+2026-04-05 21:56:26,406 - Smoothing Factor -> 0.75, Negative Factor -> 1
+2026-04-05 21:56:26,406 - K folds:5, seed:1, dataset seed:2, batch size:1, max epochs:1000, lr:5e-05, weight decay:1e-05, patience:30, warm up epo:30, delta:0, val_ratio:0.1
+2026-04-05 21:56:26,412 - --- Start stratified 5-fold cross-validation; pd.DataFrame shape -> (1439, 8), lr=5e-05 ---
+2026-04-05 21:56:26,416 - 
+Fold number 1/5
+2026-04-05 21:56:27,378 - Outer train rows before augmentation: 1151 | synthetic negatives: 962 | outer train rows after augmentation: 2113
+2026-04-05 21:56:27,382 - W/O PADDING -> MolRNACDataset for training setting=6 rna aug=True mol aug=True - for RNA cross-attention fusion
+2026-04-05 21:56:37,921 - W/O PADDING -> MolRNACDataset for evaluating setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
+2026-04-05 21:56:39,648 - W/O PADDING -> MolRNACDataset for evaluating setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
+2026-04-05 21:56:40,398 - Inner split sizes -> train: 5659, val: 212, test: 288
+2026-04-05 21:56:40,398 - --- MultiStructRSA batched: padded sequence + batched graph training ---
+2026-04-05 21:56:40,663 - Initialized model setting: full batched
+2026-04-05 22:07:33,210 - NEW BEST @ epoch 1: val loss=1.7025, ppc=0.1018, ssc=0.1092, r2=-0.0470; train loss=1.4501
+2026-04-05 22:18:50,236 - NEW BEST @ epoch 2: val loss=1.6330, ppc=0.2908, ssc=0.3095, r2=0.0368; train loss=1.2750
+2026-04-05 22:29:13,939 - NEW BEST @ epoch 3: val loss=1.5945, ppc=0.3460, ssc=0.3606, r2=0.0816; train loss=1.1100
+2026-04-05 22:39:54,343 - NEW BEST @ epoch 4: val loss=1.5617, ppc=0.4003, ssc=0.4177, r2=0.1190; train loss=1.0042
+2026-04-05 22:50:51,195 - NEW BEST @ epoch 5: val loss=1.5317, ppc=0.4718, ssc=0.4498, r2=0.1525; train loss=0.9230
+2026-04-05 23:11:59,266 - NEW BEST @ epoch 7: val loss=1.4461, ppc=0.5240, ssc=0.5204, r2=0.2446; train loss=0.8151
+2026-04-05 23:44:18,629 - NEW BEST @ epoch 10: val loss=1.4135, ppc=0.5479, ssc=0.5309, r2=0.2783; train loss=0.7217
+2026-04-06 00:16:30,892 - NEW BEST @ epoch 13: val loss=1.4068, ppc=0.5661, ssc=0.5415, r2=0.2851; train loss=0.6670
+2026-04-06 00:27:06,942 - NEW BEST @ epoch 14: val loss=1.3847, ppc=0.5884, ssc=0.5670, r2=0.3074; train loss=0.6419
+2026-04-06 00:37:53,026 - NEW BEST @ epoch 15: val loss=1.3615, ppc=0.6029, ssc=0.5939, r2=0.3304; train loss=0.6228
+2026-04-06 01:30:45,035 - NEW BEST @ epoch 20: val loss=1.3404, ppc=0.6133, ssc=0.5997, r2=0.3510; train loss=0.5558
+2026-04-06 01:52:01,295 - NEW BEST @ epoch 22: val loss=1.3387, ppc=0.6374, ssc=0.6057, r2=0.3526; train loss=0.5318
+2026-04-06 02:13:06,535 - NEW BEST @ epoch 24: val loss=1.3352, ppc=0.6309, ssc=0.6032, r2=0.3560; train loss=0.5120
+2026-04-06 02:55:51,849 - NEW BEST @ epoch 28: val loss=1.2671, ppc=0.6673, ssc=0.6257, r2=0.4200; train loss=0.4802
+2026-04-06 08:40:13,706 - [Fold 1/5] Early stopping at epoch 60. Best val_rmse=1.2671 @ epoch 28
+2026-04-06 08:40:28,954 - [Fold 1/5] TEST -> p=0.6083, s=0.6293, rmse=1.2090, r2=0.2316
+2026-04-06 08:40:28,955 - 
+Fold number 2/5
+2026-04-06 08:40:29,928 - Outer train rows before augmentation: 1151 | synthetic negatives: 964 | outer train rows after augmentation: 2115
+2026-04-06 08:40:29,931 - W/O PADDING -> MolRNACDataset for training setting=6 rna aug=True mol aug=True - for RNA cross-attention fusion
+2026-04-06 08:40:35,176 - W/O PADDING -> MolRNACDataset for evaluating setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
+2026-04-06 08:40:35,925 - W/O PADDING -> MolRNACDataset for evaluating setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
+2026-04-06 08:40:36,735 - Inner split sizes -> train: 5673, val: 212, test: 288
+2026-04-06 08:40:36,859 - --- MultiStructRSA batched: padded sequence + batched graph training ---
+2026-04-06 08:40:36,930 - Initialized model setting: full batched
+2026-04-06 08:51:58,846 - NEW BEST @ epoch 1: val loss=1.5767, ppc=0.1298, ssc=0.0676, r2=-0.0570; train loss=1.4436
+2026-04-06 09:03:00,739 - NEW BEST @ epoch 2: val loss=1.3850, ppc=0.4605, ssc=0.4279, r2=0.1843; train loss=1.2789
+2026-04-06 09:14:06,945 - NEW BEST @ epoch 3: val loss=1.2838, ppc=0.5542, ssc=0.5090, r2=0.2992; train loss=1.1040
+2026-04-06 09:47:33,949 - NEW BEST @ epoch 6: val loss=1.2419, ppc=0.6118, ssc=0.5742, r2=0.3442; train loss=0.8276
+2026-04-06 10:09:37,729 - NEW BEST @ epoch 8: val loss=1.2058, ppc=0.6503, ssc=0.5978, r2=0.3818; train loss=0.7360
+2026-04-06 10:20:57,434 - NEW BEST @ epoch 9: val loss=1.1821, ppc=0.6506, ssc=0.6009, r2=0.4058; train loss=0.7127

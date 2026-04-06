@@ -38,7 +38,7 @@ LR = 0.00005 # from 0.00005 -> 0.0001
 WEIGHT_DECAY = 1e-5
 BATCH_SIZE = 4
 MAX_EPOCHS = 1000
-NUM_WORKERS = 8
+NUM_WORKERS = 16
 
 COLD_PATH = os.path.join("datasets", "blind_test", "processed")
 RSIM_PATH = os.path.join("datasets", "RSIM")

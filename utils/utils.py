@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 
 ##############################################################################################################
 # custom RMSE loss function
-def rmse(y_true, y_pred):
+def rmse_loss(y_true, y_pred):
     return torch.sqrt(torch.mean((y_true - y_pred) ** 2))
 
 ##############################################################################################################

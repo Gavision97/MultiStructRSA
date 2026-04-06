@@ -72,7 +72,7 @@ def get_args():
     parser.add_argument(
         "--model_setting",
         type=str,
-        default="full batched",
+        default="full",
         choices=["full", "freezed", "w/o seq", "w/o 3D struct", "w/o fusion", "full batched"],
         help=(
             "Model configuration to use. Options:\n"
@@ -107,7 +107,7 @@ def get_args():
     parser.add_argument(
         "--train_setting",
         type=int,
-        default=6,
+        default=4,
         help="gRNAde graph featurizer setting for training"
     )
     parser.add_argument(
@@ -119,14 +119,14 @@ def get_args():
     parser.add_argument(
         "--rna_aug",
         type=str,
-        default="True",
+        default="False",
         choices=["True", "False"],
         help="Whether to use RNA data augmentation while training"
     )
     parser.add_argument(
         "--mol_aug",
         type=str,
-        default="True",
+        default="False",
         choices=["True", "False"],
         help="Whether to use SMILES data augmentation while training"
     )
@@ -147,7 +147,7 @@ def get_args():
 
     parser.add_argument(
         "--batch_size",
-        type=float,
+        type=int,
         default=1,
         help="Train/val batch size (w/o aug=1, w > 1)"
     )

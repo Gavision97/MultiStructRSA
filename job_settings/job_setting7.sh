@@ -6,7 +6,7 @@
 ################################################################################################
 
 #SBATCH --partition=main
-#SBATCH --time=0-72:00:00
+#SBATCH --time=0-48:00:00
 #SBATCH --job-name=research_project
 #SBATCH --output=jobs/job-%J.out
 #SBATCH --error=jobs/job-%J.err
@@ -34,6 +34,10 @@ RES_FILE_NAME="cv_all_${DATE}"
 PLOT_NAME="${DATE}_exp${EXP_ID}"
 
 LOG_FILE_NAME="stratified_cv_${DATE}_exp${EXP_ID}"
+
+LR=5e-5
+WD=1e-5
+BATCH_SIZE=1
 
 SETTING="cv"
 CV_METHOD="all"
@@ -80,6 +84,9 @@ python main.py \
   --setting "$SETTING" \
   --cv_method "$CV_METHOD" \
   --k_fold "$K_FOLD" \
+  --lr "$LR" \
+  --wd "$WD" \
+  --batch_size "$BATCH_SIZE" \
   --device "$DEVICE" \
   --seed "$SEED" \
   --dataset_seed "$DATASET_SEED"

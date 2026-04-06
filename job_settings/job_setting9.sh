@@ -6,7 +6,7 @@
 ################################################################################################
 
 #SBATCH --partition=main
-#SBATCH --time=0-72:00:00
+#SBATCH --time=0-48:00:00
 #SBATCH --job-name=research_project
 #SBATCH --output=jobs/job-%J.out
 #SBATCH --error=jobs/job-%J.err
@@ -37,6 +37,7 @@ LOG_FILE_NAME="stratified_cv_${DATE}_exp${EXP_ID}"
 
 LR=2e-5 # same as before
 WD=1e-5 # same as before
+BATCH_SIZE=1
 
 SETTING="cv"
 CV_METHOD="all"
@@ -84,6 +85,7 @@ python main.py \
   --cv_method "$CV_METHOD" \
   --lr "$LR" \
   --wd "$WD" \
+  --batch_size "$BATCH_SIZE" \
   --k_fold "$K_FOLD" \
   --device "$DEVICE" \
   --seed "$SEED" \

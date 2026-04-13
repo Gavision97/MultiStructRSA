@@ -1,0 +1,17 @@
+2026-04-13 11:48:51,503 - stratified_cv_1304_exp6 - MultiStructRSA (full version) - TRAIN SETTING=4; VAL SETTING=4; RNA AUG=False; MOL AUG=False SEED=1; DATASET SEED=2
+2026-04-13 11:48:51,503 - 
+==================== ALL FAMILIES  ==================== (setting:1)
+2026-04-13 11:48:51,509 - K folds:5, seed:1, dataset seed:2 batch size:1, max epochs:1000, lr:5e-05, weight decay:1e-06, dropout:0.2 num_workers:0, patience:30, warm up epo:40, delta:1e-06
+2026-04-13 11:48:51,511 - --- Start statified 5-fold cross-validation; pd.DataFrame shape -> (1439, 8), lr=5e-05 ---
+2026-04-13 11:48:51,513 - W/O PADDING -> MolRNACDataset for training setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
+2026-04-13 11:48:52,224 - W/O PADDING -> MolRNACDataset for evaluating setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
+2026-04-13 11:48:52,911 - 
+Fold number 1/5
+2026-04-13 11:48:52,911 - Train len -> 1151, Test len -> 288
+2026-04-13 11:48:52,911 - MultiStructRSA - full: w 3D struct, w seq, w cross-attention fusion
+2026-04-13 11:48:52,912 - hyperparameters -> BiDirectionalCrossFusion dropout:0.2, Encoder MLPs dropout:0.2; Last MLP dropout:0.2
+2026-04-13 11:48:53,068 - BiDirectionalCrossFusion @ 1 CrossAttnetionsBlock(s); hyperparam -> d_model:128, n_heads:4, dropout:0.2
+2026-04-13 11:48:53,088 - Initialized model setting: full, dropout: 0.2
+2026-04-13 11:50:44,562 - NEW BEST @ epoch 1: val loss=1.7305, ppc=-0.0395, ssc=-0.0128, r2=-0.5745; train loss=2.2979
+2026-04-13 11:52:35,626 - NEW BEST @ epoch 2: val loss=1.4775, ppc=0.4839, ssc=0.4056, r2=-0.1477; train loss=1.3898
+2026-04-13 11:54:27,084 - NEW BEST @ epoch 3: val loss=1.1933, ppc=0.5573, ssc=0.4761, r2=0.2514; train loss=1.1499

@@ -6,7 +6,7 @@
 ################################################################################################
 
 #SBATCH --partition=main
-#SBATCH --time=0-72:00:00
+#SBATCH --time=0-24:00:00
 #SBATCH --job-name=research_project
 #SBATCH --output=jobs/job-%J.out
 #SBATCH --error=jobs/job-%J.err

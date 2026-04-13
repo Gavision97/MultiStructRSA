@@ -1,4 +1,7 @@
 import os
+#os.environ["PYTHONHASHSEED"] = "1"
+os.environ["CUBLAS_WORKSPACE_CONFIG"] = ":4096:8"
+
 import random
 import numpy as np
 import pandas as pd
@@ -13,6 +16,7 @@ torch.backends.cudnn.benchmark = False
 torch.backends.cudnn.deterministic = True
 
 from utils.utils import *
+from utils.tools import *
 from utils.plot_utils import plot_train_val_loss
 #from utils.MolRNADataset import MolRNADataset # w/o RNA cross-attention fusion mechanism
 from utils.MolRNACDataset import MolRNADataset # w RNA cross-attention fusion mechanism
@@ -27,18 +31,18 @@ logger = logging.getLogger(__name__)
 #SEED_DATASET = 2 
 
 # early stopping hyperparameters: 
-PATIENCE = 30 # for early stopping
-WARM_UP_EPOCHS = 40
+PATIENCE = 20 # for early stopping
+WARM_UP_EPOCHS = 20
 MODE = 'min'
 DELTA = 1e-6 # 0.0001 ;for early stopping (11/03, 1e-4 -> 5e-5 -> 1e-6)
 MIN_EPOCHS = 50
 
 # MultiStructRSA training hyperparameters:
-LR = 0.00005 # from 0.00005 -> 0.0001
-WEIGHT_DECAY = 1e-5
-BATCH_SIZE = 4
+#LR = 0.00005 # from 0.00005 -> 0.0001
+#WEIGHT_DECAY = 1e-5
+#BATCH_SIZE = 4
 MAX_EPOCHS = 1000
-NUM_WORKERS = 16
+NUM_WORKERS = 0
 
 COLD_PATH = os.path.join("datasets", "blind_test", "processed")
 RSIM_PATH = os.path.join("datasets", "RSIM")
@@ -46,21 +50,14 @@ RSIM_PATH = os.path.join("datasets", "RSIM")
 ALL_SF_DATASET_PATH = os.path.join("datasets", "RSIM", "All_sf_dataset_v1.csv")
 
 # same style as their code
-def set_seed(seed_):
-    random.seed(seed_)
-    os.environ["PYTHONHASHSEED"] = str(seed_)
-    np.random.seed(seed_)
-    torch.manual_seed(seed_)
-    torch.cuda.manual_seed(seed_)
-    torch.cuda.manual_seed_all(seed_)
-    torch.backends.cudnn.benchmark = False
-    torch.backends.cudnn.deterministic = True
+
+
 
 # custom RMSE loss function
 def rmse_loss(y_true, y_pred):
     return torch.sqrt(torch.mean((y_true - y_pred) ** 2))
 
-def cv_eval(dataset=None, model_setting="full", train_setting=4, val_setting=4, rna_aug=False, mol_aug=False, lr=5e-5, wd=1e-5, batch_size=1,
+def cv_eval(dataset=None, model_setting="full", train_setting=4, val_setting=4, rna_aug=False, mol_aug=False, lr=5e-5, wd=1e-5, dropout=1e-6, batch_size=1, num_workers=8,
             is_plot=False, is_seq_emb=False, n=10, fam_name=None, plot_name="loss_curve", device="cuda", dataset_seed=2, seed=1):
     """
     Run stratified k-fold cross-validation for a selected MultiStructRSA model setting.
@@ -105,7 +102,7 @@ def cv_eval(dataset=None, model_setting="full", train_setting=4, val_setting=4, 
         
     logger.info(
         f'K folds:{n}, seed:{seed}, dataset seed:{dataset_seed} batch size:{batch_size}, '
-        f'max epochs:{MAX_EPOCHS}, lr:{lr}, weight decay:{wd}, '
+        f'max epochs:{MAX_EPOCHS}, lr:{lr}, weight decay:{wd}, dropout:{dropout} num_workers:{num_workers}, '
         f'patience:{PATIENCE}, warm up epo:{WARM_UP_EPOCHS}, delta:{DELTA}'
     )
     set_seed(seed) # set seed (same as in DeepRSMA and others)
@@ -128,14 +125,14 @@ def cv_eval(dataset=None, model_setting="full", train_setting=4, val_setting=4, 
         logger.info(f"\nFold number {fold+1}/{n}")
 
         # initialize current fold train & test dataloaders
-        train_loader = DataLoader(train_ds, batch_size=batch_size, generator=g, shuffle=True, collate_fn=MolRNADataset.collate_fn, num_workers=NUM_WORKERS)
-        test_loader = DataLoader(val_ds, batch_size=batch_size, shuffle=False, collate_fn=MolRNADataset.collate_fn, num_workers=NUM_WORKERS)
+        train_loader = DataLoader(train_ds, batch_size=batch_size, generator=g, shuffle=True, collate_fn=MolRNADataset.collate_fn, num_workers=num_workers)
+        test_loader = DataLoader(val_ds, batch_size=batch_size, shuffle=False, collate_fn=MolRNADataset.collate_fn, num_workers=num_workers)
         logger.info(f'Train len -> {len(train_loader.dataset)}, Test len -> {len(test_loader.dataset)}')
 
 
         early_stopping = EarlyStopping(mode=MODE, patience=PATIENCE, warm_up_epochs=WARM_UP_EPOCHS, delta=DELTA) # early stopping object 
         
-        model = choose_model_setting(option=model_setting).to(device)
+        model = choose_model_setting(option=model_setting, dropout=dropout).to(device)
         optimizer = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=wd)
         criterion = rmse_loss
 

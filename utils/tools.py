@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 
 COLD_PATH = 'datasets/blind_test/'
 
-
+#############################################################################################
 """
 SMILES randomization adapted from:
 
@@ -40,7 +40,7 @@ def randomize_smiles(smiles, canonical=False, isomericSmiles=True):
         isomericSmiles=isomericSmiles
     )
 
-
+#############################################################################################
 def enumerate_unique(smiles, n=10, max_tries=100):
     """
     Generate up to n unique randomized SMILES for the same molecule
@@ -56,17 +56,25 @@ def enumerate_unique(smiles, n=10, max_tries=100):
         tries += 1
 
     return list(seen)
+
 #################################################################################################3
 # same style as their code
 def set_seed(seed_):
     random.seed(seed_)
-    os.environ["PYTHONHASHSEED"] = str(seed_)
     np.random.seed(seed_)
     torch.manual_seed(seed_)
     torch.cuda.manual_seed(seed_)
     torch.cuda.manual_seed_all(seed_)
     torch.backends.cudnn.benchmark = False
     torch.backends.cudnn.deterministic = True
+    torch.use_deterministic_algorithms(True)
+
+
+
+#def seed_worker(worker_id):
+#    worker_seed = torch.initial_seed() % 2**32
+#    np.random.seed(worker_seed)
+#    random.seed(worker_seed)
 #################################################################################################
 
 def load_cold_data(cold_type="cold_rna"):

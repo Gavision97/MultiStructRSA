@@ -6,8 +6,8 @@
 ################################################################################################
 
 #SBATCH --partition=main
-#SBATCH --time=0-72:00:00
-#SBATCH --job-name=research_project
+#SBATCH --time=0-48:00:00
+#SBATCH --job-name=global_hyperparam_search
 #SBATCH --output=jobs/job-%J.out
 #SBATCH --error=jobs/job-%J.err
 #SBATCH --gpus=rtx_6000:1
@@ -19,21 +19,28 @@
 ### Experiment variables ###
 ############################
 
-EXP_ID=4   # experiment ID
-DATE=0404  # for log & result directory creation
+EXP_ID=6   # experiment ID
+DATE=1304  # for log & result directory creation
 
 MODEL_SETTING="full" # ["full", "freezed", "w/o seq", "w/o 3D struct", "w/o fusion"]
-TRAIN_SETTING=6
+TRAIN_SETTING=4
 VAL_SETTING=4
-MOL_AUG="True"
-RNA_AUG="True"
-
-EXP_NAME="exp${EXP_ID}"  
+MOL_AUG="False"
+RNA_AUG="False"
 
 RES_FILE_NAME="cv_all_${DATE}"
 PLOT_NAME="${DATE}_exp${EXP_ID}"
 
-LOG_FILE_NAME="stratified_cv_${DATE}_exp${EXP_ID}"
+LOG_FILE_NAME="hyperparam_search_${DATE}_exp${EXP_ID}"
+
+LR=5e-5
+WD=1e-6
+DROPOUT=0.2
+
+BATCH_SIZE=1
+NUM_WORKERS=0
+
+EXP_NAME="exp${EXP_ID}_lr=${LR}_wd=${WD}_dropout=${DROPOUT}"
 
 SETTING="cv"
 CV_METHOD="all"
@@ -80,6 +87,11 @@ python main.py \
   --setting "$SETTING" \
   --cv_method "$CV_METHOD" \
   --k_fold "$K_FOLD" \
+  --lr "$LR" \
+  --wd "$WD" \
+  --dropout "$DROPOUT" \
+  --batch_size "$BATCH_SIZE" \
+  --num_workers "$NUM_WORKERS" \
   --device "$DEVICE" \
   --seed "$SEED" \
   --dataset_seed "$DATASET_SEED"

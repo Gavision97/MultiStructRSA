@@ -146,10 +146,23 @@ def get_args():
     )
 
     parser.add_argument(
+        "--dropout",
+        type=float,
+        default=1e-6,
+        help="dropout value for regularization (same in both MLPs and BiDirectionalCrossFusion)"
+    )
+
+    parser.add_argument(
         "--batch_size",
         type=int,
         default=1,
         help="Train/val batch size (w/o aug=1, w > 1)"
+    )
+    parser.add_argument(
+        "--num_workers",
+        type=int,
+        default=0,
+        help="Number of workers for the dataloader"
     )
 
     # cross-validation / splits

@@ -1,6 +1,7 @@
 import torch
 import torch.nn as nn
 from torch.nn.utils.rnn import pad_sequence
+from utils.utils import GatedFeatureFusion
 
 import logging
 logger = logging.getLogger(__name__)
@@ -29,8 +30,8 @@ class CrossAttentionBlockSingle(nn.Module):
         #self.q_proj = nn.Linear(q_in_dim, d_model, bias=False) if q_in_dim != d_model else nn.Identity()
         #self.kv_proj = nn.Linear(kv_in_dim, d_model, bias=False) if kv_in_dim != d_model else nn.Identity()
 
-        self.q_proj = nn.Linear(q_in_dim, d_model, bias=False) if q_in_dim != d_model else nn.Linear(d_model, d_model, bias=False)
-        self.kv_proj = nn.Linear(kv_in_dim, d_model, bias=False) if kv_in_dim != d_model else nn.Linear(d_model, d_model, bias=False)
+        self.q_proj = nn.Linear(q_in_dim, d_model, bias=True) if q_in_dim != d_model else nn.Linear(d_model, d_model, bias=True)
+        self.kv_proj = nn.Linear(kv_in_dim, d_model, bias=True) if kv_in_dim != d_model else nn.Linear(d_model, d_model, bias=True)
         
         self.norm_q = nn.LayerNorm(d_model)
         self.norm_kv = nn.LayerNorm(d_model)
@@ -38,7 +39,7 @@ class CrossAttentionBlockSingle(nn.Module):
         self.attn = nn.MultiheadAttention(
             embed_dim=d_model,
             num_heads=n_heads,
-            dropout=dropout,
+            #dropout=0,
             batch_first=True
         )
         self.attn_dropout = nn.Dropout(dropout)
@@ -47,7 +48,7 @@ class CrossAttentionBlockSingle(nn.Module):
         self.ffn = nn.Sequential(
             nn.Linear(d_model, ffn_mult * d_model),
             nn.GELU(),
-            nn.Dropout(dropout),
+            #nn.Dropout(dropout),
             nn.Linear(ffn_mult * d_model, d_model),
         )
         self.ffn_dropout = nn.Dropout(dropout)
@@ -97,7 +98,9 @@ class BiDirectionalCrossFusionSingle(nn.Module):
 
         self.b_from_a_1 = CrossAttentionBlockSingle(q_in_dim=b_in_dim, kv_in_dim=a_in_dim, d_model=d_model, n_heads=n_heads, dropout=dropout)
         self.b_from_a_2 = CrossAttentionBlockSingle(q_in_dim=d_model, kv_in_dim=d_model, d_model=d_model, n_heads=n_heads, dropout=dropout)
-
+        
+        self.gated_fusion = GatedFeatureFusion(128)
+    
     def forward(self, A, B):
         """
         A: (LA, a_in_dim)
@@ -115,7 +118,9 @@ class BiDirectionalCrossFusionSingle(nn.Module):
         # second block
         #A_fused_2 = self.a_from_b_2(A_fused_1, B_fused_1)
         #B_fused_2 = self.b_from_a_2(B_fused_1, A_fused_1)
+        #fuse = self.gated_fusion(A_fused_1, B_fused_1)
         return A_fused_1, B_fused_1
+        #return fuse
     
 
 

@@ -19,7 +19,7 @@
 ### Experiment variables ###
 ############################
 
-EXP_ID=1   # experiment ID
+EXP_ID=8   # experiment ID
 DATE=1304  # for log & result directory creation
 
 MODEL_SETTING="full" # ["full", "freezed", "w/o seq", "w/o 3D struct", "w/o fusion"]
@@ -33,9 +33,9 @@ PLOT_NAME="${DATE}_exp${EXP_ID}"
 
 LOG_FILE_NAME="hyperparam_search_${DATE}_exp${EXP_ID}"
 
-LR=2e-5
-WD=1e-6
-DROPOUT=0.1
+LR=5e-5
+WD=1e-5
+DROPOUT=0.2
 
 BATCH_SIZE=1
 NUM_WORKERS=0

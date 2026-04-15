@@ -21,7 +21,7 @@ LST_DROPOUT = 0.1 # last MLP (affinity head) dropout values
 gRNAde_WEIGHT_PATH = "saved_objects/gRNAde_checkpoints/gRNAde_drop3d@0.75_maxlen@500.h5"
  
 
-def choose_model_setting(option: str = "full", dropout: float = 1e-6):
+def choose_model_setting(option: str = "full", dropout: float = 0.1):
     assert option in ["full", "freezed", "w/o seq", "w/o 3D struct", "w/o fusion", "full batched"]
 
     model_map = {
@@ -39,7 +39,7 @@ def choose_model_setting(option: str = "full", dropout: float = 1e-6):
 
 
 class MultiStructRSA(nn.Module, ABC):
-    def __init__(self, dropout=1e-6):
+    def __init__(self, dropout=0.1):
         super().__init__()
 
         self.dropout = dropout
@@ -130,8 +130,8 @@ class MultiStructRSAFull(MultiStructRSA):
             dropout=self.dropout
         )
         self.gated_fusion = GatedFeatureFusion(256)
-        self.attn_pooling = AttnPool(128)
-
+        self.node_attn_pooling = AttnPoolSingle(128)
+        self.token_attn_pooling = AttnPoolSingle(128)
 
         self.smiles_seq_mlp = nn.Sequential(
             nn.Linear(384 + 512, 512, bias=False),

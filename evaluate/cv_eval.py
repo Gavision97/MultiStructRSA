@@ -32,7 +32,7 @@ logger = logging.getLogger(__name__)
 
 # early stopping hyperparameters: 
 PATIENCE = 20 # for early stopping
-WARM_UP_EPOCHS = 20
+WARM_UP_EPOCHS = 50
 MODE = 'min'
 DELTA = 1e-6 # 0.0001 ;for early stopping (11/03, 1e-4 -> 5e-5 -> 1e-6)
 MIN_EPOCHS = 50

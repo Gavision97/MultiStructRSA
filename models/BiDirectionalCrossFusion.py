@@ -6,6 +6,8 @@ from utils.utils import GatedFeatureFusion
 import logging
 logger = logging.getLogger(__name__)
 
+from utils.utils import *
+
 ##################################################################################################
 # BiDirectionalCrossFusion when batch_size = 1;
 # In that implementation, no need for padding graphs/sequences matrices, because every batch

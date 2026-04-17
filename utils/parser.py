@@ -258,4 +258,20 @@ def get_args():
         help="Pooling method for token embeddings: 'attn' or 'mean'"
     )
 
+    parser.add_argument(
+        "--smiles_seq_setting",
+        type=str,
+        default="deep",
+        choices=["proj", "shallow", "deep"],
+        help="Architecture of the SMILES sequence encoder (ChemBERTa + SimSon): proj / shallow / deep"
+    )
+
+    parser.add_argument(
+        "--smiles_expert_setting",
+        type=str,
+        default="proj",
+        choices=["proj", "shallow", "deep"],
+        help="Architecture of the SMILES expert encoder (Morgan FP + Mordred): proj / shallow / deep"
+    )
+
     return parser.parse_args()

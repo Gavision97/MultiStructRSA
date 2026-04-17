@@ -1,0 +1,14 @@
+2026-04-17 10:50:15,092 - stratified_cv_1704_exp1 - MultiStructRSA (full version) - TRAIN SETTING=4; VAL SETTING=4; RNA AUG=False; MOL AUG=False SEED=1; DATASET SEED=2
+2026-04-17 10:50:15,092 - 
+==================== ALL FAMILIES  ==================== (setting:1)
+2026-04-17 10:50:15,104 - K folds:5, seed:1, dataset seed:2 batch size:1, max epochs:1000, lr:2e-05, weight decay:1e-06, dropout:0.1 num_workers:0, patience:20, warm up epo:50, delta:1e-06
+2026-04-17 10:50:15,104 - --- Start statified 5-fold cross-validation; pd.DataFrame shape -> (1439, 8), lr=2e-05 ---
+2026-04-17 10:50:15,111 - W/O PADDING -> MolRNACDataset for training setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
+2026-04-17 10:50:16,239 - W/O PADDING -> MolRNACDataset for evaluating setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
+2026-04-17 10:50:17,280 - 
+Fold number 1/5
+2026-04-17 10:50:17,282 - Train len -> 1151, Test len -> 288
+2026-04-17 10:50:17,282 - MultiStructRSA - full: w 3D struct, w seq, w cross-attention fusion
+2026-04-17 10:50:17,282 - hyperparameters -> smiles_seq_setting:proj, smiles_expert_setting:proj, dropout:0.1, d_model:128, ffn_mult:4, bdcf_blocks:2, node_pool:mean, token_pool:mean, Encoder MLPs dropout:0.1; Last MLP dropout:0.1
+2026-04-17 10:50:17,429 - BiDirectionalCrossFusion @  hyperparam -> bdcf_blocks:2, d_model:128, n_heads:4, dropout:0.1, ffn_mult:4, a_pool:mean, b_pool:mean
+2026-04-17 10:50:17,454 - Initialized model setting: full, dropout: 0.1, d_model: 128, ffn_mult: 4, bdcf_blocks: 2, node_pool: mean, token_pool: mean

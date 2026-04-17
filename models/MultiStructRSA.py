@@ -17,6 +17,8 @@ gRNAde_WEIGHT_PATH = "saved_objects/gRNAde_checkpoints/gRNAde_drop3d@0.75_maxlen
  
 def choose_model_setting(
     option: str = "full",
+    smiles_seq_setting: str = 'deep',
+    smiles_expert_setting: str = 'proj',
     dropout: float = 0.1,
     d_model: int = 128,
     ffn_mult: int = 4,
@@ -25,6 +27,8 @@ def choose_model_setting(
     token_pool: str = 'mean'
 ):
     assert option in ["full", "freezed", "w/o seq", "w/o 3D struct", "w/o fusion", "full batched"]
+    assert smiles_expert_setting in ['proj', 'shallow', 'deep']
+    assert smiles_seq_setting in ['proj', 'shallow', 'deep']
 
     model_map = {
         "full": MultiStructRSAFull,
@@ -37,6 +41,8 @@ def choose_model_setting(
 
     if option == "full" or option == "freezed":
         model = model_map[option](
+            smiles_seq_setting=smiles_seq_setting,
+            smiles_expert_setting=smiles_expert_setting,
             dropout=dropout,
             d_model=d_model,
             ffn_mult=ffn_mult,
@@ -121,6 +127,41 @@ class MultiStructRSA(nn.Module, ABC):
         return h_V, h_E, edge_index
     ####################################################################################
 
+    def _get_mlp(self, input_dim, setting):
+        '''
+        Initialize SMILES feature MLP/projection
+
+        proj -> simply project the input to lower dimension (in_dim -> 256)
+        shallow -> shallow MLP with single hinnen layer (in_dim -> 512 -> 256)
+        deep -> deeper MLP with two hidden layers (in_dim -> 512 -> 512 -> 256) 
+        '''
+        assert setting in ['proj', 'shallow', 'deep']
+
+        if setting == 'proj':
+            return nn.Sequential(
+                nn.Linear(input_dim, 256, bias=False),
+                nn.LayerNorm(256)
+            )
+        elif setting == 'shallow':
+            return nn.Sequential(
+                nn.Linear(input_dim, 512, bias=False),
+                nn.LayerNorm(512),
+                nn.ReLU(),
+                nn.Dropout(self.dropout),
+                nn.Linear(512, 256, bias=True)
+            )
+        else:
+            return nn.Sequential(
+                nn.Linear(input_dim, 512, bias=False),
+                nn.LayerNorm(512),
+                nn.ReLU(),
+                nn.Dropout(self.dropout),
+                nn.Linear(512, 512, bias=False),
+                nn.LayerNorm(512),
+                nn.ReLU(),
+                nn.Dropout(self.dropout),
+                nn.Linear(512, 256, bias=True)
+            )
     @abstractmethod
     def forward(self, graph, ernie_emb, rinalmo_emb, seq_len, morgan_fp, mordred_desc, chemberta_emb, simson_emb):
         pass
@@ -130,22 +171,29 @@ class MultiStructRSA(nn.Module, ABC):
 # FULL model
 # =========================================================
 class MultiStructRSAFull(MultiStructRSA):
-    def __init__(self, dropout=0.1, d_model=128, ffn_mult=4, bdcf_blocks=1, node_pool='attn', token_pool='mean'):
+    def __init__(self, smiles_seq_setting='deep', smiles_expert_setting='proj', dropout=0.1,
+                 d_model=128, ffn_mult=4, bdcf_blocks=1, node_pool='attn', token_pool='mean'):
         super().__init__(dropout=dropout)
+
+        self.smiles_seq_setting = smiles_seq_setting
+        self.smiles_expert_setting = smiles_expert_setting
 
         self.d_model = d_model
         self.ffn_mult = ffn_mult
         self.bdcf_blocks = bdcf_blocks
-
+        self.node_pool = node_pool # gRNAde GNN encoder embedding matrix pooling strategy (attention pool/ mean pool)
+        self.token_pool = token_pool # RNA pre-trained language models token embedding matrix pooling strategy (attention pool/ mean pool)
+        
+        
         logging.info("MultiStructRSA - full: w 3D struct, w seq, w cross-attention fusion")
         logger.info(
-            f"hyperparameters -> BiDirectionalCrossFusion dropout:{self.dropout}, "
-            f"d_model:{self.d_model}, ffn_mult:{self.ffn_mult}, bdcf_blocks:{self.bdcf_blocks}, "
+            f"hyperparameters -> smiles_seq_setting:{smiles_seq_setting}, smiles_expert_setting:{smiles_expert_setting}, "
+            f"dropout:{self.dropout}, d_model:{self.d_model}, ffn_mult:{self.ffn_mult}, bdcf_blocks:{self.bdcf_blocks}, "
             f"node_pool:{node_pool}, token_pool:{token_pool}, "
             f"Encoder MLPs dropout:{self.dropout}; Last MLP dropout:{self.dropout}"
         )
 
-        self._load_grnade_encoder(freeze=False)
+        self._load_grnade_encoder(freeze=False) # load gRNAde pre-trained GNN encoder
 
         self.rna_fusion = BiDirectionalCrossFusionSingle(
             a_in_dim=768 + 1280, # |ERNIE-RNA| & |RiNALMo|
@@ -154,66 +202,27 @@ class MultiStructRSAFull(MultiStructRSA):
             n_heads=4,
             dropout=self.dropout,
             ffn_mult=self.ffn_mult,
-            bdcf_blocks=bdcf_blocks,
-            a_pool=node_pool,
-            b_pool=token_pool
+            bdcf_blocks=self.bdcf_blocks,
+            a_pool=self.token_pool,
+            b_pool=self.node_pool
         )
-        self.gated_fusion = GatedFeatureFusion(2*d_model)
-        self.node_attn_pooling = AttnPoolSingle(d_model)
-        self.token_attn_pooling = AttnPoolSingle(d_model)
+        self.gated_fusion = GatedFeatureFusion(2*self.d_model)
+        self.node_attn_pooling = AttnPoolSingle(self.d_model)
+        self.token_attn_pooling = AttnPoolSingle(self.d_model)
 
-        self.smiles_seq_mlp = nn.Sequential(
-            nn.Linear(384 + 512, 512, bias=False),
-            nn.LayerNorm(512),
-            nn.ReLU(),
-            nn.Dropout(self.dropout),
-            nn.Linear(512, 512, bias=False),
-            nn.LayerNorm(512),
-            nn.ReLU(),
-            nn.Dropout(self.dropout),
-            nn.Linear(512, 256, bias=True)
-        )
-        
-        '''
-        self.chemberta_proj = nn.Sequential(
-            nn.Linear(384, 256, bias=False),
-            nn.LayerNorm(256)
-        )
-
-        self.expert_mlp = nn.Sequential(
-            nn.Linear(1024 + 1205, 512, bias=False),
-            nn.LayerNorm(512),
-            nn.ReLU(),
-            nn.Dropout(DROPOUT),
-            nn.Linear(512, 256, bias=False),
-            nn.LayerNorm(256),
-            nn.ReLU(),
-            nn.Dropout(DROPOUT)
-        )
-
-        self.mol_mlp = nn.Sequential(
-            nn.Linear(2 * 256, 256, bias=False),
-            nn.LayerNorm(256),
-            nn.ReLU(),
-            nn.Dropout(DROPOUT)
-        )
-        '''
-        
-        self.expert_proj = nn.Sequential(
-            nn.Linear(1024 + 1205, 256, bias=False),
-            nn.LayerNorm(256)
-        )
+        self.smiles_seq_encoder = self._get_mlp(input_dim= 384 + 512, setting=self.smiles_seq_setting)
+        self.smiles_exeprt_encoder = self._get_mlp(input_dim= 1024 + 1205, setting=self.smiles_expert_setting)
 
         self.mol_mlp = nn.Sequential(
             nn.Linear(2 * 256, 512, bias=False),
             nn.LayerNorm(512),
             nn.ReLU(),
             nn.Dropout(self.dropout),
-            nn.Linear(512, 2*d_model, bias=True)
+            nn.Linear(512, 2*self.d_model, bias=True)
         )
 
         self.head = nn.Sequential(
-            nn.Linear(2*d_model, 128, bias=False),
+            nn.Linear(2*self.d_model, 128, bias=False),
             nn.LayerNorm(128),
             nn.ReLU(),
             nn.Dropout(self.dropout),
@@ -240,9 +249,9 @@ class MultiStructRSAFull(MultiStructRSA):
         rna_fused_emb = self.rna_fusion(A=rna_seq_emb, B=encoder_emb)
 
         # Small molecule Module #
-        expert_smi_emb = self.expert_proj(torch.cat([morgan_fp, mordred_desc], dim=1))
-        seq_emb = self.smiles_seq_mlp(torch.cat([chemberta_emb, simson_emb], dim=1))
-        mol_vec = self.mol_mlp(torch.cat([expert_smi_emb, seq_emb], dim=1))
+        smile_expert_emb = self.smiles_exeprt_encoder(torch.cat([morgan_fp, mordred_desc], dim=1))
+        smiles_seq_emb = self.smiles_seq_encoder(torch.cat([chemberta_emb, simson_emb], dim=1))
+        mol_vec = self.mol_mlp(torch.cat([smile_expert_emb, smiles_seq_emb], dim=1))
 
         fused_emb = self.gated_fusion(mol_vec, rna_fused_emb)
         pkd = self.head(fused_emb)

@@ -92,7 +92,7 @@ class BiDirectionalCrossFusionSingle(nn.Module):
     B: (LB, b_in_dim)
     """
     def __init__(self, a_in_dim, b_in_dim, bdcf_blocks=1, d_model=128, n_heads=4,
-                 dropout=0.1, ffn_mult=4, a_pool='attn', b_pool='mean'):
+                 dropout=0.1, ffn_mult=4, a_pool='mean', b_pool='mean'):
         super().__init__()
 
         if bdcf_blocks not in [1, 2]:

@@ -57,7 +57,7 @@ ALL_SF_DATASET_PATH = os.path.join("datasets", "RSIM", "All_sf_dataset_v1.csv")
 def rmse_loss(y_true, y_pred):
     return torch.sqrt(torch.mean((y_true - y_pred) ** 2))
 
-def cv_eval(dataset=None, model_setting="full", train_setting=4, val_setting=4, rna_aug=False, mol_aug=False, lr=5e-5, wd=1e-5, dropout=1e-6, batch_size=1, num_workers=8,
+def cv_eval(dataset=None, model_setting="full", train_setting=4, val_setting=4, rna_aug=False, mol_aug=False, lr=5e-5, wd=1e-5, dropout=0.1, smiles_seq_setting='deep', smiles_expert_setting='proj', batch_size=1, num_workers=8,
             is_plot=False, is_seq_emb=False,  d_model=128, ffn_mult=4, bdcf_blocks=1, node_pool='attn', token_pool='mean', n=10, fam_name=None, plot_name="loss_curve", device="cuda", dataset_seed=2, seed=1):
     """
     Run stratified k-fold cross-validation for a selected MultiStructRSA model setting.
@@ -105,7 +105,7 @@ def cv_eval(dataset=None, model_setting="full", train_setting=4, val_setting=4, 
         f'max epochs:{MAX_EPOCHS}, lr:{lr}, weight decay:{wd}, dropout:{dropout} num_workers:{num_workers}, '
         f'patience:{PATIENCE}, warm up epo:{WARM_UP_EPOCHS}, delta:{DELTA}'
     )
-    set_seed(seed) # set seed (same as in DeepRSMA and others)
+    
     all_df = dataset
     Y = all_df["pKd"].to_numpy(dtype=np.float32)
 
@@ -115,6 +115,7 @@ def cv_eval(dataset=None, model_setting="full", train_setting=4, val_setting=4, 
     skf = regressor_stratified_cv(n_splits=n, n_repeats=1, random_state=dataset_seed, group_count=5, strategy="uniform")
     p_list, s_list, rmse_list, r2_list = [], [], [], []
     for fold, (train_index, test_index) in enumerate(skf.split(np.zeros(len(Y)), Y)):
+        set_seed(seed) # set seed (same as in DeepRSMA and others)
         train_df = all_df.iloc[train_index].reset_index(drop=True)
         test_df = all_df.iloc[test_index].reset_index(drop=True)
 
@@ -132,7 +133,7 @@ def cv_eval(dataset=None, model_setting="full", train_setting=4, val_setting=4, 
 
         early_stopping = EarlyStopping(mode=MODE, patience=PATIENCE, warm_up_epochs=WARM_UP_EPOCHS, delta=DELTA) # early stopping object 
         
-        model = choose_model_setting(option=model_setting, dropout=dropout, d_model=d_model, ffn_mult=ffn_mult, bdcf_blocks=bdcf_blocks,
+        model = choose_model_setting(option=model_setting, dropout=dropout, smiles_seq_setting=smiles_seq_setting, smiles_expert_setting=smiles_expert_setting, d_model=d_model, ffn_mult=ffn_mult, bdcf_blocks=bdcf_blocks,
                                      node_pool=node_pool, token_pool=token_pool).to(device)
         optimizer = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=wd)
         criterion = rmse_loss

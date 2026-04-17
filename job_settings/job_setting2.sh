@@ -20,7 +20,7 @@
 ############################
 
 EXP_ID=2   # experiment ID
-DATE=1604  # for log & result directory creation
+DATE=1704  # for log & result directory creation
 
 MODEL_SETTING="full" # ["full", "freezed", "w/o seq", "w/o 3D struct", "w/o fusion"]
 TRAIN_SETTING=4
@@ -46,13 +46,15 @@ D_MODEL=128
 FFN_MULT=4
 BDCF_BLOCKS=2
 NODE_POOL='mean'
-TOKEN_POOL='attn'
+TOKEN_POOL='mean'
 #####
+SMILES_EXPERT_SETTING='proj'
+SMILES_SEQ_SETTING='shallow'
 
 BATCH_SIZE=1
 NUM_WORKERS=0
 
-EXP_NAME="exp${EXP_ID}_D_MODEL=${D_MODEL}_DBCF_BLOCKS=${BDCF_BLOCKS}_NODE_POOL=${NODE_POOL}_TOKEN_POOL=${TOKEN_POOL}"
+EXP_NAME="exp${EXP_ID}_smiles_seq_setting=${SMILES_SEQ_SETTING}_smiles_expert_setting=${SMILES_EXPERT_SETTING}}"
 
 SETTING="cv"
 CV_METHOD="all"
@@ -102,6 +104,8 @@ python main.py \
   --lr "$LR" \
   --wd "$WD" \
   --dropout "$DROPOUT" \
+  --smiles_seq_setting "$SMILES_SEQ_SETTING" \
+  --smiles_expert_setting "$SMILES_EXPERT_SETTING" \
   --d_model "$D_MODEL" \
   --ffn_mult "$FFN_MULT" \
   --bdcf_blocks "$BDCF_BLOCKS" \

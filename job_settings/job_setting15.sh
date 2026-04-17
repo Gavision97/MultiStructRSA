@@ -6,8 +6,8 @@
 ################################################################################################
 
 #SBATCH --partition=main
-#SBATCH --time=0-72:00:00
-#SBATCH --job-name=research_project
+#SBATCH --time=0-48:00:00
+#SBATCH --job-name=global_hyperparam_search
 #SBATCH --output=jobs/job-%J.out
 #SBATCH --error=jobs/job-%J.err
 #SBATCH --gpus=rtx_6000:1
@@ -19,29 +19,41 @@
 ### Experiment variables ###
 ############################
 
-EXP_ID=11   # experiment ID
-DATE=0404  # for log & result directory creation
+EXP_ID=1   # experiment ID
+DATE=1604  # for log & result directory creation
 
-MODEL_SETTING="full batched" # ["full", "freezed", "w/o seq", "w/o 3D struct", "w/o fusion"]
-TRAIN_SETTING=6
+MODEL_SETTING="w/o fusion" # ["full", "freezed", "w/o seq", "w/o 3D struct", "w/o fusion"]
+TRAIN_SETTING=4
 VAL_SETTING=4
-MOL_AUG="True"
-RNA_AUG="True"
-
-EXP_NAME="exp${EXP_ID}"  
+MOL_AUG="False"
+RNA_AUG="False"
 
 RES_FILE_NAME="cv_all_${DATE}"
 PLOT_NAME="${DATE}_exp${EXP_ID}"
 
-LOG_FILE_NAME="stratified_cv_${DATE}_exp${EXP_ID}"
+LOG_FILE_NAME="ablation_${DATE}_exp${EXP_ID}"
 
-LR=5e-5 # same as before
-WD=1e-5 # same as before
+#######
+# best hyperparameters from global hyperpram search in 14/04 (full setting)
+LR=2e-5
+WD=1e-6
+DROPOUT=0.1
+########
+
+##### 
+# RNA module hyperpram search 15/04 
+D_MODEL=128
+FFN_MULT=6
+BDCF_BLOCKS=1
+#####
+
 BATCH_SIZE=1
+NUM_WORKERS=0
+
+EXP_NAME="exp${EXP_ID}_${MODEL_SETTING}"
 
 SETTING="cv"
 CV_METHOD="all"
-EV_SETTING=4
 K_FOLD=5
 DEVICE="cuda"
 
@@ -84,11 +96,15 @@ python main.py \
   --log_file_name "$LOG_FILE_NAME" \
   --setting "$SETTING" \
   --cv_method "$CV_METHOD" \
+  --k_fold "$K_FOLD" \
   --lr "$LR" \
   --wd "$WD" \
+  --dropout "$DROPOUT" \
+  --d_model "$D_MODEL" \
+  --ffn_mult "$FFN_MULT" \
+  --bdcf_blocks "$BDCF_BLOCKS" \
   --batch_size "$BATCH_SIZE" \
-  --k_fold "$K_FOLD" \
-  --ev_setting "$EV_SETTING" \
+  --num_workers "$NUM_WORKERS" \
   --device "$DEVICE" \
   --seed "$SEED" \
   --dataset_seed "$DATASET_SEED"

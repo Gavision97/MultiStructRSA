@@ -148,7 +148,7 @@ def get_args():
     parser.add_argument(
         "--dropout",
         type=float,
-        default=1e-6,
+        default=0.1,
         help="dropout value for regularization (same in both MLPs and BiDirectionalCrossFusion)"
     )
 
@@ -215,6 +215,47 @@ def get_args():
         default="False",
         choices=["True", "False"],
         help="Whether to plot train vs. validation loss curve"
+    )
+
+
+    parser.add_argument(
+        "--d_model",
+        type=int,
+        default=128,
+        choices=[128, 256],
+        help="Hidden dimension used inside BiDirectionalCrossFusion"
+    )
+
+    parser.add_argument(
+        "--ffn_mult",
+        type=int,
+        default=4,
+        choices=[2, 4, 6],
+        help="Feed-forward expansion multiplier inside BiDirectionalCrossFusion"
+    )
+
+    parser.add_argument(
+        "--bdcf_blocks",
+        type=int,
+        default=1,
+        choices=[1, 2],
+        help="Number of BiDirectionalCrossFusion blocks in the full model"
+    )
+
+    parser.add_argument(
+        "--node_pool",
+        type=str,
+        choices=["attn", "mean"],
+        default="attn",
+        help="Pooling method for node embeddings: 'attn' or 'mean'"
+    )
+
+    parser.add_argument(
+        "--token_pool",
+        type=str,
+        choices=["attn", "mean"],
+        default="mean",
+        help="Pooling method for token embeddings: 'attn' or 'mean'"
     )
 
     return parser.parse_args()

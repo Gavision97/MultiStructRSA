@@ -13,15 +13,17 @@ from models.gRNAde import *
 from utils.utils import *
 from models.BiDirectionalCrossFusion import *
 
-# TODO - add that as hyperparameter to parser.py
-BDCF_DROPOUT = 0.1 # BiDirectionalCrossFusion dropout
-DROPOUT = 0.1 # all MLP dropout values
-LST_DROPOUT = 0.1 # last MLP (affinity head) dropout values
-
 gRNAde_WEIGHT_PATH = "saved_objects/gRNAde_checkpoints/gRNAde_drop3d@0.75_maxlen@500.h5"
  
-
-def choose_model_setting(option: str = "full", dropout: float = 0.1):
+def choose_model_setting(
+    option: str = "full",
+    dropout: float = 0.1,
+    d_model: int = 128,
+    ffn_mult: int = 4,
+    bdcf_blocks: int = 1,
+    node_pool: str = 'attn',
+    token_pool: str = 'mean'
+):
     assert option in ["full", "freezed", "w/o seq", "w/o 3D struct", "w/o fusion", "full batched"]
 
     model_map = {
@@ -33,8 +35,24 @@ def choose_model_setting(option: str = "full", dropout: float = 0.1):
         "full batched": MultiStructRSABatched
     }
 
-    model = model_map[option](dropout=dropout)
-    logger.info(f"Initialized model setting: {option}, dropout: {dropout}")
+    if option == "full" or option == "freezed":
+        model = model_map[option](
+            dropout=dropout,
+            d_model=d_model,
+            ffn_mult=ffn_mult,
+            bdcf_blocks=bdcf_blocks,
+            node_pool=node_pool,
+            token_pool=token_pool
+        )
+        logger.info(
+            f"Initialized model setting: {option}, dropout: {dropout}, "
+            f"d_model: {d_model}, ffn_mult: {ffn_mult}, bdcf_blocks: {bdcf_blocks}, "
+            f"node_pool: {node_pool}, token_pool: {token_pool}"
+        )
+    else:
+        model = model_map[option](dropout=dropout)
+        logger.info(f"Initialized model setting: {option}, dropout: {dropout}")
+
     return model
 
 
@@ -112,11 +130,18 @@ class MultiStructRSA(nn.Module, ABC):
 # FULL model
 # =========================================================
 class MultiStructRSAFull(MultiStructRSA):
-    def __init__(self, dropout=1e-6):
+    def __init__(self, dropout=0.1, d_model=128, ffn_mult=4, bdcf_blocks=1, node_pool='attn', token_pool='mean'):
         super().__init__(dropout=dropout)
+
+        self.d_model = d_model
+        self.ffn_mult = ffn_mult
+        self.bdcf_blocks = bdcf_blocks
+
         logging.info("MultiStructRSA - full: w 3D struct, w seq, w cross-attention fusion")
         logger.info(
             f"hyperparameters -> BiDirectionalCrossFusion dropout:{self.dropout}, "
+            f"d_model:{self.d_model}, ffn_mult:{self.ffn_mult}, bdcf_blocks:{self.bdcf_blocks}, "
+            f"node_pool:{node_pool}, token_pool:{token_pool}, "
             f"Encoder MLPs dropout:{self.dropout}; Last MLP dropout:{self.dropout}"
         )
 
@@ -125,13 +150,17 @@ class MultiStructRSAFull(MultiStructRSA):
         self.rna_fusion = BiDirectionalCrossFusionSingle(
             a_in_dim=768 + 1280, # |ERNIE-RNA| & |RiNALMo|
             b_in_dim=128 + 48, # gRNAde GNN |node features| & |node vectors|
-            d_model=128,
+            d_model=self.d_model,
             n_heads=4,
-            dropout=self.dropout
+            dropout=self.dropout,
+            ffn_mult=self.ffn_mult,
+            bdcf_blocks=bdcf_blocks,
+            a_pool=node_pool,
+            b_pool=token_pool
         )
-        self.gated_fusion = GatedFeatureFusion(256)
-        self.node_attn_pooling = AttnPoolSingle(128)
-        self.token_attn_pooling = AttnPoolSingle(128)
+        self.gated_fusion = GatedFeatureFusion(2*d_model)
+        self.node_attn_pooling = AttnPoolSingle(d_model)
+        self.token_attn_pooling = AttnPoolSingle(d_model)
 
         self.smiles_seq_mlp = nn.Sequential(
             nn.Linear(384 + 512, 512, bias=False),
@@ -180,11 +209,11 @@ class MultiStructRSAFull(MultiStructRSA):
             nn.LayerNorm(512),
             nn.ReLU(),
             nn.Dropout(self.dropout),
-            nn.Linear(512, 256, bias=True)
+            nn.Linear(512, 2*d_model, bias=True)
         )
 
         self.head = nn.Sequential(
-            nn.Linear(256, 128, bias=False),
+            nn.Linear(2*d_model, 128, bias=False),
             nn.LayerNorm(128),
             nn.ReLU(),
             nn.Dropout(self.dropout),
@@ -196,6 +225,8 @@ class MultiStructRSAFull(MultiStructRSA):
         )
 
     def forward(self, graph, ernie_emb, rinalmo_emb, seq_len, morgan_fp, mordred_desc, chemberta_emb, simson_emb):
+       
+       # RNA Module #
         h_V, _, _ = self._encode_3d_structure(graph)
 
         encoder_emb = torch.cat(
@@ -206,22 +237,14 @@ class MultiStructRSAFull(MultiStructRSA):
         ernie_emb, rinalmo_emb = ernie_emb.squeeze(0), rinalmo_emb.squeeze(0) # we train with batch_size=1
         rna_seq_emb = torch.cat([rinalmo_emb, ernie_emb], dim=1)  # (L, 2048)
 
-        rna_emb, nodes_fused = self.rna_fusion(A=rna_seq_emb, B=encoder_emb)
+        rna_fused_emb = self.rna_fusion(A=rna_seq_emb, B=encoder_emb)
 
-        # pool RNA token and node embeddings into singel vectors size (L, 128) -> (, 128)
-        rna_emb = rna_emb.mean(dim=0)
-        nodes_vec = self.attn_pooling(nodes_fused, graph.batch).squeeze(0)
-
-        rna_vec = torch.cat([rna_emb, nodes_vec], dim=0).unsqueeze(0)  # (1, 256)
-
+        # Small molecule Module #
         expert_smi_emb = self.expert_proj(torch.cat([morgan_fp, mordred_desc], dim=1))
-
-        # SMILES sequence embeddings from pre-trained methods
-        #seq_emb = self.chemberta_proj(chemberta_emb)
         seq_emb = self.smiles_seq_mlp(torch.cat([chemberta_emb, simson_emb], dim=1))
         mol_vec = self.mol_mlp(torch.cat([expert_smi_emb, seq_emb], dim=1))
 
-        fused_emb = self.gated_fusion(mol_vec, rna_vec)
+        fused_emb = self.gated_fusion(mol_vec, rna_fused_emb)
         pkd = self.head(fused_emb)
         return pkd
 
@@ -230,51 +253,70 @@ class MultiStructRSAFull(MultiStructRSA):
 # FREEZED model
 # =========================================================
 class MultiStructRSAFreezed(MultiStructRSA):
-    def __init__(self):
-        super().__init__()
-        logging.info("MultiStructRSA - freezed gRNAde encoder, w seq, w cross-attention fusion")
+    def __init__(self, dropout=0.1, d_model=128, ffn_mult=4, bdcf_blocks=1, node_pool='attn', token_pool='mean'):
+        super().__init__(dropout=dropout)
 
-        self._load_grnade_encoder(freeze=True)
+        self.d_model = d_model
+        self.ffn_mult = ffn_mult
+        self.bdcf_blocks = bdcf_blocks
+
+        logging.info("MultiStructRSA - full: w 3D struct, w seq, w cross-attention fusion")
+        logger.info(
+            f"hyperparameters -> BiDirectionalCrossFusion dropout:{self.dropout}, "
+            f"d_model:{self.d_model}, ffn_mult:{self.ffn_mult}, bdcf_blocks:{self.bdcf_blocks}, "
+            f"node_pool:{node_pool}, token_pool:{token_pool}, "
+            f"Encoder MLPs dropout:{self.dropout}; Last MLP dropout:{self.dropout}"
+        )
+
+        self._load_grnade_encoder(freeze=False)
 
         self.rna_fusion = BiDirectionalCrossFusionSingle(
-            a_in_dim=768 + 1280,
-            b_in_dim=128 + 48,
-            d_model=128,
+            a_in_dim=768 + 1280, # |ERNIE-RNA| & |RiNALMo|
+            b_in_dim=128 + 48, # gRNAde GNN |node features| & |node vectors|
+            d_model=self.d_model,
             n_heads=4,
-            dropout=BDCF_DROPOUT
+            dropout=self.dropout,
+            ffn_mult=self.ffn_mult,
+            bdcf_blocks=bdcf_blocks,
+            a_pool=node_pool,
+            b_pool=token_pool
         )
-        self.gated_fusion = GatedFeatureFusion(256)
-        self.attn_pooling = AttnPool(128)
+        self.gated_fusion = GatedFeatureFusion(2*d_model)
+        self.node_attn_pooling = AttnPoolSingle(d_model)
+        self.token_attn_pooling = AttnPoolSingle(d_model)
 
         self.chemberta_proj = nn.Sequential(
             nn.Linear(384, 256, bias=False),
             nn.LayerNorm(256)
         )
+
         self.smiles_seq_mlp = nn.Sequential(
             nn.Linear(384 + 512, 512, bias=False),
             nn.LayerNorm(512),
             nn.ReLU(),
-            nn.Dropout(DROPOUT),
-            nn.Linear(512, 256, bias=False),
-            nn.LayerNorm(256)
-        )
-
-        self.expert_mlp = nn.Sequential(
-            nn.Linear(1024 + 1205, 512, bias=False),
+            nn.Dropout(self.dropout),
+            nn.Linear(512, 512, bias=False),
             nn.LayerNorm(512),
             nn.ReLU(),
-            nn.Dropout(DROPOUT),
-            nn.Linear(512, 256, bias=False),
+            nn.Dropout(self.dropout),
+            nn.Linear(512, 256, bias=True)
+        )
+
+        self.expert_proj = nn.Sequential(
+            nn.Linear(1024 + 1205, 256, bias=False),
             nn.LayerNorm(256)
         )
 
         self.mol_mlp = nn.Sequential(
-            nn.Linear(2 * 256, 256, bias=False),
-            nn.LayerNorm(256)
+            nn.Linear(2 * 256, 512, bias=False),
+            nn.LayerNorm(512),
+            nn.ReLU(),
+            nn.Dropout(self.dropout),
+            nn.Linear(512, 2*d_model, bias=True)
         )
 
         self.head = nn.Sequential(
-            nn.Linear(256, 128, bias=False),
+            nn.Linear(2*d_model, 128, bias=False),
             nn.LayerNorm(128),
             nn.ReLU(),
             nn.Dropout(LST_DROPOUT),
@@ -321,27 +363,30 @@ class MultiStructRSAWithout3D(MultiStructRSA):
             nn.Linear(384, 128, bias=False),
             nn.LayerNorm(128)
         )
+
         self.smiles_seq_mlp = nn.Sequential(
             nn.Linear(384 + 512, 512, bias=False),
             nn.LayerNorm(512),
             nn.ReLU(),
-            nn.Dropout(DROPOUT),
-            nn.Linear(512, 128, bias=False),
-            nn.LayerNorm(128)
-        )
-
-        self.expert_mlp = nn.Sequential(
-            nn.Linear(1024 + 1205, 512, bias=False),
+            nn.Dropout(self.dropout),
+            nn.Linear(512, 512, bias=False),
             nn.LayerNorm(512),
             nn.ReLU(),
-            nn.Dropout(DROPOUT),
-            nn.Linear(512, 128, bias=False),
-            nn.LayerNorm(128)
+            nn.Dropout(self.dropout),
+            nn.Linear(512, 256, bias=True)
+        )
+
+        self.expert_proj = nn.Sequential(
+            nn.Linear(1024 + 1205, 256, bias=False),
+            nn.LayerNorm(256)
         )
 
         self.mol_mlp = nn.Sequential(
-            nn.Linear(2 * 128, 128, bias=False),
-            nn.LayerNorm(128)
+            nn.Linear(2 * 256, 512, bias=False),
+            nn.LayerNorm(512),
+            nn.ReLU(),
+            nn.Dropout(self.dropout),
+            nn.Linear(512, 128, bias=True)
         )
 
         self.rna_proj = nn.Sequential(
@@ -399,9 +444,12 @@ class MultiStructRSAWithoutSeq(MultiStructRSA):
             nn.Linear(384 + 512, 512, bias=False),
             nn.LayerNorm(512),
             nn.ReLU(),
-            nn.Dropout(DROPOUT),
-            nn.Linear(512, 256, bias=False),
-            nn.LayerNorm(256)
+            nn.Dropout(self.dropout),
+            nn.Linear(512, 512, bias=False),
+            nn.LayerNorm(512),
+            nn.ReLU(),
+            nn.Dropout(self.dropout),
+            nn.Linear(512, 256, bias=True)
         )
 
         self.expert_mlp = nn.Sequential(
@@ -460,27 +508,16 @@ class MultiStructRSAWithoutFusion(MultiStructRSA):
         self.gated_fusion = GatedFeatureFusion(256)
         self.attn_pooling = AttnPool(128)
 
-        self.chemberta_proj = nn.Sequential(
-            nn.Linear(384, 256, bias=False),
-            nn.LayerNorm(256)
-        )
-        self.struct_proj = nn.Sequential(
-            nn.Linear(176, 128, bias=False),
-            nn.LayerNorm(128)
-        )
-
-        self.rna_proj = nn.Sequential(
-            nn.Linear(768 + 1280, 128, bias=False),
-            nn.LayerNorm(128)
-        )
-
         self.smiles_seq_mlp = nn.Sequential(
             nn.Linear(384 + 512, 512, bias=False),
             nn.LayerNorm(512),
             nn.ReLU(),
-            nn.Dropout(DROPOUT),
-            nn.Linear(512, 256, bias=False),
-            nn.LayerNorm(256)
+            nn.Dropout(self.dropout),
+            nn.Linear(512, 512, bias=False),
+            nn.LayerNorm(512),
+            nn.ReLU(),
+            nn.Dropout(self.dropout),
+            nn.Linear(512, 256, bias=True)
         )
 
         self.expert_mlp = nn.Sequential(
@@ -547,23 +584,16 @@ class MultiStructRSABatched(MultiStructRSA):
 
         self.gated_fusion = GatedFeatureFusion(256)
 
-        self.chemberta_proj = nn.Sequential(
-            nn.Linear(384, 256, bias=False),
-            nn.LayerNorm(256)
-        )
-
-        self.simson_proj = nn.Sequential(
-            nn.Linear(512, 256, bias=False),
-            nn.LayerNorm(256)
-        )
-
-        self.smiles_seq_proj = nn.Sequential(
+        self.smiles_seq_mlp = nn.Sequential(
             nn.Linear(384 + 512, 512, bias=False),
             nn.LayerNorm(512),
             nn.ReLU(),
-            nn.Dropout(DROPOUT),
-            nn.Linear(512, 256, bias=False),
-            nn.LayerNorm(256)
+            nn.Dropout(self.dropout),
+            nn.Linear(512, 512, bias=False),
+            nn.LayerNorm(512),
+            nn.ReLU(),
+            nn.Dropout(self.dropout),
+            nn.Linear(512, 256, bias=True)
         )
 
         self.expert_mlp = nn.Sequential(

@@ -178,43 +178,43 @@ class GatedFeatureFusion(nn.Module):
 
 ##################################################################################################
 class AttnPoolSingle(nn.Module):
-    """
-    Attention-based pooling for a single sample.
+        """
+        Attention-based pooling for a single sample.
 
-    This layer pools a matrix of feature vectors into one vector by learning
-    an importance score for each row. Unlike mean pooling, which gives equal
-    weight to all rows, attention pooling learns to focus more on informative
-    tokens/nodes and less on irrelevant ones.
+        This layer pools a matrix of feature vectors into one vector by learning
+        an importance score for each row. Unlike mean pooling, which gives equal
+        weight to all rows, attention pooling learns to focus more on informative
+        tokens/nodes and less on irrelevant ones.
 
-    Can be used for:
-    - sequence embeddings, e.g. RNA/SMILES token representations
-    - graph node embeddings
-    - any feature matrix of shape (length, dim)
+        Can be used for:
+        - sequence embeddings, e.g. RNA/SMILES token representations
+        - graph node embeddings
+        - any feature matrix of shape (length, dim)
 
-    Input
-    -----
-    x : torch.Tensor
-        Shape (L, dim) or (N, dim), where each row is a feature vector.
+        Input
+        -----
+        x : torch.Tensor
+            Shape (L, dim) or (N, dim), where each row is a feature vector.
 
-    Returns
-    -------
-    torch.Tensor
-        Shape (dim,), the weighted pooled representation.
-    """
-    def __init__(self, dim):
-        super().__init__()
-        self.score = nn.Sequential(
-            nn.Linear(dim, dim),
-            nn.Tanh(),
-            nn.Linear(dim, 1)
-        )
+        Returns
+        -------
+        torch.Tensor
+            Shape (dim,), the weighted pooled representation.
+        """
+        def __init__(self, dim):
+            super().__init__()
+            self.score = nn.Sequential(
+                nn.Linear(dim, dim),
+                nn.Tanh(),
+                nn.Linear(dim, 1)
+            )
 
-    def forward(self, x):
-        # x: (L, dim) or (N, dim)
-        attn = self.score(x).squeeze(-1)   # (L,) or (N,)
-        attn = torch.softmax(attn, dim=0)
-        pooled = torch.sum(x * attn.unsqueeze(-1), dim=0)   # (dim,)
-        return pooled
+        def forward(self, x):
+            # x: (L, dim) or (N, dim)
+            attn = self.score(x).squeeze(-1)   # (L,) or (N,)
+            attn = torch.softmax(attn, dim=0)
+            pooled = torch.sum(x * attn.unsqueeze(-1), dim=0)   # (dim,)
+            return pooled
     
 ######################################################################
 

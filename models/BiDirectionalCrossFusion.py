@@ -91,17 +91,28 @@ class BiDirectionalCrossFusionSingle(nn.Module):
     A: (LA, a_in_dim)
     B: (LB, b_in_dim)
     """
-    def __init__(self, a_in_dim, b_in_dim, d_model=128, n_heads=4, dropout=0.1):
+    def __init__(self, a_in_dim, b_in_dim, bdcf_blocks=1, d_model=128, n_heads=4,
+                 dropout=0.1, ffn_mult=4, a_pool='attn', b_pool='mean'):
         super().__init__()
-        logger.info(f'BiDirectionalCrossFusion @ 1 CrossAttnetionsBlock(s); hyperparam -> d_model:{d_model}, n_heads:{n_heads}, dropout:{dropout}')
 
-        self.a_from_b_1 = CrossAttentionBlockSingle(q_in_dim=a_in_dim, kv_in_dim=b_in_dim, d_model=d_model, n_heads=n_heads, dropout=dropout)
-        self.a_from_b_2 = CrossAttentionBlockSingle(q_in_dim=d_model, kv_in_dim=d_model, d_model=d_model, n_heads=n_heads, dropout=dropout)
-
-        self.b_from_a_1 = CrossAttentionBlockSingle(q_in_dim=b_in_dim, kv_in_dim=a_in_dim, d_model=d_model, n_heads=n_heads, dropout=dropout)
-        self.b_from_a_2 = CrossAttentionBlockSingle(q_in_dim=d_model, kv_in_dim=d_model, d_model=d_model, n_heads=n_heads, dropout=dropout)
+        if bdcf_blocks not in [1, 2]:
+            raise ValueError(f"bdcf_blocks must be 1 or 2, got {bdcf_blocks}")
         
-        self.gated_fusion = GatedFeatureFusion(128)
+        logger.info(f'BiDirectionalCrossFusion @  hyperparam -> bdcf_blocks:{bdcf_blocks}, d_model:{d_model}, n_heads:{n_heads}, dropout:{dropout}, ffn_mult:{ffn_mult}, '
+                    f'a_pool:{a_pool}, b_pool:{b_pool}')
+        
+        self.a_pool = a_pool
+        self.b_pool = b_pool
+        self.bdcf_blocks = bdcf_blocks
+        
+        self.a_from_b_1 = CrossAttentionBlockSingle(q_in_dim=a_in_dim, kv_in_dim=b_in_dim, d_model=d_model, n_heads=n_heads, dropout=dropout, ffn_mult=ffn_mult)
+        self.a_from_b_2 = CrossAttentionBlockSingle(q_in_dim=d_model, kv_in_dim=d_model, d_model=d_model, n_heads=n_heads, dropout=dropout, ffn_mult=ffn_mult)
+
+        self.b_from_a_1 = CrossAttentionBlockSingle(q_in_dim=b_in_dim, kv_in_dim=a_in_dim, d_model=d_model, n_heads=n_heads, dropout=dropout, ffn_mult=ffn_mult)
+        self.b_from_a_2 = CrossAttentionBlockSingle(q_in_dim=d_model, kv_in_dim=d_model, d_model=d_model, n_heads=n_heads, dropout=dropout, ffn_mult=ffn_mult)
+        
+        self.a_attn_pool = AttnPoolSingle(d_model)
+        self.b_attn_pool = AttnPoolSingle(d_model)
     
     def forward(self, A, B):
         """
@@ -112,17 +123,25 @@ class BiDirectionalCrossFusionSingle(nn.Module):
           A_fused: (LA, d_model)
           B_fused: (LB, d_model)
         """
-        
-        # first block
+
         A_fused_1 = self.a_from_b_1(A, B)
         B_fused_1 = self.b_from_a_1(B, A)
 
-        # second block
-        #A_fused_2 = self.a_from_b_2(A_fused_1, B_fused_1)
-        #B_fused_2 = self.b_from_a_2(B_fused_1, A_fused_1)
-        #fuse = self.gated_fusion(A_fused_1, B_fused_1)
-        return A_fused_1, B_fused_1
-        #return fuse
+        if self.bdcf_blocks == 2:
+            A_fused_2 = self.a_from_b_2(A_fused_1, B_fused_1)
+            B_fused_2 = self.b_from_a_2(B_fused_1, A_fused_1)
+            
+            # pool fused matrices
+            A_fused_2 = self.a_attn_pool(A_fused_2) if self.a_pool == 'attn' else A_fused_2.mean(dim=0)
+            B_fused_2 = self.b_attn_pool(B_fused_2) if self.b_pool == 'attn' else B_fused_2.mean(dim=0)
+            fused_rna_vec = torch.cat([A_fused_2, B_fused_2], dim=0).unsqueeze(0)
+            return fused_rna_vec
+
+        # pool fused matrices
+        A_fused_1 = self.a_attn_pool(A_fused_1) if self.a_pool == 'attn' else A_fused_1.mean(dim=0)
+        B_fused_1 = self.b_attn_pool(B_fused_1) if self.b_pool == 'attn' else B_fused_1.mean(dim=0)
+        fused_rna_vec = torch.cat([A_fused_1, B_fused_1], dim=0).unsqueeze(0)
+        return fused_rna_vec
     
 
 

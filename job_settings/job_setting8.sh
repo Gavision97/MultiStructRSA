@@ -7,7 +7,7 @@
 
 #SBATCH --partition=main
 #SBATCH --time=0-48:00:00
-#SBATCH --job-name=global_hyperparam_search
+#SBATCH --job-name=smiles_hyperparam_search
 #SBATCH --output=jobs/job-%J.out
 #SBATCH --error=jobs/job-%J.err
 #SBATCH --gpus=rtx_6000:1
@@ -20,7 +20,7 @@
 ############################
 
 EXP_ID=8   # experiment ID
-DATE=1304  # for log & result directory creation
+DATE=1704  # for log & result directory creation
 
 MODEL_SETTING="full" # ["full", "freezed", "w/o seq", "w/o 3D struct", "w/o fusion"]
 TRAIN_SETTING=4
@@ -33,14 +33,28 @@ PLOT_NAME="${DATE}_exp${EXP_ID}"
 
 LOG_FILE_NAME="hyperparam_search_${DATE}_exp${EXP_ID}"
 
-LR=5e-5
-WD=1e-5
-DROPOUT=0.2
+#######
+# best hyperparameters from global hyperpram search in 14/04 (full setting)
+LR=2e-5
+WD=1e-6
+DROPOUT=0.1
+########
+
+##### 
+# RNA module hyperpram search 15/04 
+D_MODEL=128
+FFN_MULT=4
+BDCF_BLOCKS=2
+NODE_POOL='mean'
+TOKEN_POOL='mean'
+#####
+SMILES_SEQ_SETTING='deep'
+SMILES_EXPERT_SETTING='shallow'
 
 BATCH_SIZE=1
 NUM_WORKERS=0
 
-EXP_NAME="exp${EXP_ID}_lr=${LR}_wd=${WD}_dropout=${DROPOUT}"
+EXP_NAME="exp${EXP_ID}_smiles_seq_setting=${SMILES_SEQ_SETTING}_smiles_expert_setting=${SMILES_EXPERT_SETTING}}"
 
 SETTING="cv"
 CV_METHOD="all"
@@ -90,6 +104,13 @@ python main.py \
   --lr "$LR" \
   --wd "$WD" \
   --dropout "$DROPOUT" \
+  --smiles_seq_setting "$SMILES_SEQ_SETTING" \
+  --smiles_expert_setting "$SMILES_EXPERT_SETTING" \
+  --d_model "$D_MODEL" \
+  --ffn_mult "$FFN_MULT" \
+  --bdcf_blocks "$BDCF_BLOCKS" \
+  --node_pool "$NODE_POOL" \
+  --token_pool "$TOKEN_POOL" \
   --batch_size "$BATCH_SIZE" \
   --num_workers "$NUM_WORKERS" \
   --device "$DEVICE" \

@@ -7,7 +7,7 @@
 
 #SBATCH --partition=main
 #SBATCH --time=0-48:00:00
-#SBATCH --job-name=global_hyperparam_search
+#SBATCH --job-name=smiles_hyperparam_search
 #SBATCH --output=jobs/job-%J.out
 #SBATCH --error=jobs/job-%J.err
 #SBATCH --gpus=rtx_6000:1
@@ -45,14 +45,16 @@ DROPOUT=0.1
 D_MODEL=128
 FFN_MULT=4
 BDCF_BLOCKS=2
-NODE_POOL='attn'
-TOKEN_POOL='mean'
+NODE_POOL='mean'
+TOKEN_POOL='attn'
 #####
+SMILES_EXPERT_SETTING='proj'
+SMILES_SEQ_SETTING='deep'
 
 BATCH_SIZE=1
 NUM_WORKERS=0
 
-EXP_NAME="exp${EXP_ID}_D_MODEL=${D_MODEL}_DBCF_BLOCKS=${BDCF_BLOCKS}_NODE_POOL=${NODE_POOL}_TOKEN_POOL=${TOKEN_POOL}"
+EXP_NAME="exp${EXP_ID}_node_pool=${NODE_POOL}_token_pool=${TOKEN_POOL}"
 
 SETTING="cv"
 CV_METHOD="all"
@@ -102,6 +104,8 @@ python main.py \
   --lr "$LR" \
   --wd "$WD" \
   --dropout "$DROPOUT" \
+  --smiles_seq_setting "$SMILES_SEQ_SETTING" \
+  --smiles_expert_setting "$SMILES_EXPERT_SETTING" \
   --d_model "$D_MODEL" \
   --ffn_mult "$FFN_MULT" \
   --bdcf_blocks "$BDCF_BLOCKS" \

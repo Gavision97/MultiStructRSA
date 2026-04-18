@@ -7,7 +7,7 @@
 
 #SBATCH --partition=main
 #SBATCH --time=0-48:00:00
-#SBATCH --job-name=global_hyperparam_search
+#SBATCH --job-name=smiles_hyperparam_search
 #SBATCH --output=jobs/job-%J.out
 #SBATCH --error=jobs/job-%J.err
 #SBATCH --gpus=rtx_6000:1
@@ -19,7 +19,7 @@
 ### Experiment variables ###
 ############################
 
-EXP_ID=4   # experiment ID
+EXP_ID=5   # experiment ID
 DATE=1704  # for log & result directory creation
 
 MODEL_SETTING="full" # ["full", "freezed", "w/o seq", "w/o 3D struct", "w/o fusion"]
@@ -49,7 +49,7 @@ NODE_POOL='mean'
 TOKEN_POOL='mean'
 #####
 SMILES_EXPERT_SETTING='shallow'
-SMILES_SEQ_SETTING='proj'
+SMILES_SEQ_SETTING='shallow'
 
 BATCH_SIZE=1
 NUM_WORKERS=0

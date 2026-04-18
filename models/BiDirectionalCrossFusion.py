@@ -132,15 +132,15 @@ class BiDirectionalCrossFusionSingle(nn.Module):
             B_fused_2 = self.b_from_a_2(B_fused_1, A_fused_1)
             
             # pool fused matrices
-            A_fused_2 = self.a_attn_pool(A_fused_2) if self.a_pool == 'attn' else A_fused_2.mean(dim=0)
-            B_fused_2 = self.b_attn_pool(B_fused_2) if self.b_pool == 'attn' else B_fused_2.mean(dim=0)
-            fused_rna_vec = torch.cat([A_fused_2, B_fused_2], dim=0).unsqueeze(0)
+            A_fused_2 = self.a_attn_pool(A_fused_2) if self.a_pool == 'attn' else A_fused_2.mean(dim=0) # (, 128)
+            B_fused_2 = self.b_attn_pool(B_fused_2) if self.b_pool == 'attn' else B_fused_2.mean(dim=0) # (, 128)
+            fused_rna_vec = torch.cat([A_fused_2, B_fused_2], dim=0).unsqueeze(0) # unsqueenze to get (1, 2*128)
             return fused_rna_vec
 
         # pool fused matrices
-        A_fused_1 = self.a_attn_pool(A_fused_1) if self.a_pool == 'attn' else A_fused_1.mean(dim=0)
-        B_fused_1 = self.b_attn_pool(B_fused_1) if self.b_pool == 'attn' else B_fused_1.mean(dim=0)
-        fused_rna_vec = torch.cat([A_fused_1, B_fused_1], dim=0).unsqueeze(0)
+        A_fused_1 = self.a_attn_pool(A_fused_1) if self.a_pool == 'attn' else A_fused_1.mean(dim=0) # (, 128)
+        B_fused_1 = self.b_attn_pool(B_fused_1) if self.b_pool == 'attn' else B_fused_1.mean(dim=0) # (, 128)
+        fused_rna_vec = torch.cat([A_fused_1, B_fused_1], dim=0).unsqueeze(0) # unsqueeze to get (1, 2*128)
         return fused_rna_vec
     
 

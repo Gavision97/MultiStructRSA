@@ -131,7 +131,7 @@ class MolRNADataset_(Dataset):
         rinalmo = torch.stack(rinalmo, dim=0) # (1, L, 1280) (1, L, 1280)
         seq_len = torch.tensor(seq_len) # (B,)
 
-        inputs = [graphs, ernie, rinalmo, seq_len, mordred, morgan, chemberta, simson]
+        inputs = [graphs, ernie, rinalmo, seq_len, morgan, mordred, chemberta, simson]
         return inputs, y
 
     def make_loader(self, batch_size=8, shuffle=True, num_workers=0, pin_memory=True):
@@ -181,7 +181,7 @@ class MolRNADataset_(Dataset):
         mordred_descriptors = torch.from_numpy(self.mordred_descriptors_features.loc[self.mordred_descriptors_features['SMILES'] == smiles].iloc[0, 1:].values.astype(np.float32))
         y = torch.tensor(self.data.iloc[idx]["pKd"], dtype=torch.float32)
 
-        return (g, ernie, rinalmo, seq_len,  mordred_descriptors, morgan_fingerprint, chemberta, simson), y
+        return (g, ernie, rinalmo, seq_len, morgan_fingerprint, mordred_descriptors, chemberta, simson), y
     
 
 
@@ -257,7 +257,7 @@ class MolRNADataset(Dataset):
     @staticmethod
     def collate_fn(batch):
         inputs, y = zip(*batch)
-        graphs, ernie, rinalmo, seq_len, mordred, morgan, chemberta, simson = zip(*inputs)
+        graphs, ernie, rinalmo, seq_len, morgan, mordred, chemberta, simson = zip(*inputs)
 
         graphs = Batch.from_data_list(list(graphs))
         mordred = torch.stack(mordred, dim=0)
@@ -270,7 +270,7 @@ class MolRNADataset(Dataset):
         rinalmo = torch.stack(rinalmo, dim=0)
         seq_len = torch.tensor(seq_len)
 
-        inputs = [graphs, ernie, rinalmo, seq_len, mordred, morgan, chemberta, simson]
+        inputs = [graphs, ernie, rinalmo, seq_len, morgan, mordred, chemberta, simson]
         return inputs, y
 
     def make_loader(self, batch_size=8, shuffle=True, num_workers=0, pin_memory=True):
@@ -280,7 +280,7 @@ class MolRNADataset(Dataset):
             shuffle=shuffle,
             num_workers=num_workers,
             pin_memory=pin_memory,
-            collate_fn=MolRNADataset_.collate_fn,
+            collate_fn=MolRNADataset.collate_fn,
         )
     
     def open_pkl(self, path):
@@ -356,7 +356,7 @@ class MolRNADataset(Dataset):
 
         y = torch.tensor(row["pKd"], dtype=torch.float32)
 
-        return (g, ernie, rinalmo, seq_len, mordred_descriptors, morgan_fingerprint, chemberta, simson), y
+        return (g, ernie, rinalmo, seq_len, morgan_fingerprint, mordred_descriptors, chemberta, simson), y
 
 
 

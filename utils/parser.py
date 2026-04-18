@@ -237,7 +237,7 @@ def get_args():
     parser.add_argument(
         "--bdcf_blocks",
         type=int,
-        default=1,
+        default=2,
         choices=[1, 2],
         help="Number of BiDirectionalCrossFusion blocks in the full model"
     )
@@ -246,7 +246,7 @@ def get_args():
         "--node_pool",
         type=str,
         choices=["attn", "mean"],
-        default="attn",
+        default="mean",
         help="Pooling method for node embeddings: 'attn' or 'mean'"
     )
 
@@ -272,6 +272,14 @@ def get_args():
         default="proj",
         choices=["proj", "shallow", "deep"],
         help="Architecture of the SMILES expert encoder (Morgan FP + Mordred): proj / shallow / deep"
+    )
+
+    parser.add_argument(
+        "--exclude_modalities",
+        nargs="+",
+        default=None,
+        choices=["simson", "chemberta", "mordred", "morgan", "rinalmo", "ernie", "grnade"],
+        help="Modalities to exclude for sensitivity analysis"
     )
 
     return parser.parse_args()

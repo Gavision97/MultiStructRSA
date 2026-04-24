@@ -57,7 +57,7 @@ ALL_SF_DATASET_PATH = os.path.join("datasets", "RSIM", "All_sf_dataset_v1.csv")
 def rmse_loss(y_true, y_pred):
     return torch.sqrt(torch.mean((y_true - y_pred) ** 2))
 
-def cv_eval(dataset=None, model_setting="full", train_setting=4, val_setting=4, rna_aug=False, mol_aug=False, lr=5e-5, wd=1e-5, dropout=0.1, exclude_modalities=None, smiles_seq_setting='deep', smiles_expert_setting='proj', batch_size=1, num_workers=8,
+def cv_eval(dataset=None, model_setting="full", train_setting=4, val_setting=4, rna_aug=False, mol_aug=False, lr=5e-5, wd=1e-5, dropout=0.1, exclude_modalities=None, freeze_grnade=False, smiles_seq_setting='deep', smiles_expert_setting='proj', batch_size=1, num_workers=8,
             is_plot=False, is_seq_emb=False,  d_model=128, ffn_mult=4, bdcf_blocks=1, node_pool='attn', token_pool='mean', n=10, fam_name=None, plot_name="loss_curve", device="cuda", dataset_seed=2, seed=1):
     """
     Run stratified k-fold cross-validation for a selected MultiStructRSA model setting.
@@ -133,7 +133,7 @@ def cv_eval(dataset=None, model_setting="full", train_setting=4, val_setting=4, 
 
         early_stopping = EarlyStopping(mode=MODE, patience=PATIENCE, warm_up_epochs=WARM_UP_EPOCHS, delta=DELTA) # early stopping object 
         
-        model = choose_model_setting(option=model_setting, exclude_modalities=exclude_modalities, dropout=dropout, smiles_seq_setting=smiles_seq_setting, smiles_expert_setting=smiles_expert_setting, d_model=d_model, ffn_mult=ffn_mult, bdcf_blocks=bdcf_blocks,
+        model = choose_model_setting(option=model_setting, exclude_modalities=exclude_modalities, freeze_grnade=freeze_grnade, dropout=dropout, smiles_seq_setting=smiles_seq_setting, smiles_expert_setting=smiles_expert_setting, d_model=d_model, ffn_mult=ffn_mult, bdcf_blocks=bdcf_blocks,
                                      node_pool=node_pool, token_pool=token_pool).to(device)
         optimizer = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=wd)
         criterion = rmse_loss

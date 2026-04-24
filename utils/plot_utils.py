@@ -198,7 +198,8 @@ def plot_horizontal_metric(
     value_fmt: str = ".4f"
 ):
     """
-    Plot a horizontal bar chart for one metric column.
+    Plot a horizontal bar chart for one metric column, with value labels
+    displayed to the right of each bar while keeping them inside the plot area.
 
     Parameters
     ----------
@@ -215,7 +216,7 @@ def plot_horizontal_metric(
     ylabel : str
         Y-axis label.
     sort_ascending : bool
-        Whether to sort values ascending.
+        Whether to sort values in ascending order.
     label_map : dict[str, str] | None
         Optional mapping for display labels.
     figsize : tuple[int, int]
@@ -224,6 +225,11 @@ def plot_horizontal_metric(
         Matplotlib colormap name.
     value_fmt : str
         Numeric format for text labels.
+
+    Returns
+    -------
+    fig, ax
+        Matplotlib figure and axes objects.
     """
     plot_df = df[[label_col, value_col]].copy()
 
@@ -242,12 +248,20 @@ def plot_horizontal_metric(
     ax.set_xlabel(xlabel if xlabel else value_col)
     ax.set_ylabel(ylabel if ylabel else label_col)
 
+    # Add extra space on the right so value labels stay inside the plot area
+    x_max = plot_df[value_col].max()
+    x_pad = x_max * 0.1
+    ax.set_xlim(0, x_max + x_pad)
+
+    # Place value labels slightly to the right of each bar
+    text_offset = x_pad * 0.1
     for bar, value in zip(bars, plot_df[value_col]):
         ax.text(
-            value + 0.002,
+            value + text_offset,
             bar.get_y() + bar.get_height() / 2,
             format(value, value_fmt),
-            va="center"
+            va="center",
+            ha="left"
         )
 
     plt.tight_layout()

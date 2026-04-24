@@ -1,0 +1,214 @@
+2026-04-19 10:39:13,153 - stratified_cv_1904_exp4 - MultiStructRSA (full) - exclude_modalities=morgan ernie; TRAIN_SETTING=4; VAL_SETTING=4; RNA_AUG=False; MOL_AUG=False; SEED=1; DATASET_SEED=2
+2026-04-19 10:39:13,153 - 
+==================== ALL FAMILIES  ==================== (setting:1)
+2026-04-19 10:39:13,162 - K folds:5, seed:1, dataset seed:2 batch size:1, max epochs:1000, lr:2e-05, weight decay:1e-06, dropout:0.1 num_workers:0, patience:20, warm up epo:50, delta:1e-06
+2026-04-19 10:39:13,163 - --- Start statified 5-fold cross-validation; pd.DataFrame shape -> (1439, 8), lr=2e-05 ---
+2026-04-19 10:39:13,169 - W/O PADDING -> MolRNACDataset for training setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
+2026-04-19 10:39:13,918 - W/O PADDING -> MolRNACDataset for evaluating setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
+2026-04-19 10:39:14,612 - 
+Fold number 1/5
+2026-04-19 10:39:14,612 - Train len -> 1151, Test len -> 288
+2026-04-19 10:39:14,613 - MultiStructRSA - full | exclude_modalities=['ernie', 'morgan'] | smiles_seq_setting=deep, smiles_expert_setting=proj, dropout=0.1, d_model=128, ffn_mult=4, bdcf_blocks=2, node_pool=mean, token_pool=mean
+2026-04-19 10:39:14,710 - BiDirectionalCrossFusion @  hyperparam -> bdcf_blocks:2, d_model:128, n_heads:4, dropout:0.1, ffn_mult:4, a_pool:mean, b_pool:mean
+2026-04-19 10:39:14,728 - Initialized model setting: full, exclude_modalities: ['ernie', 'morgan'], dropout: 0.1, d_model: 128, ffn_mult: 4, bdcf_blocks: 2, node_pool: mean, token_pool: mean
+2026-04-19 10:41:19,720 - NEW BEST @ epoch 1: val loss=2.4168, ppc=-0.0680, ssc=-0.0594, r2=-2.0708; train loss=2.6815
+2026-04-19 10:43:22,746 - NEW BEST @ epoch 2: val loss=1.9261, ppc=0.2938, ssc=0.2489, r2=-0.9504; train loss=1.9339
+2026-04-19 10:45:25,107 - NEW BEST @ epoch 3: val loss=1.6107, ppc=0.4290, ssc=0.3639, r2=-0.3640; train loss=1.5136
+2026-04-19 10:47:27,764 - NEW BEST @ epoch 4: val loss=1.4592, ppc=0.5215, ssc=0.4323, r2=-0.1194; train loss=1.2936
+2026-04-19 10:49:30,027 - NEW BEST @ epoch 5: val loss=1.2737, ppc=0.5539, ssc=0.4637, r2=0.1470; train loss=1.1623
+2026-04-19 10:51:32,732 - NEW BEST @ epoch 6: val loss=1.1945, ppc=0.5510, ssc=0.4705, r2=0.2498; train loss=1.0224
+2026-04-19 10:53:36,416 - NEW BEST @ epoch 7: val loss=1.1794, ppc=0.5450, ssc=0.4405, r2=0.2687; train loss=0.9835
+2026-04-19 10:55:40,344 - NEW BEST @ epoch 8: val loss=1.1358, ppc=0.5790, ssc=0.5308, r2=0.3218; train loss=0.9196
+2026-04-19 10:59:48,714 - NEW BEST @ epoch 10: val loss=1.1186, ppc=0.5901, ssc=0.5798, r2=0.3422; train loss=0.8576
+2026-04-19 11:01:52,592 - NEW BEST @ epoch 11: val loss=1.0760, ppc=0.6276, ssc=0.6551, r2=0.3913; train loss=0.8387
+2026-04-19 11:03:56,749 - NEW BEST @ epoch 12: val loss=1.0468, ppc=0.6532, ssc=0.6846, r2=0.4239; train loss=0.8154
+2026-04-19 11:06:00,988 - NEW BEST @ epoch 13: val loss=1.0122, ppc=0.6810, ssc=0.7060, r2=0.4613; train loss=0.7789
+2026-04-19 11:10:08,752 - NEW BEST @ epoch 15: val loss=0.9963, ppc=0.6935, ssc=0.7189, r2=0.4782; train loss=0.7347
+2026-04-19 11:12:13,025 - NEW BEST @ epoch 16: val loss=0.9787, ppc=0.7268, ssc=0.7572, r2=0.4964; train loss=0.7138
+2026-04-19 11:16:16,879 - NEW BEST @ epoch 18: val loss=0.9558, ppc=0.7263, ssc=0.7503, r2=0.5197; train loss=0.7052
+2026-04-19 11:18:18,525 - NEW BEST @ epoch 19: val loss=0.9520, ppc=0.7331, ssc=0.7612, r2=0.5235; train loss=0.6627
+2026-04-19 11:20:20,579 - NEW BEST @ epoch 20: val loss=0.9495, ppc=0.7300, ssc=0.7568, r2=0.5260; train loss=0.6606
+2026-04-19 11:24:25,849 - NEW BEST @ epoch 22: val loss=0.9480, ppc=0.7396, ssc=0.7583, r2=0.5275; train loss=0.6427
+2026-04-19 11:26:27,554 - NEW BEST @ epoch 23: val loss=0.9145, ppc=0.7495, ssc=0.7638, r2=0.5603; train loss=0.6436
+2026-04-19 11:28:29,859 - NEW BEST @ epoch 24: val loss=0.9021, ppc=0.7623, ssc=0.7855, r2=0.5721; train loss=0.6340
+2026-04-19 11:32:33,574 - NEW BEST @ epoch 26: val loss=0.8776, ppc=0.7718, ssc=0.7922, r2=0.5951; train loss=0.6167
+2026-04-19 11:59:01,820 - NEW BEST @ epoch 39: val loss=0.8744, ppc=0.7790, ssc=0.7918, r2=0.5980; train loss=0.5457
+2026-04-19 12:01:04,501 - NEW BEST @ epoch 40: val loss=0.8737, ppc=0.7835, ssc=0.7996, r2=0.5987; train loss=0.5731
+2026-04-19 12:03:06,395 - NEW BEST @ epoch 41: val loss=0.8641, ppc=0.7813, ssc=0.8000, r2=0.6074; train loss=0.5351
+2026-04-19 12:35:42,263 - NEW BEST @ epoch 57: val loss=0.8545, ppc=0.7892, ssc=0.7912, r2=0.6161; train loss=0.4970
+2026-04-19 13:16:25,784 - [Fold 1/5] Early stopping at epoch 77. Best rmse=0.8545 @ epoch 57
+2026-04-19 13:16:25,790 - W/O PADDING -> MolRNACDataset for training setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
+2026-04-19 13:16:26,716 - W/O PADDING -> MolRNACDataset for evaluating setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
+2026-04-19 13:16:27,408 - 
+Fold number 2/5
+2026-04-19 13:16:27,457 - Train len -> 1151, Test len -> 288
+2026-04-19 13:16:27,457 - MultiStructRSA - full | exclude_modalities=['ernie', 'morgan'] | smiles_seq_setting=deep, smiles_expert_setting=proj, dropout=0.1, d_model=128, ffn_mult=4, bdcf_blocks=2, node_pool=mean, token_pool=mean
+2026-04-19 13:16:27,670 - BiDirectionalCrossFusion @  hyperparam -> bdcf_blocks:2, d_model:128, n_heads:4, dropout:0.1, ffn_mult:4, a_pool:mean, b_pool:mean
+2026-04-19 13:16:27,688 - Initialized model setting: full, exclude_modalities: ['ernie', 'morgan'], dropout: 0.1, d_model: 128, ffn_mult: 4, bdcf_blocks: 2, node_pool: mean, token_pool: mean
+2026-04-19 13:18:32,574 - NEW BEST @ epoch 1: val loss=2.4273, ppc=0.0206, ssc=0.0556, r2=-1.9213; train loss=2.6880
+2026-04-19 13:20:37,151 - NEW BEST @ epoch 2: val loss=1.9316, ppc=0.0728, ssc=0.0843, r2=-0.8499; train loss=1.9177
+2026-04-19 13:22:41,907 - NEW BEST @ epoch 3: val loss=1.6308, ppc=-0.0842, ssc=-0.0483, r2=-0.3186; train loss=1.5030
+2026-04-19 13:24:46,164 - NEW BEST @ epoch 4: val loss=1.4922, ppc=0.4370, ssc=0.3645, r2=-0.1040; train loss=1.3074
+2026-04-19 13:26:50,858 - NEW BEST @ epoch 5: val loss=1.3549, ppc=0.4065, ssc=0.4707, r2=0.0898; train loss=1.1710
+2026-04-19 13:28:56,728 - NEW BEST @ epoch 6: val loss=1.2872, ppc=0.4573, ssc=0.4129, r2=0.1785; train loss=1.0398
+2026-04-19 13:31:02,095 - NEW BEST @ epoch 7: val loss=1.2615, ppc=0.4651, ssc=0.5287, r2=0.2110; train loss=0.9642
+2026-04-19 13:33:06,834 - NEW BEST @ epoch 8: val loss=1.2084, ppc=0.5323, ssc=0.5718, r2=0.2760; train loss=0.9218
+2026-04-19 13:35:11,201 - NEW BEST @ epoch 9: val loss=1.1995, ppc=0.5372, ssc=0.6210, r2=0.2866; train loss=0.8867
+2026-04-19 13:37:15,548 - NEW BEST @ epoch 10: val loss=1.1738, ppc=0.5695, ssc=0.6199, r2=0.3169; train loss=0.8365
+2026-04-19 13:39:20,012 - NEW BEST @ epoch 11: val loss=1.1695, ppc=0.5859, ssc=0.6579, r2=0.3218; train loss=0.8413
+2026-04-19 13:41:26,137 - NEW BEST @ epoch 12: val loss=1.1167, ppc=0.6181, ssc=0.6964, r2=0.3817; train loss=0.8180
+2026-04-19 13:43:33,756 - NEW BEST @ epoch 13: val loss=1.0949, ppc=0.6430, ssc=0.6955, r2=0.4056; train loss=0.7743
+2026-04-19 13:45:37,671 - NEW BEST @ epoch 14: val loss=1.0940, ppc=0.6410, ssc=0.7015, r2=0.4066; train loss=0.7396
+2026-04-19 13:47:44,884 - NEW BEST @ epoch 15: val loss=1.0671, ppc=0.6605, ssc=0.7259, r2=0.4354; train loss=0.7130
+2026-04-19 13:49:47,970 - NEW BEST @ epoch 16: val loss=1.0493, ppc=0.6818, ssc=0.7202, r2=0.4541; train loss=0.7035
+2026-04-19 13:53:58,613 - NEW BEST @ epoch 18: val loss=1.0293, ppc=0.6936, ssc=0.7320, r2=0.4747; train loss=0.6903
+2026-04-19 13:58:06,556 - NEW BEST @ epoch 20: val loss=1.0238, ppc=0.6944, ssc=0.7418, r2=0.4803; train loss=0.6616
+2026-04-19 14:04:18,056 - NEW BEST @ epoch 23: val loss=1.0030, ppc=0.7092, ssc=0.7381, r2=0.5012; train loss=0.6458
+2026-04-19 14:06:22,392 - NEW BEST @ epoch 24: val loss=0.9984, ppc=0.7132, ssc=0.7523, r2=0.5058; train loss=0.6320
+2026-04-19 14:08:27,930 - NEW BEST @ epoch 25: val loss=0.9918, ppc=0.7239, ssc=0.7582, r2=0.5123; train loss=0.6347
+2026-04-19 14:14:41,455 - NEW BEST @ epoch 28: val loss=0.9640, ppc=0.7363, ssc=0.7628, r2=0.5392; train loss=0.6082
+2026-04-19 14:18:51,859 - NEW BEST @ epoch 30: val loss=0.9522, ppc=0.7427, ssc=0.7716, r2=0.5504; train loss=0.5934
+2026-04-19 14:41:28,430 - NEW BEST @ epoch 41: val loss=0.9453, ppc=0.7464, ssc=0.7691, r2=0.5570; train loss=0.5388
+2026-04-19 14:43:31,318 - NEW BEST @ epoch 42: val loss=0.9383, ppc=0.7538, ssc=0.7597, r2=0.5635; train loss=0.5572
+2026-04-19 14:55:51,567 - NEW BEST @ epoch 48: val loss=0.9348, ppc=0.7533, ssc=0.7814, r2=0.5668; train loss=0.5135
+2026-04-19 15:40:34,111 - NEW BEST @ epoch 70: val loss=0.9347, ppc=0.7531, ssc=0.7776, r2=0.5668; train loss=0.4676
+2026-04-19 15:52:45,763 - NEW BEST @ epoch 76: val loss=0.9103, ppc=0.7677, ssc=0.7744, r2=0.5891; train loss=0.4724
+2026-04-19 16:33:56,174 - NEW BEST @ epoch 96: val loss=0.9066, ppc=0.7708, ssc=0.7879, r2=0.5925; train loss=0.4434
+2026-04-19 16:42:18,964 - NEW BEST @ epoch 100: val loss=0.9043, ppc=0.7737, ssc=0.7811, r2=0.5945; train loss=0.4443
+2026-04-19 17:09:24,970 - NEW BEST @ epoch 113: val loss=0.9009, ppc=0.7751, ssc=0.7817, r2=0.5976; train loss=0.4206
+2026-04-19 17:36:23,599 - NEW BEST @ epoch 126: val loss=0.9006, ppc=0.7752, ssc=0.7909, r2=0.5979; train loss=0.4026
+2026-04-19 17:50:56,033 - NEW BEST @ epoch 133: val loss=0.8926, ppc=0.7805, ssc=0.7907, r2=0.6050; train loss=0.4177
+2026-04-19 17:53:01,698 - NEW BEST @ epoch 134: val loss=0.8751, ppc=0.7877, ssc=0.8023, r2=0.6203; train loss=0.4269
+2026-04-19 18:34:29,495 - [Fold 2/5] Early stopping at epoch 154. Best rmse=0.8751 @ epoch 134
+2026-04-19 18:34:29,510 - W/O PADDING -> MolRNACDataset for training setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
+2026-04-19 18:34:30,322 - W/O PADDING -> MolRNACDataset for evaluating setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
+2026-04-19 18:34:30,995 - 
+Fold number 3/5
+2026-04-19 18:34:31,032 - Train len -> 1151, Test len -> 288
+2026-04-19 18:34:31,033 - MultiStructRSA - full | exclude_modalities=['ernie', 'morgan'] | smiles_seq_setting=deep, smiles_expert_setting=proj, dropout=0.1, d_model=128, ffn_mult=4, bdcf_blocks=2, node_pool=mean, token_pool=mean
+2026-04-19 18:34:31,081 - BiDirectionalCrossFusion @  hyperparam -> bdcf_blocks:2, d_model:128, n_heads:4, dropout:0.1, ffn_mult:4, a_pool:mean, b_pool:mean
+2026-04-19 18:34:31,099 - Initialized model setting: full, exclude_modalities: ['ernie', 'morgan'], dropout: 0.1, d_model: 128, ffn_mult: 4, bdcf_blocks: 2, node_pool: mean, token_pool: mean
+2026-04-19 18:36:35,527 - NEW BEST @ epoch 1: val loss=2.4796, ppc=0.0944, ssc=0.0983, r2=-2.0777; train loss=2.6885
+2026-04-19 18:38:40,037 - NEW BEST @ epoch 2: val loss=1.9881, ppc=0.3480, ssc=0.3725, r2=-0.9784; train loss=1.9172
+2026-04-19 18:40:44,269 - NEW BEST @ epoch 3: val loss=1.6720, ppc=0.4476, ssc=0.3949, r2=-0.3994; train loss=1.5281
+2026-04-19 18:42:48,886 - NEW BEST @ epoch 4: val loss=1.5140, ppc=0.5239, ssc=0.4542, r2=-0.1474; train loss=1.3124
+2026-04-19 18:44:53,331 - NEW BEST @ epoch 5: val loss=1.3374, ppc=0.4710, ssc=0.4695, r2=0.1046; train loss=1.1496
+2026-04-19 18:46:57,604 - NEW BEST @ epoch 6: val loss=1.2605, ppc=0.5461, ssc=0.5378, r2=0.2047; train loss=1.0133
+2026-04-19 18:48:59,361 - NEW BEST @ epoch 7: val loss=1.2290, ppc=0.5371, ssc=0.5165, r2=0.2439; train loss=0.9756
+2026-04-19 18:51:02,553 - NEW BEST @ epoch 8: val loss=1.1730, ppc=0.5781, ssc=0.6122, r2=0.3112; train loss=0.9052
+2026-04-19 18:53:07,164 - NEW BEST @ epoch 9: val loss=1.1486, ppc=0.5920, ssc=0.6110, r2=0.3396; train loss=0.8776
+2026-04-19 18:55:12,635 - NEW BEST @ epoch 10: val loss=1.1201, ppc=0.6162, ssc=0.6600, r2=0.3719; train loss=0.8436
+2026-04-19 18:57:17,290 - NEW BEST @ epoch 11: val loss=1.1081, ppc=0.6304, ssc=0.6794, r2=0.3853; train loss=0.7923
+2026-04-19 19:01:25,777 - NEW BEST @ epoch 13: val loss=1.0696, ppc=0.6568, ssc=0.7070, r2=0.4274; train loss=0.7579
+2026-04-19 19:03:29,293 - NEW BEST @ epoch 14: val loss=1.0669, ppc=0.6569, ssc=0.7041, r2=0.4302; train loss=0.7290
+2026-04-19 19:05:34,820 - NEW BEST @ epoch 15: val loss=1.0524, ppc=0.6675, ssc=0.7267, r2=0.4456; train loss=0.7226
+2026-04-19 19:07:40,151 - NEW BEST @ epoch 16: val loss=1.0381, ppc=0.6811, ssc=0.7284, r2=0.4606; train loss=0.7041
+2026-04-19 19:09:43,716 - NEW BEST @ epoch 17: val loss=1.0024, ppc=0.7093, ssc=0.7418, r2=0.4970; train loss=0.6978
+2026-04-19 19:11:47,946 - NEW BEST @ epoch 18: val loss=0.9982, ppc=0.7147, ssc=0.7302, r2=0.5012; train loss=0.6954
+2026-04-19 19:13:51,634 - NEW BEST @ epoch 19: val loss=0.9907, ppc=0.7187, ssc=0.7580, r2=0.5087; train loss=0.6812
+2026-04-19 19:20:05,464 - NEW BEST @ epoch 22: val loss=0.9776, ppc=0.7246, ssc=0.7481, r2=0.5216; train loss=0.6412
+2026-04-19 19:22:12,579 - NEW BEST @ epoch 23: val loss=0.9618, ppc=0.7329, ssc=0.7467, r2=0.5369; train loss=0.6471
+2026-04-19 19:30:33,195 - NEW BEST @ epoch 27: val loss=0.9611, ppc=0.7353, ssc=0.7559, r2=0.5376; train loss=0.5983
+2026-04-19 19:34:43,739 - NEW BEST @ epoch 29: val loss=0.9509, ppc=0.7499, ssc=0.7719, r2=0.5474; train loss=0.5951
+2026-04-19 19:38:54,182 - NEW BEST @ epoch 31: val loss=0.9504, ppc=0.7443, ssc=0.7451, r2=0.5479; train loss=0.5776
+2026-04-19 19:51:24,929 - NEW BEST @ epoch 37: val loss=0.9425, ppc=0.7509, ssc=0.7608, r2=0.5553; train loss=0.5636
+2026-04-19 19:53:29,157 - NEW BEST @ epoch 38: val loss=0.9401, ppc=0.7545, ssc=0.7648, r2=0.5576; train loss=0.5538
+2026-04-19 20:01:41,284 - NEW BEST @ epoch 42: val loss=0.9141, ppc=0.7667, ssc=0.7690, r2=0.5817; train loss=0.5388
+2026-04-19 20:47:19,932 - NEW BEST @ epoch 64: val loss=0.8921, ppc=0.7793, ssc=0.7890, r2=0.6016; train loss=0.4866
+2026-04-19 20:53:28,751 - NEW BEST @ epoch 67: val loss=0.8693, ppc=0.7939, ssc=0.7920, r2=0.6217; train loss=0.4806
+2026-04-19 21:01:46,447 - NEW BEST @ epoch 71: val loss=0.8414, ppc=0.8044, ssc=0.8037, r2=0.6456; train loss=0.4662
+2026-04-19 21:42:57,412 - [Fold 3/5] Early stopping at epoch 91. Best rmse=0.8414 @ epoch 71
+2026-04-19 21:42:57,419 - W/O PADDING -> MolRNACDataset for training setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
+2026-04-19 21:42:58,051 - W/O PADDING -> MolRNACDataset for evaluating setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
+2026-04-19 21:42:58,653 - 
+Fold number 4/5
+2026-04-19 21:42:58,691 - Train len -> 1151, Test len -> 288
+2026-04-19 21:42:58,692 - MultiStructRSA - full | exclude_modalities=['ernie', 'morgan'] | smiles_seq_setting=deep, smiles_expert_setting=proj, dropout=0.1, d_model=128, ffn_mult=4, bdcf_blocks=2, node_pool=mean, token_pool=mean
+2026-04-19 21:42:58,743 - BiDirectionalCrossFusion @  hyperparam -> bdcf_blocks:2, d_model:128, n_heads:4, dropout:0.1, ffn_mult:4, a_pool:mean, b_pool:mean
+2026-04-19 21:42:58,761 - Initialized model setting: full, exclude_modalities: ['ernie', 'morgan'], dropout: 0.1, d_model: 128, ffn_mult: 4, bdcf_blocks: 2, node_pool: mean, token_pool: mean
+2026-04-19 21:45:02,156 - NEW BEST @ epoch 1: val loss=2.4923, ppc=0.0718, ssc=0.1159, r2=-2.2059; train loss=2.7075
+2026-04-19 21:47:04,825 - NEW BEST @ epoch 2: val loss=2.0027, ppc=0.2679, ssc=0.2050, r2=-1.0700; train loss=1.9798
+2026-04-19 21:49:07,115 - NEW BEST @ epoch 3: val loss=1.6760, ppc=0.3798, ssc=0.3027, r2=-0.4497; train loss=1.5663
+2026-04-19 21:51:09,672 - NEW BEST @ epoch 4: val loss=1.5002, ppc=0.4483, ssc=0.3412, r2=-0.1616; train loss=1.3222
+2026-04-19 21:53:12,071 - NEW BEST @ epoch 5: val loss=1.3784, ppc=0.4915, ssc=0.4116, r2=0.0195; train loss=1.1500
+2026-04-19 21:55:14,553 - NEW BEST @ epoch 6: val loss=1.2518, ppc=0.5082, ssc=0.5059, r2=0.1913; train loss=1.0204
+2026-04-19 21:57:17,147 - NEW BEST @ epoch 7: val loss=1.2047, ppc=0.5229, ssc=0.5063, r2=0.2510; train loss=0.9691
+2026-04-19 21:59:19,616 - NEW BEST @ epoch 8: val loss=1.1780, ppc=0.5465, ssc=0.5545, r2=0.2838; train loss=0.9057
+2026-04-19 22:01:22,224 - NEW BEST @ epoch 9: val loss=1.1374, ppc=0.5978, ssc=0.6214, r2=0.3323; train loss=0.9165
+2026-04-19 22:03:24,764 - NEW BEST @ epoch 10: val loss=1.1199, ppc=0.6119, ssc=0.6663, r2=0.3527; train loss=0.8753
+2026-04-19 22:05:27,470 - NEW BEST @ epoch 11: val loss=1.0769, ppc=0.6415, ssc=0.6957, r2=0.4015; train loss=0.8420
+2026-04-19 22:07:30,000 - NEW BEST @ epoch 12: val loss=1.0622, ppc=0.6534, ssc=0.6841, r2=0.4178; train loss=0.8255
+2026-04-19 22:09:32,772 - NEW BEST @ epoch 13: val loss=1.0261, ppc=0.6819, ssc=0.7156, r2=0.4566; train loss=0.7878
+2026-04-19 22:11:35,201 - NEW BEST @ epoch 14: val loss=1.0175, ppc=0.6853, ssc=0.7251, r2=0.4657; train loss=0.7582
+2026-04-19 22:13:37,951 - NEW BEST @ epoch 15: val loss=0.9916, ppc=0.7195, ssc=0.7578, r2=0.4925; train loss=0.7443
+2026-04-19 22:15:40,667 - NEW BEST @ epoch 16: val loss=0.9610, ppc=0.7278, ssc=0.7666, r2=0.5234; train loss=0.7167
+2026-04-19 22:17:43,327 - NEW BEST @ epoch 17: val loss=0.9537, ppc=0.7339, ssc=0.7795, r2=0.5306; train loss=0.7171
+2026-04-19 22:21:48,742 - NEW BEST @ epoch 19: val loss=0.9362, ppc=0.7520, ssc=0.7709, r2=0.5477; train loss=0.6932
+2026-04-19 22:25:54,177 - NEW BEST @ epoch 21: val loss=0.9282, ppc=0.7493, ssc=0.7659, r2=0.5553; train loss=0.6700
+2026-04-19 22:30:00,185 - NEW BEST @ epoch 23: val loss=0.8975, ppc=0.7684, ssc=0.7840, r2=0.5843; train loss=0.6591
+2026-04-19 22:40:13,658 - NEW BEST @ epoch 28: val loss=0.8967, ppc=0.7692, ssc=0.7846, r2=0.5850; train loss=0.6174
+2026-04-19 22:42:16,134 - NEW BEST @ epoch 29: val loss=0.8816, ppc=0.7755, ssc=0.7899, r2=0.5988; train loss=0.6339
+2026-04-19 22:52:29,878 - NEW BEST @ epoch 34: val loss=0.8632, ppc=0.7884, ssc=0.7844, r2=0.6155; train loss=0.5535
+2026-04-19 23:00:41,321 - NEW BEST @ epoch 38: val loss=0.8567, ppc=0.7893, ssc=0.8012, r2=0.6212; train loss=0.5636
+2026-04-19 23:12:55,709 - NEW BEST @ epoch 44: val loss=0.8469, ppc=0.7952, ssc=0.7980, r2=0.6298; train loss=0.5332
+2026-04-19 23:25:10,434 - NEW BEST @ epoch 50: val loss=0.8382, ppc=0.7998, ssc=0.7949, r2=0.6374; train loss=0.5262
+2026-04-19 23:31:17,998 - NEW BEST @ epoch 53: val loss=0.8267, ppc=0.8064, ssc=0.8062, r2=0.6473; train loss=0.5159
+2026-04-19 23:53:44,750 - NEW BEST @ epoch 64: val loss=0.8254, ppc=0.8063, ssc=0.8116, r2=0.6484; train loss=0.5051
+2026-04-19 23:55:47,352 - NEW BEST @ epoch 65: val loss=0.8216, ppc=0.8080, ssc=0.8076, r2=0.6516; train loss=0.4809
+2026-04-20 00:12:07,705 - NEW BEST @ epoch 73: val loss=0.8208, ppc=0.8091, ssc=0.8150, r2=0.6523; train loss=0.4736
+2026-04-20 00:26:24,565 - NEW BEST @ epoch 80: val loss=0.8106, ppc=0.8139, ssc=0.8121, r2=0.6609; train loss=0.4582
+2026-04-20 00:30:29,184 - NEW BEST @ epoch 82: val loss=0.8103, ppc=0.8174, ssc=0.8162, r2=0.6611; train loss=0.4649
+2026-04-20 01:11:16,361 - [Fold 4/5] Early stopping at epoch 102. Best rmse=0.8103 @ epoch 82
+2026-04-20 01:11:16,369 - W/O PADDING -> MolRNACDataset for training setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
+2026-04-20 01:11:17,023 - W/O PADDING -> MolRNACDataset for evaluating setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
+2026-04-20 01:11:17,654 - 
+Fold number 5/5
+2026-04-20 01:11:17,692 - Train len -> 1152, Test len -> 287
+2026-04-20 01:11:17,693 - MultiStructRSA - full | exclude_modalities=['ernie', 'morgan'] | smiles_seq_setting=deep, smiles_expert_setting=proj, dropout=0.1, d_model=128, ffn_mult=4, bdcf_blocks=2, node_pool=mean, token_pool=mean
+2026-04-20 01:11:17,739 - BiDirectionalCrossFusion @  hyperparam -> bdcf_blocks:2, d_model:128, n_heads:4, dropout:0.1, ffn_mult:4, a_pool:mean, b_pool:mean
+2026-04-20 01:11:17,756 - Initialized model setting: full, exclude_modalities: ['ernie', 'morgan'], dropout: 0.1, d_model: 128, ffn_mult: 4, bdcf_blocks: 2, node_pool: mean, token_pool: mean
+2026-04-20 01:13:20,439 - NEW BEST @ epoch 1: val loss=2.3924, ppc=0.1099, ssc=0.1031, r2=-2.0307; train loss=2.6438
+2026-04-20 01:15:23,022 - NEW BEST @ epoch 2: val loss=1.9002, ppc=0.4667, ssc=0.3763, r2=-0.9119; train loss=1.8491
+2026-04-20 01:17:25,592 - NEW BEST @ epoch 3: val loss=1.6036, ppc=0.4632, ssc=0.3784, r2=-0.3617; train loss=1.4646
+2026-04-20 01:19:28,313 - NEW BEST @ epoch 4: val loss=1.3823, ppc=0.5590, ssc=0.4257, r2=-0.0118; train loss=1.2531
+2026-04-20 01:21:31,003 - NEW BEST @ epoch 5: val loss=1.2403, ppc=0.5721, ssc=0.4722, r2=0.1854; train loss=1.0902
+2026-04-20 01:23:33,683 - NEW BEST @ epoch 6: val loss=1.1753, ppc=0.5671, ssc=0.4902, r2=0.2685; train loss=0.9856
+2026-04-20 01:25:36,364 - NEW BEST @ epoch 7: val loss=1.1384, ppc=0.5804, ssc=0.5156, r2=0.3138; train loss=0.9656
+2026-04-20 01:27:39,070 - NEW BEST @ epoch 8: val loss=1.0902, ppc=0.6347, ssc=0.5638, r2=0.3706; train loss=0.8901
+2026-04-20 01:29:41,807 - NEW BEST @ epoch 9: val loss=1.0667, ppc=0.6578, ssc=0.6179, r2=0.3975; train loss=0.8813
+2026-04-20 01:31:44,591 - NEW BEST @ epoch 10: val loss=1.0570, ppc=0.6423, ssc=0.6202, r2=0.4084; train loss=0.8561
+2026-04-20 01:33:47,344 - NEW BEST @ epoch 11: val loss=1.0460, ppc=0.6497, ssc=0.6582, r2=0.4206; train loss=0.8051
+2026-04-20 01:35:50,139 - NEW BEST @ epoch 12: val loss=1.0169, ppc=0.6802, ssc=0.6670, r2=0.4524; train loss=0.7977
+2026-04-20 01:37:52,995 - NEW BEST @ epoch 13: val loss=1.0001, ppc=0.6869, ssc=0.6847, r2=0.4704; train loss=0.7637
+2026-04-20 01:39:55,849 - NEW BEST @ epoch 14: val loss=0.9401, ppc=0.7370, ssc=0.7464, r2=0.5320; train loss=0.7374
+2026-04-20 01:41:58,536 - NEW BEST @ epoch 15: val loss=0.9150, ppc=0.7733, ssc=0.7609, r2=0.5566; train loss=0.7108
+2026-04-20 01:46:04,014 - NEW BEST @ epoch 17: val loss=0.8969, ppc=0.7641, ssc=0.7769, r2=0.5740; train loss=0.6796
+2026-04-20 01:50:09,423 - NEW BEST @ epoch 19: val loss=0.8744, ppc=0.7721, ssc=0.7748, r2=0.5951; train loss=0.6655
+2026-04-20 01:52:12,339 - NEW BEST @ epoch 20: val loss=0.8471, ppc=0.7924, ssc=0.7905, r2=0.6201; train loss=0.6564
+2026-04-20 02:04:29,612 - NEW BEST @ epoch 26: val loss=0.8312, ppc=0.8027, ssc=0.7961, r2=0.6341; train loss=0.6204
+2026-04-20 02:06:32,458 - NEW BEST @ epoch 27: val loss=0.8060, ppc=0.8122, ssc=0.8106, r2=0.6560; train loss=0.5859
+2026-04-20 02:08:35,383 - NEW BEST @ epoch 28: val loss=0.7949, ppc=0.8199, ssc=0.8123, r2=0.6654; train loss=0.5913
+2026-04-20 02:14:43,934 - NEW BEST @ epoch 31: val loss=0.7890, ppc=0.8224, ssc=0.8212, r2=0.6703; train loss=0.5844
+2026-04-20 02:18:49,487 - NEW BEST @ epoch 33: val loss=0.7722, ppc=0.8277, ssc=0.8204, r2=0.6842; train loss=0.5698
+2026-04-20 02:39:13,948 - NEW BEST @ epoch 43: val loss=0.7661, ppc=0.8320, ssc=0.8295, r2=0.6892; train loss=0.5353
+2026-04-20 03:32:15,559 - NEW BEST @ epoch 69: val loss=0.7658, ppc=0.8315, ssc=0.8258, r2=0.6895; train loss=0.4611
+2026-04-20 03:36:20,393 - NEW BEST @ epoch 71: val loss=0.7587, ppc=0.8373, ssc=0.8340, r2=0.6952; train loss=0.4433
+2026-04-20 04:17:08,586 - [Fold 5/5] Early stopping at epoch 91. Best rmse=0.7587 @ epoch 71
+2026-04-20 04:17:08,588 - p: 0.8072149157524109
+2026-04-20 04:17:08,588 - s: 0.8094922895235172
+2026-04-20 04:17:08,588 - rmse: 0.8279811143875122
+2026-04-20 04:17:08,588 - r2: 0.647689425945282
+2026-04-20 04:17:08,588 - 
+Stratified k-fold cross validation:
+2026-04-20 04:17:08,588 - p_mean: 0.80721
+2026-04-20 04:17:08,588 - p_std: 0.01858
+2026-04-20 04:17:08,588 - s_mean: 0.80949
+2026-04-20 04:17:08,588 - s_std: 0.0146
+2026-04-20 04:17:08,588 - rmse_mean: 0.82798
+2026-04-20 04:17:08,588 - rmse_std: 0.04054
+2026-04-20 04:17:08,588 - r2_mean: 0.64769
+2026-04-20 04:17:08,588 - r2_std: 0.02894
+2026-04-20 04:17:08,588 - per_fold: {'p': [0.7892128, 0.7876611, 0.8044488, 0.81742066, 0.8373312], 's': [0.7912416397577495, 0.8022929774894113, 0.8037102641479255, 0.8161842632547618, 0.8340323029677377], 'rmse': [0.8544787, 0.87506455, 0.8414041, 0.81029487, 0.7586634], 'r2': [0.616131067276001, 0.6203359961509705, 0.6456161737442017, 0.6611430644989014, 0.6952208280563354]}
+2026-04-20 04:17:08,634 - RNA family: all_families_concat, n_samples: 1439, rmse_mean: 0.82798, p_mean: 0.80721, s_mean: 0.80949, r2_mean: 0.64769
+2026-04-20 04:17:08,654 - 
+Saved/updated summary to: results/table_results/cv_all_1904.csv

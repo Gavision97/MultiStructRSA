@@ -91,7 +91,7 @@ def preform_cold_blind_eval_(exp_name='exp', res_file_name="cold_eval", cold_typ
     logging.info(f"\nSaved/updated summary to: {summary_path}")
 
 def preform_k_fold_cv_all(ev_setting=1, exp_name = 'exp', res_file_name="cv10_all_results", model_setting = "full", train_setting=4, val_setting=4, 
-                          rna_aug=False, mol_aug=False,  lr=5e-5, wd=1e-5, dropout=0.1, exclude_modalities=None, smiles_seq_setting='deep', smiles_expert_setting='proj', batch_size=1, num_workers=8, is_plot=False, 
+                          rna_aug=False, mol_aug=False,  lr=5e-5, wd=1e-5, dropout=0.1, exclude_modalities=None, freeze_grnade=False, smiles_seq_setting='deep', smiles_expert_setting='proj', batch_size=1, num_workers=8, is_plot=False, 
                           is_seq_emb=False, d_model=128, ffn_mult=4, bdcf_blocks=1, node_pool='attn', token_pool='mean', n=10, plot_name='loss_plot', device="cuda", seed=1, dataset_seed=2):
     """
     Run k-fold cross-validation on the full dataset (all RNA families combined) and save a summary of the results.
@@ -143,7 +143,7 @@ def preform_k_fold_cv_all(ev_setting=1, exp_name = 'exp', res_file_name="cv10_al
 
     all_df = pd.read_csv(ALL_SF_DATASET_PATH, sep="\t")
     res = selected_cv_eval(dataset=all_df, model_setting=model_setting,train_setting=train_setting, val_setting=val_setting,
-                  rna_aug=rna_aug, mol_aug=mol_aug, lr=lr, wd=wd, dropout=dropout, exclude_modalities=exclude_modalities, smiles_seq_setting=smiles_seq_setting, smiles_expert_setting=smiles_expert_setting, batch_size=batch_size, num_workers=num_workers, is_plot=is_plot,
+                  rna_aug=rna_aug, mol_aug=mol_aug, lr=lr, wd=wd, dropout=dropout, exclude_modalities=exclude_modalities, freeze_grnade=freeze_grnade, smiles_seq_setting=smiles_seq_setting, smiles_expert_setting=smiles_expert_setting, batch_size=batch_size, num_workers=num_workers, is_plot=is_plot,
                   is_seq_emb=is_seq_emb, d_model=d_model, ffn_mult=ffn_mult, bdcf_blocks=bdcf_blocks, node_pool=node_pool, token_pool=token_pool, n=n, plot_name=plot_name ,device=device, seed=seed, dataset_seed=dataset_seed)
 
 
@@ -174,7 +174,8 @@ def preform_k_fold_cv_all(ev_setting=1, exp_name = 'exp', res_file_name="cv10_al
     logging.info(f"\nSaved/updated summary to: {summary_path}")
 
 
-def preform_k_fold_cv_all_rna_fam(model_setting = "full", train_setting=4, val_setting=4, rna_aug=False, mol_aug=False, lr=5e-5, wd=1e-5, dropout=0.1, exclude_modalities=None, smiles_seq_setting='deep', smiles_expert_setting='proj',
+def preform_k_fold_cv_all_rna_fam(model_setting = "full", train_setting=4, val_setting=4, rna_aug=False, mol_aug=False, lr=5e-5, wd=1e-5, dropout=0.1,
+                                  exclude_modalities=None, freeze_grnade=False, smiles_seq_setting='deep', smiles_expert_setting='proj',
                                    batch_size=1, num_workers=8, is_plot=False, is_seq_emb=False, d_model=128, ffn_mult=4, bdcf_blocks=1, node_pool='attn', token_pool='mean',
                                    exp_name='cv_rna_fam', res_file_name='cv10_all_results_by_family', n=10, plot_name='loss_plot',
                                    device='cuda', seed=1, dataset_seed=2):
@@ -234,7 +235,7 @@ def preform_k_fold_cv_all_rna_fam(model_setting = "full", train_setting=4, val_s
         logging.info(f"\n==================== {fam_name.upper()} ====================")
         #res = cv_eval(fam_df, name=fam_name, device=device)  # make sure cv_eval has name param or ignore
         res = cv_eval(dataset=fam_df, model_setting=model_setting, train_setting=train_setting, val_setting=val_setting,
-                      rna_aug=rna_aug, mol_aug=mol_aug, lr=lr, wd=wd, dropout=dropout, exclude_modalities=exclude_modalities, smiles_seq_setting=smiles_seq_setting, smiles_expert_setting=smiles_expert_setting, batch_size=batch_size, num_workers=num_workers, is_plot=is_plot,
+                      rna_aug=rna_aug, mol_aug=mol_aug, lr=lr, wd=wd, dropout=dropout, exclude_modalities=exclude_modalities, freeze_grnade=freeze_grnade, smiles_seq_setting=smiles_seq_setting, smiles_expert_setting=smiles_expert_setting, batch_size=batch_size, num_workers=num_workers, is_plot=is_plot,
                       is_seq_emb=is_seq_emb, d_model=d_model, ffn_mult=ffn_mult, bdcf_blocks=bdcf_blocks, node_pool=node_pool, token_pool=token_pool, fam_name=fam_name, n=n, plot_name=plot_name, device=device, seed=seed, dataset_seed=dataset_seed)
         # ---- summary row ----
         summary_row = {"exp": exp_name, "family": fam_name, "n_samples": len(fam_df), **res}
@@ -331,7 +332,7 @@ def main():
     bdcf_blocks = args.bdcf_blocks
     node_pool = args.node_pool
     token_pool = args.token_pool
-
+    freeze_grnade = True if args.freeze_grnade == "True" else False
     exclude_modalities = args.exclude_modalities
     smiles_seq_setting = args.smiles_seq_setting
     smiles_expert_setting = args.smiles_expert_setting
@@ -380,6 +381,7 @@ def main():
                 wd=wd,
                 dropout=dropout,
                 exclude_modalities=exclude_modalities,
+                freeze_grnade=freeze_grnade,
                 smiles_seq_setting=smiles_seq_setting,
                 smiles_expert_setting=smiles_expert_setting,
                 batch_size=batch_size,
@@ -411,6 +413,7 @@ def main():
                 wd=wd,
                 dropout=dropout,
                 exclude_modalities=exclude_modalities,
+                freeze_grnade=freeze_grnade,
                 smiles_seq_setting=smiles_seq_setting,
                 smiles_expert_setting=smiles_expert_setting,
                 batch_size=batch_size,

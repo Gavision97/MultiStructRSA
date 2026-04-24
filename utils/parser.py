@@ -277,9 +277,16 @@ def get_args():
     parser.add_argument(
         "--exclude_modalities",
         nargs="+",
-        default=None,
+        default=["morgan", "grnade"],
         choices=["simson", "chemberta", "mordred", "morgan", "rinalmo", "ernie", "grnade"],
         help="Modalities to exclude for sensitivity analysis"
+    )
+    parser.add_argument(
+        "--freeze_grnade",
+        type=str,
+        default="False",
+        choices=["True", "False"],
+        help="Whether to freeze the gRNAde encoder"
     )
 
     return parser.parse_args()

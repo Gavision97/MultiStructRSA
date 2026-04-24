@@ -20,15 +20,16 @@
 ############################
 
 EXP_ID=3
-DATE=1804
+DATE=1904
 
 MODEL_SETTING="full"   # ["full", "freezed", "w/o seq", "w/o 3D struct", "w/o fusion"]
-EXCLUDE_MODALITIES="mordred"   # e.g. "simson" / "chemberta" / "mordred" / "morgan" / "rinalmo" / "ernie" / "grnade"
+EXCLUDE_MODALITIES="morgan rinalmo"   # e.g. simson / chemberta / mordred / morgan / rinalmo / ernie / grnade
 
 TRAIN_SETTING=4
 VAL_SETTING=4
 MOL_AUG="False"
 RNA_AUG="False"
+IS_SEQ_EMB="False"
 
 RES_FILE_NAME="cv_all_${DATE}"
 PLOT_NAME="${DATE}_exp${EXP_ID}"
@@ -53,7 +54,7 @@ SMILES_EXPERT_SETTING="proj"
 BATCH_SIZE=1
 NUM_WORKERS=0
 
-EXP_NAME="exp${EXP_ID}_exclude=${EXCLUDE_MODALITIES}_seq=${SMILES_SEQ_SETTING}_expert=${SMILES_EXPERT_SETTING}"
+EXP_NAME="exp${EXP_ID}_exclude=${EXCLUDE_MODALITIES}"
 
 SETTING="cv"
 CV_METHOD="all"
@@ -87,11 +88,12 @@ nvidia-smi
 python main.py \
   --exp_name "$EXP_NAME" \
   --model_setting "$MODEL_SETTING" \
-  --exclude_modalities "$EXCLUDE_MODALITIES" \
+  --exclude_modalities $EXCLUDE_MODALITIES \
   --train_setting "$TRAIN_SETTING" \
   --val_setting "$VAL_SETTING" \
   --rna_aug "$RNA_AUG" \
   --mol_aug "$MOL_AUG" \
+  --is_seq_emb "$IS_SEQ_EMB" \
   --res_file_name "$RES_FILE_NAME" \
   --plot_name "$PLOT_NAME" \
   --log_msg "$LOG_MSG" \

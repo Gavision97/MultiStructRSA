@@ -30,6 +30,7 @@ GRNADE_DIM = 128 + 48
 def choose_model_setting(
     option: str = "full",
     exclude_modalities=None,
+    freeze_grnade=False,
     smiles_seq_setting: str = 'deep',
     smiles_expert_setting: str = 'proj',
     dropout: float = 0.1,
@@ -52,12 +53,12 @@ def choose_model_setting(
     if invalid:
         raise ValueError(f"Invalid excluded modalities: {sorted(invalid)}")
 
-    assert option in ["full", "freezed", "w/o seq", "w/o 3D struct", "w/o fusion", "full batched"]
+    assert option in ["full", "w/o seq", "w/o 3D struct", "w/o fusion", "full batched"]
     assert smiles_expert_setting in ['proj', 'shallow', 'deep']
     assert smiles_seq_setting in ['proj', 'shallow', 'deep']
 
     # automatic routing for special sensitivity cases
-    if option in ["full", "freezed"]:
+    if option == 'full':
         if "grnade" in exclude_modalities:
             option = "w/o 3D struct"
             logger.info("exclude_modalities contains 'grnade' -> switching model setting to 'w/o 3D struct'")
@@ -67,7 +68,6 @@ def choose_model_setting(
 
     model_map = {
         "full": MultiStructRSAFull,
-        "freezed": MultiStructRSAFreezed,
         "w/o seq": MultiStructRSAWithoutSeq,
         "w/o 3D struct": MultiStructRSAWithout3D,
         "w/o fusion": MultiStructRSAWithoutFusion,
@@ -77,6 +77,7 @@ def choose_model_setting(
     if option in ["full", "freezed"]:
         model = model_map[option](
             exclude_modalities=exclude_modalities,
+            freeze_grnade=freeze_grnade,
             smiles_seq_setting=smiles_seq_setting,
             smiles_expert_setting=smiles_expert_setting,
             dropout=dropout,
@@ -92,7 +93,15 @@ def choose_model_setting(
             f"bdcf_blocks: {bdcf_blocks}, node_pool: {node_pool}, token_pool: {token_pool}"
         )
     else:
-        model = model_map[option](dropout=dropout)
+        model = model_map[option](
+            exclude_modalities=exclude_modalities,
+            freeze_grnade=freeze_grnade,
+            smiles_seq_setting=smiles_seq_setting,
+            smiles_expert_setting=smiles_expert_setting,
+            dropout=dropout,
+            d_model=d_model,
+            node_pool=node_pool
+        )
         logger.info(
             f"Initialized model setting: {option}, dropout: {dropout}, "
             f"exclude_modalities ignored by this model: {sorted(exclude_modalities)}"
@@ -217,6 +226,7 @@ class MultiStructRSAFull(MultiStructRSA):
     def __init__(
         self,
         exclude_modalities=None,
+        freeze_grnade=False,
         smiles_seq_setting='deep',
         smiles_expert_setting='proj',
         dropout=0.1,
@@ -228,6 +238,7 @@ class MultiStructRSAFull(MultiStructRSA):
     ):
         super().__init__(dropout=dropout, exclude_modalities=exclude_modalities)
 
+        self.freeze_grnade = freeze_grnade
         self.smiles_seq_setting = smiles_seq_setting
         self.smiles_expert_setting = smiles_expert_setting
 
@@ -259,14 +270,16 @@ class MultiStructRSAFull(MultiStructRSA):
         self.node_pool = node_pool
         self.token_pool = token_pool
         self.n_heads = 4
+
         logger.info(
             f"MultiStructRSA - full | exclude_modalities={sorted(self.exclude_modalities)} | "
+            f"freeze_grnade={self.freeze_grnade} | "
             f"smiles_seq_setting={smiles_seq_setting}, smiles_expert_setting={smiles_expert_setting}, "
             f"dropout={self.dropout}, d_model={self.d_model}, ffn_mult={self.ffn_mult}, "
             f"bdcf_blocks={self.bdcf_blocks}, node_pool={node_pool}, token_pool={token_pool}"
         )
 
-        self._load_grnade_encoder(freeze=False)
+        self._load_grnade_encoder(freeze=self.freeze_grnade)
 
         self.rna_fusion = BiDirectionalCrossFusionSingle(
             a_in_dim=self.rna_seq_dim,
@@ -311,12 +324,11 @@ class MultiStructRSAFull(MultiStructRSA):
             nn.Linear(64, 1, bias=True)
         )
 
-    def forward(self, graph, ernie_emb, rinalmo_emb, seq_len, morgan_fp, mordred_desc, chemberta_emb, simson_emb):
+    def forward(self, graph, ernie_emb, rinalmo_emb, _, morgan_fp, mordred_desc, chemberta_emb, simson_emb):
         # RNA module
         h_V, _, _ = self._encode_3d_structure(graph)
         encoder_emb = torch.cat([h_V[0], h_V[1].reshape(h_V[1].size(0), -1)], dim=1)
-        print(f'MORDRED SHAPE -> {mordred_desc.shape}')
-        print(f'MORGAN FINGERPRINTS SHAPE -> {morgan_fp.shape}')
+
         seq_parts = []
         if self.use_rinalmo:
             seq_parts.append(rinalmo_emb.squeeze(0))
@@ -347,142 +359,6 @@ class MultiStructRSAFull(MultiStructRSA):
         pkd = self.head(fused_emb)
         return pkd
 
-
-# =========================================================
-# FREEZED model
-# =========================================================
-class MultiStructRSAFreezed(MultiStructRSA):
-    def __init__(
-        self,
-        exclude_modalities=None,
-        smiles_seq_setting='deep',
-        smiles_expert_setting='proj',
-        dropout=0.1,
-        d_model=128,
-        ffn_mult=4,
-        bdcf_blocks=1,
-        node_pool='attn',
-        token_pool='mean'
-    ):
-        super().__init__(dropout=dropout, exclude_modalities=exclude_modalities)
-
-        self.smiles_seq_setting = smiles_seq_setting
-        self.smiles_expert_setting = smiles_expert_setting
-
-        self.use_simson = "simson" not in self.exclude_modalities
-        self.use_chemberta = "chemberta" not in self.exclude_modalities
-        self.use_mordred = "mordred" not in self.exclude_modalities
-        self.use_morgan = "morgan" not in self.exclude_modalities
-        self.use_rinalmo = "rinalmo" not in self.exclude_modalities
-        self.use_ernie = "ernie" not in self.exclude_modalities
-        self.use_grnade = "grnade" not in self.exclude_modalities
-
-        self.smiles_seq_dim = (SIMSON_DIM if self.use_simson else 0) + (CHEMBERTA_DIM if self.use_chemberta else 0)
-        self.smiles_expert_dim = (MORDRED_DIM if self.use_mordred else 0) + (MORGAN_FINGERPRINTS_DIM if self.use_morgan else 0)
-        self.rna_seq_dim = (RINALMO_DIM if self.use_rinalmo else 0) + (ERNIE_RNA_DIM if self.use_ernie else 0)
-        self.grnade_dim = GRNADE_DIM if self.use_grnade else 0
-
-        if self.smiles_seq_dim == 0:
-            raise ValueError("At least one SMILES sequence modality must remain active")
-        if self.smiles_expert_dim == 0:
-            raise ValueError("At least one SMILES expert modality must remain active")
-        if self.rna_seq_dim == 0:
-            raise ValueError("At least one RNA sequence modality must remain active")
-        if self.grnade_dim == 0:
-            raise ValueError("gRNAde is excluded; use MultiStructRSAWithout3D instead")
-
-        self.d_model = d_model
-        self.ffn_mult = ffn_mult
-        self.bdcf_blocks = bdcf_blocks
-        self.node_pool = node_pool
-        self.token_pool = token_pool
-
-        logger.info(
-            f"MultiStructRSA - freezed | exclude_modalities={sorted(self.exclude_modalities)} | "
-            f"smiles_seq_setting={smiles_seq_setting}, smiles_expert_setting={smiles_expert_setting}, "
-            f"dropout={self.dropout}, d_model={self.d_model}, ffn_mult={self.ffn_mult}, "
-            f"bdcf_blocks={self.bdcf_blocks}, node_pool={node_pool}, token_pool={token_pool}"
-        )
-
-        self._load_grnade_encoder(freeze=True)
-
-        self.rna_fusion = BiDirectionalCrossFusionSingle(
-            a_in_dim=self.rna_seq_dim,
-            b_in_dim=self.grnade_dim,
-            d_model=self.d_model,
-            n_heads=4,
-            dropout=self.dropout,
-            ffn_mult=self.ffn_mult,
-            bdcf_blocks=self.bdcf_blocks,
-            a_pool=self.token_pool,
-            b_pool=self.node_pool
-        )
-
-        self.gated_fusion = GatedFeatureFusion(2 * self.d_model)
-
-        self.smiles_seq_encoder = self._get_mlp(
-            input_dim=self.smiles_seq_dim,
-            setting=self.smiles_seq_setting
-        )
-        self.smiles_expert_encoder = self._get_mlp(
-            input_dim=self.smiles_expert_dim,
-            setting=self.smiles_expert_setting
-        )
-
-        self.mol_mlp = nn.Sequential(
-            nn.Linear(2 * 256, 512, bias=False),
-            nn.LayerNorm(512),
-            nn.ReLU(),
-            nn.Dropout(self.dropout),
-            nn.Linear(512, 2 * self.d_model, bias=True)
-        )
-
-        self.head = nn.Sequential(
-            nn.Linear(2 * self.d_model, 128, bias=False),
-            nn.LayerNorm(128),
-            nn.ReLU(),
-            nn.Dropout(self.dropout),
-            nn.Linear(128, 64, bias=False),
-            nn.LayerNorm(64),
-            nn.ReLU(),
-            nn.Dropout(self.dropout),
-            nn.Linear(64, 1, bias=True)
-        )
-
-    def forward(self, graph, ernie_emb, rinalmo_emb, seq_len, morgan_fp, mordred_desc, chemberta_emb, simson_emb):
-        h_V, _, _ = self._encode_3d_structure(graph)
-        encoder_emb = torch.cat([h_V[0], h_V[1].reshape(h_V[1].size(0), -1)], dim=1)
-
-        seq_parts = []
-        if self.use_rinalmo:
-            seq_parts.append(rinalmo_emb.squeeze(0))
-        if self.use_ernie:
-            seq_parts.append(ernie_emb.squeeze(0))
-        rna_seq_emb = torch.cat(seq_parts, dim=1)
-
-        rna_fused_emb = self.rna_fusion(A=rna_seq_emb, B=encoder_emb)
-
-        expert_parts = []
-        if self.use_morgan:
-            expert_parts.append(morgan_fp)
-        if self.use_mordred:
-            expert_parts.append(mordred_desc)
-        smile_expert_emb = self.smiles_expert_encoder(torch.cat(expert_parts, dim=1))
-
-        seq_smiles_parts = []
-        if self.use_chemberta:
-            seq_smiles_parts.append(chemberta_emb)
-        if self.use_simson:
-            seq_smiles_parts.append(simson_emb)
-        smiles_seq_emb = self.smiles_seq_encoder(torch.cat(seq_smiles_parts, dim=1))
-
-        mol_vec = self.mol_mlp(torch.cat([smile_expert_emb, smiles_seq_emb], dim=1))
-
-        fused_emb = self.gated_fusion(mol_vec, rna_fused_emb)
-        pkd = self.head(fused_emb)
-        return pkd
-
-
 # =========================================================
 # W/O 3D STRUCTURE
 # =========================================================
@@ -490,10 +366,12 @@ class MultiStructRSAWithout3D(MultiStructRSA):
     def __init__(
         self,
         exclude_modalities=None,
+        freeze_grnade=False,
         smiles_seq_setting='deep',
         smiles_expert_setting='proj',
         dropout=0.1,
         d_model=128,
+        node_pool=None,
     ):
         super().__init__(dropout=dropout, exclude_modalities=exclude_modalities)
 
@@ -561,7 +439,7 @@ class MultiStructRSAWithout3D(MultiStructRSA):
             nn.Linear(32, 1, bias=True)
         )
 
-    def forward(self, graph, ernie_emb, rinalmo_emb, seq_len, morgan_fp, mordred_desc, chemberta_emb, simson_emb):
+    def forward(self, _, ernie_emb, rinalmo_emb, __, morgan_fp, mordred_desc, chemberta_emb, simson_emb):
         rna_parts = []
         if self.use_ernie:
             rna_parts.append(ernie_emb)
@@ -597,14 +475,15 @@ class MultiStructRSAWithoutSeq(MultiStructRSA):
     def __init__(
         self,
         exclude_modalities=None,
+        freeze_grnade=False,
         smiles_seq_setting='deep',
         smiles_expert_setting='proj',
         dropout=0.1,
         d_model=128,
-        node_pool='attn'
+        node_pool='attn',
     ):
         super().__init__(dropout=dropout, exclude_modalities=exclude_modalities)
-
+        self.freeze_grnade = freeze_grnade
         self.smiles_seq_setting = smiles_seq_setting
         self.smiles_expert_setting = smiles_expert_setting
         self.d_model = d_model
@@ -624,12 +503,12 @@ class MultiStructRSAWithoutSeq(MultiStructRSA):
             raise ValueError("At least one SMILES expert modality must remain active")
 
         logger.info(
-            f"--- MultiStructRSA w/o sequence | exclude_modalities={sorted(self.exclude_modalities)} | "
-            f"smiles_seq_setting={smiles_seq_setting}, smiles_expert_setting={smiles_expert_setting}, "
-            f"d_model={d_model}, node_pool={node_pool}, dropout={dropout} ---"
+            f"--- MultiStructRSA w/o sequence (frozen={self.freeze_grnade}) | exclude_modalities={sorted(self.exclude_modalities)} | "
+            f"smiles_seq_setting={self.smiles_seq_setting}, smiles_expert_setting={self.smiles_expert_setting}, "
+            f"d_model={self.d_model}, node_pool={self.node_pool}, dropout={self.dropout} ---"
         )
 
-        self._load_grnade_encoder(freeze=False)
+        self._load_grnade_encoder(freeze=self.freeze_grnade)
 
         self.gated_fusion = GatedFeatureFusion(self.d_model)
         self.struct_proj = nn.Sequential(
@@ -667,7 +546,7 @@ class MultiStructRSAWithoutSeq(MultiStructRSA):
             nn.Linear(32, 1, bias=True)
         )
 
-    def forward(self, graph, ernie_emb, rinalmo_emb, seq_len, morgan_fp, mordred_desc, chemberta_emb, simson_emb):
+    def forward(self, graph, _, __, ___, morgan_fp, mordred_desc, chemberta_emb, simson_emb):
         h_V, _, _ = self._encode_3d_structure(graph)
         node_scalar = self.struct_proj(torch.cat([h_V[0], h_V[1].reshape(h_V[1].size(0), -1)], dim=1))
 
@@ -701,15 +580,15 @@ class MultiStructRSAWithoutFusion(MultiStructRSA):
     def __init__(
         self,
         exclude_modalities=None,
+        freeze_grnade=False,
         smiles_seq_setting='deep',
         smiles_expert_setting='proj',
         dropout=0.1,
         d_model=128,
         node_pool='attn',
-        freeze_grnade=True
     ):
         super().__init__(dropout=dropout, exclude_modalities=exclude_modalities)
-
+        self.freeze_grnade = freeze_grnade
         self.smiles_seq_setting = smiles_seq_setting
         self.smiles_expert_setting = smiles_expert_setting
         self.d_model = d_model
@@ -734,9 +613,9 @@ class MultiStructRSAWithoutFusion(MultiStructRSA):
             raise ValueError("At least one RNA sequence modality must remain active")
 
         logger.info(
-            f"--- MultiStructRSA w/o fusion | exclude_modalities={sorted(self.exclude_modalities)} | "
+            f"--- MultiStructRSA w/o fusion (frozen={self.freeze_grnade}) | exclude_modalities={sorted(self.exclude_modalities)} | "
             f"smiles_seq_setting={smiles_seq_setting}, smiles_expert_setting={smiles_expert_setting}, "
-            f"d_model={d_model}, node_pool={node_pool}, dropout={dropout}, freeze_grnade={freeze_grnade} ---"
+            f"d_model={d_model}, node_pool={node_pool}, dropout={dropout} ---"
         )
 
         self._load_grnade_encoder(freeze=freeze_grnade)
@@ -783,7 +662,7 @@ class MultiStructRSAWithoutFusion(MultiStructRSA):
             nn.Linear(64, 1, bias=True)
         )
 
-    def forward(self, graph, ernie_emb, rinalmo_emb, seq_len, morgan_fp, mordred_desc, chemberta_emb, simson_emb):
+    def forward(self, graph, ernie_emb, rinalmo_emb, _, morgan_fp, mordred_desc, chemberta_emb, simson_emb):
         h_V, _, _ = self._encode_3d_structure(graph)
         node_scalar = self.struct_proj(torch.cat([h_V[0], h_V[1].reshape(h_V[1].size(0), -1)], dim=1))
         graph_emb = self.node_attn_pooling(node_scalar) if self.node_pool == 'attn' else node_scalar.mean(dim=0, keepdim=True)

@@ -7,7 +7,7 @@
 
 #SBATCH --partition=main
 #SBATCH --time=0-48:00:00
-#SBATCH --job-name=smiles_hyperparam_search
+#SBATCH --job-name=sensitivity_analysis
 #SBATCH --output=jobs/job-%J.out
 #SBATCH --error=jobs/job-%J.err
 #SBATCH --gpus=rtx_6000:1
@@ -19,42 +19,43 @@
 ### Experiment variables ###
 ############################
 
-EXP_ID=6   # experiment ID
-DATE=1704  # for log & result directory creation
+EXP_ID=0
+DATE=2004
 
-MODEL_SETTING="full" # ["full", "freezed", "w/o seq", "w/o 3D struct", "w/o fusion"]
+MODEL_SETTING="full"   # ["full", "freezed", "w/o seq", "w/o 3D struct", "w/o fusion"]
+EXCLUDE_MODALITIES="morgan ernie"   # e.g. simson / chemberta / mordred / morgan / rinalmo / ernie / grnade
+
 TRAIN_SETTING=4
 VAL_SETTING=4
 MOL_AUG="False"
 RNA_AUG="False"
+IS_SEQ_EMB="True"
+FREEZE_GRNADE="False"
 
 RES_FILE_NAME="cv_all_${DATE}"
 PLOT_NAME="${DATE}_exp${EXP_ID}"
+LOG_FILE_NAME="sensitivity_analysis_${DATE}_exp${EXP_ID}"
 
-LOG_FILE_NAME="hyperparam_search_${DATE}_exp${EXP_ID}"
-
-#######
-# best hyperparameters from global hyperpram search in 14/04 (full setting)
+# Best hyperparameters from global hyperparameter search
 LR=2e-5
 WD=1e-6
 DROPOUT=0.1
-########
 
-##### 
-# RNA module hyperpram search 15/04 
+# Best RNA module hyperparameters
 D_MODEL=128
 FFN_MULT=4
 BDCF_BLOCKS=2
-NODE_POOL='mean'
-TOKEN_POOL='mean'
-#####
-SMILES_SEQ_SETTING='shallow'
-SMILES_EXPERT_SETTING='deep'
+NODE_POOL="mean"
+TOKEN_POOL="mean"
+
+# Best SMILES module hyperparameters
+SMILES_SEQ_SETTING="deep"
+SMILES_EXPERT_SETTING="proj"
 
 BATCH_SIZE=1
 NUM_WORKERS=0
 
-EXP_NAME="exp${EXP_ID}_smiles_seq_setting=${SMILES_SEQ_SETTING}_smiles_expert_setting=${SMILES_EXPERT_SETTING}}"
+EXP_NAME="exp${EXP_ID}_exclude=${EXCLUDE_MODALITIES}"
 
 SETTING="cv"
 CV_METHOD="all"
@@ -64,9 +65,7 @@ DEVICE="cuda"
 SEED=1
 DATASET_SEED=2
 
-LOG_MSG="stratified_cv_${DATE}_exp${EXP_ID} - MultiStructRSA (${MODEL_SETTING} version) - TRAIN SETTING=${TRAIN_SETTING}; VAL SETTING=${VAL_SETTING}; RNA AUG=${RNA_AUG}; MOL AUG=${MOL_AUG} SEED=${SEED}; DATASET SEED=${DATASET_SEED}"
-
-
+LOG_MSG="stratified_cv_${DATE}_exp${EXP_ID} - MultiStructRSA (${MODEL_SETTING}) - exclude_modalities=${EXCLUDE_MODALITIES}; TRAIN_SETTING=${TRAIN_SETTING}; VAL_SETTING=${VAL_SETTING}; RNA_AUG=${RNA_AUG}; MOL_AUG=${MOL_AUG}; SEED=${SEED}; DATASET_SEED=${DATASET_SEED}"
 
 ################  Following lines will be executed by a compute node  ################
 
@@ -78,7 +77,7 @@ export PYTHONPATH="${PYTHONPATH}:$(pwd)"
 
 export CUBLAS_WORKSPACE_CONFIG=:4096:8
 export CUDA_LAUNCH_BLOCKING=1
-#export TORCH_USE_CUDA_DSA=1
+# export TORCH_USE_CUDA_DSA=1
 
 export HF_HUB_ETAG_TIMEOUT=60
 export HF_HUB_DOWNLOAD_TIMEOUT=300
@@ -90,10 +89,13 @@ nvidia-smi
 python main.py \
   --exp_name "$EXP_NAME" \
   --model_setting "$MODEL_SETTING" \
+  --exclude_modalities $EXCLUDE_MODALITIES \
   --train_setting "$TRAIN_SETTING" \
   --val_setting "$VAL_SETTING" \
   --rna_aug "$RNA_AUG" \
   --mol_aug "$MOL_AUG" \
+  --is_seq_emb "$IS_SEQ_EMB" \
+  --freeze_grnade "$FREEZE_GRNADE" \
   --res_file_name "$RES_FILE_NAME" \
   --plot_name "$PLOT_NAME" \
   --log_msg "$LOG_MSG" \

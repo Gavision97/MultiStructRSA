@@ -8,6 +8,65 @@ import matplotlib.cm as cm
 import matplotlib.colors as mcolors
 from matplotlib.patches import Ellipse
 
+from scipy.stats import gaussian_kde
+
+
+def plot_all_folds_train_val_pkd_hist(
+    train_val_folds,
+    save_path=None,
+    title="Distribution of Training and Validation pKd Values Across 5 Folds"
+):
+    assert len(train_val_folds) == 5, "Expected exactly 5 folds"
+
+    # collect all values to create common bins for all folds
+    all_vals = []
+    for train_df, val_df in train_val_folds:
+        all_vals.extend(train_df["pKd"].dropna().values)
+        all_vals.extend(val_df["pKd"].dropna().values)
+
+    all_vals = np.array(all_vals)
+    bins = np.linspace(all_vals.min(), all_vals.max(), 30)
+    x = np.linspace(all_vals.min(), all_vals.max(), 300)
+
+    fig, axes = plt.subplots(2, 3, figsize=(18, 10))
+    axes = axes.flatten()
+
+    for i, (train_df, val_df) in enumerate(train_val_folds):
+        ax = axes[i]
+
+        train_pkd = train_df["pKd"].dropna().values
+        val_pkd = val_df["pKd"].dropna().values
+
+        # histograms
+        ax.hist(train_pkd, bins=bins, density=True, alpha=0.55, label="Training Dataset", edgecolor="black")
+        ax.hist(val_pkd, bins=bins, density=True, alpha=0.55, label="Validation Dataset", edgecolor="black")
+
+        # KDE curves
+        if len(train_pkd) > 1:
+            train_kde = gaussian_kde(train_pkd)
+            ax.plot(x, train_kde(x), linewidth=2)
+
+        if len(val_pkd) > 1:
+            val_kde = gaussian_kde(val_pkd)
+            ax.plot(x, val_kde(x), linewidth=2)
+
+        ax.set_title(f"Fold {i+1}", fontsize=14)
+        ax.set_xlabel("pKd Value", fontsize=12)
+        ax.set_ylabel("Density", fontsize=12)
+        ax.grid(alpha=0.3)
+        ax.legend(fontsize=10)
+
+    # hide the 6th empty subplot
+    axes[5].axis("off")
+
+    fig.suptitle(title, fontsize=18)
+    plt.tight_layout(rect=[0, 0, 1, 0.96])
+
+    if save_path is not None:
+        plt.savefig(save_path, dpi=300)
+
+    plt.show()
+
 
 def plot_train_val_loss(
     train_losses,
@@ -33,6 +92,34 @@ def plot_train_val_loss(
         plt.savefig(save_path, dpi=300)
 
     plt.show()
+
+
+def plot_prediction_correlation(
+    y_true,
+    y_pred,
+    save_path=None,
+    title="Prediction Correlation"
+):
+    plt.figure(figsize=(10, 6))
+    plt.scatter(y_true, y_pred, alpha=0.7)
+
+    plt.title(title, fontsize=16)
+    plt.xlabel("True Values", fontsize=14)
+    plt.ylabel("Predicted Values", fontsize=14)
+
+    # optional diagonal reference line
+    min_val = min(min(y_true), min(y_pred))
+    max_val = max(max(y_true), max(y_pred))
+    plt.plot([min_val, max_val], [min_val, max_val], linestyle="--")
+
+    plt.grid(True, alpha=0.4)
+    plt.tight_layout()
+
+    if save_path is not None:
+        plt.savefig(save_path, dpi=300)
+
+    plt.show()
+
 
 ####################################################################################
 def plot_grouped_metrics(

@@ -10,7 +10,7 @@
 #SBATCH --job-name=sensitivity_analysis
 #SBATCH --output=jobs/job-%J.out
 #SBATCH --error=jobs/job-%J.err
-#SBATCH --gpus=rtx_6000:1
+#SBATCH --gpus=rtx_4090:1
 #SBATCH --mail-user=gavrilev@post.bgu.ac.il
 #SBATCH --mail-type=ALL
 #SBATCH --mem=24G
@@ -20,14 +20,15 @@
 ############################
 
 EXP_ID=2
-DATE=1904
+DATE=2404
 
 MODEL_SETTING="full"   # ["full", "freezed", "w/o seq", "w/o 3D struct", "w/o fusion"]
-EXCLUDE_MODALITIES="morgan simson"   # e.g. simson / chemberta / mordred / morgan / rinalmo / ernie / grnade
+EXCLUDE_MODALITIES="morgan ernie"   # e.g. simson / chemberta / mordred / morgan / rinalmo / ernie / grnade
 
-TRAIN_SETTING=4
+TRAIN_SETTING=5
+RNA_MULTICONFORMER="True"
 VAL_SETTING=4
-MOL_AUG="False"
+MOL_AUG="True"
 RNA_AUG="False"
 IS_SEQ_EMB="False"
 
@@ -54,7 +55,7 @@ SMILES_EXPERT_SETTING="proj"
 BATCH_SIZE=1
 NUM_WORKERS=0
 
-EXP_NAME="exp${EXP_ID}_exclude=${EXCLUDE_MODALITIES}"
+EXP_NAME="exp${EXP_ID}_mol_aug=${MOL_AUG}_rna_aug=${RNA_AUG}_rna_multiconformer=${RNA_MULTICONFORMER}"
 
 SETTING="cv"
 CV_METHOD="all"

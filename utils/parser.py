@@ -65,7 +65,7 @@ def get_args():
     parser.add_argument(
         "--setting",
         type=str,
-        default="cv",
+        default="cold",
         choices=["cv", "loo_cv", "cold", "smi_emb_gen"],
         help="Execution setting (e.g. SMILES feature generation, stratified k-fold CV evaluation, etc.)"
     )
@@ -90,17 +90,6 @@ def get_args():
         default="False",
         choices=["True", "False"],
         help="Whether input RNA embeddings are sequence-level (F,) or nucleotide-level (L, F), where L is sequence length and F is feature dimension"
-    )
-    parser.add_argument(
-        "--ev_setting",
-        type=int,
-        default=1,
-        choices=[1, 2, 3, 4],
-        help=(
-            "# 1 - like in DeepRSMA, early stopping on the test set (test leakage, overoptimistic) "
-            "# 2 - early stopping on the validation loss & test best model "
-            "# 3 - early stopping on the validation loss & then retrain new model with chosen N epochs using train+val data"
-        )
     )
 
     # dataset / augmentation
@@ -135,13 +124,13 @@ def get_args():
     parser.add_argument(
         "--lr",
         type=float,
-        default=5e-5,
+        default=2e-5,
         help="Training learning rate"
     )
     parser.add_argument(
         "--wd",
         type=float,
-        default=1e-5,
+        default=1e-6,
         help="Training weight decay for generalization control"
     )
 
@@ -277,7 +266,7 @@ def get_args():
     parser.add_argument(
         "--exclude_modalities",
         nargs="+",
-        default=["morgan", "grnade"],
+        default=["morgan", "ernie"],
         choices=["simson", "chemberta", "mordred", "morgan", "rinalmo", "ernie", "grnade"],
         help="Modalities to exclude for sensitivity analysis"
     )

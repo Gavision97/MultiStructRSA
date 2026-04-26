@@ -7,7 +7,7 @@
 
 #SBATCH --partition=main
 #SBATCH --time=0-48:00:00
-#SBATCH --job-name=sensitivity_analysis
+#SBATCH --job-name=cold_eval
 #SBATCH --output=jobs/job-%J.out
 #SBATCH --error=jobs/job-%J.err
 #SBATCH --gpus=rtx_6000:1
@@ -20,20 +20,22 @@
 ############################
 
 EXP_ID=1
-DATE=1904
+DATE=2504
 
 MODEL_SETTING="full"   # ["full", "freezed", "w/o seq", "w/o 3D struct", "w/o fusion"]
-EXCLUDE_MODALITIES="morgan chemberta"   # e.g. simson / chemberta / mordred / morgan / rinalmo / ernie / grnade
+EXCLUDE_MODALITIES="morgan ernie"   # e.g. simson / chemberta / mordred / morgan / rinalmo / ernie / grnade
 
 TRAIN_SETTING=4
+RNA_MULTICONFORMER="False"
 VAL_SETTING=4
 MOL_AUG="False"
 RNA_AUG="False"
 IS_SEQ_EMB="False"
 
-RES_FILE_NAME="cv_all_${DATE}"
+RES_FILE_NAME="cold_${DATE}"
+IS_PLOT="False"
 PLOT_NAME="${DATE}_exp${EXP_ID}"
-LOG_FILE_NAME="sensitivity_analysis_${DATE}_exp${EXP_ID}"
+LOG_FILE_NAME="cold_${DATE}_exp${EXP_ID}"
 
 # Best hyperparameters from global hyperparameter search
 LR=2e-5
@@ -54,9 +56,10 @@ SMILES_EXPERT_SETTING="proj"
 BATCH_SIZE=1
 NUM_WORKERS=0
 
-EXP_NAME="exp${EXP_ID}_exclude=${EXCLUDE_MODALITIES}"
+EXP_NAME="exp${EXP_ID}_mol_aug=${MOL_AUG}_rna_aug=${RNA_AUG}_rna_multiconformer=${RNA_MULTICONFORMER}"
 
-SETTING="cv"
+SETTING="cold"
+COLD_TYPE="cold_rna"
 CV_METHOD="all"
 K_FOLD=5
 DEVICE="cuda"
@@ -64,7 +67,9 @@ DEVICE="cuda"
 SEED=1
 DATASET_SEED=2
 
-LOG_MSG="stratified_cv_${DATE}_exp${EXP_ID} - MultiStructRSA (${MODEL_SETTING}) - exclude_modalities=${EXCLUDE_MODALITIES}; TRAIN_SETTING=${TRAIN_SETTING}; VAL_SETTING=${VAL_SETTING}; RNA_AUG=${RNA_AUG}; MOL_AUG=${MOL_AUG}; SEED=${SEED}; DATASET_SEED=${DATASET_SEED}"
+LOG_MSG="${COLD_TYPE}_${DATE}_exp${EXP_ID} - MultiStructRSA (${MODEL_SETTING}) - exclude_modalities=${EXCLUDE_MODALITIES}; TRAIN_SETTING=${TRAIN_SETTING}; VAL_SETTING=${VAL_SETTING}; RNA_AUG=${RNA_AUG}; MOL_AUG=${MOL_AUG}; SEED=${SEED}; DATASET_SEED=${DATASET_SEED}"
+
+#LOG_MSG="stratified_cv_${DATE}_exp${EXP_ID} - MultiStructRSA (${MODEL_SETTING}) - exclude_modalities=${EXCLUDE_MODALITIES}; TRAIN_SETTING=${TRAIN_SETTING}; VAL_SETTING=${VAL_SETTING}; RNA_AUG=${RNA_AUG}; MOL_AUG=${MOL_AUG}; SEED=${SEED}; DATASET_SEED=${DATASET_SEED}"
 
 ################  Following lines will be executed by a compute node  ################
 
@@ -95,10 +100,12 @@ python main.py \
   --mol_aug "$MOL_AUG" \
   --is_seq_emb "$IS_SEQ_EMB" \
   --res_file_name "$RES_FILE_NAME" \
+  --is_plot "$IS_PLOT" \
   --plot_name "$PLOT_NAME" \
   --log_msg "$LOG_MSG" \
   --log_file_name "$LOG_FILE_NAME" \
   --setting "$SETTING" \
+  --cold_type "$COLD_TYPE" \
   --cv_method "$CV_METHOD" \
   --k_fold "$K_FOLD" \
   --lr "$LR" \

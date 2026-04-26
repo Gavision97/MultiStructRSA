@@ -7,7 +7,7 @@
 
 #SBATCH --partition=main
 #SBATCH --time=0-48:00:00
-#SBATCH --job-name=sensitivity_analysis
+#SBATCH --job-name=stratified_cv_eval
 #SBATCH --output=jobs/job-%J.out
 #SBATCH --error=jobs/job-%J.err
 #SBATCH --gpus=rtx_6000:1
@@ -19,11 +19,11 @@
 ### Experiment variables ###
 ############################
 
-EXP_ID=10
-DATE=1904
+EXP_ID=0
+DATE=2504
 
-MODEL_SETTING="w/o seq"   # ["full", "freezed", "w/o seq", "w/o 3D struct", "w/o fusion"]
-EXCLUDE_MODALITIES="morgan"   # e.g. simson / chemberta / mordred / morgan / rinalmo / ernie / grnade
+MODEL_SETTING="full"   # ["full", "freezed", "w/o seq", "w/o 3D struct", "w/o fusion"]
+EXCLUDE_MODALITIES="morgan ernie"   # e.g. simson / chemberta / mordred / morgan / rinalmo / ernie / grnade
 
 TRAIN_SETTING=4
 VAL_SETTING=4
@@ -32,8 +32,9 @@ RNA_AUG="False"
 IS_SEQ_EMB="False"
 
 RES_FILE_NAME="cv_all_${DATE}"
+IS_PLOT="True"
 PLOT_NAME="${DATE}_exp${EXP_ID}"
-LOG_FILE_NAME="sensitivity_analysis_${DATE}_exp${EXP_ID}"
+LOG_FILE_NAME="stratified_cross_validation_${DATE}_exp${EXP_ID}"
 
 # Best hyperparameters from global hyperparameter search
 LR=2e-5
@@ -95,6 +96,7 @@ python main.py \
   --mol_aug "$MOL_AUG" \
   --is_seq_emb "$IS_SEQ_EMB" \
   --res_file_name "$RES_FILE_NAME" \
+  --is_plot "$IS_PLOT" \
   --plot_name "$PLOT_NAME" \
   --log_msg "$LOG_MSG" \
   --log_file_name "$LOG_FILE_NAME" \

@@ -8,9 +8,8 @@ from pathlib import Path
 import os
 import pickle
 
-from evaluate.cv_eval_ns import cv_eval_ns
-from evaluate.cv_eval import cv_eval, cv_eval_, cv_eval__
-from evaluate.cold_eval import preform_cold_blind_eval
+from evaluate.cv_eval import cv_eval
+from evaluate.cold_eval_ import preform_cold_blind_eval
 
 from utils.generate_smiles_features import generate_smiles_features
 from utils.parser import get_args
@@ -23,7 +22,7 @@ ALL_SF_DATASET_PATH = os.path.join("datasets", "RSIM", "All_sf_dataset_v1.csv")
 
 def preform_cold_blind_eval_(exp_name='exp', res_file_name="cold_eval", cold_type="cold_rna",
                            model_setting="full", train_setting=4, val_setting=4,
-                           rna_aug=False, mol_aug=False, lr=5e-5, wd=1e-5, dropout=0.1, smiles_seq_setting='deep', smiles_expert_setting='proj',
+                           rna_aug=False, mol_aug=False, lr=5e-5, wd=1e-5, dropout=0.1, exclude_modalities=None, freeze_grnade=False, smiles_seq_setting='deep', smiles_expert_setting='proj',
                             batch_size=1, num_workers=8, is_plot=False,
                             is_seq_emb=False, d_model=128, ffn_mult=4, bdcf_blocks=1, node_pool='attn', token_pool='mean', plot_name="loss_curve",
                            device="cuda", seed=1):
@@ -61,7 +60,7 @@ def preform_cold_blind_eval_(exp_name='exp', res_file_name="cold_eval", cold_typ
         Results are appended to the specified CSV file.
     """
     res = preform_cold_blind_eval(cold_type=cold_type, model_setting=model_setting, train_setting=train_setting, val_setting=val_setting,
-                                rna_aug=rna_aug, mol_aug=mol_aug, lr=lr, wd=wd, dropout=dropout, smiles_seq_setting=smiles_seq_setting, smiles_expert_setting=smiles_expert_setting, batch_size=batch_size, is_plot=is_plot,
+                                rna_aug=rna_aug, mol_aug=mol_aug, lr=lr, wd=wd, dropout=dropout, exclude_modalities=exclude_modalities, freeze_grnade=freeze_grnade, smiles_seq_setting=smiles_seq_setting, smiles_expert_setting=smiles_expert_setting, batch_size=batch_size, is_plot=is_plot,
                                 is_seq_emb=is_seq_emb, d_model=d_model, ffn_mult=ffn_mult, bdcf_blocks=bdcf_blocks, node_pool=node_pool, token_pool=token_pool,
                                 plot_name=plot_name, device=device, seed=seed)
     # summary (single row, same fields as the per-family version)
@@ -90,7 +89,7 @@ def preform_cold_blind_eval_(exp_name='exp', res_file_name="cold_eval", cold_typ
 
     logging.info(f"\nSaved/updated summary to: {summary_path}")
 
-def preform_k_fold_cv_all(ev_setting=1, exp_name = 'exp', res_file_name="cv10_all_results", model_setting = "full", train_setting=4, val_setting=4, 
+def preform_k_fold_cv_all(exp_name = 'exp', res_file_name="cv10_all_results", model_setting = "full", train_setting=4, val_setting=4, 
                           rna_aug=False, mol_aug=False,  lr=5e-5, wd=1e-5, dropout=0.1, exclude_modalities=None, freeze_grnade=False, smiles_seq_setting='deep', smiles_expert_setting='proj', batch_size=1, num_workers=8, is_plot=False, 
                           is_seq_emb=False, d_model=128, ffn_mult=4, bdcf_blocks=1, node_pool='attn', token_pool='mean', n=10, plot_name='loss_plot', device="cuda", seed=1, dataset_seed=2):
     """
@@ -133,16 +132,10 @@ def preform_k_fold_cv_all(ev_setting=1, exp_name = 'exp', res_file_name="cv10_al
     - The dataset includes all RNA families concatenated.
     - Each run appends a new row to the results file, enabling experiment tracking.
     """
-    logging.info(f"\n==================== ALL FAMILIES  ==================== (setting:{ev_setting})")
-
-    # 1 - like in DeepRSMA, early stopping on the test set (test-leakage, overoptimistic)
-    # 2 - early stopping on the validation loss & test best mode 
-    # 3 - early stopping on the validation loss & then retrain new model with chosen N epochs using train+val data
-    cv_setting2method = {1 : cv_eval, 2: cv_eval_, 3: cv_eval__, 4:cv_eval_ns} 
-    selected_cv_eval  = cv_setting2method[ev_setting]
+    logging.info(f"\n==================== ALL FAMILIES  ==================== )")
 
     all_df = pd.read_csv(ALL_SF_DATASET_PATH, sep="\t")
-    res = selected_cv_eval(dataset=all_df, model_setting=model_setting,train_setting=train_setting, val_setting=val_setting,
+    res = cv_eval(dataset=all_df, model_setting=model_setting,train_setting=train_setting, val_setting=val_setting,
                   rna_aug=rna_aug, mol_aug=mol_aug, lr=lr, wd=wd, dropout=dropout, exclude_modalities=exclude_modalities, freeze_grnade=freeze_grnade, smiles_seq_setting=smiles_seq_setting, smiles_expert_setting=smiles_expert_setting, batch_size=batch_size, num_workers=num_workers, is_plot=is_plot,
                   is_seq_emb=is_seq_emb, d_model=d_model, ffn_mult=ffn_mult, bdcf_blocks=bdcf_blocks, node_pool=node_pool, token_pool=token_pool, n=n, plot_name=plot_name ,device=device, seed=seed, dataset_seed=dataset_seed)
 
@@ -303,7 +296,6 @@ def main():
     args = get_args()
 
     log_msg = args.log_msg
-    model_setting = args.model_setting
     res_file_name = args.res_file_name
     exp_name = args.exp_name
     log_file_name = args.log_file_name
@@ -315,18 +307,22 @@ def main():
     # cv kwargs
     cv_method = args.cv_method
     k_fold = args.k_fold
-    ev_setting = args.ev_setting # [1, 2, 3]
+
 
     # cold kwargs
     cold_type = args.cold_type
 
     # data kwargs
+    is_seq_emb = True if args.is_seq_emb == "True" else False
     train_setting = args.train_setting
     val_setting = args.val_setting
     rna_aug = True if args.rna_aug == "True" else False
     mol_aug = True if args.mol_aug == "True" else False
     
-    is_seq_emb = True if args.is_seq_emb == "True" else False
+
+    dataset_kwards = {'is_seq_emb':is_seq_emb, 'train_setting':train_setting}
+    model_setting = args.model_setting
+    
     d_model = args.d_model
     ffn_mult = args.ffn_mult
     bdcf_blocks = args.bdcf_blocks
@@ -336,6 +332,11 @@ def main():
     exclude_modalities = args.exclude_modalities
     smiles_seq_setting = args.smiles_seq_setting
     smiles_expert_setting = args.smiles_expert_setting
+    model_kwargs = {'setting':model_setting, 'exclude_modalities':exclude_modalities, 'freeze_grnade': freeze_grnade,
+                    'd_model': d_model, 'ffn_mult': ffn_mult, 'bdcf_blocks':bdcf_blocks, 'node_pool': node_pool,
+                    'token_pool':token_pool, 'smiles_seq_setting':smiles_seq_setting, 'smiles_expert_setting':smiles_expert_setting}
+    
+
     # train kwargs
     lr = args.lr
     wd = args.wd
@@ -345,8 +346,10 @@ def main():
     device = args.device
     seed = args.seed # controls model initialization, dataloader shuffle, etc.
     dataset_seed = args.dataset_seed # controls cross-validation fold creation (for statified K-fold CV)
-
-
+    training_kwargs = {'lr':lr, 'wd':wd, 'dropout':dropout, 'batch_size':batch_size,
+                       'num_workers':num_workers, 'device':device, 'seed':seed, 'seed_dataset':dataset_seed,
+                       'is_plot':is_plot, 'plot_name':plot_name}
+    
     # SMILES feature extraction kwargs
     smiles_path = args.smiles_path
     smiles_features_gen = args.smiles_features_gen
@@ -371,7 +374,6 @@ def main():
     if setting == "cv":
         if cv_method == "all":
             preform_k_fold_cv_all(
-                ev_setting = ev_setting,
                 model_setting = model_setting,
                 train_setting=train_setting,
                 val_setting=val_setting,
@@ -403,7 +405,6 @@ def main():
             )
         else:
             preform_k_fold_cv_all_rna_fam(
-                ev_setting = ev_setting,
                 model_setting = model_setting,
                 train_setting=train_setting,
                 val_setting=val_setting,
@@ -446,6 +447,8 @@ def main():
                                lr=lr,
                                wd=wd,
                                dropout=dropout,
+                               exclude_modalities=exclude_modalities,
+                               freeze_grnade=freeze_grnade,
                                smiles_seq_setting=smiles_seq_setting,
                                smiles_expert_setting=smiles_expert_setting,
                                batch_size=batch_size,

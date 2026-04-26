@@ -4,7 +4,7 @@ from rdkit import Chem
 import numpy as np
 from torch_geometric.utils import softmax
 import torch
-import matplotlib.pyplot as plt
+import copy
 import numpy as np
 from sklearn.preprocessing import KBinsDiscretizer
 from scipy.stats import pearsonr, spearmanr
@@ -137,18 +137,21 @@ class EarlyStopping:
         self.stop_training = False
         self.best_metrics = [float("-inf"), float("-inf"), float("-inf")]  # p, s, r2
 
+        self.y_true = None # list of true pKd labels
+        self.y_pred = None # list of predicted pKd values
     def _is_improvement(self, score):
         if self.mode == "min":
             return score < self.best_score - self.delta
         else:  # "max"
             return score > self.best_score + self.delta
 
-    def check_early_stop(self, model, score, metrics, train_loss, epoch):
+    def check_early_stop(self, model, score, metrics, train_loss, epoch, lables):
         if self._is_improvement(score):
             self.best_score = score
             self.best_metrics[0], self.best_metrics[1], self.best_metrics[2] = metrics[0], metrics[1], metrics[2]
+            self.y_true, self.y_pred = lables[0], lables[1] # track best prediction
             self.best_epoch = epoch
-            self.best_model = model # save best model 
+            self.best_model = copy.deepcopy(model.state_dict()) # save best model 
             self.no_improvement = 0
             logger.info(f"NEW BEST @ epoch {epoch+1}: val loss={self.best_score:.4f}, "
                     f"ppc={self.best_metrics[0]:.4f}, ssc={self.best_metrics[1]:.4f}, r2={self.best_metrics[2]:.4f}; train loss={train_loss:.4f}")

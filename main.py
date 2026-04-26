@@ -9,7 +9,7 @@ import os
 import pickle
 
 from evaluate.cv_eval import cv_eval
-from evaluate.cold_eval_ import preform_cold_blind_eval
+from evaluate.cold_eval import preform_cold_blind_eval
 
 from utils.generate_smiles_features import generate_smiles_features
 from utils.parser import get_args

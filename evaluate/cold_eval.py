@@ -60,9 +60,8 @@ def preform_cold_blind_eval(cold_type="cold_rna", model_setting="full", train_se
         test_df = pd.read_csv(os.path.join(cold_path, f"cold_{cold_name}_test_fold{i}.csv")).loc[:, ["SMILES", "Target_RNA_sequence", "pKd"]]
         logger.info(f"(|train|, |test|) -> ({train_df.shape[0]}, {test_df.shape[0]})")
 
-
-        train_ds = MolRNADataset(ds_=train_df, setting=train_setting, aug=aug, is_seq_emb=is_seq_emb, task="training")
-        val_ds = MolRNADataset(ds_=test_df, setting=val_setting, aug=False, is_seq_emb=is_seq_emb, task='evaluating')
+        train_ds = MolRNADataset(train_df, setting=train_setting, rna_aug=rna_aug, mol_aug=mol_aug, task="training", is_seq_emb=is_seq_emb)
+        val_ds = MolRNADataset(test_df, setting=val_setting, rna_aug=False, mol_aug=False, task="evaluating", is_seq_emb=is_seq_emb)
 
         g = torch.Generator().manual_seed(seed) # determinism per fold
         train_loader = DataLoader(train_ds, batch_size=batch_size, generator=g, shuffle=True, collate_fn=MolRNADataset.collate_fn, num_workers=num_workers)
@@ -70,7 +69,7 @@ def preform_cold_blind_eval(cold_type="cold_rna", model_setting="full", train_se
 
         early_stopping = EarlyStopping(mode=MODE, patience=PATIENCE, warm_up_epochs=WARM_UP_EPOCHS, delta=DELTA) # early stopping object 
         
-        model = choose_model_setting(option=model_setting).to(device)
+        model = choose_model_setting(option=model_setting, exclude_modalities=exclude_modalities, freeze_grnade=freeze_grnade, dropout=dropout, smiles_seq_setting=smiles_seq_setting, smiles_expert_setting=smiles_expert_setting, d_model=d_model, ffn_mult=ffn_mult, bdcf_blocks=bdcf_blocks, node_pool=node_pool, token_pool=token_pool).to(device)
         optimizer = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=wd)
         criterion = rmse_loss
 
@@ -102,10 +101,10 @@ def preform_cold_blind_eval(cold_type="cold_rna", model_setting="full", train_se
                 plots_dir = os.path.join("results", "plots", date, plot)
             os.makedirs(plots_dir, exist_ok=True)
             plot_train_val_loss(train_losses, val_losses,
-                                save_path=f"{plots_dir}/losses_{plot_name}_fold_{fold+1}.png",
+                                save_path=f"{plots_dir}/losses_{plot_name}_fold_{i}.png",
                                 title="Loss Curve (train vs. val MSE)")
             plot_prediction_correlation(early_stopping.y_true, early_stopping.y_pred,
-                                        save_path=f"{plots_dir}/corr_{plot_name}_fold_{fold+1}.png",
+                                        save_path=f"{plots_dir}/corr_{plot_name}_fold_{i}.png",
                                         title="Prediction Correlation")
         #######################################################################
         rmse_list.append(early_stopping.best_score)

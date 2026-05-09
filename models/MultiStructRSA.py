@@ -777,8 +777,8 @@ class MultiStructRSABatched(MultiStructRSA):
             B_pad_mask=node_pad_mask
         )
 
-        seq_vec = masked_max(seq_fused, rna_pad_mask)   # (B, 128)
-        nodes_vec = masked_max(nodes_fused, node_pad_mask)    # (B, 128)
+        seq_vec = masked_mean(seq_fused, rna_pad_mask)   # (B, 128)
+        nodes_vec = masked_mean(nodes_fused, node_pad_mask)    # (B, 128)
         rna_vec = torch.cat([seq_vec, nodes_vec], dim=1)     # (B, 256)
 
         expert_smi_emb = self.expert_mlp(torch.cat([morgan_fp, mordred_desc], dim=1))

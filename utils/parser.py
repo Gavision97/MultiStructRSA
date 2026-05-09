@@ -57,7 +57,7 @@ def get_args():
     parser.add_argument(
         "--dataset_seed",
         type=int,
-        default=2,
+        default=74,
         help="Dataset split seed (controls cross-validation fold creation)"
     )
 
@@ -277,5 +277,20 @@ def get_args():
         choices=["True", "False"],
         help="Whether to freeze the gRNAde encoder"
     )
+
+    parser.add_argument("--patience",
+                        type=int,
+                        default=20,
+                        help="Patience for early stopping")
+
+    parser.add_argument("--warm_up_epochs",
+                        type=int,
+                        default=10,
+                        help="Number of warm-up epochs before early stopping starts")
+
+    parser.add_argument("--delta",
+                        type=float,
+                        default=1e-6,
+                        help="Minimum improvement required for early stopping")
 
     return parser.parse_args()

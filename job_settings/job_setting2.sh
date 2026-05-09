@@ -10,7 +10,7 @@
 #SBATCH --job-name=cold_eval
 #SBATCH --output=jobs/job-%J.out
 #SBATCH --error=jobs/job-%J.err
-#SBATCH --gpus=rtx_4090:1
+#SBATCH --gpus=rtx_6000:1
 #SBATCH --mail-user=gavrilev@post.bgu.ac.il
 #SBATCH --mail-type=ALL
 #SBATCH --mem=24G
@@ -19,8 +19,8 @@
 ### Experiment variables ###
 ############################
 
-EXP_ID=2
-DATE=2504
+EXP_ID=7
+DATE=2704
 
 MODEL_SETTING="full"   # ["full", "freezed", "w/o seq", "w/o 3D struct", "w/o fusion"]
 EXCLUDE_MODALITIES="morgan ernie"   # e.g. simson / chemberta / mordred / morgan / rinalmo / ernie / grnade
@@ -42,6 +42,9 @@ LR=2e-5
 WD=1e-6
 DROPOUT=0.1
 
+PATIENCE=10
+WARM_UP_EPOCHS=10
+DELTA=1e-4
 # Best RNA module hyperparameters
 D_MODEL=128
 FFN_MULT=4
@@ -64,7 +67,7 @@ CV_METHOD="all"
 K_FOLD=5
 DEVICE="cuda"
 
-SEED=1
+SEED=2
 DATASET_SEED=2
 
 LOG_MSG="${COLD_TYPE}_${DATE}_exp${EXP_ID} - MultiStructRSA (${MODEL_SETTING}) - exclude_modalities=${EXCLUDE_MODALITIES}; TRAIN_SETTING=${TRAIN_SETTING}; VAL_SETTING=${VAL_SETTING}; RNA_AUG=${RNA_AUG}; MOL_AUG=${MOL_AUG}; SEED=${SEED}; DATASET_SEED=${DATASET_SEED}"
@@ -98,6 +101,9 @@ python main.py \
   --val_setting "$VAL_SETTING" \
   --rna_aug "$RNA_AUG" \
   --mol_aug "$MOL_AUG" \
+  --patience "$PATIENCE" \
+  --warm_up_epochs "$WARM_UP_EPOCHS" \
+  --delta "$DELTA" \
   --is_seq_emb "$IS_SEQ_EMB" \
   --res_file_name "$RES_FILE_NAME" \
   --is_plot "$IS_PLOT" \

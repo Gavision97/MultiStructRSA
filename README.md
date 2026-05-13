@@ -1,6 +1,6 @@
 <h1 align="center">
-  <u>Multi</u><u>Struct</u><u>R</u><u>S</u><u>A</u>: Multimodal<br>
-  Prediction of RNA–Small Molecule<br>
-  Binding Affinity Using Predicted RNA<br>
-  3D Structure
+  MultiStructRSA: <ins>Multi</ins>modal<br>
+  Prediction of <ins>R</ins>NA–<ins>S</ins>mall Molecule<br>
+  Binding <ins>A</ins>ffinity Using Predicted RNA<br>
+  3D <ins>Struct</ins>ure
 </h1>

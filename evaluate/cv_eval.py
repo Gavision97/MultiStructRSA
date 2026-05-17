@@ -46,9 +46,6 @@ RSIM_PATH = os.path.join("datasets", "RSIM")
 
 ALL_SF_DATASET_PATH = os.path.join("datasets", "RSIM", "All_sf_dataset_v1.csv")
 
-# same style as their code
-
-
 
 # custom RMSE loss function
 def rmse_loss(y_true, y_pred):

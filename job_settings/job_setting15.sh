@@ -7,10 +7,10 @@
 
 #SBATCH --partition=main
 #SBATCH --time=0-48:00:00
-#SBATCH --job-name=global_hyperparam_search
+#SBATCH --job-name=cv_rna_fam
 #SBATCH --output=jobs/job-%J.out
 #SBATCH --error=jobs/job-%J.err
-#SBATCH --gpus=rtx_6000:1
+#SBATCH --gpus=rtx_4090:1
 #SBATCH --mail-user=gavrilev@post.bgu.ac.il
 #SBATCH --mail-type=ALL
 #SBATCH --mem=24G
@@ -20,41 +20,52 @@
 ############################
 
 EXP_ID=1   # experiment ID
-DATE=1604  # for log & result directory creation
+DATE=1705  # for log & result directory creation
 
-MODEL_SETTING="w/o fusion" # ["full", "freezed", "w/o seq", "w/o 3D struct", "w/o fusion"]
+MODEL_SETTING="full"   # ["full", "freezed", "w/o seq", "w/o 3D struct", "w/o fusion"]
+EXCLUDE_MODALITIES="morgan ernie"   # e.g. simson / chemberta / mordred / morgan / rinalmo / ernie / grnade
+
 TRAIN_SETTING=4
 VAL_SETTING=4
 MOL_AUG="False"
 RNA_AUG="False"
+IS_SEQ_EMB="False"
+IS_PLOT="True"
 
-RES_FILE_NAME="cv_all_${DATE}"
+
+RES_FILE_NAME="cv_rna_fam_${DATE}"
 PLOT_NAME="${DATE}_exp${EXP_ID}"
 
-LOG_FILE_NAME="ablation_${DATE}_exp${EXP_ID}"
+LOG_FILE_NAME="cv_rna_fam_${DATE}_exp${EXP_ID}"
 
-#######
-# best hyperparameters from global hyperpram search in 14/04 (full setting)
+# Best hyperparameters from global hyperparameter search
 LR=2e-5
 WD=1e-6
 DROPOUT=0.1
-########
 
-##### 
-# RNA module hyperpram search 15/04 
+PATIENCE=10
+WARM_UP_EPOCHS=10
+DELTA=1e-3
+# Best RNA module hyperparameters
 D_MODEL=128
-FFN_MULT=6
-BDCF_BLOCKS=1
-#####
+FFN_MULT=4
+BDCF_BLOCKS=2
+NODE_POOL="mean"
+TOKEN_POOL="mean"
+
+# Best SMILES module hyperparameters
+SMILES_SEQ_SETTING="deep"
+SMILES_EXPERT_SETTING="proj"
+
 
 BATCH_SIZE=1
 NUM_WORKERS=0
 
-EXP_NAME="exp${EXP_ID}_${MODEL_SETTING}"
+EXP_NAME="exp${EXP_ID}"
 
 SETTING="cv"
-CV_METHOD="all"
-K_FOLD=5
+CV_METHOD="per_fam"
+K_FOLD=10
 DEVICE="cuda"
 
 SEED=1
@@ -86,11 +97,17 @@ nvidia-smi
 python main.py \
   --exp_name "$EXP_NAME" \
   --model_setting "$MODEL_SETTING" \
+  --exclude_modalities $EXCLUDE_MODALITIES \
   --train_setting "$TRAIN_SETTING" \
   --val_setting "$VAL_SETTING" \
   --rna_aug "$RNA_AUG" \
   --mol_aug "$MOL_AUG" \
+  --patience "$PATIENCE" \
+  --warm_up_epochs "$WARM_UP_EPOCHS" \
+  --delta "$DELTA" \
+  --is_seq_emb "$IS_SEQ_EMB" \
   --res_file_name "$RES_FILE_NAME" \
+  --is_plot "$IS_PLOT" \
   --plot_name "$PLOT_NAME" \
   --log_msg "$LOG_MSG" \
   --log_file_name "$LOG_FILE_NAME" \
@@ -100,9 +117,13 @@ python main.py \
   --lr "$LR" \
   --wd "$WD" \
   --dropout "$DROPOUT" \
+  --smiles_seq_setting "$SMILES_SEQ_SETTING" \
+  --smiles_expert_setting "$SMILES_EXPERT_SETTING" \
   --d_model "$D_MODEL" \
   --ffn_mult "$FFN_MULT" \
   --bdcf_blocks "$BDCF_BLOCKS" \
+  --node_pool "$NODE_POOL" \
+  --token_pool "$TOKEN_POOL" \
   --batch_size "$BATCH_SIZE" \
   --num_workers "$NUM_WORKERS" \
   --device "$DEVICE" \

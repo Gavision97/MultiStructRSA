@@ -168,92 +168,147 @@ def preform_k_fold_cv_all(exp_name = 'exp', res_file_name="cv10_all_results", mo
     logging.info(f"\nSaved/updated summary to: {summary_path}")
 
 
-def preform_k_fold_cv_all_rna_fam(model_setting = "full", train_setting=4, val_setting=4, rna_aug=False, mol_aug=False, patience=20, warm_up_epochs=10, delta=1e-5,
-                                  lr=5e-5, wd=1e-5, dropout=0.1, exclude_modalities=None, freeze_grnade=False, smiles_seq_setting='deep', smiles_expert_setting='proj',
-                                   batch_size=1, num_workers=8, is_plot=False, is_seq_emb=False, d_model=128, ffn_mult=4, bdcf_blocks=1, node_pool='attn', token_pool='mean',
-                                   exp_name='cv_rna_fam', res_file_name='cv10_all_results_by_family', n=10, plot_name='loss_plot',
-                                   device='cuda', seed=1, dataset_seed=2):
+def preform_k_fold_cv_all_rna_fam(
+    model_setting="full",
+    train_setting=4,
+    val_setting=4,
+    rna_aug=False,
+    mol_aug=False,
+    patience=20,
+    warm_up_epochs=10,
+    delta=1e-5,
+    lr=5e-5,
+    wd=1e-5,
+    dropout=0.1,
+    exclude_modalities=None,
+    freeze_grnade=False,
+    smiles_seq_setting="deep",
+    smiles_expert_setting="proj",
+    batch_size=1,
+    num_workers=8,
+    is_plot=False,
+    is_seq_emb=False,
+    d_model=128,
+    ffn_mult=4,
+    bdcf_blocks=1,
+    node_pool="attn",
+    token_pool="mean",
+    exp_name="cv_rna_fam",
+    res_file_name="cv10_all_results_by_family",
+    n=10,
+    plot_name="loss_plot",
+    device="cuda",
+    seed=1,
+    dataset_seed=2,
+):
     """
     Run k-fold cross-validation separately for each RNA family and save a summary table.
 
-    The function:
-    1. Loads predefined RNA family datasets (aptamers, miRNA, repeats, etc.).
-    2. Runs `cv_eval` independently on each family.
-    3. Collects mean metrics (RMSE, Pearson, Spearman, R²) per family.
-    4. Saves (or appends) all family results into a single CSV file.
-
-    Parameters
-    ----------
-    model_setting : str, default="full"
-        Model variant passed to `cv_eval`.
-
-    exp_name : str, default="cv_rna_fam"
-        Experiment name stored in the results table.
-
-    res_file_name : str, default="cv10_all_results_by_family"
-        Output CSV file name (saved under `results/table_results/`).
-
-    n : int, default=10
-        Number of cross-validation folds per RNA family.
-
-    plot_name : str, default="loss_plot"
-        Name used for saving fold loss plots.
-
-    device : str, default="cuda"
-        Device used for training and evaluation.
-
-    Returns
-    -------
-    None
-        Results are saved to disk as a CSV table (one row per RNA family).
-
-    Notes
-    -----
-    - Each RNA family is evaluated independently (no mixing between families).
-    - The output file accumulates results across runs for experiment tracking.
+    The saved CSV uses the same result fields as `preform_k_fold_cv_all`:
+    exp, family, n_samples, p_mean, p_std, s_mean, s_std,
+    rmse_mean, rmse_std, r2_mean, r2_std, per_fold.
     """
 
-    summary_rows = []
-    # load dictionary that maps RNA family name into its correct dataset
+    logger.info("\n==================== RNA FAMILY CV ====================")
+
     rna_families = {
-        "aptamers":  pd.read_csv(os.path.join(RSIM_PATH, "Aptamers_dataset_v1.csv"), sep="\t"),
-        "mirna":     pd.read_csv(os.path.join(RSIM_PATH, "miRNA_dataset_v1.csv"), sep="\t"),
-        "repeats":   pd.read_csv(os.path.join(RSIM_PATH, "Repeats_dataset_v1.csv"), sep="\t"),
+        "aptamers": pd.read_csv(os.path.join(RSIM_PATH, "Aptamers_dataset_v1.csv"), sep="\t"),
+        "mirna": pd.read_csv(os.path.join(RSIM_PATH, "miRNA_dataset_v1.csv"), sep="\t"),
+        "repeats": pd.read_csv(os.path.join(RSIM_PATH, "Repeats_dataset_v1.csv"), sep="\t"),
         "ribosomal": pd.read_csv(os.path.join(RSIM_PATH, "Ribosomal_dataset_v1.csv"), sep="\t"),
-        "riboswitch":pd.read_csv(os.path.join(RSIM_PATH, "Riboswitch_dataset_v1.csv"), sep="\t"),
-        "viralrna":  pd.read_csv(os.path.join(RSIM_PATH, "Viral_RNA_dataset_v1.csv"), sep="\t"),
+        "riboswitch": pd.read_csv(os.path.join(RSIM_PATH, "Riboswitch_dataset_v1.csv"), sep="\t"),
+        "viralrna": pd.read_csv(os.path.join(RSIM_PATH, "Viral_RNA_dataset_v1.csv"), sep="\t"),
     }
-    
+
+    summary_rows = []
 
     for fam_name, fam_df in rna_families.items():
-        logging.info(f"\n==================== {fam_name.upper()} ====================")
-        #res = cv_eval(fam_df, name=fam_name, device=device)  # make sure cv_eval has name param or ignore
-        res = cv_eval(dataset=fam_df, model_setting=model_setting, train_setting=train_setting, val_setting=val_setting,
-                      rna_aug=rna_aug, mol_aug=mol_aug, patience=patience, warm_up_epochs=warm_up_epochs, delta=delta, lr=lr, wd=wd, dropout=dropout, exclude_modalities=exclude_modalities, freeze_grnade=freeze_grnade, smiles_seq_setting=smiles_seq_setting, smiles_expert_setting=smiles_expert_setting, batch_size=batch_size, num_workers=num_workers, is_plot=is_plot,
-                      is_seq_emb=is_seq_emb, d_model=d_model, ffn_mult=ffn_mult, bdcf_blocks=bdcf_blocks, node_pool=node_pool, token_pool=token_pool, fam_name=fam_name, n=n, plot_name=plot_name, device=device, seed=seed, dataset_seed=dataset_seed)
-        # ---- summary row ----
-        summary_row = {"exp": exp_name, "family": fam_name, "n_samples": len(fam_df), **res}
-        summary_rows.append(summary_row)
-        
-        logging.info(f'RNA family: {fam_name}, n_samples: {len(fam_df)}, avg_mse: {res.get("Average MSE")}, avg_mae: {res.get("Average MAE")}, avg_r^2: {res.get("Average R2 score")}, avg_pearson (r): {res.get("Average Pearson correlation (r)")}')
-    summary_df = pd.DataFrame(summary_rows).sort_values("family").reset_index(drop=True)
+        logger.info(f"\n==================== {fam_name.upper()} ====================")
+        logger.info(f"RNA family: {fam_name}, dataset shape: {fam_df.shape}")
 
-    # Save
+        res = cv_eval(
+            dataset=fam_df,
+            model_setting=model_setting,
+            train_setting=train_setting,
+            val_setting=val_setting,
+            rna_aug=rna_aug,
+            mol_aug=mol_aug,
+            patience=patience,
+            warm_up_epochs=warm_up_epochs,
+            delta=delta,
+            lr=lr,
+            wd=wd,
+            dropout=dropout,
+            exclude_modalities=exclude_modalities,
+            freeze_grnade=freeze_grnade,
+            smiles_seq_setting=smiles_seq_setting,
+            smiles_expert_setting=smiles_expert_setting,
+            batch_size=batch_size,
+            num_workers=num_workers,
+            is_plot=is_plot,
+            is_seq_emb=is_seq_emb,
+            d_model=d_model,
+            ffn_mult=ffn_mult,
+            bdcf_blocks=bdcf_blocks,
+            node_pool=node_pool,
+            token_pool=token_pool,
+            fam_name=fam_name,
+            n=n,
+            plot_name=plot_name,
+            device=device,
+            seed=seed,
+            dataset_seed=dataset_seed,
+        )
+
+        summary_row = {
+            "exp": exp_name,
+            "family": fam_name,
+            "n_samples": len(fam_df),
+            **res
+        }
+
+        summary_rows.append(summary_row)
+
+        logger.info(
+            f"RNA family: {fam_name}, n_samples: {len(fam_df)}, "
+            f"rmse_mean: {res.get('rmse_mean')}, p_mean: {res.get('p_mean')}, "
+            f"s_mean: {res.get('s_mean')}, r2_mean: {res.get('r2_mean')}"
+        )
+
+    summary_df = pd.DataFrame(summary_rows)
+
+    column_order = [
+        "exp",
+        "family",
+        "n_samples",
+        "p_mean",
+        "p_std",
+        "s_mean",
+        "s_std",
+        "rmse_mean",
+        "rmse_std",
+        "r2_mean",
+        "r2_std",
+        "per_fold",
+    ]
+
+    summary_df = summary_df[column_order]
+    summary_df = summary_df.sort_values("family").reset_index(drop=True)
+
     out_dir = os.path.join("results", "table_results")
     os.makedirs(out_dir, exist_ok=True)
+
     summary_path = os.path.join(out_dir, f"{res_file_name}.csv")
 
     if os.path.exists(summary_path):
-        # File exists, append new row
         existing_df = pd.read_csv(summary_path)
         updated_df = pd.concat([existing_df, summary_df], ignore_index=True)
     else:
-        # File does not exist, create new one
         updated_df = summary_df
 
     updated_df.to_csv(summary_path, index=False)
 
-    logging.info(f"\nSaved/updated summary to: {summary_path}")
+    logger.info(f"\nSaved/updated summary to: {summary_path}")
 
 def preprocess_and_save_smiles_features():
     full_df = pd.read_csv(ALL_SF_DATASET_PATH, sep="\t")

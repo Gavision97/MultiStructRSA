@@ -6,8 +6,8 @@
 ################################################################################################
 
 #SBATCH --partition=main
-#SBATCH --time=0-72:00:00
-#SBATCH --job-name=research_project
+#SBATCH --time=0-96:00:00
+#SBATCH --job-name=cv_rna_fam
 #SBATCH --output=jobs/job-%J.out
 #SBATCH --error=jobs/job-%J.err
 #SBATCH --gpus=rtx_6000:1
@@ -19,30 +19,53 @@
 ### Experiment variables ###
 ############################
 
-EXP_ID=9   # experiment ID
-DATE=0404  # for log & result directory creation
+EXP_ID=3   # experiment ID
+DATE=1705  # for log & result directory creation
 
-MODEL_SETTING="full batched" # ["full", "freezed", "w/o seq", "w/o 3D struct", "w/o fusion"]
-TRAIN_SETTING=6
+MODEL_SETTING="full"   # ["full", "freezed", "w/o seq", "w/o 3D struct", "w/o fusion"]
+EXCLUDE_MODALITIES="morgan ernie"   # e.g. simson / chemberta / mordred / morgan / rinalmo / ernie / grnade
+
+TRAIN_SETTING=4
 VAL_SETTING=4
-MOL_AUG="True"
-RNA_AUG="True"
+MOL_AUG="False"
+RNA_AUG="False"
+IS_SEQ_EMB="False"
+IS_PLOT="True"
 
-EXP_NAME="exp${EXP_ID}"  
 
-RES_FILE_NAME="cv_all_${DATE}"
+RES_FILE_NAME="cv_rna_fam_${DATE}"
 PLOT_NAME="${DATE}_exp${EXP_ID}"
 
-LOG_FILE_NAME="stratified_cv_${DATE}_exp${EXP_ID}"
+LOG_FILE_NAME="cv_rna_fam_${DATE}_exp${EXP_ID}"
 
-LR=1e-5 # same as before
-WD=1e-5 # same as before
-BATCH_SIZE=4
+# Best hyperparameters from global hyperparameter search
+LR=2e-5
+WD=1e-6
+DROPOUT=0.1
+
+PATIENCE=20
+WARM_UP_EPOCHS=50
+DELTA=1e-6
+# Best RNA module hyperparameters
+D_MODEL=128
+FFN_MULT=4
+BDCF_BLOCKS=2
+NODE_POOL="mean"
+TOKEN_POOL="mean"
+
+# Best SMILES module hyperparameters
+SMILES_SEQ_SETTING="deep"
+SMILES_EXPERT_SETTING="proj"
+
+
+BATCH_SIZE=1
+NUM_WORKERS=0
+
+EXP_NAME="exp${EXP_ID}"
 
 SETTING="cv"
-CV_METHOD="all"
-EV_SETTING=4
-K_FOLD=5
+CV_METHOD="per_fam"
+K_FOLD=10
 DEVICE="cuda"
 
 SEED=1
@@ -74,21 +97,35 @@ nvidia-smi
 python main.py \
   --exp_name "$EXP_NAME" \
   --model_setting "$MODEL_SETTING" \
+  --exclude_modalities $EXCLUDE_MODALITIES \
   --train_setting "$TRAIN_SETTING" \
   --val_setting "$VAL_SETTING" \
   --rna_aug "$RNA_AUG" \
   --mol_aug "$MOL_AUG" \
+  --patience "$PATIENCE" \
+  --warm_up_epochs "$WARM_UP_EPOCHS" \
+  --delta "$DELTA" \
+  --is_seq_emb "$IS_SEQ_EMB" \
   --res_file_name "$RES_FILE_NAME" \
+  --is_plot "$IS_PLOT" \
   --plot_name "$PLOT_NAME" \
   --log_msg "$LOG_MSG" \
   --log_file_name "$LOG_FILE_NAME" \
   --setting "$SETTING" \
   --cv_method "$CV_METHOD" \
+  --k_fold "$K_FOLD" \
   --lr "$LR" \
   --wd "$WD" \
+  --dropout "$DROPOUT" \
+  --smiles_seq_setting "$SMILES_SEQ_SETTING" \
+  --smiles_expert_setting "$SMILES_EXPERT_SETTING" \
+  --d_model "$D_MODEL" \
+  --ffn_mult "$FFN_MULT" \
+  --bdcf_blocks "$BDCF_BLOCKS" \
+  --node_pool "$NODE_POOL" \
+  --token_pool "$TOKEN_POOL" \
   --batch_size "$BATCH_SIZE" \
-  --k_fold "$K_FOLD" \
-  --ev_setting "$EV_SETTING" \
+  --num_workers "$NUM_WORKERS" \
   --device "$DEVICE" \
   --seed "$SEED" \
   --dataset_seed "$DATASET_SEED"

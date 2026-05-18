@@ -152,3 +152,15 @@
 2026-04-28 10:10:10,461 - BiDirectionalCrossFusion @  hyperparam -> bdcf_blocks:2, d_model:128, n_heads:4, dropout:0.1, ffn_mult:4, a_pool:mean, b_pool:mean
 2026-04-28 10:10:10,490 - Initialized model setting: full, exclude_modalities: ['ernie', 'morgan'], dropout: 0.1, d_model: 128, ffn_mult: 4, bdcf_blocks: 2, node_pool: mean, token_pool: mean
 2026-04-28 10:12:22,610 - NEW BEST @ epoch 1: val loss=2.4207, ppc=0.1828, ssc=0.1520, r2=-2.2207; train loss=2.7931
+2026-05-18 15:13:20,839 - log message
+2026-05-18 15:13:20,839 - Performing Blind Test with Cold Start Setting = cold_mole, seed:1, batch size:1, max epochs:200, lr:2e-05, weight decay:1e-06, patience:20, warm up epo:10, delta:1e-06
+2026-05-18 15:13:20,844 - Fold number 1/5
+2026-05-18 15:21:01,696 - log message
+2026-05-18 15:21:01,696 - Performing Blind Test with Cold Start Setting = cold_mole, seed:1, batch size:1, max epochs:200, lr:2e-05, weight decay:1e-06, patience:20, warm up epo:10, delta:1e-06
+2026-05-18 15:21:01,701 - Fold number 1/5
+2026-05-18 15:22:36,925 - log message
+2026-05-18 15:22:36,926 - Performing Blind Test with Cold Start Setting = cold_mole, seed:1, batch size:1, max epochs:200, lr:2e-05, weight decay:1e-06, patience:20, warm up epo:10, delta:1e-06
+2026-05-18 15:22:36,928 - Fold number 1/5
+2026-05-18 15:22:36,941 - (|train|, |val|, |test|) -> (973, 166, 300)
+2026-05-18 15:22:36,945 - (unique molecule names train, val, test) -> (549, 98, 161)
+2026-05-18 15:22:36,945 - W/O PADDING -> MolRNACDataset for training setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion

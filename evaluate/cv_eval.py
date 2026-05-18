@@ -31,11 +31,11 @@ logger = logging.getLogger(__name__)
 #SEED_DATASET = 2 
 
 # early stopping hyperparameters: 
-PATIENCE = 20 # for early stopping
-WARM_UP_EPOCHS = 50
-MODE = 'min'
-DELTA = 1e-6 # 0.0001 ;for early stopping (11/03, 1e-4 -> 5e-5 -> 1e-6)
-MIN_EPOCHS = 50
+#PATIENCE = 20 # for early stopping
+#WARM_UP_EPOCHS = 50
+MODE = 'max'
+#DELTA = 1e-6 # 0.0001 ;for early stopping (11/03, 1e-4 -> 5e-5 -> 1e-6)
+#MIN_EPOCHS = 50
 
 # MultiStructRSA training hyperparameters:
 MAX_EPOCHS = 1000
@@ -51,7 +51,7 @@ ALL_SF_DATASET_PATH = os.path.join("datasets", "RSIM", "All_sf_dataset_v1.csv")
 def rmse_loss(y_true, y_pred):
     return torch.sqrt(torch.mean((y_true - y_pred) ** 2))
 
-def cv_eval(dataset=None, model_setting="full", train_setting=4, val_setting=4, rna_aug=False, mol_aug=False, lr=5e-5, wd=1e-5, dropout=0.1, exclude_modalities=None, freeze_grnade=False, smiles_seq_setting='deep', smiles_expert_setting='proj', batch_size=1, num_workers=8,
+def cv_eval(dataset=None, model_setting="full", train_setting=4, val_setting=4, rna_aug=False, mol_aug=False, patience=20, warm_up_epochs=10, delta=1e-5, lr=5e-5, wd=1e-5, dropout=0.1, exclude_modalities=None, freeze_grnade=False, smiles_seq_setting='deep', smiles_expert_setting='proj', batch_size=1, num_workers=8,
             is_plot=False, is_seq_emb=False,  d_model=128, ffn_mult=4, bdcf_blocks=1, node_pool='attn', token_pool='mean', n=10, fam_name=None, plot_name="loss_curve", device="cuda", dataset_seed=2, seed=1):
     """
     Run stratified k-fold cross-validation for a selected MultiStructRSA model setting.
@@ -97,7 +97,7 @@ def cv_eval(dataset=None, model_setting="full", train_setting=4, val_setting=4, 
     logger.info(
         f'K folds:{n}, seed:{seed}, dataset seed:{dataset_seed} batch size:{batch_size}, '
         f'max epochs:{MAX_EPOCHS}, lr:{lr}, weight decay:{wd}, dropout:{dropout} num_workers:{num_workers}, '
-        f'patience:{PATIENCE}, warm up epo:{WARM_UP_EPOCHS}, delta:{DELTA}'
+        f'patience:{patience}, warm up epo:{warm_up_epochs}, delta:{delta}'
     )
     
     all_df = dataset
@@ -125,7 +125,7 @@ def cv_eval(dataset=None, model_setting="full", train_setting=4, val_setting=4, 
         logger.info(f'Train len -> {len(train_loader.dataset)}, Test len -> {len(test_loader.dataset)}')
 
 
-        early_stopping = EarlyStopping(mode=MODE, patience=PATIENCE, warm_up_epochs=WARM_UP_EPOCHS, delta=DELTA) # early stopping object 
+        early_stopping = EarlyStopping(mode=MODE, patience=patience, warm_up_epochs=warm_up_epochs, delta=delta) # early stopping object 
         
         model = choose_model_setting(option=model_setting, exclude_modalities=exclude_modalities, freeze_grnade=freeze_grnade, dropout=dropout, smiles_seq_setting=smiles_seq_setting, smiles_expert_setting=smiles_expert_setting, d_model=d_model, ffn_mult=ffn_mult, bdcf_blocks=bdcf_blocks,
                                      node_pool=node_pool, token_pool=token_pool).to(device)
@@ -142,11 +142,11 @@ def cv_eval(dataset=None, model_setting="full", train_setting=4, val_setting=4, 
 
             p, s, rmse, r2 = safe_regression_metrics(y_true, y_pred)
             val_losses.append(rmse)
-
-            early_stopping.check_early_stop(model, rmse, [p, s, r2], train_loss, epo, [y_true, y_pred])   
+            es_metric = rmse if MODE == 'min' else p # rmse for mode=min, ppc for mode=max
+            early_stopping.check_early_stop(model, es_metric, [p, s, r2, rmse], train_loss, epo, [y_true, y_pred])   
             if early_stopping.stop_training:
                 logger.info(f"[Fold {fold+1}/{n}] Early stopping at epoch {epo+1}. "
-                            f"Best rmse={early_stopping.best_score:.4f} @ epoch {early_stopping.best_epoch+1}")
+                            f"Best score (rmse/ppc)={early_stopping.best_score:.4f} @ epoch {early_stopping.best_epoch+1}")
                 break
 
         ########################################################################
@@ -167,7 +167,7 @@ def cv_eval(dataset=None, model_setting="full", train_setting=4, val_setting=4, 
                                         title="Prediction Correlation")
         ########################################################################
 
-        rmse_list.append(early_stopping.best_score)
+        rmse_list.append(early_stopping.best_score[-1])
         p_list.append(early_stopping.best_metrics[0])
         s_list.append(early_stopping.best_metrics[1])
         r2_list.append(early_stopping.best_metrics[2])

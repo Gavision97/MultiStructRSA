@@ -171,8 +171,8 @@ def get_args():
     parser.add_argument(
         "--cold_type",
         type=str,
-        default="cold_rna",
-        choices=["cold_rna", "cold_mol", "cold_rm"],
+        default="cold_mole",
+        choices=["cold_rna", "cold_mole", "cold_rm"],
         help="Cold-start type"
     )
 

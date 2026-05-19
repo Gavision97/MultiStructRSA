@@ -10,7 +10,7 @@
 #SBATCH --job-name=cv_rna_fam
 #SBATCH --output=jobs/job-%J.out
 #SBATCH --error=jobs/job-%J.err
-#SBATCH --gpus=rtx_4090:1
+#SBATCH --gpus=rtx_6000:1
 #SBATCH --mail-user=gavrilev@post.bgu.ac.il
 #SBATCH --mail-type=ALL
 #SBATCH --mem=24G
@@ -36,7 +36,7 @@ IS_PLOT="True"
 RES_FILE_NAME="cv_rna_fam_${DATE}"
 PLOT_NAME="${DATE}_exp${EXP_ID}"
 
-LOG_FILE_NAME="cv_rna_fam_${DATE}_exp${EXP_ID}"
+LOG_FILE_NAME="max_cv_rna_fam_${DATE}_exp${EXP_ID}"
 
 # Best hyperparameters from global hyperparameter search
 LR=2e-5

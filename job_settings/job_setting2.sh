@@ -6,11 +6,11 @@
 ################################################################################################
 
 #SBATCH --partition=main
-#SBATCH --time=0-48:00:00
+#SBATCH --time=0-72:00:00
 #SBATCH --job-name=cold_eval
 #SBATCH --output=jobs/job-%J.out
 #SBATCH --error=jobs/job-%J.err
-#SBATCH --gpus=rtx_6000:1
+#SBATCH --gpus=rtx_4090:1
 #SBATCH --mail-user=gavrilev@post.bgu.ac.il
 #SBATCH --mail-type=ALL
 #SBATCH --mem=24G
@@ -19,8 +19,8 @@
 ### Experiment variables ###
 ############################
 
-EXP_ID=7
-DATE=2704
+EXP_ID=2
+DATE=1805
 
 MODEL_SETTING="full"   # ["full", "freezed", "w/o seq", "w/o 3D struct", "w/o fusion"]
 EXCLUDE_MODALITIES="morgan ernie"   # e.g. simson / chemberta / mordred / morgan / rinalmo / ernie / grnade
@@ -42,7 +42,7 @@ LR=2e-5
 WD=1e-6
 DROPOUT=0.1
 
-PATIENCE=10
+PATIENCE=15
 WARM_UP_EPOCHS=10
 DELTA=1e-4
 # Best RNA module hyperparameters
@@ -59,10 +59,10 @@ SMILES_EXPERT_SETTING="proj"
 BATCH_SIZE=1
 NUM_WORKERS=0
 
-EXP_NAME="exp${EXP_ID}_mol_aug=${MOL_AUG}_rna_aug=${RNA_AUG}_rna_multiconformer=${RNA_MULTICONFORMER}"
+EXP_NAME="exp${EXP_ID}"
 
 SETTING="cold"
-COLD_TYPE="cold_rna"
+COLD_TYPE="cold_mole"
 CV_METHOD="all"
 K_FOLD=5
 DEVICE="cuda"

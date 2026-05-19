@@ -1,0 +1,17 @@
+2026-05-19 13:53:23,076 - stratified_cv_1705_exp1 - MultiStructRSA (full version) - TRAIN SETTING=4; VAL SETTING=4; RNA AUG=False; MOL AUG=False SEED=1; DATASET SEED=2
+2026-05-19 13:53:23,076 - 
+==================== RNA FAMILY CV ====================
+2026-05-19 13:53:23,089 - 
+==================== APTAMERS ====================
+2026-05-19 13:53:23,089 - RNA family: aptamers, dataset shape: (520, 8)
+2026-05-19 13:53:23,089 - K folds:10, seed:1, dataset seed:2 batch size:1, max epochs:1000, lr:2e-05, weight decay:1e-06, dropout:0.1 num_workers:0, patience:20, warm up epo:50, delta:1e-06
+2026-05-19 13:53:23,089 - --- Start statified 10-fold cross-validation; pd.DataFrame shape -> (520, 8), lr=2e-05 ---
+2026-05-19 13:53:23,095 - W/O PADDING -> MolRNACDataset for training setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
+2026-05-19 13:53:23,887 - W/O PADDING -> MolRNACDataset for evaluating setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
+2026-05-19 13:53:24,646 - 
+Fold number 1/10
+2026-05-19 13:53:24,647 - Train len -> 468, Test len -> 52
+2026-05-19 13:53:24,647 - MultiStructRSA - full | exclude_modalities=['ernie', 'morgan'] | freeze_grnade=False | smiles_seq_setting=deep, smiles_expert_setting=proj, dropout=0.1, d_model=128, ffn_mult=4, bdcf_blocks=2, node_pool=mean, token_pool=mean
+2026-05-19 13:53:24,751 - BiDirectionalCrossFusion @  hyperparam -> bdcf_blocks:2, d_model:128, n_heads:4, dropout:0.1, ffn_mult:4, a_pool:mean, b_pool:mean
+2026-05-19 13:53:24,771 - Initialized model setting: full, exclude_modalities: ['ernie', 'morgan'], dropout: 0.1, d_model: 128, ffn_mult: 4, bdcf_blocks: 2, node_pool: mean, token_pool: mean
+2026-05-19 13:54:12,809 - NEW BEST @ epoch 1: val loss=-0.0143, rmse=2.9049 ppc=-0.0143, ssc=-0.0806, r2=-5.0508; train loss=3.1134

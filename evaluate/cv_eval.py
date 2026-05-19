@@ -33,7 +33,7 @@ logger = logging.getLogger(__name__)
 # early stopping hyperparameters: 
 #PATIENCE = 20 # for early stopping
 #WARM_UP_EPOCHS = 50
-MODE = 'max'
+MODE = 'min'
 #DELTA = 1e-6 # 0.0001 ;for early stopping (11/03, 1e-4 -> 5e-5 -> 1e-6)
 #MIN_EPOCHS = 50
 
@@ -167,7 +167,7 @@ def cv_eval(dataset=None, model_setting="full", train_setting=4, val_setting=4, 
                                         title="Prediction Correlation")
         ########################################################################
 
-        rmse_list.append(early_stopping.best_score[-1])
+        rmse_list.append(early_stopping.best_metrics[-1])
         p_list.append(early_stopping.best_metrics[0])
         s_list.append(early_stopping.best_metrics[1])
         r2_list.append(early_stopping.best_metrics[2])

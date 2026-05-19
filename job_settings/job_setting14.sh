@@ -36,7 +36,7 @@ IS_PLOT="True"
 RES_FILE_NAME="cv_rna_fam_${DATE}"
 PLOT_NAME="${DATE}_exp${EXP_ID}"
 
-LOG_FILE_NAME="cv_rna_fam_${DATE}_exp${EXP_ID}"
+LOG_FILE_NAME="min_cv_rna_fam_${DATE}_exp${EXP_ID}"
 
 # Best hyperparameters from global hyperparameter search
 LR=2e-5

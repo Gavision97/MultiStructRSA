@@ -20,14 +20,14 @@
 ############################
 
 EXP_ID=1
-DATE=2704
+DATE=2806
 
 MODEL_SETTING="full"   # ["full", "freezed", "w/o seq", "w/o 3D struct", "w/o fusion"]
 EXCLUDE_MODALITIES="morgan ernie"   # e.g. simson / chemberta / mordred / morgan / rinalmo / ernie / grnade
 
 TRAIN_SETTING=4
 VAL_SETTING=4
-MOL_AUG="False"
+MOL_AUG="True"
 RNA_AUG="False"
 IS_SEQ_EMB="False"
 
@@ -62,6 +62,10 @@ CV_METHOD="all"
 K_FOLD=5
 DEVICE="cuda"
 
+PATIENCE=20
+WARM_UP_EPOCHS=50
+DELTA=1e-6
+
 SEED=1
 DATASET_SEED=2
 
@@ -94,6 +98,9 @@ python main.py \
   --val_setting "$VAL_SETTING" \
   --rna_aug "$RNA_AUG" \
   --mol_aug "$MOL_AUG" \
+  --patience "$PATIENCE" \
+  --warm_up_epochs "$WARM_UP_EPOCHS" \
+  --delta "$DELTA" \
   --is_seq_emb "$IS_SEQ_EMB" \
   --res_file_name "$RES_FILE_NAME" \
   --is_plot "$IS_PLOT" \

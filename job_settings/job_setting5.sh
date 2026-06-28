@@ -19,8 +19,8 @@
 ### Experiment variables ###
 ############################
 
-EXP_ID=4
-DATE=1905
+EXP_ID=3
+DATE=2906
 
 MODEL_SETTING="full"   # ["full", "freezed", "w/o seq", "w/o 3D struct", "w/o fusion"]
 EXCLUDE_MODALITIES="morgan ernie"   # e.g. simson / chemberta / mordred / morgan / rinalmo / ernie / grnade
@@ -28,7 +28,7 @@ EXCLUDE_MODALITIES="morgan ernie"   # e.g. simson / chemberta / mordred / morgan
 TRAIN_SETTING=4
 RNA_MULTICONFORMER="False"
 VAL_SETTING=4
-MOL_AUG="False"
+MOL_AUG="True"
 RNA_AUG="False"
 IS_SEQ_EMB="False"
 
@@ -42,9 +42,9 @@ LR=2e-5
 WD=1e-6
 DROPOUT=0.1
 
-PATIENCE=20
-WARM_UP_EPOCHS=50
-DELTA=1e-6
+PATIENCE=15
+WARM_UP_EPOCHS=10
+DELTA=1e-3  
 # Best RNA module hyperparameters
 D_MODEL=128
 FFN_MULT=4
@@ -61,7 +61,7 @@ NUM_WORKERS=0
 
 
 SETTING="cold"
-COLD_TYPE="cold_rm"
+COLD_TYPE="cold_mole"
 CV_METHOD="all"
 K_FOLD=5
 DEVICE="cuda"

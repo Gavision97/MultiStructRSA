@@ -31,6 +31,7 @@ SPLIT=True
 COLD_PATH = os.path.join("datasets", "blind_test", "processed")
 RNA_COLD_PATH = os.path.join("datasets", "blind_test", "rna", "train_val_test_splits")
 MOLE_COLD_PATH = os.path.join("datasets", "blind_test", "mole", "train_val_test_splits")
+BOTH_COLD_PATH = os.path.join("datasets", "blind_test", "rm", "train_val_test_splits")
 RSIM_PATH = os.path.join("datasets", "RSIM")
 
 
@@ -38,8 +39,10 @@ def choose_cold_type(cold_type= "cold_rna"):
      assert cold_type in ['cold_rna', 'cold_mole', 'cold_rm'] # senaty check for cold type input
      if cold_type == "cold_rna":
           return RNA_COLD_PATH, "rna"
-     else:
+     elif cold_type == 'cold_mole':
           return MOLE_COLD_PATH, "mole"
+     else:
+         return BOTH_COLD_PATH, 'rm'
      
 
 def preform_cold_blind_eval(cold_type="cold_rna", model_setting="full", train_setting=4, val_setting=4,
@@ -89,9 +92,12 @@ def preform_cold_blind_eval(cold_type="cold_rna", model_setting="full", train_se
         logger.info(f"(|train|, |val|, |test|) -> ({train_df.shape[0]}, {val_df.shape[0]}, {test_df.shape[0]})")
         if cold_type == "cold_rna":
             logger.info(f"(unique RNA train, val, test) -> ({train_df['Target_RNA_sequence'].nunique()}, {val_df['Target_RNA_sequence'].nunique()}, {test_df['Target_RNA_sequence'].nunique()})")
-        else:
+        elif cold_type == 'cold_mole':
             logger.info(f"(unique molecule names train, val, test) -> ({train_df['Molecule_name'].nunique()}, {val_df['Molecule_name'].nunique()}, {test_df['Molecule_name'].nunique()})")
- 
+        else: # cold start both setting
+            logger.info(f"(unique RNA train, val, test) -> ({train_df['Target_RNA_sequence'].nunique()}, {val_df['Target_RNA_sequence'].nunique()}, {test_df['Target_RNA_sequence'].nunique()})")
+            logger.info(f"(unique molecule names train, val, test) -> ({train_df['Molecule_name'].nunique()}, {val_df['Molecule_name'].nunique()}, {test_df['Molecule_name'].nunique()})")
+
         train_ds = MolRNADataset(train_df, setting=train_setting, rna_aug=rna_aug, mol_aug=mol_aug, task="training", is_seq_emb=is_seq_emb)
         val_ds = MolRNADataset(val_df, setting=val_setting, rna_aug=False, mol_aug=False, task="evaluating", is_seq_emb=is_seq_emb)
         test_ds = MolRNADataset(test_df, setting=val_setting, rna_aug=False, mol_aug=False, task="evaluating", is_seq_emb=is_seq_emb)

@@ -10,7 +10,7 @@ import pickle
 
 from evaluate.cv_eval import cv_eval
 from evaluate.cold_eval_ import preform_cold_blind_eval
-
+from evaluate.external_eval_pdbbind import perform_pdbbind_external_eval
 from utils.generate_smiles_features import generate_smiles_features
 from utils.parser import get_args
 
@@ -309,7 +309,36 @@ def preform_k_fold_cv_all_rna_fam(
     updated_df.to_csv(summary_path, index=False)
 
     logger.info(f"\nSaved/updated summary to: {summary_path}")
+#############################################################################3
 
+def preform_pdbbind_external_eval_(exp_name="exp", res_file_name="external_eval", model_setting="full", train_setting=4, val_setting=4, rna_aug=False, mol_aug=False, patience=20, warm_up_epochs=10, delta=1e-5, lr=5e-5, wd=1e-5, dropout=0.1, exclude_modalities=None, freeze_grnade=False, smiles_seq_setting="deep", smiles_expert_setting="proj", batch_size=1, num_workers=8, is_plot=False, is_seq_emb=False, d_model=128, ffn_mult=4, bdcf_blocks=1, node_pool="attn", token_pool="mean", plot_name="pdbbind_external", device="cuda", seed=1):
+
+    res = perform_pdbbind_external_eval(model_setting=model_setting, train_setting=train_setting, val_setting=val_setting, rna_aug=rna_aug, mol_aug=mol_aug, patience=patience, warm_up_epochs=warm_up_epochs, delta=delta, lr=lr, wd=wd, dropout=dropout, exclude_modalities=exclude_modalities, freeze_grnade=freeze_grnade, smiles_seq_setting=smiles_seq_setting, smiles_expert_setting=smiles_expert_setting, batch_size=batch_size, num_workers=num_workers, is_plot=is_plot, is_seq_emb=is_seq_emb, d_model=d_model, ffn_mult=ffn_mult, bdcf_blocks=bdcf_blocks, node_pool=node_pool, token_pool=token_pool, plot_name=plot_name, device=device, seed=seed)
+
+    summary_dict = {"exp": exp_name, "eval_type": "external", "test_dataset": "PDBBindNL2020", **res}
+    summary_df = pd.DataFrame([summary_dict])
+
+    logger.info(f"PDBBindNL2020 external evaluation | rmse_mean={res.get('rmse_mean')}, p_mean={res.get('p_mean')}, s_mean={res.get('s_mean')}, r2_mean={res.get('r2_mean')}")
+
+    out_dir = os.path.join("results", "table_results")
+    os.makedirs(out_dir, exist_ok=True)
+
+    summary_path = os.path.join(out_dir, f"{res_file_name}.csv")
+
+    if os.path.exists(summary_path):
+        existing_df = pd.read_csv(summary_path)
+        updated_df = pd.concat([existing_df, summary_df], ignore_index=True)
+    else:
+        updated_df = summary_df
+
+    updated_df.to_csv(summary_path, index=False)
+
+    logger.info(f"Saved/updated external-evaluation summary: {summary_path}")
+
+    return res
+
+
+##########################################################################33
 def preprocess_and_save_smiles_features():
     full_df = pd.read_csv(ALL_SF_DATASET_PATH, sep="\t")
     logger.info(f"Full R-SIM dataset shape -> {full_df.shape}")
@@ -532,10 +561,43 @@ def main():
                                plot_name=plot_name,
                                device=device,
                                seed=seed)
-        
+    elif setting == "external":
+        preform_pdbbind_external_eval_(exp_name=exp_name,
+                                       res_file_name=res_file_name,
+                                       model_setting=model_setting,
+                                       train_setting=train_setting,
+                                       val_setting=val_setting,
+                                       rna_aug=rna_aug,
+                                       mol_aug=mol_aug, 
+                                       patience=patience,
+                                       warm_up_epochs=warm_up_epochs,
+                                       delta=delta,
+                                       lr=lr,
+                                       wd=wd,
+                                       dropout=dropout,
+                                       exclude_modalities=exclude_modalities,
+                                       freeze_grnade=freeze_grnade,
+                                       smiles_seq_setting=smiles_seq_setting,
+                                       smiles_expert_setting=smiles_expert_setting,
+                                       batch_size=batch_size,
+                                       num_workers=num_workers,
+                                       is_plot=is_plot,
+                                       is_seq_emb=is_seq_emb,
+                                       d_model=d_model,
+                                       ffn_mult=ffn_mult,
+                                       bdcf_blocks=bdcf_blocks,
+                                       node_pool=node_pool,
+                                       token_pool=token_pool,
+                                       plot_name=plot_name,
+                                       device=device,
+                                       seed=seed)
+
     # extract & save SMILES embeddings to desire path
     elif setting == "smi_emb_gen":
-        preprocess_smiles_emb(smiles_path=smiles_path, save_name=save_name ,features=smiles_features_gen, device=device)
+        preprocess_smiles_emb(smiles_path=smiles_path,
+                              save_name=save_name, 
+                              features=smiles_features_gen,
+                              device=device)
 
 
 if __name__ == "__main__":

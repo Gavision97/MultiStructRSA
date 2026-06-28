@@ -6,7 +6,7 @@
 ################################################################################################
 
 #SBATCH --partition=main
-#SBATCH --time=0-96:00:00
+#SBATCH --time=0-48:00:00
 #SBATCH --job-name=cv_rna_fam
 #SBATCH --output=jobs/job-%J.out
 #SBATCH --error=jobs/job-%J.err
@@ -20,9 +20,9 @@
 ############################
 
 EXP_ID=3   # experiment ID
-DATE=1705  # for log & result directory creation
+DATE=0406  # for log & result directory creation
 
-MODEL_SETTING="full"   # ["full", "freezed", "w/o seq", "w/o 3D struct", "w/o fusion"]
+MODEL_SETTING="w/o seq"   # ["full", "freezed", "w/o seq", "w/o 3D struct", "w/o fusion"]
 EXCLUDE_MODALITIES="morgan ernie"   # e.g. simson / chemberta / mordred / morgan / rinalmo / ernie / grnade
 
 TRAIN_SETTING=4
@@ -33,10 +33,10 @@ IS_SEQ_EMB="False"
 IS_PLOT="True"
 
 
-RES_FILE_NAME="cv_rna_fam_${DATE}"
+RES_FILE_NAME="cv_rna_all_${DATE}"
 PLOT_NAME="${DATE}_exp${EXP_ID}"
 
-LOG_FILE_NAME="cv_rna_fam_${DATE}_exp${EXP_ID}"
+LOG_FILE_NAME="cv_all_${DATE}_exp${EXP_ID}"
 
 # Best hyperparameters from global hyperparameter search
 LR=2e-5
@@ -64,7 +64,7 @@ NUM_WORKERS=0
 EXP_NAME="exp${EXP_ID}"
 
 SETTING="cv"
-CV_METHOD="per_fam"
+CV_METHOD="all"
 K_FOLD=10
 DEVICE="cuda"
 

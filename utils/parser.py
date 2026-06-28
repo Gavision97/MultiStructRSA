@@ -65,8 +65,8 @@ def get_args():
     parser.add_argument(
         "--setting",
         type=str,
-        default="cold",
-        choices=["cv", "loo_cv", "cold", "smi_emb_gen"],
+        default="external",
+        choices=["cv", "loo_cv", "cold", "external", "smi_emb_gen"],
         help="Execution setting (e.g. SMILES feature generation, stratified k-fold CV evaluation, etc.)"
     )
     parser.add_argument(
@@ -171,7 +171,7 @@ def get_args():
     parser.add_argument(
         "--cold_type",
         type=str,
-        default="cold_mole",
+        default="cold_rm",
         choices=["cold_rna", "cold_mole", "cold_rm"],
         help="Cold-start type"
     )
@@ -180,7 +180,7 @@ def get_args():
     parser.add_argument(
         "--smiles_path",
         type=str,
-        default="/home/gavrilev/Thesis/src/saved_objects/rsim_unique_smiles.pkl",
+        default="/home/gavrilev/Thesis/src/saved_objects/rsim_unique_smiles.pkl", # /home/gavrilev/Thesis/src/datasets/PDBBind2020/pdbbind_unique_smiles.pkl
         help="Path to pickled SMILES molecule set"
     )
     parser.add_argument(
@@ -193,7 +193,7 @@ def get_args():
     parser.add_argument(
         "--save_name",
         type=str,
-        default="smiles_embeddings",
+        default="smiles_emb", # smiles_emb_pdbbind for PDBBindNL2020 custom dataset
         help="Generated SMILES embeddings save name; will be saved to embeddings/smiles/<save_name>.pkl"
     )
 

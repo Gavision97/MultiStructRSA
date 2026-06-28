@@ -19,7 +19,7 @@
 ### Experiment variables ###
 ############################
 
-EXP_ID=1
+EXP_ID=7
 DATE=1805
 
 MODEL_SETTING="full"   # ["full", "freezed", "w/o seq", "w/o 3D struct", "w/o fusion"]
@@ -42,9 +42,9 @@ LR=2e-5
 WD=1e-6
 DROPOUT=0.1
 
-PATIENCE=15
-WARM_UP_EPOCHS=10
-DELTA=1e-3
+PATIENCE=10
+WARM_UP_EPOCHS=15
+DELTA=1e-2
 # Best RNA module hyperparameters
 D_MODEL=128
 FFN_MULT=4
@@ -59,14 +59,13 @@ SMILES_EXPERT_SETTING="proj"
 BATCH_SIZE=1
 NUM_WORKERS=0
 
-EXP_NAME="exp${EXP_ID}"
-
 SETTING="cold"
 COLD_TYPE="cold_mole"
 CV_METHOD="all"
 K_FOLD=5
 DEVICE="cuda"
 
+EXP_NAME="exp${EXP_ID}_cold=${COLD_TYPE}_patience=${PATIENCE}_delta=${DELTA}"
 SEED=2
 DATASET_SEED=2
 

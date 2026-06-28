@@ -53,10 +53,11 @@ def choose_model_setting(
     if invalid:
         raise ValueError(f"Invalid excluded modalities: {sorted(invalid)}")
 
-    assert option in ["full", "w/o seq", "w/o 3D struct", "w/o fusion", "full batched"]
+    assert option in ["full", "freezed", "w/o seq", "w/o 3D struct", "w/o fusion", "full batched"]
     assert smiles_expert_setting in ['proj', 'shallow', 'deep']
     assert smiles_seq_setting in ['proj', 'shallow', 'deep']
-
+    if option == 'freezed':
+      freeze_grnade = True
     # automatic routing for special sensitivity cases
     if option == 'full':
         if "grnade" in exclude_modalities:
@@ -65,9 +66,10 @@ def choose_model_setting(
         elif {"ernie", "rinalmo"}.issubset(exclude_modalities):
             option = "w/o seq"
             logger.info("exclude_modalities contains both 'ernie' and 'rinalmo' -> switching model setting to 'w/o seq'")
-
+            
     model_map = {
         "full": MultiStructRSAFull,
+        "freezed": MultiStructRSAFull,
         "w/o seq": MultiStructRSAWithoutSeq,
         "w/o 3D struct": MultiStructRSAWithout3D,
         "w/o fusion": MultiStructRSAWithoutFusion,

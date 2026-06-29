@@ -19,7 +19,7 @@
 ### Experiment variables ###
 ############################
 
-EXP_ID=4
+EXP_ID=5
 DATE=2906
 
 MODEL_SETTING="full"   # ["full", "freezed", "w/o seq", "w/o 3D struct", "w/o fusion"]
@@ -42,9 +42,9 @@ LR=2e-5
 WD=1e-6
 DROPOUT=0.1
 
-PATIENCE=15
+PATIENCE=20
 WARM_UP_EPOCHS=10
-DELTA=1e-3  
+DELTA=1e-4  
 # Best RNA module hyperparameters
 D_MODEL=128
 FFN_MULT=4

@@ -9,7 +9,7 @@
 #SBATCH --job-name=external_eval
 #SBATCH --output=jobs/external_eval-%J.out
 #SBATCH --error=jobs/external_eval-%J.err
-#SBATCH --gpus=rtx_4090:1
+#SBATCH --gpus=rtx_6000:1
 #SBATCH --mail-user=gavrilev@post.bgu.ac.il
 #SBATCH --mail-type=ALL
 #SBATCH --mem=24G
@@ -18,7 +18,7 @@
 ### Experiment variables ###
 ############################
 
-EXP_ID=7
+EXP_ID=10
 DATE=1006
 
 MODEL_SETTING="full"
@@ -28,7 +28,7 @@ TRAIN_SETTING=4
 VAL_SETTING=4
 
 RNA_AUG="False"
-MOL_AUG="False"
+MOL_AUG="True"
 IS_SEQ_EMB="False"
 
 RES_FILE_NAME="external_${DATE}"
@@ -47,7 +47,7 @@ DROPOUT=0.1
 
 PATIENCE=20
 WARM_UP_EPOCHS=15
-DELTA=0.001
+DELTA=1e-4
 
 ############################
 ### Model parameters     ###

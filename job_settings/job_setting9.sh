@@ -29,6 +29,7 @@ MOL_AUG="False"
 RNA_AUG="False"
 
 RES_FILE_NAME="cv_all_${DATE}"
+SAVE_PREDICTIONS="False"
 PLOT_NAME="${DATE}_exp${EXP_ID}"
 
 LOG_FILE_NAME="hyperparam_search_${DATE}_exp${EXP_ID}"
@@ -95,6 +96,7 @@ python main.py \
   --rna_aug "$RNA_AUG" \
   --mol_aug "$MOL_AUG" \
   --res_file_name "$RES_FILE_NAME" \
+  --save_predictions "$SAVE_PREDICTIONS" \
   --plot_name "$PLOT_NAME" \
   --log_msg "$LOG_MSG" \
   --log_file_name "$LOG_FILE_NAME" \

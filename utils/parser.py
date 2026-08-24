@@ -169,6 +169,16 @@ def get_args():
         help="Number of folds for cross-validation"
     )
     parser.add_argument(
+        "--save_predictions",
+        type=str,
+        default="False",
+        choices=["True", "False"],
+        help=(
+            "Whether to save the best-epoch test predictions for every CV fold "
+            "under results/table_results/<res_file_name>/"
+        )
+    )
+    parser.add_argument(
         "--cold_type",
         type=str,
         default="cold_rm",

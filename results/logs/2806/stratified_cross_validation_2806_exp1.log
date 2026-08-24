@@ -204,3 +204,17 @@ Stratified k-fold cross validation:
 2026-07-01 04:46:55,943 - RNA family: all_families_concat, n_samples: 1439, rmse_mean: 0.85034, p_mean: 0.79535, s_mean: 0.80408, r2_mean: 0.62807
 2026-07-01 04:46:55,953 - 
 Saved/updated summary to: results/table_results/cv_all_2806.csv
+2026-08-24 16:25:09,802 - stratified_cv_2806_exp1 - MultiStructRSA (full) - exclude_modalities=morgan ernie; TRAIN_SETTING=4; VAL_SETTING=4; RNA_AUG=False; MOL_AUG=False; SEED=1; DATASET_SEED=2
+2026-08-24 16:25:09,802 - 
+==================== ALL FAMILIES  ==================== )
+2026-08-24 16:25:09,814 - K folds:5, seed:1, dataset seed:2 batch size:1, max epochs:300, lr:2e-05, weight decay:1e-06, dropout:0.1 num_workers:0, patience:20, warm up epo:50, delta:1e-06
+2026-08-24 16:25:09,815 - --- Start statified 5-fold cross-validation; pd.DataFrame shape -> (1439, 8), lr=2e-05 ---
+2026-08-24 16:25:09,824 - W/O PADDING -> MolRNACDataset for training setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
+2026-08-24 16:25:11,408 - W/O PADDING -> MolRNACDataset for evaluating setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
+2026-08-24 16:25:12,109 - 
+Fold number 1/5
+2026-08-24 16:25:12,109 - Train len -> 1151, Test len -> 288
+2026-08-24 16:25:12,109 - MultiStructRSA - full | exclude_modalities=['ernie', 'morgan'] | freeze_grnade=False | smiles_seq_setting=deep, smiles_expert_setting=proj, dropout=0.1, d_model=128, ffn_mult=4, bdcf_blocks=2, node_pool=mean, token_pool=mean
+2026-08-24 16:25:12,226 - BiDirectionalCrossFusion @  hyperparam -> bdcf_blocks:2, d_model:128, n_heads:4, dropout:0.1, ffn_mult:4, a_pool:mean, b_pool:mean
+2026-08-24 16:25:12,245 - Initialized model setting: full, exclude_modalities: ['ernie', 'morgan'], dropout: 0.1, d_model: 128, ffn_mult: 4, bdcf_blocks: 2, node_pool: mean, token_pool: mean
+2026-08-24 16:27:19,250 - NEW BEST @ epoch 1: val loss=2.4168, rmse=2.4168 ppc=-0.0680, ssc=-0.0594, r2=-2.0708; train loss=2.6815

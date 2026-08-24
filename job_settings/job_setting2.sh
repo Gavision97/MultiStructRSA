@@ -32,6 +32,7 @@ RNA_AUG="True"
 IS_SEQ_EMB="False"
 
 RES_FILE_NAME="cv_all_${DATE}"
+SAVE_PREDICTIONS="False"
 IS_PLOT="True"
 PLOT_NAME="${DATE}_exp${EXP_ID}"
 LOG_FILE_NAME="stratified_cross_validation_${DATE}_exp${EXP_ID}"
@@ -103,6 +104,7 @@ python main.py \
   --delta "$DELTA" \
   --is_seq_emb "$IS_SEQ_EMB" \
   --res_file_name "$RES_FILE_NAME" \
+  --save_predictions "$SAVE_PREDICTIONS" \
   --is_plot "$IS_PLOT" \
   --plot_name "$PLOT_NAME" \
   --log_msg "$LOG_MSG" \

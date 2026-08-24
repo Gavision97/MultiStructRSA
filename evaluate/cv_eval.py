@@ -38,7 +38,7 @@ MODE = 'min'
 #MIN_EPOCHS = 50
 
 # MultiStructRSA training hyperparameters:
-MAX_EPOCHS = 1000
+MAX_EPOCHS = 300
 NUM_WORKERS = 0
 
 COLD_PATH = os.path.join("datasets", "blind_test", "processed")
@@ -52,7 +52,8 @@ def rmse_loss(y_true, y_pred):
     return torch.sqrt(torch.mean((y_true - y_pred) ** 2))
 
 def cv_eval(dataset=None, model_setting="full", train_setting=4, val_setting=4, rna_aug=False, mol_aug=False, patience=20, warm_up_epochs=10, delta=1e-5, lr=5e-5, wd=1e-5, dropout=0.1, exclude_modalities=None, freeze_grnade=False, smiles_seq_setting='deep', smiles_expert_setting='proj', batch_size=1, num_workers=8,
-            is_plot=False, is_seq_emb=False,  d_model=128, ffn_mult=4, bdcf_blocks=1, node_pool='attn', token_pool='mean', n=10, fam_name=None, plot_name="loss_curve", device="cuda", dataset_seed=2, seed=1):
+            is_plot=False, is_seq_emb=False, d_model=128, ffn_mult=4, bdcf_blocks=1, node_pool='attn', token_pool='mean', n=10, fam_name=None, plot_name="loss_curve", device="cuda", dataset_seed=2, seed=1,
+            save_predictions=False, res_file_name=None):
     """
     Run stratified k-fold cross-validation for a selected MultiStructRSA model setting.
 
@@ -82,6 +83,14 @@ def cv_eval(dataset=None, model_setting="full", train_setting=4, val_setting=4, 
     device : str, default="cuda"
         Device used for training and evaluation.
 
+    save_predictions : bool, default=False
+        If True, save the best-epoch test predictions for every fold under
+        ``results/table_results/<res_file_name>/``.
+
+    res_file_name : str, optional
+        Directory name used for saved fold predictions. Required when
+        ``save_predictions`` is True.
+
     Returns
     -------
     dict
@@ -100,6 +109,9 @@ def cv_eval(dataset=None, model_setting="full", train_setting=4, val_setting=4, 
         f'patience:{patience}, warm up epo:{warm_up_epochs}, delta:{delta}'
     )
     
+    if save_predictions and not res_file_name:
+        raise ValueError("res_file_name must be provided when save_predictions=True")
+
     all_df = dataset
     Y = all_df["pKd"].to_numpy(dtype=np.float32)
 
@@ -171,6 +183,29 @@ def cv_eval(dataset=None, model_setting="full", train_setting=4, val_setting=4, 
         p_list.append(early_stopping.best_metrics[0])
         s_list.append(early_stopping.best_metrics[1])
         r2_list.append(early_stopping.best_metrics[2])
+
+        if save_predictions:
+            prediction_dir = os.path.join("results", "table_results", res_file_name)
+            os.makedirs(prediction_dir, exist_ok=True)
+
+            best_y_true = np.asarray(early_stopping.y_true).reshape(-1)
+            best_y_pred = np.asarray(early_stopping.y_pred).reshape(-1)
+            if len(test_df) != len(best_y_true) or len(test_df) != len(best_y_pred):
+                raise ValueError(
+                    f"Fold {fold + 1}: test rows ({len(test_df)}) and best-epoch "
+                    f"predictions ({len(best_y_pred)}) are not aligned"
+                )
+
+            fold_predictions = pd.DataFrame({
+                "Target_RNA_sequence": test_df["Target_RNA_sequence"].to_numpy(),
+                "SMILES": test_df["SMILES"].to_numpy(),
+                "predicted_pKd": best_y_pred,
+                "ground_truth_pKd": test_df["pKd"].to_numpy(),
+            })
+            file_name = f"{fam_name}_fold_{fold + 1}.csv" if fam_name else f"fold_{fold + 1}.csv"
+            prediction_path = os.path.join(prediction_dir, file_name)
+            fold_predictions.to_csv(prediction_path, index=False)
+            logger.info(f"Saved fold predictions to: {prediction_path}")
 
     logger.info(f"p: {np.mean(p_list)}")
     logger.info(f"s: {np.mean(s_list)}")

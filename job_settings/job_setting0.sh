@@ -20,7 +20,7 @@
 ############################
 
 EXP_ID=1
-DATE=2806
+DATE=2408
 
 MODEL_SETTING="full"   # ["full", "freezed", "w/o seq", "w/o 3D struct", "w/o fusion"]
 EXCLUDE_MODALITIES="morgan ernie"   # e.g. simson / chemberta / mordred / morgan / rinalmo / ernie / grnade

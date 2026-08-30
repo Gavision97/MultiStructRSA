@@ -9,7 +9,7 @@
 #SBATCH --job-name=external_eval
 #SBATCH --output=jobs/external_eval-%J.out
 #SBATCH --error=jobs/external_eval-%J.err
-#SBATCH --gpus=rtx_4090:1
+#SBATCH --gpus=rtx_6000:1
 #SBATCH --mail-user=gavrilev@post.bgu.ac.il
 #SBATCH --mail-type=ALL
 #SBATCH --mem=24G
@@ -18,8 +18,8 @@
 ### Experiment variables ###
 ############################
 
-EXP_ID=8
-DATE=1006
+EXP_ID=3
+DATE=3008
 
 MODEL_SETTING="full"
 EXCLUDE_MODALITIES="morgan ernie"
@@ -47,7 +47,7 @@ DROPOUT=0.1
 
 PATIENCE=20
 WARM_UP_EPOCHS=15
-DELTA=0.0001
+DELTA=1e-3
 
 ############################
 ### Model parameters     ###
@@ -101,6 +101,8 @@ nvidia-smi
 
 python main.py \
   --exp_name "$EXP_NAME" \
+  --exp_id "$EXP_ID" \
+  --date "$DATE" \
   --model_setting "$MODEL_SETTING" \
   --exclude_modalities $EXCLUDE_MODALITIES \
   --train_setting "$TRAIN_SETTING" \
@@ -132,4 +134,3 @@ python main.py \
   --device "$DEVICE" \
   --seed "$SEED" \
   --dataset_seed "$DATASET_SEED"
-

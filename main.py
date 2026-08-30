@@ -10,7 +10,7 @@ import pickle
 
 from evaluate.cv_eval import cv_eval
 from evaluate.cold_eval_ import preform_cold_blind_eval
-from evaluate.external_eval_pdbbind import perform_pdbbind_external_eval
+from evaluate.external_eval_pdbbind_ import perform_pdbbind_external_eval
 from utils.generate_smiles_features import generate_smiles_features
 from utils.parser import get_args
 
@@ -315,9 +315,9 @@ def preform_k_fold_cv_all_rna_fam(
     logger.info(f"\nSaved/updated summary to: {summary_path}")
 #############################################################################3
 
-def preform_pdbbind_external_eval_(exp_name="exp", res_file_name="external_eval", model_setting="full", train_setting=4, val_setting=4, rna_aug=False, mol_aug=False, patience=20, warm_up_epochs=10, delta=1e-5, lr=5e-5, wd=1e-5, dropout=0.1, exclude_modalities=None, freeze_grnade=False, smiles_seq_setting="deep", smiles_expert_setting="proj", batch_size=1, num_workers=8, is_plot=False, is_seq_emb=False, d_model=128, ffn_mult=4, bdcf_blocks=1, node_pool="attn", token_pool="mean", plot_name="pdbbind_external", device="cuda", seed=1):
+def preform_pdbbind_external_eval_(exp_id, date, exp_name="exp", res_file_name="external_eval", model_setting="full", train_setting=4, val_setting=4, rna_aug=False, mol_aug=False, patience=20, warm_up_epochs=10, delta=1e-5, lr=5e-5, wd=1e-5, dropout=0.1, exclude_modalities=None, freeze_grnade=False, smiles_seq_setting="deep", smiles_expert_setting="proj", batch_size=1, num_workers=8, is_plot=False, is_seq_emb=False, d_model=128, ffn_mult=4, bdcf_blocks=1, node_pool="attn", token_pool="mean", plot_name="pdbbind_external", device="cuda", seed=1):
 
-    res = perform_pdbbind_external_eval(model_setting=model_setting, train_setting=train_setting, val_setting=val_setting, rna_aug=rna_aug, mol_aug=mol_aug, patience=patience, warm_up_epochs=warm_up_epochs, delta=delta, lr=lr, wd=wd, dropout=dropout, exclude_modalities=exclude_modalities, freeze_grnade=freeze_grnade, smiles_seq_setting=smiles_seq_setting, smiles_expert_setting=smiles_expert_setting, batch_size=batch_size, num_workers=num_workers, is_plot=is_plot, is_seq_emb=is_seq_emb, d_model=d_model, ffn_mult=ffn_mult, bdcf_blocks=bdcf_blocks, node_pool=node_pool, token_pool=token_pool, plot_name=plot_name, device=device, seed=seed)
+    res = perform_pdbbind_external_eval(exp_id=exp_id, date=date, model_setting=model_setting, train_setting=train_setting, val_setting=val_setting, rna_aug=rna_aug, mol_aug=mol_aug, patience=patience, warm_up_epochs=warm_up_epochs, delta=delta, lr=lr, wd=wd, dropout=dropout, exclude_modalities=exclude_modalities, freeze_grnade=freeze_grnade, smiles_seq_setting=smiles_seq_setting, smiles_expert_setting=smiles_expert_setting, batch_size=batch_size, num_workers=num_workers, is_plot=is_plot, is_seq_emb=is_seq_emb, d_model=d_model, ffn_mult=ffn_mult, bdcf_blocks=bdcf_blocks, node_pool=node_pool, token_pool=token_pool, plot_name=plot_name, device=device, seed=seed)
 
     summary_dict = {"exp": exp_name, "eval_type": "external", "test_dataset": "PDBBindNL2020", **res}
     summary_df = pd.DataFrame([summary_dict])
@@ -387,6 +387,8 @@ def main():
     log_msg = args.log_msg
     res_file_name = args.res_file_name
     exp_name = args.exp_name
+    exp_id = args.exp_id
+    date = args.date
     log_file_name = args.log_file_name
     setting = args.setting
 
@@ -569,7 +571,9 @@ def main():
                                device=device,
                                seed=seed)
     elif setting == "external":
-        preform_pdbbind_external_eval_(exp_name=exp_name,
+        preform_pdbbind_external_eval_(exp_id=exp_id,
+                                       date=date,
+                                       exp_name=exp_name,
                                        res_file_name=res_file_name,
                                        model_setting=model_setting,
                                        train_setting=train_setting,

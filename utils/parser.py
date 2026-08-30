@@ -23,6 +23,18 @@ def get_args():
         help="Experiment name (used for result tracking)"
     )
     parser.add_argument(
+        "--exp_id",
+        type=int,
+        default=1,
+        help="Experiment ID used in external-validation output filenames"
+    )
+    parser.add_argument(
+        "--date",
+        type=str,
+        default="undated",
+        help="Date label used as the external-validation result subdirectory"
+    )
+    parser.add_argument(
         "--log_msg",
         type=str,
         default="log message",

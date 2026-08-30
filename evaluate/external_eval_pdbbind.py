@@ -25,8 +25,7 @@ MAX_EPOCHS = 200
 
 RNA_COLD_PATH = "/home/gavrilev/Thesis/src/datasets/blind_test/rna/train_test_splits"
 PDBBIND_PATH = "/home/gavrilev/Thesis/src/datasets/PDBBind2020/pdbbindnl2020_preprocessed.csv"
-PREDICTIONS_PATH = "/home/gavrilev/Thesis/src/results/pdbbind_external_predictions.csv"
-FOLD_RESULTS_PATH = "/home/gavrilev/Thesis/src/results/pdbbind_external_fold_results.csv"
+RESULTS_ROOT = "/home/gavrilev/Thesis/src/results/external_validation_pdbbind"
 
 
 def normalize_rna_sequences(df):
@@ -54,7 +53,11 @@ def remove_train_validation_overlap(train_df, val_df, fold):
     return train_df
 
 
-def perform_pdbbind_external_eval(model_setting="full", train_setting=4, val_setting=4, rna_aug=False, mol_aug=False, patience=20, warm_up_epochs=10, delta=1e-5, lr=5e-5, wd=1e-5, dropout=0.1, exclude_modalities=None, freeze_grnade=False, smiles_seq_setting="deep", smiles_expert_setting="proj", batch_size=1, num_workers=8, is_plot=False, is_seq_emb=False, d_model=128, ffn_mult=4, bdcf_blocks=1, node_pool="attn", token_pool="mean", plot_name="pdbbind_external", device="cuda", seed=1):
+def perform_pdbbind_external_eval(exp_id, date, model_setting="full", train_setting=4, val_setting=4, rna_aug=False, mol_aug=False, patience=20, warm_up_epochs=10, delta=1e-5, lr=5e-5, wd=1e-5, dropout=0.1, exclude_modalities=None, freeze_grnade=False, smiles_seq_setting="deep", smiles_expert_setting="proj", batch_size=1, num_workers=8, is_plot=False, is_seq_emb=False, d_model=128, ffn_mult=4, bdcf_blocks=1, node_pool="attn", token_pool="mean", plot_name="pdbbind_external", device="cuda", seed=1):
+
+    output_dir = os.path.join(RESULTS_ROOT, str(date))
+    predictions_path = os.path.join(output_dir, f"pdbbind_external_predictions_exp{exp_id}.csv")
+    fold_results_path = os.path.join(output_dir, f"pdbbind_external_fold_results_exp{exp_id}.csv")
 
     logger.info(f"External validation on PDBBindNL2020 | seed={seed}, batch_size={batch_size}, max_epochs={MAX_EPOCHS}, lr={lr}, weight_decay={wd}, patience={patience}, warm_up_epochs={warm_up_epochs}, delta={delta}")
 
@@ -240,10 +243,10 @@ def perform_pdbbind_external_eval(model_setting="full", train_setting=4, val_set
     # Save detailed outputs
     ########################################################################
 
-    os.makedirs(os.path.dirname(PREDICTIONS_PATH), exist_ok=True)
+    os.makedirs(output_dir, exist_ok=True)
 
-    pd.concat(all_predictions, ignore_index=True).to_csv(PREDICTIONS_PATH, index=False)
-    pd.DataFrame(fold_results).to_csv(FOLD_RESULTS_PATH, index=False)
+    pd.concat(all_predictions, ignore_index=True).to_csv(predictions_path, index=False)
+    pd.DataFrame(fold_results).to_csv(fold_results_path, index=False)
 
     ########################################################################
     # Mean and standard deviation across the five trained models
@@ -269,8 +272,7 @@ def perform_pdbbind_external_eval(model_setting="full", train_setting=4, val_set
 
     logger.info("PDBBindNL2020 external-validation results:")
     logger.info(res)
-    logger.info(f"Per-sample predictions saved to: {PREDICTIONS_PATH}")
-    logger.info(f"Per-fold results saved to: {FOLD_RESULTS_PATH}")
+    logger.info(f"Per-sample predictions saved to: {predictions_path}")
+    logger.info(f"Per-fold results saved to: {fold_results_path}")
 
     return res
-

@@ -18,8 +18,8 @@
 ### Experiment variables ###
 ############################
 
-EXP_ID=9
-DATE=1006
+EXP_ID=1
+DATE=3008
 
 MODEL_SETTING="full"
 EXCLUDE_MODALITIES="morgan ernie"
@@ -45,9 +45,9 @@ LR=2e-5
 WD=1e-6
 DROPOUT=0.1
 
-PATIENCE=40
-WARM_UP_EPOCHS=50
-DELTA=1e-6
+PATIENCE=20
+WARM_UP_EPOCHS=15
+DELTA=1e-4
 
 ############################
 ### Model parameters     ###
@@ -101,6 +101,8 @@ nvidia-smi
 
 python main.py \
   --exp_name "$EXP_NAME" \
+  --exp_id "$EXP_ID" \
+  --date "$DATE" \
   --model_setting "$MODEL_SETTING" \
   --exclude_modalities $EXCLUDE_MODALITIES \
   --train_setting "$TRAIN_SETTING" \
@@ -132,4 +134,3 @@ python main.py \
   --device "$DEVICE" \
   --seed "$SEED" \
   --dataset_seed "$DATASET_SEED"
-

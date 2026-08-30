@@ -1,15 +1,14 @@
 #!/bin/bash
 
 ################################################################################################
-### sbatch configuration parameters must start with #SBATCH and must precede any other commands.
-### To ignore, just add another # - like so: ##SBATCH
+### SLURM configuration
 ################################################################################################
 
 #SBATCH --partition=main
-#SBATCH --time=0-48:00:00
-#SBATCH --job-name=cv_rna_fam
-#SBATCH --output=jobs/job-%J.out
-#SBATCH --error=jobs/job-%J.err
+#SBATCH --time=0-72:00:00
+#SBATCH --job-name=external_eval
+#SBATCH --output=jobs/external_eval-%J.out
+#SBATCH --error=jobs/external_eval-%J.err
 #SBATCH --gpus=rtx_6000:1
 #SBATCH --mail-user=gavrilev@post.bgu.ac.il
 #SBATCH --mail-type=ALL
@@ -19,74 +18,79 @@
 ### Experiment variables ###
 ############################
 
-EXP_ID=4   # experiment ID
-DATE=0406  # for log & result directory creation
+EXP_ID=1
+DATE=3008
 
-MODEL_SETTING="w/o 3D struct"   # ["full", "freezed", "w/o seq", "w/o 3D struct", "w/o fusion"]
-EXCLUDE_MODALITIES="morgan ernie"   # e.g. simson / chemberta / mordred / morgan / rinalmo / ernie / grnade
+MODEL_SETTING="full"
+EXCLUDE_MODALITIES="morgan ernie"
 
 TRAIN_SETTING=4
 VAL_SETTING=4
-MOL_AUG="False"
+
 RNA_AUG="False"
-IS_SEQ_EMB="True"
-IS_PLOT="True"
+MOL_AUG="False"
+IS_SEQ_EMB="False"
 
+RES_FILE_NAME="external_${DATE}"
+IS_PLOT="False"
+PLOT_NAME="${DATE}_external_exp${EXP_ID}"
+LOG_FILE_NAME="external_${DATE}_exp${EXP_ID}"
 
-RES_FILE_NAME="cv_rna_all_${DATE}"
-SAVE_PREDICTIONS="False"
-PLOT_NAME="${DATE}_exp${EXP_ID}"
+############################
+### Training parameters  ###
+############################
 
-LOG_FILE_NAME="cv_all_${DATE}_exp${EXP_ID}"
-
-# Best hyperparameters from global hyperparameter search
+# Same hyperparameters used for cold-start evaluation
 LR=2e-5
 WD=1e-6
 DROPOUT=0.1
 
 PATIENCE=20
-WARM_UP_EPOCHS=50
+WARM_UP_EPOCHS=15
 DELTA=1e-6
-# Best RNA module hyperparameters
+
+############################
+### Model parameters     ###
+############################
+
 D_MODEL=128
 FFN_MULT=4
 BDCF_BLOCKS=2
 NODE_POOL="mean"
 TOKEN_POOL="mean"
 
-# Best SMILES module hyperparameters
 SMILES_SEQ_SETTING="deep"
 SMILES_EXPERT_SETTING="proj"
-
 
 BATCH_SIZE=1
 NUM_WORKERS=0
 
-EXP_NAME="exp${EXP_ID}"
+############################
+### Evaluation parameters ###
+############################
 
-SETTING="cv"
-CV_METHOD="all"
-K_FOLD=10
+SETTING="external"
 DEVICE="cuda"
 
-SEED=1
+SEED=2
 DATASET_SEED=2
 
-LOG_MSG="stratified_cv_${DATE}_exp${EXP_ID} - MultiStructRSA (${MODEL_SETTING} version) - TRAIN SETTING=${TRAIN_SETTING}; VAL SETTING=${VAL_SETTING}; RNA AUG=${RNA_AUG}; MOL AUG=${MOL_AUG} SEED=${SEED}; DATASET SEED=${DATASET_SEED}"
+EXP_NAME="exp${EXP_ID}_external_pdbbind_patience=${PATIENCE}_delta=${DELTA}"
 
+LOG_MSG="external_validation_${DATE}_exp${EXP_ID} - Train on R-SIM cold-RNA folds and evaluate on PDBBindNL2020 - MultiStructRSA (${MODEL_SETTING}) - exclude_modalities=${EXCLUDE_MODALITIES}; TRAIN_SETTING=${TRAIN_SETTING}; VAL_SETTING=${VAL_SETTING}; RNA_AUG=${RNA_AUG}; MOL_AUG=${MOL_AUG}; SEED=${SEED}; DATASET_SEED=${DATASET_SEED}"
 
-
-################  Following lines will be executed by a compute node  ################
+################################################################################################
+### Commands executed on the compute node
+################################################################################################
 
 module load anaconda
 module load cuda/11.8
 
 source activate chemprop
-export PYTHONPATH="${PYTHONPATH}:$(pwd)"
 
+export PYTHONPATH="${PYTHONPATH}:$(pwd)"
 export CUBLAS_WORKSPACE_CONFIG=:4096:8
 export CUDA_LAUNCH_BLOCKING=1
-#export TORCH_USE_CUDA_DSA=1
 
 export HF_HUB_ETAG_TIMEOUT=60
 export HF_HUB_DOWNLOAD_TIMEOUT=300
@@ -97,6 +101,8 @@ nvidia-smi
 
 python main.py \
   --exp_name "$EXP_NAME" \
+  --exp_id "$EXP_ID" \
+  --date "$DATE" \
   --model_setting "$MODEL_SETTING" \
   --exclude_modalities $EXCLUDE_MODALITIES \
   --train_setting "$TRAIN_SETTING" \
@@ -108,14 +114,11 @@ python main.py \
   --delta "$DELTA" \
   --is_seq_emb "$IS_SEQ_EMB" \
   --res_file_name "$RES_FILE_NAME" \
-  --save_predictions "$SAVE_PREDICTIONS" \
   --is_plot "$IS_PLOT" \
   --plot_name "$PLOT_NAME" \
   --log_msg "$LOG_MSG" \
   --log_file_name "$LOG_FILE_NAME" \
   --setting "$SETTING" \
-  --cv_method "$CV_METHOD" \
-  --k_fold "$K_FOLD" \
   --lr "$LR" \
   --wd "$WD" \
   --dropout "$DROPOUT" \

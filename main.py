@@ -10,6 +10,7 @@ import pickle
 
 from evaluate.cv_eval import cv_eval
 from evaluate.cold_eval_ import preform_cold_blind_eval
+from evaluate.train_cold import train_cold_models
 from evaluate.external_eval_pdbbind_ import perform_pdbbind_external_eval
 from utils.generate_smiles_features import generate_smiles_features
 from utils.parser import get_args
@@ -439,6 +440,8 @@ def main():
     dropout = args.dropout
     batch_size = args.batch_size
     num_workers = args.num_workers
+    max_epochs = args.max_epochs
+    model_save_dir = args.model_save_dir
     device = args.device
     seed = args.seed # controls model initialization, dataloader shuffle, etc.
     dataset_seed = args.dataset_seed # controls cross-validation fold creation (for statified K-fold CV)
@@ -570,6 +573,40 @@ def main():
                                plot_name=plot_name,
                                device=device,
                                seed=seed)
+    elif setting == "train_cold":
+        train_cold_models(exp_name=exp_name,
+                          exp_id=exp_id,
+                          date=date,
+                          cold_type=cold_type,
+                          model_setting=model_setting,
+                          train_setting=train_setting,
+                          val_setting=val_setting,
+                          rna_aug=rna_aug,
+                          mol_aug=mol_aug,
+                          patience=patience,
+                          warm_up_epochs=warm_up_epochs,
+                          delta=delta,
+                          lr=lr,
+                          wd=wd,
+                          dropout=dropout,
+                          exclude_modalities=exclude_modalities,
+                          freeze_grnade=freeze_grnade,
+                          smiles_seq_setting=smiles_seq_setting,
+                          smiles_expert_setting=smiles_expert_setting,
+                          batch_size=batch_size,
+                          num_workers=num_workers,
+                          is_plot=is_plot,
+                          is_seq_emb=is_seq_emb,
+                          d_model=d_model,
+                          ffn_mult=ffn_mult,
+                          bdcf_blocks=bdcf_blocks,
+                          node_pool=node_pool,
+                          token_pool=token_pool,
+                          max_epochs=max_epochs,
+                          plot_name=plot_name,
+                          model_save_dir=model_save_dir,
+                          device=device,
+                          seed=seed)
     elif setting == "external":
         preform_pdbbind_external_eval_(exp_id=exp_id,
                                        date=date,

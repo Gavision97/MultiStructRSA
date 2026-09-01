@@ -1,0 +1,16 @@
+2026-09-01 18:23:47,122 - train_cold_0109_exp2 - COLD_TYPE=cold_rna; MultiStructRSA (w/o 3D struct); exclude_modalities=morgan ernie; TRAIN_SETTING=4; VAL_SETTING=4; RNA_AUG=False; MOL_AUG=False; SEED=1
+2026-09-01 18:23:47,124 - Training cold-start models | cold type:cold_rna, folds:5, seed:1, batch size:1, max epochs:200, lr:2e-05, weight decay:1e-06, dropout:0.1, num_workers:0, patience:20, warm up epo:50, delta:1e-06
+2026-09-01 18:23:47,124 - Model checkpoints will be saved to: saved_objects/trained_cold/0109/exp2_cold_rna
+2026-09-01 18:23:47,132 - Fold number 1/5
+2026-09-01 18:23:47,146 - (|train|, |validation|) -> (1256, 183)
+2026-09-01 18:23:47,146 - (unique RNA train, validation) -> (236, 59)
+2026-09-01 18:23:47,146 - W/O PADDING -> MolRNACDataset for training setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
+2026-09-01 18:23:48,350 - W/O PADDING -> MolRNACDataset for validation setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
+2026-09-01 18:23:49,530 - --- MultiStructRSA w/o 3D structure | exclude_modalities=['ernie', 'morgan'] | smiles_seq_setting=deep, smiles_expert_setting=proj, d_model=128, dropout=0.1 ---
+2026-09-01 18:23:49,548 - Initialized model setting: w/o 3D struct, dropout: 0.1, exclude_modalities ignored by this model: ['ernie', 'morgan']
+2026-09-01 18:24:19,508 - NEW BEST @ epoch 1: val loss=3.5405, rmse=3.5405 ppc=-0.1471, ssc=-0.0673, r2=-6.3031; train loss=3.3993
+2026-09-01 18:24:48,457 - NEW BEST @ epoch 2: val loss=3.0817, rmse=3.0817 ppc=0.0193, ssc=0.0573, r2=-4.5330; train loss=2.8007
+2026-09-01 18:25:17,466 - NEW BEST @ epoch 3: val loss=2.6656, rmse=2.6656 ppc=-0.0638, ssc=-0.0925, r2=-3.1399; train loss=2.3562
+2026-09-01 18:25:46,470 - NEW BEST @ epoch 4: val loss=2.3216, rmse=2.3216 ppc=-0.0359, ssc=-0.0481, r2=-2.1401; train loss=1.9939
+2026-09-01 18:26:15,465 - NEW BEST @ epoch 5: val loss=2.0331, rmse=2.0331 ppc=0.2296, ssc=0.1773, r2=-1.4083; train loss=1.7102
+2026-09-01 18:26:44,508 - NEW BEST @ epoch 6: val loss=1.8150, rmse=1.8150 ppc=0.3173, ssc=0.2131, r2=-0.9194; train loss=1.5159

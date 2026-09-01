@@ -1,296 +1,281 @@
-"""Train five models on the predefined cold-start train/validation folds.
-
-Despite their filenames, ``cold_*_test_foldN.csv`` files are used only as
-validation sets for early stopping in this script. No test evaluation is run.
-
-Example
--------
-python evaluate/train_cold.py --cold-type cold_rna --device cuda
-"""
-
-from __future__ import annotations
-
-import argparse
-import logging
 import os
-import sys
-from pathlib import Path
-from typing import Any
-
 import pandas as pd
 import torch
+
 from torch.utils.data import DataLoader
 
-# Allow direct execution via ``python evaluate/train_cold.py``.
-PROJECT_ROOT = Path(__file__).resolve().parent.parent
-if str(PROJECT_ROOT) not in sys.path:
-    sys.path.insert(0, str(PROJECT_ROOT))
-
-from models.MultiStructRSA import choose_model_setting
-from utils.MolRNACDataset import MolRNADataset
+from utils.utils import *
 from utils.tools import set_seed
-from utils.utils import (
-    EarlyStopping,
-    predict,
-    rmse_loss,
-    safe_regression_metrics,
-    train_one_epoch,
-)
+from utils.utils import rmse_loss
+from utils.plot_utils import plot_train_val_loss, plot_prediction_correlation
+from utils.MolRNACDataset import MolRNADataset
+from models.MultiStructRSA import *
 
 
-LOGGER = logging.getLogger(__name__)
-N_FOLDS = 5
+import logging
+logger = logging.getLogger(__name__)
+
+
 MODE = "min"
+N_FOLDS = 5
 
-COLD_TYPE_ALIASES = {
-    "rna": "cold_rna",
-    "cold_rna": "cold_rna",
-    "mol": "cold_mole",
-    "mole": "cold_mole",
-    "molecule": "cold_mole",
-    "cold_mol": "cold_mole",
-    "cold_mole": "cold_mole",
-    "rm": "cold_rm",
-    "both": "cold_rm",
-    "cold_rm": "cold_rm",
-}
-
-COLD_TYPE_PATHS = {
-    "cold_rna": ("rna", "rna"),
-    "cold_mole": ("mole", "mole"),
-    "cold_rm": ("rm", "rm"),
-}
+RNA_COLD_PATH = os.path.join("datasets", "blind_test", "rna", "train_test_splits")
+MOLE_COLD_PATH = os.path.join("datasets", "blind_test", "mole", "train_test_splits")
+BOTH_COLD_PATH = os.path.join("datasets", "blind_test", "rm", "train_test_splits")
+MODEL_SAVE_ROOT = os.path.join("saved_objects", "trained_cold")
 
 DATA_COLUMNS = ["SMILES", "Target_RNA_sequence", "Molecule_name", "pKd"]
 
 
-def canonical_cold_type(value: str) -> str:
-    """Normalize convenient cold-start aliases to the repository names."""
-    try:
-        return COLD_TYPE_ALIASES[value.lower()]
-    except KeyError as exc:
-        valid = ", ".join(sorted(COLD_TYPE_ALIASES))
-        raise argparse.ArgumentTypeError(
-            f"Unknown cold-start type {value!r}. Choose one of: {valid}"
-        ) from exc
+def choose_cold_type(cold_type="cold_rna"):
+    assert cold_type in ["cold_rna", "cold_mole", "cold_rm"]
+
+    if cold_type == "cold_rna":
+        return RNA_COLD_PATH, "rna", ["Target_RNA_sequence"]
+    elif cold_type == "cold_mole":
+        return MOLE_COLD_PATH, "mole", ["Molecule_name"]
+    else:
+        return BOTH_COLD_PATH, "rm", ["Target_RNA_sequence", "Molecule_name"]
 
 
-def get_split_paths(cold_type: str, fold: int) -> tuple[Path, Path]:
-    """Return the train and validation CSV paths for one cold-start fold."""
-    directory_name, file_name = COLD_TYPE_PATHS[cold_type]
-    split_dir = (
-        PROJECT_ROOT
-        / "datasets"
-        / "blind_test"
-        / directory_name
-        / "train_test_splits"
-    )
-    return (
-        split_dir / f"cold_{file_name}_train_fold{fold}.csv",
-        split_dir / f"cold_{file_name}_test_fold{fold}.csv",
-    )
-
-
-def validate_splits(
-    train_df: pd.DataFrame,
-    val_df: pd.DataFrame,
-    cold_type: str,
-    fold: int,
-) -> None:
-    """Fail early if the selected cold entities leak into validation."""
-    cold_columns = {
-        "cold_rna": ["Target_RNA_sequence"],
-        "cold_mole": ["Molecule_name"],
-        "cold_rm": ["Target_RNA_sequence", "Molecule_name"],
-    }[cold_type]
-
+def validate_cold_split(train_df, val_df, cold_columns, fold):
     for column in cold_columns:
         overlap = set(train_df[column].dropna()) & set(val_df[column].dropna())
         if overlap:
             raise ValueError(
-                f"Fold {fold} is not a valid {cold_type} split: "
-                f"{len(overlap)} {column!r} values occur in both train and validation"
+                f"Fold {fold} is not a valid cold split: {len(overlap)} "
+                f"{column} values occur in both training and validation"
             )
 
 
-def model_config_from_args(args: argparse.Namespace) -> dict[str, Any]:
-    """Build the kwargs needed to create (and later reload) the model."""
-    return {
-        "option": args.model_setting,
-        "exclude_modalities": args.exclude_modalities,
-        "freeze_grnade": args.freeze_grnade,
-        "smiles_seq_setting": args.smiles_seq_setting,
-        "smiles_expert_setting": args.smiles_expert_setting,
-        "dropout": args.dropout,
-        "d_model": args.d_model,
-        "ffn_mult": args.ffn_mult,
-        "bdcf_blocks": args.bdcf_blocks,
-        "node_pool": args.node_pool,
-        "token_pool": args.token_pool,
-    }
+def train_cold_models(
+    exp_name="exp",
+    exp_id=1,
+    date="undated",
+    cold_type="cold_rna",
+    model_setting="full",
+    train_setting=4,
+    val_setting=4,
+    rna_aug=False,
+    mol_aug=False,
+    patience=20,
+    warm_up_epochs=10,
+    delta=1e-5,
+    lr=5e-5,
+    wd=1e-5,
+    dropout=0.1,
+    exclude_modalities=None,
+    freeze_grnade=False,
+    smiles_seq_setting="deep",
+    smiles_expert_setting="proj",
+    batch_size=1,
+    num_workers=0,
+    is_plot=False,
+    is_seq_emb=False,
+    d_model=128,
+    ffn_mult=4,
+    bdcf_blocks=1,
+    node_pool="attn",
+    token_pool="mean",
+    max_epochs=200,
+    plot_name="train_cold",
+    model_save_dir=None,
+    device="cuda",
+    seed=1,
+):
+    """
+    Train and save one model for each predefined cold-start fold.
 
+    The held-out ``cold_*_test_foldN.csv`` split is used as validation for
+    early stopping. This function does not report it as an independent test
+    result.
+    """
 
-def save_checkpoint(
-    path: Path,
-    state_dict: dict[str, torch.Tensor],
-    args: argparse.Namespace,
-    fold: int,
-    train_path: Path,
-    val_path: Path,
-    early_stopping: EarlyStopping,
-) -> None:
-    """Save portable CPU weights plus all information needed for reconstruction."""
-    cpu_state_dict = {
-        name: value.detach().cpu() for name, value in state_dict.items()
-    }
-    p_val, s_val, r2_val, rmse_val = early_stopping.best_metrics
-    checkpoint = {
-        "format_version": 1,
-        "model_state_dict": cpu_state_dict,
-        "model_config": model_config_from_args(args),
-        "cold_type": args.cold_type,
-        "fold": fold,
-        "best_epoch": early_stopping.best_epoch + 1,
-        "validation_metrics": {
-            "pearson": float(p_val),
-            "spearman": float(s_val),
-            "rmse": float(rmse_val),
-            "r2": float(r2_val),
-        },
-        "data_config": {
-            "train_csv": str(train_path),
-            "validation_csv": str(val_path),
-            "train_setting": args.train_setting,
-            "val_setting": args.val_setting,
-            "is_seq_emb": args.is_seq_emb,
-        },
-        "training_config": {
-            "seed": args.seed,
-            "learning_rate": args.lr,
-            "weight_decay": args.wd,
-            "batch_size": args.batch_size,
-            "rna_aug": args.rna_aug,
-            "mol_aug": args.mol_aug,
-            "max_epochs": args.max_epochs,
-            "patience": args.patience,
-            "warm_up_epochs": args.warm_up_epochs,
-            "delta": args.delta,
-        },
-    }
+    if max_epochs < 1:
+        raise ValueError("max_epochs must be at least 1")
+    if patience < 1:
+        raise ValueError("patience must be at least 1")
+    if str(device).startswith("cuda") and not torch.cuda.is_available():
+        raise RuntimeError("CUDA was requested but is not available")
 
-    path.parent.mkdir(parents=True, exist_ok=True)
-    temporary_path = path.with_suffix(path.suffix + ".tmp")
-    torch.save(checkpoint, temporary_path)
-    os.replace(temporary_path, path)
+    cold_path, cold_name, cold_columns = choose_cold_type(cold_type=cold_type)
 
+    if model_save_dir is None:
+        experiment_name = f"{exp_name}_exp{exp_id}_{cold_type}"
+        model_save_dir = os.path.join(MODEL_SAVE_ROOT, str(date), experiment_name)
 
-def train_cold_models(args: argparse.Namespace) -> list[Path]:
-    """Train one early-stopped model for each of the five predefined folds."""
-    if args.device.startswith("cuda") and not torch.cuda.is_available():
-        raise RuntimeError(
-            "CUDA was requested but is unavailable. Run with --device cpu instead."
-        )
+    os.makedirs(model_save_dir, exist_ok=True)
 
-    output_dir = args.output_dir or (
-        PROJECT_ROOT / "saved_objects" / f"trained_{args.cold_type}"
+    logger.info(
+        f"Training cold-start models | cold type:{cold_type}, folds:{N_FOLDS}, "
+        f"seed:{seed}, batch size:{batch_size}, max epochs:{max_epochs}, "
+        f"lr:{lr}, weight decay:{wd}, dropout:{dropout}, num_workers:{num_workers}, "
+        f"patience:{patience}, warm up epo:{warm_up_epochs}, delta:{delta}"
     )
-    output_dir = Path(output_dir).expanduser().resolve()
-    model_config = model_config_from_args(args)
+    logger.info(f"Model checkpoints will be saved to: {model_save_dir}")
 
-    # Check all inputs before beginning a potentially long training run.
-    missing_paths = [
-        path
-        for fold in range(1, N_FOLDS + 1)
-        for path in get_split_paths(args.cold_type, fold)
-        if not path.is_file()
-    ]
-    if missing_paths:
-        missing = "\n".join(str(path) for path in missing_paths)
-        raise FileNotFoundError(f"Missing cold-start split file(s):\n{missing}")
+    ########################################################################
+    # Validate that all fold files exist before training starts
+    ########################################################################
 
-    saved_paths: list[Path] = []
-    LOGGER.info(
-        "Training %d %s models; checkpoints will be written to %s",
-        N_FOLDS,
-        args.cold_type,
-        output_dir,
-    )
+    split_paths = []
 
     for fold in range(1, N_FOLDS + 1):
-        set_seed(seed_=args.seed)
-        train_path, val_path = get_split_paths(args.cold_type, fold)
+        train_path = os.path.join(cold_path, f"cold_{cold_name}_train_fold{fold}.csv")
+        val_path = os.path.join(cold_path, f"cold_{cold_name}_test_fold{fold}.csv")
+        split_paths.append((train_path, val_path))
 
-        train_df = pd.read_csv(train_path).loc[:, DATA_COLUMNS].copy()
-        val_df = pd.read_csv(val_path).loc[:, DATA_COLUMNS].copy()
+    missing_paths = [path for paths in split_paths for path in paths if not os.path.isfile(path)]
+    if missing_paths:
+        raise FileNotFoundError(f"Missing cold-start split files: {missing_paths}")
+
+    fold_results = []
+    checkpoint_paths = []
+
+    ########################################################################
+    # Train one model for each predefined cold-start fold
+    ########################################################################
+
+    for fold, (train_path, val_path) in enumerate(split_paths, start=1):
+        set_seed(seed_=seed)
+
+        logger.info(f"Fold number {fold}/{N_FOLDS}")
+
+        train_df = pd.read_csv(train_path)
+        val_df = pd.read_csv(val_path)
+
+        missing_columns = set(DATA_COLUMNS) - set(train_df.columns)
+        missing_columns |= set(DATA_COLUMNS) - set(val_df.columns)
+        if missing_columns:
+            raise ValueError(
+                f"Fold {fold} is missing required columns: {sorted(missing_columns)}"
+            )
+
+        train_df = train_df.loc[:, DATA_COLUMNS].copy()
+        val_df = val_df.loc[:, DATA_COLUMNS].copy()
+
         if train_df.empty or val_df.empty:
             raise ValueError(
                 f"Fold {fold} contains an empty split: "
                 f"train={len(train_df)}, validation={len(val_df)}"
             )
-        validate_splits(train_df, val_df, args.cold_type, fold)
 
-        LOGGER.info(
-            "Fold %d/%d: train=%d, validation=%d (validation source: %s)",
-            fold,
-            N_FOLDS,
-            len(train_df),
-            len(val_df),
-            val_path,
+        validate_cold_split(train_df, val_df, cold_columns, fold)
+
+        logger.info(
+            f"(|train|, |validation|) -> ({len(train_df)}, {len(val_df)})"
         )
+
+        if cold_type == "cold_rna":
+            logger.info(
+                f"(unique RNA train, validation) -> "
+                f"({train_df['Target_RNA_sequence'].nunique()}, "
+                f"{val_df['Target_RNA_sequence'].nunique()})"
+            )
+        elif cold_type == "cold_mole":
+            logger.info(
+                f"(unique molecule names train, validation) -> "
+                f"({train_df['Molecule_name'].nunique()}, "
+                f"{val_df['Molecule_name'].nunique()})"
+            )
+        else:
+            logger.info(
+                f"(unique RNA train, validation) -> "
+                f"({train_df['Target_RNA_sequence'].nunique()}, "
+                f"{val_df['Target_RNA_sequence'].nunique()})"
+            )
+            logger.info(
+                f"(unique molecule names train, validation) -> "
+                f"({train_df['Molecule_name'].nunique()}, "
+                f"{val_df['Molecule_name'].nunique()})"
+            )
+
+        ####################################################################
+        # Datasets and loaders
+        ####################################################################
 
         train_ds = MolRNADataset(
             train_df,
-            setting=args.train_setting,
-            rna_aug=args.rna_aug,
-            mol_aug=args.mol_aug,
+            setting=train_setting,
+            rna_aug=rna_aug,
+            mol_aug=mol_aug,
             task="training",
-            is_seq_emb=args.is_seq_emb,
+            is_seq_emb=is_seq_emb,
         )
         val_ds = MolRNADataset(
             val_df,
-            setting=args.val_setting,
+            setting=val_setting,
             rna_aug=False,
             mol_aug=False,
             task="validation",
-            is_seq_emb=args.is_seq_emb,
+            is_seq_emb=is_seq_emb,
         )
 
-        generator = torch.Generator().manual_seed(args.seed)
+        generator = torch.Generator().manual_seed(seed)
+
         train_loader = DataLoader(
             train_ds,
-            batch_size=args.batch_size,
-            shuffle=True,
+            batch_size=batch_size,
             generator=generator,
+            shuffle=True,
             collate_fn=MolRNADataset.collate_fn,
-            num_workers=args.num_workers,
+            num_workers=num_workers,
         )
         val_loader = DataLoader(
             val_ds,
-            batch_size=args.batch_size,
+            batch_size=batch_size,
             shuffle=False,
             collate_fn=MolRNADataset.collate_fn,
-            num_workers=args.num_workers,
+            num_workers=num_workers,
         )
 
-        model = choose_model_setting(**model_config).to(args.device)
-        optimizer = torch.optim.Adam(
-            model.parameters(), lr=args.lr, weight_decay=args.wd
-        )
+        ####################################################################
+        # Model, optimizer, and early stopping
+        ####################################################################
+
         early_stopping = EarlyStopping(
             mode=MODE,
-            patience=args.patience,
-            warm_up_epochs=args.warm_up_epochs,
-            delta=args.delta,
+            patience=patience,
+            warm_up_epochs=warm_up_epochs,
+            delta=delta,
         )
 
-        for epoch in range(args.max_epochs):
+        model = choose_model_setting(
+            option=model_setting,
+            exclude_modalities=exclude_modalities,
+            freeze_grnade=freeze_grnade,
+            dropout=dropout,
+            smiles_seq_setting=smiles_seq_setting,
+            smiles_expert_setting=smiles_expert_setting,
+            d_model=d_model,
+            ffn_mult=ffn_mult,
+            bdcf_blocks=bdcf_blocks,
+            node_pool=node_pool,
+            token_pool=token_pool,
+        ).to(device)
+
+        optimizer = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=wd)
+        criterion = rmse_loss
+
+        train_losses = []
+        val_losses = []
+
+        ####################################################################
+        # Train and select the best validation model
+        ####################################################################
+
+        for epoch in range(max_epochs):
             train_loss = train_one_epoch(
-                model, train_loader, optimizer, rmse_loss, args.device
+                model, train_loader, optimizer, criterion, device
             )
-            y_true_val, y_pred_val = predict(model, val_loader, args.device)
+            train_losses.append(train_loss)
+
+            y_true_val, y_pred_val = predict(model, val_loader, device)
             p_val, s_val, rmse_val, r2_val = safe_regression_metrics(
                 y_true_val, y_pred_val
             )
+            val_losses.append(rmse_val)
+
             early_stopping.check_early_stop(
                 model,
                 rmse_val,
@@ -301,149 +286,144 @@ def train_cold_models(args: argparse.Namespace) -> list[Path]:
             )
 
             if early_stopping.stop_training:
-                LOGGER.info(
-                    "Fold %d/%d: early stopping at epoch %d; "
-                    "best validation RMSE %.4f at epoch %d",
-                    fold,
-                    N_FOLDS,
-                    epoch + 1,
-                    early_stopping.best_score,
-                    early_stopping.best_epoch + 1,
+                logger.info(
+                    f"[Fold {fold}/{N_FOLDS}] Early stopping at epoch "
+                    f"{epoch + 1}. Best validation RMSE="
+                    f"{early_stopping.best_score:.4f} at epoch "
+                    f"{early_stopping.best_epoch + 1}"
                 )
                 break
 
         if early_stopping.best_model is False:
             raise RuntimeError(
-                f"Fold {fold} produced no finite validation RMSE; no model was saved"
+                f"No finite validation model was stored for fold {fold}"
             )
 
-        checkpoint_path = output_dir / f"model{fold}.pt"
-        save_checkpoint(
-            checkpoint_path,
-            early_stopping.best_model,
-            args,
-            fold,
-            train_path,
-            val_path,
-            early_stopping,
-        )
-        saved_paths.append(checkpoint_path)
-        LOGGER.info(
-            "Fold %d/%d: saved best model to %s",
-            fold,
-            N_FOLDS,
-            checkpoint_path,
+        ####################################################################
+        # Save best fold checkpoint and validation metadata
+        ####################################################################
+
+        p_best, s_best, r2_best, rmse_best = early_stopping.best_metrics
+        checkpoint_path = os.path.join(model_save_dir, f"model_fold_{fold}.pt")
+
+        best_model_state = {
+            name: value.detach().cpu()
+            for name, value in early_stopping.best_model.items()
+        }
+
+        checkpoint = {
+            "model_state_dict": best_model_state,
+            "model_config": {
+                "option": model_setting,
+                "exclude_modalities": exclude_modalities,
+                "freeze_grnade": freeze_grnade,
+                "dropout": dropout,
+                "smiles_seq_setting": smiles_seq_setting,
+                "smiles_expert_setting": smiles_expert_setting,
+                "d_model": d_model,
+                "ffn_mult": ffn_mult,
+                "bdcf_blocks": bdcf_blocks,
+                "node_pool": node_pool,
+                "token_pool": token_pool,
+            },
+            "training_config": {
+                "exp_name": exp_name,
+                "exp_id": exp_id,
+                "date": date,
+                "cold_type": cold_type,
+                "fold": fold,
+                "seed": seed,
+                "train_setting": train_setting,
+                "val_setting": val_setting,
+                "rna_aug": rna_aug,
+                "mol_aug": mol_aug,
+                "is_seq_emb": is_seq_emb,
+                "lr": lr,
+                "wd": wd,
+                "batch_size": batch_size,
+                "num_workers": num_workers,
+                "max_epochs": max_epochs,
+                "patience": patience,
+                "warm_up_epochs": warm_up_epochs,
+                "delta": delta,
+            },
+            "data_config": {
+                "train_path": train_path,
+                "validation_path": val_path,
+            },
+            "best_epoch": early_stopping.best_epoch + 1,
+            "validation_metrics": {
+                "p": float(p_best),
+                "s": float(s_best),
+                "rmse": float(rmse_best),
+                "r2": float(r2_best),
+            },
+        }
+
+        torch.save(checkpoint, checkpoint_path)
+        checkpoint_paths.append(checkpoint_path)
+
+        fold_results.append(
+            {
+                "fold": fold,
+                "train_rows": len(train_df),
+                "validation_rows": len(val_df),
+                "best_epoch": early_stopping.best_epoch + 1,
+                "p": float(p_best),
+                "s": float(s_best),
+                "rmse": float(rmse_best),
+                "r2": float(r2_best),
+                "checkpoint_path": checkpoint_path,
+            }
         )
 
-        # Release fold-specific GPU memory before constructing the next model.
+        logger.info(
+            f"[Fold {fold}/{N_FOLDS}] Saved best model to: {checkpoint_path}"
+        )
+
+        ####################################################################
+        # Optional validation plots
+        ####################################################################
+
+        if is_plot:
+            plots_dir = os.path.join(
+                "results", "plots", str(date), "train_cold", cold_type
+            )
+            os.makedirs(plots_dir, exist_ok=True)
+
+            plot_train_val_loss(
+                train_losses,
+                val_losses,
+                save_path=os.path.join(
+                    plots_dir, f"losses_{plot_name}_fold_{fold}.png"
+                ),
+                title="Training and Validation RMSE",
+            )
+            plot_prediction_correlation(
+                early_stopping.y_true,
+                early_stopping.y_pred,
+                save_path=os.path.join(
+                    plots_dir, f"validation_{plot_name}_fold_{fold}.png"
+                ),
+                title="Best Validation Model",
+            )
+
         del model, optimizer, train_loader, val_loader, train_ds, val_ds
-        if args.device.startswith("cuda"):
+        if str(device).startswith("cuda"):
             torch.cuda.empty_cache()
 
-    return saved_paths
+    ########################################################################
+    # Save fold-level validation summary
+    ########################################################################
 
+    fold_results_path = os.path.join(model_save_dir, "fold_results.csv")
+    pd.DataFrame(fold_results).to_csv(fold_results_path, index=False)
 
-def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(
-        description=(
-            "Train five models using predefined cold-start train/test CSVs, "
-            "treating each test CSV as validation for early stopping."
-        )
-    )
-    parser.add_argument(
-        "--cold-type",
-        "--cold_type",
-        type=canonical_cold_type,
-        default="cold_rna",
-        help="Cold-start type: rna/cold_rna, mole/cold_mole, or rm/cold_rm",
-    )
-    parser.add_argument("--output-dir", type=Path, default=None)
-    parser.add_argument("--device", default="cuda")
-    parser.add_argument("--seed", type=int, default=1)
-    parser.add_argument("--max-epochs", type=int, default=200)
-    parser.add_argument("--patience", type=int, default=20)
-    parser.add_argument("--warm-up-epochs", type=int, default=10)
-    parser.add_argument("--delta", type=float, default=1e-5)
-    parser.add_argument("--lr", type=float, default=5e-5)
-    parser.add_argument("--wd", type=float, default=1e-5)
-    parser.add_argument("--batch-size", type=int, default=1)
-    parser.add_argument("--num-workers", type=int, default=0)
+    logger.info(f"Finished training {len(checkpoint_paths)} cold-start models")
+    logger.info(f"Fold validation results saved to: {fold_results_path}")
 
-    parser.add_argument("--train-setting", type=int, default=4)
-    parser.add_argument("--val-setting", type=int, default=4)
-    parser.add_argument("--rna-aug", action=argparse.BooleanOptionalAction, default=False)
-    parser.add_argument("--mol-aug", action=argparse.BooleanOptionalAction, default=False)
-    parser.add_argument(
-        "--is-seq-emb", action=argparse.BooleanOptionalAction, default=False
-    )
-
-    parser.add_argument(
-        "--model-setting",
-        default="full",
-        choices=[
-            "full",
-            "freezed",
-            "w/o seq",
-            "w/o 3D struct",
-            "w/o fusion",
-            "full batched",
-        ],
-    )
-    parser.add_argument("--dropout", type=float, default=0.1)
-    parser.add_argument("--d-model", type=int, choices=[128, 256], default=128)
-    parser.add_argument("--ffn-mult", type=int, choices=[2, 4, 6], default=4)
-    parser.add_argument("--bdcf-blocks", type=int, choices=[1, 2], default=1)
-    parser.add_argument("--node-pool", choices=["attn", "mean"], default="attn")
-    parser.add_argument("--token-pool", choices=["attn", "mean"], default="mean")
-    parser.add_argument(
-        "--smiles-seq-setting",
-        choices=["proj", "shallow", "deep"],
-        default="deep",
-    )
-    parser.add_argument(
-        "--smiles-expert-setting",
-        choices=["proj", "shallow", "deep"],
-        default="proj",
-    )
-    parser.add_argument(
-        "--exclude-modalities",
-        nargs="*",
-        default=[],
-        choices=[
-            "simson",
-            "chemberta",
-            "mordred",
-            "morgan",
-            "rinalmo",
-            "ernie",
-            "grnade",
-        ],
-    )
-    parser.add_argument(
-        "--freeze-grnade", action=argparse.BooleanOptionalAction, default=False
-    )
-    return parser
-
-
-def main() -> None:
-    args = build_parser().parse_args()
-    if args.max_epochs < 1:
-        raise ValueError("--max-epochs must be at least 1")
-    if args.patience < 1:
-        raise ValueError("--patience must be at least 1")
-
-    # Dataset/model asset paths elsewhere in the project are repository-relative.
-    os.chdir(PROJECT_ROOT)
-    logging.basicConfig(
-        level=logging.INFO,
-        format="%(asctime)s - %(levelname)s - %(message)s",
-    )
-
-    saved_paths = train_cold_models(args)
-    LOGGER.info("Training complete. Saved %d models:", len(saved_paths))
-    for path in saved_paths:
-        LOGGER.info("  %s", path)
-
-
-if __name__ == "__main__":
-    main()
+    return {
+        "model_save_dir": model_save_dir,
+        "checkpoint_paths": checkpoint_paths,
+        "fold_results_path": fold_results_path,
+    }

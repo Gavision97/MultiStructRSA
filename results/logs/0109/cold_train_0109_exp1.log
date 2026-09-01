@@ -1,0 +1,14 @@
+2026-09-01 18:17:41,030 - train_cold_0109_exp1 - COLD_TYPE=cold_rna; MultiStructRSA (full); exclude_modalities=morgan ernie; TRAIN_SETTING=4; VAL_SETTING=4; RNA_AUG=False; MOL_AUG=False; SEED=1
+2026-09-01 18:17:41,034 - Training cold-start models | cold type:cold_rna, folds:5, seed:1, batch size:1, max epochs:200, lr:2e-05, weight decay:1e-06, dropout:0.1, num_workers:0, patience:20, warm up epo:50, delta:1e-06
+2026-09-01 18:17:41,034 - Model checkpoints will be saved to: saved_objects/trained_cold/0109/exp1_cold_rna
+2026-09-01 18:17:41,039 - Fold number 1/5
+2026-09-01 18:17:41,053 - (|train|, |validation|) -> (1256, 183)
+2026-09-01 18:17:41,058 - (unique RNA train, validation) -> (236, 59)
+2026-09-01 18:17:41,058 - W/O PADDING -> MolRNACDataset for training setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
+2026-09-01 18:17:41,945 - W/O PADDING -> MolRNACDataset for validation setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
+2026-09-01 18:17:42,781 - MultiStructRSA - full | exclude_modalities=['ernie', 'morgan'] | freeze_grnade=False | smiles_seq_setting=deep, smiles_expert_setting=proj, dropout=0.1, d_model=128, ffn_mult=4, bdcf_blocks=2, node_pool=mean, token_pool=mean
+2026-09-01 18:17:42,898 - BiDirectionalCrossFusion @  hyperparam -> bdcf_blocks:2, d_model:128, n_heads:4, dropout:0.1, ffn_mult:4, a_pool:mean, b_pool:mean
+2026-09-01 18:17:42,921 - Initialized model setting: full, exclude_modalities: ['ernie', 'morgan'], dropout: 0.1, d_model: 128, ffn_mult: 4, bdcf_blocks: 2, node_pool: mean, token_pool: mean
+2026-09-01 18:20:23,715 - NEW BEST @ epoch 1: val loss=2.5571, rmse=2.5571 ppc=-0.0530, ssc=-0.0270, r2=-2.8096; train loss=2.5790
+2026-09-01 18:23:02,954 - NEW BEST @ epoch 2: val loss=2.0112, rmse=2.0112 ppc=0.1791, ssc=0.1601, r2=-1.3567; train loss=1.7984
+2026-09-01 18:25:41,710 - NEW BEST @ epoch 3: val loss=1.6732, rmse=1.6732 ppc=0.2252, ssc=0.1730, r2=-0.6310; train loss=1.4314

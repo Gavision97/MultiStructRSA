@@ -322,3 +322,19 @@ Stratified k-fold cross validation:
 2026-06-05 19:06:59,360 - RNA family: all_families_concat, n_samples: 1439, rmse_mean: 0.83973, p_mean: 0.8012, s_mean: 0.80971, r2_mean: 0.63607
 2026-06-05 19:06:59,381 - 
 Saved/updated summary to: results/table_results/cv_rna_all_0406.csv
+2026-09-01 18:08:43,344 - stratified_cv_0406_exp5 - MultiStructRSA (w/o fusion version) - TRAIN SETTING=4; VAL SETTING=4; RNA AUG=False; MOL AUG=False SEED=1; DATASET SEED=2
+2026-09-01 18:08:43,344 - 
+==================== ALL FAMILIES  ==================== )
+2026-09-01 18:08:43,356 - K folds:10, seed:1, dataset seed:2 batch size:1, max epochs:300, lr:2e-05, weight decay:1e-06, dropout:0.1 num_workers:0, patience:20, warm up epo:50, delta:1e-06
+2026-09-01 18:08:43,358 - --- Start statified 10-fold cross-validation; pd.DataFrame shape -> (1439, 8), lr=2e-05 ---
+2026-09-01 18:08:43,367 - W/O PADDING -> MolRNACDataset for training setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
+2026-09-01 18:08:45,176 - W/O PADDING -> MolRNACDataset for evaluating setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
+2026-09-01 18:08:45,956 - 
+Fold number 1/10
+2026-09-01 18:08:45,957 - Train len -> 1295, Test len -> 144
+2026-09-01 18:08:45,957 - --- MultiStructRSA w/o fusion (frozen=False) | exclude_modalities=['ernie', 'morgan'] | smiles_seq_setting=deep, smiles_expert_setting=proj, d_model=128, node_pool=mean, dropout=0.1 ---
+2026-09-01 18:08:46,101 - Initialized model setting: w/o fusion, dropout: 0.1, exclude_modalities ignored by this model: ['ernie', 'morgan']
+2026-09-01 18:10:42,516 - NEW BEST @ epoch 1: val loss=2.5147, rmse=2.5147 ppc=0.0872, ssc=0.1155, r2=-2.3093; train loss=2.8709
+2026-09-01 18:12:37,069 - NEW BEST @ epoch 2: val loss=1.9197, rmse=1.9197 ppc=0.2482, ssc=0.2436, r2=-0.9285; train loss=1.9434
+2026-09-01 18:14:31,697 - NEW BEST @ epoch 3: val loss=1.5809, rmse=1.5809 ppc=0.5277, ssc=0.4842, r2=-0.3079; train loss=1.5023
+2026-09-01 18:16:33,416 - NEW BEST @ epoch 4: val loss=1.4037, rmse=1.4037 ppc=0.5870, ssc=0.4836, r2=-0.0312; train loss=1.2797

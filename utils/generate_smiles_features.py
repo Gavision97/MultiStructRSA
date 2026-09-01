@@ -12,8 +12,6 @@ warnings.filterwarnings("ignore")
 import numpy as np
 import pandas as pd
 
-from sklearn.feature_selection import VarianceThreshold
-
 from rdkit import Chem
 from rdkit.Chem import AllChem, Descriptors
 from mordred import Calculator, descriptors
@@ -50,6 +48,10 @@ import logging
 logger = logging.getLogger(__name__)
 
 SMILES_EMB_PATH = os.path.join("embeddings", "smiles")
+MORDRED_DESCRIPTORS_LIST_PATH = pathlib.Path(
+    "/home/gavrilev/Thesis/src/saved_objects/mordred_descriptors_list.pkl"
+)
+EXPECTED_MORDRED_DESCRIPTOR_COUNT = 1205
 
 def save_dict_pkl(obj, save_name):
     smi_emb_save_path = os.path.join(SMILES_EMB_PATH, f'{save_name}.pkl')
@@ -67,6 +69,16 @@ def generate_smiles_features(mol_set, save_name="smiles_embeddings", features=['
     
     valid_smiles=mol_set
     smiles_features_dict = {}
+
+   ### SMILES - Mordred chemical descriptors  ###
+    if 'desc' in features:
+        logger.info(f'==========================================================================')
+        logger.info('generating Mordred chemical descriptors feature dataset ...')
+        mordred_descriptors_smiles = calc_mordred_desc(valid_smiles, ignore_3D=True)
+        mordred_descriptors_smiles_df = clean(mordred_descriptors_smiles[0])
+        smiles_features_dict['mordred descriptors'] = mordred_descriptors_smiles_df
+        logger.info(f'finished & saved - Mordred descriptors features dataframe shape -> {mordred_descriptors_smiles_df.shape}')
+
 
     ### SMILES - SimSon features ###
     if 'simson' in features:
@@ -97,15 +109,6 @@ def generate_smiles_features(mol_set, save_name="smiles_embeddings", features=['
         logger.info(f'finished & saved - morgan fingerprints features dataframe shape -> {morgan_fingerprints_smiles_df.shape}')
         smiles_features_dict['morgan fingerprints'] = morgan_fingerprints_smiles_df
     
-    ### SMILES - Mordred chemical descriptors  ###
-    if 'desc' in features:
-        logger.info(f'==========================================================================')
-        logger.info('generating Mordred chemical descriptors feature dataset ...')
-        mordred_descriptors_smiles = calc_mordred_desc(valid_smiles, ignore_3D=True)
-        mordred_descriptors_smiles_df = clean(mordred_descriptors_smiles[0])
-        smiles_features_dict['mordred descriptors'] = mordred_descriptors_smiles_df
-        logger.info(f'finished & saved - Mordred descriptors features dataframe shape -> {mordred_descriptors_smiles_df.shape}')
-
     logger.info(f'finished generating all {len(list(smiles_features_dict.keys()))} smiles features dataset successfully!')
 
     # save feature dictionary as pickle file
@@ -190,42 +193,95 @@ class ChemBERTaPT(nn.Module):
 
 ## Mordred Chemical Descriptors Embeddigns ##
 
-def preprocess_mordred_descriptors(mordred_ls, smi_ls):
-    desc_df = pd.DataFrame(mordred_ls)
-    desc_df.insert(0, "SMILES", list(smi_ls))
+def load_mordred_descriptor_schema():
+    """Load and validate the fixed Mordred schema selected on R-SIM."""
+    if not MORDRED_DESCRIPTORS_LIST_PATH.exists():
+        raise FileNotFoundError(
+            "Mordred descriptor schema not found: "
+            f"{MORDRED_DESCRIPTORS_LIST_PATH}"
+        )
 
-    # numeric stability: coerce non-numeric (e.g., Missing) -> NaN, then fill
-    desc_df.iloc[:, 1:] = (
-        desc_df.iloc[:, 1:]
+    with open(MORDRED_DESCRIPTORS_LIST_PATH, "rb") as f:
+        descriptor_names = pickle.load(f)
+
+    if not isinstance(descriptor_names, list):
+        raise TypeError(
+            "The Mordred descriptor schema must be a Python list, but received "
+            f"{type(descriptor_names).__name__}."
+        )
+    if len(descriptor_names) != EXPECTED_MORDRED_DESCRIPTOR_COUNT:
+        raise ValueError(
+            "Expected the R-SIM Mordred schema to contain "
+            f"{EXPECTED_MORDRED_DESCRIPTOR_COUNT} descriptors, but found "
+            f"{len(descriptor_names)}."
+        )
+    if any(not isinstance(name, str) for name in descriptor_names):
+        raise TypeError("Every Mordred descriptor name in the schema must be a string.")
+    if "SMILES" in descriptor_names:
+        raise ValueError("The Mordred descriptor schema must not contain 'SMILES'.")
+    if len(set(descriptor_names)) != len(descriptor_names):
+        raise ValueError("The Mordred descriptor schema contains duplicate names.")
+
+    return descriptor_names
+
+
+def preprocess_mordred_descriptors(mordred_ls, smi_ls, descriptor_names=None):
+    """Convert raw Mordred results to the fixed R-SIM descriptor schema."""
+    smi_ls = list(smi_ls)
+    if descriptor_names is None:
+        descriptor_names = load_mordred_descriptor_schema()
+
+    raw_desc_df = pd.DataFrame(mordred_ls)
+
+    # Reindex before cleaning so every dataset has exactly the R-SIM columns in
+    # exactly the same order. A column unavailable in the installed Mordred
+    # version is created here and subsequently filled with zero.
+    desc_df = raw_desc_df.reindex(columns=descriptor_names)
+    desc_df = (
+        desc_df
         .apply(pd.to_numeric, errors="coerce")
         .replace([np.inf, -np.inf], np.nan)
-        .fillna(0.0)
-        .astype(np.float32)
     )
+    unavailable_value_count = int(desc_df.isna().sum().sum())
+    if unavailable_value_count:
+        logger.warning(
+            "%d unavailable Mordred descriptor values will be filled with 0.0.",
+            unavailable_value_count,
+        )
+    desc_df = desc_df.fillna(0.0).astype(np.float32)
 
-    # drop columns with constant values (only descriptors, keep SMILES)
-    desc_cols = desc_df.columns[1:]
-    keep_nonconst = desc_df[desc_cols].nunique() > 1
-    desc_df = pd.concat([desc_df[["SMILES"]], desc_df.loc[:, desc_cols[keep_nonconst]]], axis=1)
+    desc_df.insert(0, "SMILES", smi_ls)
 
-    # variance threshold (only descriptors)
-    selector = VarianceThreshold(threshold=1e-2)
-    reduced_descriptors = selector.fit_transform(desc_df.iloc[:, 1:])
-    keep_cols = desc_df.iloc[:, 1:].columns[selector.get_support()]
-
-    desc_df = pd.DataFrame(reduced_descriptors, columns=keep_cols)
-    desc_df.insert(0, "SMILES", list(smi_ls))
+    expected_columns = ["SMILES"] + descriptor_names
+    if list(desc_df.columns) != expected_columns:
+        raise RuntimeError("Generated Mordred columns do not match the R-SIM schema.")
 
     return desc_df
 
 def calc_mordred_desc(smi_ls, ignore_3D=True):
+    smi_ls = list(smi_ls)
+    descriptor_names = load_mordred_descriptor_schema()
     calculator = Calculator(descriptors, ignore_3D=ignore_3D)
-    print(len(calculator.descriptors))
 
     mols = [Chem.MolFromSmiles(smi) for smi in smi_ls]
+    invalid_smiles_count = sum(mol is None for mol in mols)
+    if invalid_smiles_count:
+        logger.warning(
+            "%d invalid SMILES could not be parsed; their Mordred vectors will "
+            "be filled with 0.0.",
+            invalid_smiles_count,
+        )
     descriptors_ls = []
 
     desc_names = [str(d) for d in calculator.descriptors]
+    unavailable_descriptors = sorted(set(descriptor_names) - set(desc_names))
+    if unavailable_descriptors:
+        logger.warning(
+            "%d descriptors from the R-SIM schema are unavailable in the "
+            "installed Mordred version and will be filled with 0.0. Examples: %s",
+            len(unavailable_descriptors),
+            unavailable_descriptors[:5],
+        )
 
     for mol in mols:
         if mol is not None:
@@ -236,7 +292,11 @@ def calc_mordred_desc(smi_ls, ignore_3D=True):
 
         descriptors_ls.append(desc_dict)
 
-    desc_df = preprocess_mordred_descriptors(descriptors_ls, smi_ls)
+    desc_df = preprocess_mordred_descriptors(
+        descriptors_ls,
+        smi_ls,
+        descriptor_names=descriptor_names,
+    )
 
     desc_map = {
         smi: desc_df.loc[i, desc_df.columns[1:]].values.astype(np.float32)

@@ -202,20 +202,20 @@ def get_args():
     parser.add_argument(
         "--smiles_path",
         type=str,
-        default="/home/gavrilev/Thesis/src/saved_objects/enamine_unique_smiles.pkl", # /home/gavrilev/Thesis/src/datasets/PDBBind2020/pdbbind_unique_smiles.pkl
+        default="/home/gavrilev/Thesis/src/saved_objects/chemdiv_unique_smiles.pkl", # /home/gavrilev/Thesis/src/datasets/PDBBind2020/pdbbind_unique_smiles.pkl
         help="Path to pickled SMILES molecule set"
     )
     parser.add_argument(
         "--smiles_features_gen",
         nargs="+",
-        default=["simson", "chemberta", "morgan_fp", "desc"],
+        default=["simson", "chemberta", "desc"],
         choices=["simson", "chemberta", "morgan_fp", "desc"],
         help="SMILES feature types to generate"
     )
     parser.add_argument(
         "--save_name",
         type=str,
-        default="smiles_emb_enamine", # smiles_emb_pdbbind for PDBBindNL2020 custom dataset, smiles_emb_enamine for case study
+        default="smiles_emb_chemdiv", # smiles_emb_pdbbind for PDBBindNL2020 custom dataset, smiles_emb_enamine for case study
         help="Generated SMILES embeddings save name; will be saved to embeddings/smiles/<save_name>.pkl"
     )
 

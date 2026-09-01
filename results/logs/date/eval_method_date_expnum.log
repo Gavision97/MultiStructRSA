@@ -1,36 +1,9 @@
-2026-06-10 12:57:27,494 - log message
-2026-06-10 13:00:18,933 - log message
-2026-06-10 13:00:18,934 - External validation on PDBBindNL2020 | seed=1, batch_size=1, max_epochs=1, lr=2e-05, weight_decay=1e-06, patience=20, warm_up_epochs=10, delta=1e-06
-2026-06-10 13:00:18,938 - PDBBind external set | rows=66, unique RNAs=52, unique molecules=44
-2026-06-10 13:00:18,938 - MolRNACDatasetPDBBind for external evaluation | is_seq_emb=False
-2026-06-10 13:00:19,280 - Fold number 1/5
-2026-06-10 13:00:19,293 - (|train|, |validation|, |external test|) -> (1256, 183, 66)
-2026-06-10 13:00:19,293 - (unique RNA train, validation, external test) -> (236, 59, 52)
-2026-06-10 13:00:19,294 - W/O PADDING -> MolRNACDataset for training setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
-2026-06-10 13:00:20,341 - W/O PADDING -> MolRNACDataset for evaluating setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
-2026-06-10 13:00:21,372 - MultiStructRSA - full | exclude_modalities=['ernie', 'morgan'] | freeze_grnade=False | smiles_seq_setting=deep, smiles_expert_setting=proj, dropout=0.1, d_model=128, ffn_mult=4, bdcf_blocks=2, node_pool=mean, token_pool=mean
-2026-06-10 13:00:21,524 - BiDirectionalCrossFusion @  hyperparam -> bdcf_blocks:2, d_model:128, n_heads:4, dropout:0.1, ffn_mult:4, a_pool:mean, b_pool:mean
-2026-06-10 13:00:21,554 - Initialized model setting: full, exclude_modalities: ['ernie', 'morgan'], dropout: 0.1, d_model: 128, ffn_mult: 4, bdcf_blocks: 2, node_pool: mean, token_pool: mean
-2026-06-10 13:02:58,666 - NEW BEST @ epoch 1: val loss=2.6016, rmse=2.6016 ppc=0.0104, ssc=0.0511, r2=-2.9432; train loss=2.5999
-2026-06-10 13:03:01,019 - [Fold 1/5] PDBBindNL2020 external evaluation: p=-0.0175, s=-0.0743, rmse=2.9997, r2=-2.3299
-2026-06-10 13:03:01,056 - Fold number 2/5
-2026-06-10 13:03:01,066 - (|train|, |validation|, |external test|) -> (1196, 243, 66)
-2026-06-10 13:03:01,103 - (unique RNA train, validation, external test) -> (235, 59, 52)
-2026-06-10 13:03:01,103 - W/O PADDING -> MolRNACDataset for training setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
-2026-06-10 13:03:02,128 - W/O PADDING -> MolRNACDataset for evaluating setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
-2026-06-10 13:03:03,325 - MultiStructRSA - full | exclude_modalities=['ernie', 'morgan'] | freeze_grnade=False | smiles_seq_setting=deep, smiles_expert_setting=proj, dropout=0.1, d_model=128, ffn_mult=4, bdcf_blocks=2, node_pool=mean, token_pool=mean
-2026-06-10 13:03:03,398 - BiDirectionalCrossFusion @  hyperparam -> bdcf_blocks:2, d_model:128, n_heads:4, dropout:0.1, ffn_mult:4, a_pool:mean, b_pool:mean
-2026-06-10 13:03:03,428 - Initialized model setting: full, exclude_modalities: ['ernie', 'morgan'], dropout: 0.1, d_model: 128, ffn_mult: 4, bdcf_blocks: 2, node_pool: mean, token_pool: mean
-2026-06-10 13:05:37,676 - NEW BEST @ epoch 1: val loss=2.3525, rmse=2.3525 ppc=0.1271, ssc=0.0858, r2=-2.7500; train loss=2.6653
-2026-06-10 13:05:40,032 - [Fold 2/5] PDBBindNL2020 external evaluation: p=0.1229, s=0.1483, rmse=3.0255, r2=-2.3875
-2026-06-10 13:05:40,071 - Fold number 3/5
-2026-06-10 13:05:40,087 - (|train|, |validation|, |external test|) -> (1134, 305, 66)
-2026-06-10 13:05:40,087 - (unique RNA train, validation, external test) -> (235, 59, 52)
-2026-06-10 13:05:40,088 - W/O PADDING -> MolRNACDataset for training setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
-2026-06-10 13:05:41,074 - W/O PADDING -> MolRNACDataset for evaluating setting=4 rna aug=False mol aug=False - for RNA cross-attention fusion
-2026-06-10 13:05:42,080 - MultiStructRSA - full | exclude_modalities=['ernie', 'morgan'] | freeze_grnade=False | smiles_seq_setting=deep, smiles_expert_setting=proj, dropout=0.1, d_model=128, ffn_mult=4, bdcf_blocks=2, node_pool=mean, token_pool=mean
-2026-06-10 13:05:42,153 - BiDirectionalCrossFusion @  hyperparam -> bdcf_blocks:2, d_model:128, n_heads:4, dropout:0.1, ffn_mult:4, a_pool:mean, b_pool:mean
-2026-06-10 13:05:42,182 - Initialized model setting: full, exclude_modalities: ['ernie', 'morgan'], dropout: 0.1, d_model: 128, ffn_mult: 4, bdcf_blocks: 2, node_pool: mean, token_pool: mean
-2026-08-31 13:24:22,689 - log message
-2026-08-31 13:24:22,739 - ==========================================================================
-2026-08-31 13:24:22,739 - generating SimSon feature dataset ...
+2026-08-31 14:02:10,359 - log message
+2026-08-31 14:02:10,375 - ==========================================================================
+2026-08-31 14:02:10,375 - generating SimSon feature dataset ...
+2026-08-31 16:41:07,992 - finished & saved - simson features dataframe shape -> (100160, 513)
+2026-08-31 16:41:07,993 - ==========================================================================
+2026-08-31 16:41:07,993 - generating chemBERTa feature dataset ...
+2026-08-31 16:42:30,989 - finished & saved - chemberta features dataframe shape -> (100160, 385)
+2026-08-31 16:42:30,989 - ==========================================================================
+2026-08-31 16:42:30,989 - generating Mordred chemical descriptors feature dataset ...

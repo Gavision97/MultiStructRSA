@@ -1,0 +1,38 @@
+2026-09-02 12:45:01,218 - external pretrained checkpoint integration test
+2026-09-02 12:45:01,344 - MolRNACDatasetPDBBind for external evaluation | is_seq_emb=False, exclude_modalities=['ernie', 'morgan']
+2026-09-02 12:45:01,749 - PDBBindNL2020 external evaluation | rows=66, models=5, checkpoint_dir=saved_objects/trained_cold/0109/exp1_cold_rna, device=cpu
+2026-09-02 12:45:01,783 - MultiStructRSA - full | exclude_modalities=['ernie', 'morgan'] | freeze_grnade=False | smiles_seq_setting=deep, smiles_expert_setting=proj, dropout=0.1, d_model=128, ffn_mult=4, bdcf_blocks=2, node_pool=mean, token_pool=mean
+2026-09-02 12:45:01,972 - BiDirectionalCrossFusion @  hyperparam -> bdcf_blocks:2, d_model:128, n_heads:4, dropout:0.1, ffn_mult:4, a_pool:mean, b_pool:mean
+2026-09-02 12:45:02,005 - Initialized model setting: full, exclude_modalities: ['ernie', 'morgan'], dropout: 0.1, d_model: 128, ffn_mult: 4, bdcf_blocks: 2, node_pool: mean, token_pool: mean
+2026-09-02 12:45:09,521 - [model_1] PDBBindNL2020 | rmse=1.6727, pearson=0.3147, spearman=0.3141, r2=-0.0354
+2026-09-02 12:45:09,522 - [model_1] Predictions saved to: results/table_results/external_validation/0109/exp1/model_1/predictions.csv
+2026-09-02 12:45:09,548 - MultiStructRSA - full | exclude_modalities=['ernie', 'morgan'] | freeze_grnade=False | smiles_seq_setting=deep, smiles_expert_setting=proj, dropout=0.1, d_model=128, ffn_mult=4, bdcf_blocks=2, node_pool=mean, token_pool=mean
+2026-09-02 12:45:09,630 - BiDirectionalCrossFusion @  hyperparam -> bdcf_blocks:2, d_model:128, n_heads:4, dropout:0.1, ffn_mult:4, a_pool:mean, b_pool:mean
+2026-09-02 12:45:09,662 - Initialized model setting: full, exclude_modalities: ['ernie', 'morgan'], dropout: 0.1, d_model: 128, ffn_mult: 4, bdcf_blocks: 2, node_pool: mean, token_pool: mean
+2026-09-02 12:45:17,125 - [model_2] PDBBindNL2020 | rmse=1.6606, pearson=0.2851, spearman=0.3765, r2=-0.0206
+2026-09-02 12:45:17,125 - [model_2] Predictions saved to: results/table_results/external_validation/0109/exp1/model_2/predictions.csv
+2026-09-02 12:45:17,153 - MultiStructRSA - full | exclude_modalities=['ernie', 'morgan'] | freeze_grnade=False | smiles_seq_setting=deep, smiles_expert_setting=proj, dropout=0.1, d_model=128, ffn_mult=4, bdcf_blocks=2, node_pool=mean, token_pool=mean
+2026-09-02 12:45:17,239 - BiDirectionalCrossFusion @  hyperparam -> bdcf_blocks:2, d_model:128, n_heads:4, dropout:0.1, ffn_mult:4, a_pool:mean, b_pool:mean
+2026-09-02 12:45:17,274 - Initialized model setting: full, exclude_modalities: ['ernie', 'morgan'], dropout: 0.1, d_model: 128, ffn_mult: 4, bdcf_blocks: 2, node_pool: mean, token_pool: mean
+2026-09-02 12:45:25,007 - [model_3] PDBBindNL2020 | rmse=1.6413, pearson=0.3302, spearman=0.3587, r2=0.0030
+2026-09-02 12:45:25,007 - [model_3] Predictions saved to: results/table_results/external_validation/0109/exp1/model_3/predictions.csv
+2026-09-02 12:45:25,033 - MultiStructRSA - full | exclude_modalities=['ernie', 'morgan'] | freeze_grnade=False | smiles_seq_setting=deep, smiles_expert_setting=proj, dropout=0.1, d_model=128, ffn_mult=4, bdcf_blocks=2, node_pool=mean, token_pool=mean
+2026-09-02 12:45:25,118 - BiDirectionalCrossFusion @  hyperparam -> bdcf_blocks:2, d_model:128, n_heads:4, dropout:0.1, ffn_mult:4, a_pool:mean, b_pool:mean
+2026-09-02 12:45:25,155 - Initialized model setting: full, exclude_modalities: ['ernie', 'morgan'], dropout: 0.1, d_model: 128, ffn_mult: 4, bdcf_blocks: 2, node_pool: mean, token_pool: mean
+2026-09-02 12:45:32,558 - [model_4] PDBBindNL2020 | rmse=1.5159, pearson=0.4322, spearman=0.4955, r2=0.1496
+2026-09-02 12:45:32,559 - [model_4] Predictions saved to: results/table_results/external_validation/0109/exp1/model_4/predictions.csv
+2026-09-02 12:45:32,585 - MultiStructRSA - full | exclude_modalities=['ernie', 'morgan'] | freeze_grnade=False | smiles_seq_setting=deep, smiles_expert_setting=proj, dropout=0.1, d_model=128, ffn_mult=4, bdcf_blocks=2, node_pool=mean, token_pool=mean
+2026-09-02 12:45:32,666 - BiDirectionalCrossFusion @  hyperparam -> bdcf_blocks:2, d_model:128, n_heads:4, dropout:0.1, ffn_mult:4, a_pool:mean, b_pool:mean
+2026-09-02 12:45:32,699 - Initialized model setting: full, exclude_modalities: ['ernie', 'morgan'], dropout: 0.1, d_model: 128, ffn_mult: 4, bdcf_blocks: 2, node_pool: mean, token_pool: mean
+2026-09-02 12:45:41,334 - [model_5] PDBBindNL2020 | rmse=1.6712, pearson=0.2785, spearman=0.3456, r2=-0.0336
+2026-09-02 12:45:41,335 - [model_5] Predictions saved to: results/table_results/external_validation/0109/exp1/model_5/predictions.csv
+2026-09-02 12:45:41,342 - PDBBindNL2020 external evaluation complete
+Dataset size: 66
+Checkpoint directory: saved_objects/trained_cold/0109/exp1_cold_rna
+Models evaluated: 5
+model_1: rmse=1.6727, pearson=0.3147, spearman=0.3141, r2=-0.0354 | predictions=results/table_results/external_validation/0109/exp1/model_1/predictions.csv
+model_2: rmse=1.6606, pearson=0.2851, spearman=0.3765, r2=-0.0206 | predictions=results/table_results/external_validation/0109/exp1/model_2/predictions.csv
+model_3: rmse=1.6413, pearson=0.3302, spearman=0.3587, r2=0.0030 | predictions=results/table_results/external_validation/0109/exp1/model_3/predictions.csv
+model_4: rmse=1.5159, pearson=0.4322, spearman=0.4955, r2=0.1496 | predictions=results/table_results/external_validation/0109/exp1/model_4/predictions.csv
+model_5: rmse=1.6712, pearson=0.2785, spearman=0.3456, r2=-0.0336 | predictions=results/table_results/external_validation/0109/exp1/model_5/predictions.csv
+Statistics: results/table_results/external_validation/0109/exp1/results.csv

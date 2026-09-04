@@ -1,258 +1,244 @@
-import os
-os.environ["CUBLAS_WORKSPACE_CONFIG"] = ":4096:8"
-
 import logging
+import os
+
 import numpy as np
 import pandas as pd
 import torch
-
 from torch.utils.data import DataLoader
 
-from utils.utils import *
-from utils.tools import set_seed
-from utils.utils import rmse_loss
-from utils.plot_utils import plot_train_val_loss, plot_prediction_correlation
-from utils.MolRNACDataset import MolRNADataset
+from models.MultiStructRSA import choose_model_setting
 from utils.MolRNACDatasetPDBBind import MolRNACDatasetPDBBind
-from models.MultiStructRSA import *
+from utils.utils import predict, safe_regression_metrics
 
 
 logger = logging.getLogger(__name__)
 
 
-MODE = "min"
-MAX_EPOCHS = 200
-
-RSIM_PATH = "/home/gavrilev/Thesis/src/datasets/RSIM/All_sf_dataset_v1.csv"
-PDBBIND_PATH = "/home/gavrilev/Thesis/src/datasets/PDBBind2020/pdbbindnl2020_preprocessed.csv"
-RESULTS_ROOT = "/home/gavrilev/Thesis/src/results/external_validation_pdbbind"
-
-
-def normalize_rna_sequences(df):
-    df = df.copy()
-    df["Target_RNA_sequence"] = df["Target_RNA_sequence"].astype(str).str.strip().str.upper().str.replace("T", "U", regex=False).str.replace("Y", "U", regex=False).str.replace("X", "U", regex=False)
-    return df
+N_MODELS = 5
+PDBBIND_PATH = os.path.join(
+    "datasets", "PDBBind2020", "pdbbindnl2020_preprocessed.csv"
+)
+MODEL_ROOT = os.path.join("saved_objects", "trained_cold")
+RESULTS_ROOT = os.path.join(
+    "results", "table_results", "external_validation"
+)
 
 
-def perform_pdbbind_external_eval(exp_id, date, model_setting="full", train_setting=4, val_setting=4, rna_aug=False, mol_aug=False, patience=20, warm_up_epochs=10, delta=1e-5, lr=5e-5, wd=1e-5, dropout=0.1, exclude_modalities=None, freeze_grnade=False, smiles_seq_setting="deep", smiles_expert_setting="proj", batch_size=1, num_workers=8, is_plot=False, is_seq_emb=False, d_model=128, ffn_mult=4, bdcf_blocks=1, node_pool="attn", token_pool="mean", n=5, plot_name="pdbbind_external", device="cuda", dataset_seed=2, seed=1):
-    """Train on stratified R-SIM folds and evaluate each best model on PDBBind."""
+def perform_pdbbind_external_eval(
+    exp_id,
+    date,
+    model_save_dir=None,
+    num_workers=0,
+    device="cuda",
+):
+    """Evaluate five pretrained cold-RNA models on PDBBindNL2020."""
 
-    output_dir = os.path.join(RESULTS_ROOT, str(date))
-    predictions_path = os.path.join(output_dir, f"pdbbind_external_predictions_exp{exp_id}.csv")
-    fold_results_path = os.path.join(output_dir, f"pdbbind_external_fold_results_exp{exp_id}.csv")
+    if str(device).startswith("cuda") and not torch.cuda.is_available():
+        raise RuntimeError("CUDA was requested but is not available")
 
-    logger.info(f"External validation on PDBBindNL2020 | folds={n}, seed={seed}, dataset_seed={dataset_seed}, batch_size={batch_size}, max_epochs={MAX_EPOCHS}, lr={lr}, weight_decay={wd}, patience={patience}, warm_up_epochs={warm_up_epochs}, delta={delta}")
+    exp_num = f"exp{exp_id}"
+    if model_save_dir is None:
+        model_save_dir = os.path.join(
+            MODEL_ROOT, str(date), f"{exp_num}_cold_rna"
+        )
 
-    if n < 2:
-        raise ValueError("n must be at least 2 for stratified cross-validation")
+    output_dir = os.path.join(RESULTS_ROOT, str(date), exp_num)
+    results_path = os.path.join(output_dir, "results.csv")
 
     ########################################################################
-    # Load the fixed PDBBindNL2020 external test set
+    # Validate all checkpoint paths before evaluation starts
+    ########################################################################
+
+    checkpoint_paths = [
+        os.path.join(model_save_dir, f"model_fold_{i}.pt")
+        for i in range(1, N_MODELS + 1)
+    ]
+    missing_paths = [path for path in checkpoint_paths if not os.path.isfile(path)]
+
+    if missing_paths:
+        raise FileNotFoundError(
+            f"Missing pretrained cold-RNA model checkpoints: {missing_paths}"
+        )
+
+    model_configs = []
+    excluded_modalities = []
+    sequence_embedding_settings = []
+
+    for checkpoint_path in checkpoint_paths:
+        checkpoint = torch.load(checkpoint_path, map_location="cpu")
+
+        if not isinstance(checkpoint, dict):
+            raise ValueError(
+                f"Checkpoint does not contain the expected metadata: {checkpoint_path}"
+            )
+
+        required_checkpoint_keys = {"model_state_dict", "model_config"}
+        missing_checkpoint_keys = required_checkpoint_keys - set(checkpoint)
+        if missing_checkpoint_keys:
+            raise ValueError(
+                f"Checkpoint {checkpoint_path} is missing keys: "
+                f"{sorted(missing_checkpoint_keys)}"
+            )
+
+        training_config = checkpoint.get("training_config", {})
+        model_config = checkpoint["model_config"]
+        model_configs.append(model_config)
+        excluded_modalities.append(set(model_config.get("exclude_modalities") or []))
+        sequence_embedding_settings.append(
+            bool(training_config.get("is_seq_emb", False))
+        )
+        del checkpoint
+
+    excluded_by_all_models = set.intersection(*excluded_modalities)
+    if len(set(sequence_embedding_settings)) != 1:
+        raise ValueError(
+            "All checkpoints must use the same is_seq_emb setting for external evaluation"
+        )
+    is_seq_emb = sequence_embedding_settings[0]
+
+    ########################################################################
+    # Load the fixed PDBBindNL2020 external-validation set once
     ########################################################################
 
     pdbbind_df = pd.read_csv(PDBBIND_PATH).copy()
-
     required_columns = {"SMILES", "Target_RNA_sequence", "pKd"}
     missing_columns = required_columns - set(pdbbind_df.columns)
 
     if missing_columns:
-        raise ValueError(f"PDBBind dataframe is missing required columns: {sorted(missing_columns)}")
+        raise ValueError(
+            "PDBBind dataframe is missing required columns: "
+            f"{sorted(missing_columns)}"
+        )
 
-    pdbbind_df = normalize_rna_sequences(pdbbind_df)
+    if pdbbind_df.empty:
+        raise ValueError("PDBBindNL2020 external-validation dataset is empty")
 
-    logger.info(f"PDBBind external set | rows={len(pdbbind_df)}, unique RNAs={pdbbind_df['Target_RNA_sequence'].nunique()}, unique molecules={pdbbind_df['SMILES'].nunique()}")
+    external_ds = MolRNACDatasetPDBBind(
+        pdbbind_df,
+        task="external evaluation",
+        is_seq_emb=is_seq_emb,
+        exclude_modalities=excluded_by_all_models,
+    )
+    external_loader = DataLoader(
+        external_ds,
+        batch_size=1,
+        shuffle=False,
+        collate_fn=MolRNACDatasetPDBBind.collate_fn,
+        num_workers=num_workers,
+    )
+    ordered_external_df = external_ds.get_df()
 
-    ########################################################################
-    # Load R-SIM and build the same regression-stratified folds as cv_eval.py
-    ########################################################################
-
-    rsim_df = pd.read_csv(RSIM_PATH, sep="\t").copy()
-    missing_columns = required_columns - set(rsim_df.columns)
-
-    if missing_columns:
-        raise ValueError(f"R-SIM dataframe is missing required columns: {sorted(missing_columns)}")
-
-    rsim_df = normalize_rna_sequences(rsim_df)
-    y = rsim_df["pKd"].to_numpy(dtype=np.float32)
-
-    rsim_external_overlap = set(rsim_df["Target_RNA_sequence"]) & set(pdbbind_df["Target_RNA_sequence"])
-    assert len(rsim_external_overlap) == 0, f"Found {len(rsim_external_overlap)} RNA overlap(s) between R-SIM and PDBBindNL2020: {sorted(rsim_external_overlap)}"
-
-    splitter = regressor_stratified_cv(n_splits=n, n_repeats=1, random_state=dataset_seed, group_count=5, strategy="uniform")
-
-    logger.info(f"R-SIM training data | rows={len(rsim_df)}, unique RNAs={rsim_df['Target_RNA_sequence'].nunique()}, unique molecules={rsim_df['SMILES'].nunique()}")
-
-    external_ds = MolRNACDatasetPDBBind(pdbbind_df, task="external evaluation", is_seq_emb=is_seq_emb)
-    external_loader = DataLoader(external_ds, batch_size=1, shuffle=False, collate_fn=MolRNACDatasetPDBBind.collate_fn, num_workers=num_workers)
-
-    ########################################################################
-    # Result containers
-    ########################################################################
-
-    p_list = []
-    s_list = []
-    rmse_list = []
-    r2_list = []
-    best_epoch_list = []
-
-    fold_results = []
-    all_predictions = []
+    logger.info(
+        "PDBBindNL2020 external evaluation | "
+        f"rows={len(ordered_external_df)}, models={N_MODELS}, "
+        f"checkpoint_dir={model_save_dir}, is_seq_emb={is_seq_emb}, device={device}"
+    )
 
     ########################################################################
-    # Train one model for each regression-stratified R-SIM fold
+    # Evaluate every pretrained checkpoint independently
     ########################################################################
 
-    for fold, (train_index, val_index) in enumerate(splitter.split(np.zeros(len(y)), y), start=1):
-        set_seed(seed_=seed)
+    model_results = []
+    prediction_paths = []
 
-        logger.info(f"Fold number {fold}/{n}")
+    for i, (checkpoint_path, model_config) in enumerate(
+        zip(checkpoint_paths, model_configs), start=1
+    ):
+        checkpoint = torch.load(checkpoint_path, map_location="cpu")
 
-        train_df = rsim_df.iloc[train_index].reset_index(drop=True)
-        val_df = rsim_df.iloc[val_index].reset_index(drop=True)
+        model = choose_model_setting(**model_config)
+        model.load_state_dict(checkpoint["model_state_dict"], strict=True)
+        model = model.to(device)
+        model.eval()
 
-        logger.info(f"(|train|, |validation|, |external test|) -> ({len(train_df)}, {len(val_df)}, {len(pdbbind_df)})")
-        logger.info(f"(unique RNA train, validation, external test) -> ({train_df['Target_RNA_sequence'].nunique()}, {val_df['Target_RNA_sequence'].nunique()}, {pdbbind_df['Target_RNA_sequence'].nunique()})")
+        with torch.no_grad():
+            y_true, y_pred = predict(model, external_loader, device)
 
-        ####################################################################
-        # Datasets and loaders
-        ####################################################################
+        y_true = np.asarray(y_true, dtype=np.float32).reshape(-1)
+        y_pred = np.asarray(y_pred, dtype=np.float32).reshape(-1)
 
-        train_ds = MolRNADataset(train_df, setting=train_setting, rna_aug=rna_aug, mol_aug=mol_aug, task="training", is_seq_emb=is_seq_emb)
-        val_ds = MolRNADataset(val_df, setting=val_setting, rna_aug=False, mol_aug=False, task="evaluating", is_seq_emb=is_seq_emb)
+        if len(y_true) != len(ordered_external_df):
+            raise ValueError(
+                f"Model {i} produced {len(y_true)} targets for "
+                f"{len(ordered_external_df)} PDBBindNL2020 samples"
+            )
+        if len(y_pred) != len(ordered_external_df):
+            raise ValueError(
+                f"Model {i} produced {len(y_pred)} predictions for "
+                f"{len(ordered_external_df)} PDBBindNL2020 samples"
+            )
+        if not np.isfinite(y_true).all():
+            raise ValueError(f"Model {i} evaluation contains non-numeric true pKd values")
+        if not np.isfinite(y_pred).all():
+            raise ValueError(f"Model {i} produced non-numeric predicted pKd values")
 
-        generator = torch.Generator().manual_seed(seed)
+        pearson, spearman, rmse, r2 = safe_regression_metrics(y_true, y_pred)
 
-        train_loader = DataLoader(train_ds, batch_size=batch_size, generator=generator, shuffle=True, collate_fn=MolRNADataset.collate_fn, num_workers=num_workers)
-        val_loader = DataLoader(val_ds, batch_size=batch_size, shuffle=False, collate_fn=MolRNADataset.collate_fn, num_workers=num_workers)
+        model_name = f"model_{i}"
+        model_output_dir = os.path.join(output_dir, model_name)
+        predictions_path = os.path.join(model_output_dir, "predictions.csv")
+        os.makedirs(model_output_dir, exist_ok=True)
 
-        ####################################################################
-        # Model and optimization
-        ####################################################################
+        predictions_df = ordered_external_df[
+            ["SMILES", "Target_RNA_sequence"]
+        ].copy()
+        predictions_df["true_pkd"] = y_true
+        predictions_df["predicted_pkd"] = y_pred
+        predictions_df.to_csv(predictions_path, index=False)
 
-        early_stopping = EarlyStopping(mode=MODE, patience=patience, warm_up_epochs=warm_up_epochs, delta=delta)
+        model_results.append(
+            {
+                "model": model_name,
+                "rmse": float(rmse),
+                "pearson": float(pearson),
+                "spearman": float(spearman),
+                "r2": float(r2),
+            }
+        )
+        prediction_paths.append(predictions_path)
 
-        model = choose_model_setting(option=model_setting, exclude_modalities=exclude_modalities, freeze_grnade=freeze_grnade, dropout=dropout, smiles_seq_setting=smiles_seq_setting, smiles_expert_setting=smiles_expert_setting, d_model=d_model, ffn_mult=ffn_mult, bdcf_blocks=bdcf_blocks, node_pool=node_pool, token_pool=token_pool).to(device)
+        logger.info(
+            f"[{model_name}] PDBBindNL2020 | rmse={rmse:.4f}, "
+            f"pearson={pearson:.4f}, spearman={spearman:.4f}, r2={r2:.4f}"
+        )
+        logger.info(f"[{model_name}] Predictions saved to: {predictions_path}")
 
-        optimizer = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=wd)
-        criterion = rmse_loss
-
-        train_losses = []
-        val_losses = []
-
-        ####################################################################
-        # Training and early stopping on the R-SIM validation fold
-        ####################################################################
-
-        for epoch in range(MAX_EPOCHS):
-            train_loss = train_one_epoch(model, train_loader, optimizer, criterion, device)
-            train_losses.append(train_loss)
-
-            y_true_val, y_pred_val = predict(model, val_loader, device)
-            p_val, s_val, rmse_val, r2_val = safe_regression_metrics(y_true_val, y_pred_val)
-
-            val_losses.append(rmse_val)
-
-            early_stopping.check_early_stop(model, rmse_val, [p_val, s_val, r2_val, rmse_val], train_loss, epoch, [y_true_val, y_pred_val])
-
-            if early_stopping.stop_training:
-                logger.info(f"[Fold {fold}/{n}] Early stopping at epoch {epoch + 1}. Best validation RMSE={early_stopping.best_score:.4f} at epoch {early_stopping.best_epoch + 1}")
-                break
-
-        if early_stopping.best_model is None:
-            raise RuntimeError(f"No best model was stored for fold {fold}.")
-
-        ####################################################################
-        # Restore the best validation model
-        ####################################################################
-
-        model.load_state_dict(early_stopping.best_model)
-
-        best_epoch = early_stopping.best_epoch + 1
-        best_epoch_list.append(best_epoch)
-
-        ####################################################################
-        # Evaluate on PDBBindNL2020
-        ####################################################################
-
-        y_true_external, y_pred_external = predict(model, external_loader, device)
-        p_external, s_external, rmse_external, r2_external = safe_regression_metrics(y_true_external, y_pred_external)
-
-        logger.info(f"[Fold {fold}/{n}] PDBBindNL2020 external evaluation: p={p_external:.4f}, s={s_external:.4f}, rmse={rmse_external:.4f}, r2={r2_external:.4f}")
-
-        p_list.append(p_external)
-        s_list.append(s_external)
-        rmse_list.append(rmse_external)
-        r2_list.append(r2_external)
-
-        fold_results.append({"fold": fold, "train_rows": len(train_df), "validation_rows": len(val_df), "external_rows": len(pdbbind_df), "best_epoch": best_epoch, "p": p_external, "s": s_external, "rmse": rmse_external, "r2": r2_external})
-
-        ####################################################################
-        # Store per-sample predictions
-        ####################################################################
-
-        prediction_columns = ["SMILES", "Target_RNA_sequence", "pKd"]
-
-        if "pdb_file" in pdbbind_df.columns:
-            prediction_columns.append("pdb_file")
-
-        fold_predictions = pdbbind_df[prediction_columns].copy()
-        fold_predictions["fold"] = fold
-        fold_predictions["y_true"] = np.asarray(y_true_external).reshape(-1)
-        fold_predictions["y_pred"] = np.asarray(y_pred_external).reshape(-1)
-
-        all_predictions.append(fold_predictions)
-
-        ####################################################################
-        # Optional plots
-        ####################################################################
-
-        if is_plot:
-            plots_dir = os.path.join("results", "plots", "pdbbind_external")
-            os.makedirs(plots_dir, exist_ok=True)
-
-            plot_train_val_loss(train_losses, val_losses, save_path=os.path.join(plots_dir, f"losses_{plot_name}_fold_{fold}.png"), title="R-SIM Training and Validation RMSE")
-            plot_prediction_correlation(y_true_external, y_pred_external, save_path=os.path.join(plots_dir, f"predictions_{plot_name}_fold_{fold}.png"), title="PDBBindNL2020 External Evaluation")
-
-        del model
-        del optimizer
-
-        if torch.cuda.is_available():
+        del model, checkpoint
+        if str(device).startswith("cuda"):
             torch.cuda.empty_cache()
 
     ########################################################################
-    # Save detailed outputs
+    # Save one row per independently evaluated model
     ########################################################################
 
+    results_df = pd.DataFrame(model_results)
     os.makedirs(output_dir, exist_ok=True)
+    results_df.to_csv(results_path, index=False)
 
-    pd.concat(all_predictions, ignore_index=True).to_csv(predictions_path, index=False)
-    pd.DataFrame(fold_results).to_csv(fold_results_path, index=False)
+    summary_lines = [
+        "PDBBindNL2020 external evaluation complete",
+        f"Dataset size: {len(ordered_external_df)}",
+        f"Checkpoint directory: {model_save_dir}",
+        f"Models evaluated: {len(model_results)}",
+    ]
+    for result, predictions_path in zip(model_results, prediction_paths):
+        summary_lines.append(
+            f"{result['model']}: rmse={result['rmse']:.4f}, "
+            f"pearson={result['pearson']:.4f}, "
+            f"spearman={result['spearman']:.4f}, r2={result['r2']:.4f} | "
+            f"predictions={predictions_path}"
+        )
+    summary_lines.append(f"Statistics: {results_path}")
+    summary = "\n".join(summary_lines)
 
-    ########################################################################
-    # Mean and standard deviation across the trained models
-    ########################################################################
+    logger.info(summary)
+    print(summary)
 
-    res = {
-        "p_mean": round(float(np.mean(p_list)), 5),
-        "p_std": round(float(np.std(p_list)), 5),
-        "s_mean": round(float(np.mean(s_list)), 5),
-        "s_std": round(float(np.std(s_list)), 5),
-        "rmse_mean": round(float(np.mean(rmse_list)), 5),
-        "rmse_std": round(float(np.std(rmse_list)), 5),
-        "r2_mean": round(float(np.mean(r2_list)), 5),
-        "r2_std": round(float(np.std(r2_list)), 5),
-        "best_epochs": best_epoch_list,
-        "per_fold": {
-            "p": p_list,
-            "s": s_list,
-            "rmse": rmse_list,
-            "r2": r2_list,
-        },
+    return {
+        "dataset_size": len(ordered_external_df),
+        "checkpoint_dir": model_save_dir,
+        "models_evaluated": len(model_results),
+        "model_results": model_results,
+        "prediction_paths": prediction_paths,
+        "results_path": results_path,
     }
-
-    logger.info("PDBBindNL2020 external-validation results:")
-    logger.info(res)
-    logger.info(f"Per-sample predictions saved to: {predictions_path}")
-    logger.info(f"Per-fold results saved to: {fold_results_path}")
-
-    return res

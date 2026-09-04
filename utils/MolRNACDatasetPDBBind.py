@@ -19,8 +19,16 @@ logger = logging.getLogger(__name__)
 
 class MolRNACDatasetPDBBind(Dataset):
 
-    def __init__(self, ds_, task="external evaluation", is_seq_emb=False):
-        logger.info(f"MolRNACDatasetPDBBind for {task} | is_seq_emb={is_seq_emb}")
+    def __init__(self, ds_, task="external evaluation", is_seq_emb=False, exclude_modalities=None):
+        if exclude_modalities is None:
+            exclude_modalities = []
+
+        self.exclude_modalities = set(exclude_modalities)
+
+        logger.info(
+            f"MolRNACDatasetPDBBind for {task} | is_seq_emb={is_seq_emb}, "
+            f"exclude_modalities={sorted(self.exclude_modalities)}"
+        )
 
         self.task = task
         self.is_seq_emb = is_seq_emb
@@ -37,12 +45,19 @@ class MolRNACDatasetPDBBind(Dataset):
 
         smiles_features_dict = self.open_pkl(SMILES_EMB_PATH)
 
-        self.smiles_morgan_features = smiles_features_dict["morgan fingerprints"]
         self.mordred_descriptors_features = scale_nonzero(smiles_features_dict["mordred descriptors"])
         self.smiles_chemberta_features = smiles_features_dict["chemberta"]
         self.smiles_simson_features = smiles_features_dict["simson"]
 
-        self.morgan_dict = self.df_to_tensor_dict(self.smiles_morgan_features)
+        if "morgan fingerprints" in smiles_features_dict:
+            self.morgan_dict = self.df_to_tensor_dict(smiles_features_dict["morgan fingerprints"])
+        elif "morgan" in self.exclude_modalities:
+            self.morgan_dict = {}
+        else:
+            raise KeyError(
+                "PDBBind SMILES features do not contain 'morgan fingerprints'"
+            )
+
         self.mordred_dict = self.df_to_tensor_dict(self.mordred_descriptors_features)
         self.chemberta_dict = self.df_to_tensor_dict(self.smiles_chemberta_features)
         self.simson_dict = self.df_to_tensor_dict(self.smiles_simson_features)
@@ -89,7 +104,11 @@ class MolRNACDatasetPDBBind(Dataset):
 
         missing_graphs = sequences - set(self.seq_to_g)
         missing_rinalmo = sequences - set(self.rinalmo_embeddings)
-        missing_morgan = smiles_values - set(self.morgan_dict)
+        missing_morgan = (
+            set()
+            if "morgan" in self.exclude_modalities
+            else smiles_values - set(self.morgan_dict)
+        )
         missing_mordred = smiles_values - set(self.mordred_dict)
         missing_chemberta = smiles_values - set(self.chemberta_dict)
         missing_simson = smiles_values - set(self.simson_dict)
@@ -161,7 +180,10 @@ class MolRNACDatasetPDBBind(Dataset):
             ernie = ernie.mean(dim=0)
             rinalmo = rinalmo.mean(dim=0)
 
-        morgan_fingerprint = self.morgan_dict[smiles]
+        if "morgan" in self.exclude_modalities:
+            morgan_fingerprint = torch.zeros(1024, dtype=torch.float32)
+        else:
+            morgan_fingerprint = self.morgan_dict[smiles]
         mordred_descriptors = self.mordred_dict[smiles]
         chemberta = self.chemberta_dict[smiles]
         simson = self.simson_dict[smiles]

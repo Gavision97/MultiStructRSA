@@ -26,13 +26,19 @@ def get_args():
         "--exp_id",
         type=int,
         default=1,
-        help="Experiment ID used in external-validation output filenames"
+        help=(
+            "Experiment number used for trained_cold/<date>/exp<ID>_cold_rna "
+            "checkpoints and external_validation/<date>/exp<ID> results"
+        )
     )
     parser.add_argument(
         "--date",
         type=str,
         default="undated",
-        help="Date label used as the external-validation result subdirectory"
+        help=(
+            "Date label used for both the pretrained checkpoint directory and "
+            "external-validation result directory"
+        )
     )
     parser.add_argument(
         "--log_msg",
@@ -70,7 +76,7 @@ def get_args():
         "--dataset_seed",
         type=int,
         default=74,
-        help="Dataset split seed (controls cross-validation fold creation)"
+        help="Dataset split seed (controls cross-validation and scaffold splits)"
     )
 
     # execution / evaluation
@@ -78,7 +84,7 @@ def get_args():
         "--setting",
         type=str,
         default="smi_emb_gen",
-        choices=["cv", "loo_cv", "cold", "train_cold", "external", "smi_emb_gen"],
+        choices=["cv", "loo_cv", "cold", "train_cold", "train_scaffold", "external", "smi_emb_gen"],
         help="Execution setting (e.g. SMILES feature generation, stratified k-fold CV evaluation, etc.)"
     )
     parser.add_argument(
@@ -169,15 +175,16 @@ def get_args():
         "--max_epochs",
         type=int,
         default=200,
-        help="Maximum number of training epochs used by train_cold"
+        help="Maximum number of training epochs used by training settings"
     )
     parser.add_argument(
         "--model_save_dir",
         type=str,
         default=None,
         help=(
-            "Optional directory for train_cold checkpoints. By default they are "
-            "saved under saved_objects/trained_cold/<date>/<experiment>/"
+            "Optional train_cold checkpoint output directory or external-evaluation "
+            "checkpoint directory. By default saved_objects/trained_cold/<date>/"
+            "exp<ID>_cold_rna is used."
         )
     )
 
@@ -217,7 +224,7 @@ def get_args():
     parser.add_argument(
         "--smiles_path",
         type=str,
-        default="/home/gavrilev/Thesis/src/saved_objects/chemdiv_unique_smiles.pkl", # /home/gavrilev/Thesis/src/datasets/PDBBind2020/pdbbind_unique_smiles.pkl
+        default="/home/gavrilev/Thesis/src/datasets/PDBBind2020/pdbbind_unique_smiles.pkl", # /home/gavrilev/Thesis/src/datasets/PDBBind2020/pdbbind_unique_smiles.pkl
         help="Path to pickled SMILES molecule set"
     )
     parser.add_argument(
@@ -230,7 +237,7 @@ def get_args():
     parser.add_argument(
         "--save_name",
         type=str,
-        default="smiles_emb_chemdiv", # smiles_emb_pdbbind for PDBBindNL2020 custom dataset, smiles_emb_enamine for case study
+        default="smiles_emb_pdbbind", # smiles_emb_pdbbind for PDBBindNL2020 custom dataset, smiles_emb_enamine for case study
         help="Generated SMILES embeddings save name; will be saved to embeddings/smiles/<save_name>.pkl"
     )
 

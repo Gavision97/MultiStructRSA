@@ -1,0 +1,6 @@
+2026-09-04 14:27:44,973 - ChemDiv MC Dropout screening against SLI with 100 stochastic samples per molecule
+2026-09-04 14:27:45,429 - MolRNACDatasetChemDiv for ChemDiv virtual screening | target RNA length=34
+2026-09-04 14:27:48,378 - ChemDiv alignment complete | found=24000, valid=24000, skipped=0
+2026-09-04 14:27:48,385 - MultiStructRSA - full | exclude_modalities=['ernie', 'morgan'] | freeze_grnade=False | smiles_seq_setting=deep, smiles_expert_setting=proj, dropout=0.1, d_model=128, ffn_mult=4, bdcf_blocks=2, node_pool=mean, token_pool=mean
+2026-09-04 14:27:48,535 - BiDirectionalCrossFusion @  hyperparam -> bdcf_blocks:2, d_model:128, n_heads:4, dropout:0.1, ffn_mult:4, a_pool:mean, b_pool:mean
+2026-09-04 14:27:48,558 - Initialized model setting: full, exclude_modalities: ['ernie', 'morgan'], dropout: 0.1, d_model: 128, ffn_mult: 4, bdcf_blocks: 2, node_pool: mean, token_pool: mean

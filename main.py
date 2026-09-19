@@ -13,6 +13,7 @@ from evaluate.cold_eval_ import preform_cold_blind_eval
 from evaluate.train_cold import train_cold_models
 from evaluate.train_scaffold import train_scaffold_model
 from evaluate.external_eval_pdbbind_ import perform_pdbbind_external_eval
+from evaluate.eval_case_study import evaluate_case_study
 from utils.generate_smiles_features import generate_smiles_features
 from utils.parser import get_args
 
@@ -430,6 +431,7 @@ def main():
     dropout = args.dropout
     batch_size = args.batch_size
     num_workers = args.num_workers
+    mc_samples = args.mc_samples
     max_epochs = args.max_epochs
     model_save_dir = args.model_save_dir
     device = args.device
@@ -631,6 +633,11 @@ def main():
                                        model_save_dir=model_save_dir,
                                        num_workers=num_workers,
                                        device=device)
+
+    elif setting == "screen":
+        evaluate_case_study(mc_samples=mc_samples,
+                            num_workers=num_workers,
+                            device=device)
 
     # extract & save SMILES embeddings to desire path
     elif setting == "smi_emb_gen":

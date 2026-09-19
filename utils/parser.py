@@ -84,8 +84,14 @@ def get_args():
         "--setting",
         type=str,
         default="smi_emb_gen",
-        choices=["cv", "loo_cv", "cold", "train_cold", "train_scaffold", "external", "smi_emb_gen"],
+        choices=["cv", "loo_cv", "cold", "train_cold", "train_scaffold", "external", "screen", "smi_emb_gen"],
         help="Execution setting (e.g. SMILES feature generation, stratified k-fold CV evaluation, etc.)"
+    )
+    parser.add_argument(
+        "--mc_samples",
+        type=int,
+        default=100,
+        help="Number of Monte Carlo Dropout samples used for ChemDiv screening"
     )
     parser.add_argument(
         "--model_setting",

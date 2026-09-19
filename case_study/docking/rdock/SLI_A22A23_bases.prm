@@ -1,0 +1,20 @@
+RBT_PARAMETER_FILE_V1.00
+TITLE SLI_A22_A23_base_region
+
+RECEPTOR_FILE /home/gavrilev/Thesis/src/case_study/docking/receptor/SLI_model_0.mol2
+
+SECTION MAPPER
+    SITE_MAPPER RbtLigandSiteMapper
+    REF_MOL A22A23_base_atoms.sdf
+    RADIUS 5.0
+    SMALL_SPHERE 1.0
+    MIN_VOLUME 100
+    MAX_CAVITIES 1
+    VOL_INCR 0.0
+    GRIDSTEP 0.5
+END_SECTION
+
+SECTION CAVITY
+    SCORING_FUNCTION RbtCavityGridSF
+    WEIGHT 1.0
+END_SECTION

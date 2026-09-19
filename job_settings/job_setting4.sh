@@ -7,7 +7,7 @@
 
 #SBATCH --partition=main
 #SBATCH --time=0-72:00:00
-#SBATCH --job-name=cold_eval
+#SBATCH --job-name=case_study_mc_dropout
 #SBATCH --output=jobs/job-%J.out
 #SBATCH --error=jobs/job-%J.err
 #SBATCH --gpus=rtx_4090:1
@@ -19,62 +19,13 @@
 ### Experiment variables ###
 ############################
 
-EXP_ID=2
-DATE=2906
-
-MODEL_SETTING="full"   # ["full", "freezed", "w/o seq", "w/o 3D struct", "w/o fusion"]
-EXCLUDE_MODALITIES="morgan ernie"   # e.g. simson / chemberta / mordred / morgan / rinalmo / ernie / grnade
-
-TRAIN_SETTING=4
-RNA_MULTICONFORMER="False"
-VAL_SETTING=4
-MOL_AUG="True"
-RNA_AUG="False"
-IS_SEQ_EMB="False"
-
-RES_FILE_NAME="cold_${DATE}"
-IS_PLOT="False"
-PLOT_NAME="${DATE}_exp${EXP_ID}"
-LOG_FILE_NAME="cold_${DATE}_exp${EXP_ID}"
-
-# Best hyperparameters from global hyperparameter search
-LR=2e-5
-WD=1e-6
-DROPOUT=0.1
-
-PATIENCE=15
-WARM_UP_EPOCHS=10
-DELTA=1e-3  
-# Best RNA module hyperparameters
-D_MODEL=128
-FFN_MULT=4
-BDCF_BLOCKS=2
-NODE_POOL="mean"
-TOKEN_POOL="mean"
-
-# Best SMILES module hyperparameters
-SMILES_SEQ_SETTING="deep"
-SMILES_EXPERT_SETTING="proj"
-
-BATCH_SIZE=1
+SETTING="screen"
+MC_SAMPLES=100
 NUM_WORKERS=0
-
-
-SETTING="cold"
-COLD_TYPE="cold_rna"
-CV_METHOD="all"
-K_FOLD=5
 DEVICE="cuda"
 
-EXP_NAME="exp${EXP_ID}_cold=${COLD_TYPE}_patience=${PATIENCE}_delta=${DELTA}"
-
-
-SEED=2
-DATASET_SEED=2
-
-LOG_MSG="${COLD_TYPE}_${DATE}_exp${EXP_ID} - MultiStructRSA (${MODEL_SETTING}) - exclude_modalities=${EXCLUDE_MODALITIES}; TRAIN_SETTING=${TRAIN_SETTING}; VAL_SETTING=${VAL_SETTING}; RNA_AUG=${RNA_AUG}; MOL_AUG=${MOL_AUG}; SEED=${SEED}; DATASET_SEED=${DATASET_SEED}"
-
-#LOG_MSG="stratified_cv_${DATE}_exp${EXP_ID} - MultiStructRSA (${MODEL_SETTING}) - exclude_modalities=${EXCLUDE_MODALITIES}; TRAIN_SETTING=${TRAIN_SETTING}; VAL_SETTING=${VAL_SETTING}; RNA_AUG=${RNA_AUG}; MOL_AUG=${MOL_AUG}; SEED=${SEED}; DATASET_SEED=${DATASET_SEED}"
+LOG_FILE_NAME="screen_case_study_mc${MC_SAMPLES}"
+LOG_MSG="ChemDiv MC Dropout screening against SLI with ${MC_SAMPLES} stochastic samples per molecule"
 
 ################  Following lines will be executed by a compute node  ################
 
@@ -82,7 +33,10 @@ module load anaconda
 module load cuda/11.8
 
 source activate chemprop
-export PYTHONPATH="${PYTHONPATH}:$(pwd)"
+
+PROJECT_DIR="/home/gavrilev/Thesis/src"
+cd "$PROJECT_DIR" || exit 1
+export PYTHONPATH="${PYTHONPATH}:${PROJECT_DIR}"
 
 export CUBLAS_WORKSPACE_CONFIG=:4096:8
 export CUDA_LAUNCH_BLOCKING=1
@@ -95,39 +49,11 @@ export HF_HOME=/home/gavrilev/.cache/huggingface
 nvcc --version
 nvidia-smi
 
+# main.py dispatches setting="screen" to evaluate/eval_case_study.py.
 python main.py \
-  --exp_name "$EXP_NAME" \
-  --model_setting "$MODEL_SETTING" \
-  --exclude_modalities $EXCLUDE_MODALITIES \
-  --train_setting "$TRAIN_SETTING" \
-  --val_setting "$VAL_SETTING" \
-  --rna_aug "$RNA_AUG" \
-  --mol_aug "$MOL_AUG" \
-  --patience "$PATIENCE" \
-  --warm_up_epochs "$WARM_UP_EPOCHS" \
-  --delta "$DELTA" \
-  --is_seq_emb "$IS_SEQ_EMB" \
-  --res_file_name "$RES_FILE_NAME" \
-  --is_plot "$IS_PLOT" \
-  --plot_name "$PLOT_NAME" \
-  --log_msg "$LOG_MSG" \
-  --log_file_name "$LOG_FILE_NAME" \
   --setting "$SETTING" \
-  --cold_type "$COLD_TYPE" \
-  --cv_method "$CV_METHOD" \
-  --k_fold "$K_FOLD" \
-  --lr "$LR" \
-  --wd "$WD" \
-  --dropout "$DROPOUT" \
-  --smiles_seq_setting "$SMILES_SEQ_SETTING" \
-  --smiles_expert_setting "$SMILES_EXPERT_SETTING" \
-  --d_model "$D_MODEL" \
-  --ffn_mult "$FFN_MULT" \
-  --bdcf_blocks "$BDCF_BLOCKS" \
-  --node_pool "$NODE_POOL" \
-  --token_pool "$TOKEN_POOL" \
-  --batch_size "$BATCH_SIZE" \
+  --mc_samples "$MC_SAMPLES" \
   --num_workers "$NUM_WORKERS" \
   --device "$DEVICE" \
-  --seed "$SEED" \
-  --dataset_seed "$DATASET_SEED"
+  --log_file_name "$LOG_FILE_NAME" \
+  --log_msg "$LOG_MSG"

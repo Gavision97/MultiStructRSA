@@ -9,7 +9,7 @@ import os
 import pickle
 
 from evaluate.cv_eval import cv_eval
-from evaluate.cold_eval_ import preform_cold_blind_eval
+from evaluate.cold_eval import preform_cold_blind_eval
 from evaluate.train_cold import train_cold_models
 from evaluate.train_scaffold import train_scaffold_model
 from evaluate.external_eval_pdbbind_ import perform_pdbbind_external_eval

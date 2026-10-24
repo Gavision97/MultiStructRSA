@@ -17,7 +17,7 @@ from utils.MolRNACDataset_chemdiv import MolRNACDatasetChemDiv
 from utils.layers import Dropout as GVPDropout
 
 
-TARGET_RNA_SEQUENCE = "AUUUUUCCUCGAACUUGGCGGAACGCAGAAAAAU"
+TARGET_RNA_SEQUENCE = "AUUUUUCCUCGAACUUGGCGGAACGCAGAAAAAU" # SLI target nucleotide sequence
 CHEMDIV_EMBEDDINGS_PATH = os.path.join(
     PROJECT_ROOT, "embeddings", "smiles", "smiles_emb_chemdiv.pkl"
 )

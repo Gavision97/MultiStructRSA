@@ -1,0 +1,9000 @@
+3167-0436
+  rDOCK(R)          3D
+libRbt.so/26.09/alpha
+ 21 23  0  0  0  0  0  0  0  0999 V2000
+   10.6858    4.0033    6.2608 N   0  0  0  0  0  0
+    9.7451    3.1146    5.7247 C   0  0  0  0  0  0
+    9.5469    1.8694    6.3201 C   0  0  0  0  0  0
+    8.5354    1.0061    5.8794 C   0  0  0  0  0  0
+    7.6719    1.4147    4.8459 C   0  0  0  0  0  0
+    6.6318    0.6715    4.3144 N   0  0  0  0  0  0
+    6.0203    1.3714    3.3876 C   0  0  0  0  0  0
+    4.6567    0.7306    2.4998 S   0  0  0  0  0  0
+    4.3889   -0.8453    3.3618 C   0  0  0  0  0  0
+    3.0778   -0.8956    4.1119 C   0  0  0  0  0  0
+    1.8743   -0.8535    3.3831 C   0  0  0  0  0  0
+    0.6382   -0.9165    4.0286 C   0  0  0  0  0  0
+    0.5816   -1.0213    5.4148 C   0  0  0  0  0  0
+    1.7620   -1.0633    6.1549 C   0  0  0  0  0  0
+    3.0026   -1.0019    5.5107 C   0  0  0  0  0  0
+    4.4158   -1.0553    6.5041 Cl  0  0  0  0  0  0
+    6.6469    2.9336    3.0830 S   0  0  0  0  0  0
+    7.8426    2.6858    4.2967 C   0  0  0  0  0  0
+    8.8554    3.5560    4.7377 C   0  0  0  0  0  0
+   10.8281    4.8417    5.7057 H   0  0  0  0  0  0
+   10.5449    4.2137    7.2443 H   0  0  0  0  0  0
+  1  2  1  0  0  0
+  2  3  2  0  0  0
+  3  4  1  0  0  0
+  4  5  2  0  0  0
+  5  6  1  0  0  0
+  6  7  2  0  0  0
+  7  8  1  0  0  0
+  8  9  1  0  0  0
+  9 10  1  0  0  0
+ 10 11  2  0  0  0
+ 11 12  1  0  0  0
+ 12 13  2  0  0  0
+ 13 14  1  0  0  0
+ 14 15  2  0  0  0
+ 15 16  1  0  0  0
+  7 17  1  0  0  0
+ 17 18  1  0  0  0
+ 18 19  2  0  0  0
+ 19  2  1  0  0  0
+ 18  5  1  0  0  0
+ 15 10  1  0  0  0
+  1 20  1  0  0  0
+  1 21  1  0  0  0
+M  END
+>  <CHROM.1>
+173.99771778,5.77409973,113.59578649,65.37551480,5.56426748,0.83661663,4.62918802
+-0.15794107,0.49366932,2.01424215
+
+>  <ChemDiv_ID>
+3167-0436
+
+>  <Force_Field>
+MMFF94
+
+>  <Formal_Charge>
+0
+
+>  <MultiStructRSA_mean_pKd>
+3.247155554294586
+
+>  <MultiStructRSA_score>
+3.004559340399369
+
+>  <MultiStructRSA_std_pKd>
+0.2425962138952168
+
+>  <Name>
+3167-0436
+
+>  <Original_SMILES>
+Nc1ccc2nc(SCc3ccccc3Cl)sc2c1
+
+>  <RI>
+0
+
+>  <Rbt.Current_Directory>
+/home/gavrilev/Thesis/src/case_study/docking/rdock
+
+>  <Rbt.Executable>
+rbdock - v26.09-alpha
+
+>  <Rbt.Library>
+libRbt.so (26.09, Buildalpha)
+
+>  <Rbt.Parameter_File>
+/home/gavrilev/.local/share/rdock/data/scripts/dock.prm
+
+>  <Rbt.Receptor>
+SLI_A22A23_bases.prm
+
+>  <SCORE>
+-12.8586
+
+>  <SCORE.INTER>
+-13.781
+
+>  <SCORE.INTER.CONST>
+1
+
+>  <SCORE.INTER.POLAR>
+-1.03923
+
+>  <SCORE.INTER.REPUL>
+0
+
+>  <SCORE.INTER.ROT>
+4
+
+>  <SCORE.INTER.VDW>
+-19.6476
+
+>  <SCORE.INTER.norm>
+-0.725318
+
+>  <SCORE.INTRA>
+0.922422
+
+>  <SCORE.INTRA.DIHEDRAL>
+0.572518
+
+>  <SCORE.INTRA.DIHEDRAL.0>
+3.0286
+
+>  <SCORE.INTRA.POLAR>
+0
+
+>  <SCORE.INTRA.POLAR.0>
+0
+
+>  <SCORE.INTRA.REPUL>
+0
+
+>  <SCORE.INTRA.REPUL.0>
+0
+
+>  <SCORE.INTRA.VDW>
+0.636163
+
+>  <SCORE.INTRA.VDW.0>
+-1.83337
+
+>  <SCORE.INTRA.norm>
+0.0485485
+
+>  <SCORE.RESTR>
+0
+
+>  <SCORE.RESTR.CAVITY>
+0
+
+>  <SCORE.RESTR.norm>
+0
+
+>  <SCORE.SYSTEM>
+0
+
+>  <SCORE.SYSTEM.CONST>
+0
+
+>  <SCORE.SYSTEM.DIHEDRAL>
+0
+
+>  <SCORE.SYSTEM.norm>
+0
+
+>  <SCORE.heavy>
+19
+
+>  <SCORE.norm>
+-0.676769
+
+>  <Selected_Conformer_Energy>
+12.07813271484107
+
+$$$$
+3167-0436
+  rDOCK(R)          3D
+libRbt.so/26.09/alpha
+ 21 23  0  0  0  0  0  0  0  0999 V2000
+   10.6863    4.0142    6.2615 N   0  0  0  0  0  0
+    9.7487    3.1241    5.7222 C   0  0  0  0  0  0
+    9.5592    1.8738    6.3098 C   0  0  0  0  0  0
+    8.5510    1.0080    5.8663 C   0  0  0  0  0  0
+    7.6822    1.4189    4.8382 C   0  0  0  0  0  0
+    6.6445    0.6736    4.3048 N   0  0  0  0  0  0
+    6.0263    1.3765    3.3847 C   0  0  0  0  0  0
+    4.6635    0.7343    2.4967 S   0  0  0  0  0  0
+    4.3972   -0.8419    3.3587 C   0  0  0  0  0  0
+    3.0844   -0.8948    4.1057 C   0  0  0  0  0  0
+    1.8826   -0.8306    3.3757 C   0  0  0  0  0  0
+    0.6449   -0.8951    4.0181 C   0  0  0  0  0  0
+    0.5850   -1.0235    5.4021 C   0  0  0  0  0  0
+    1.7638   -1.0876    6.1433 C   0  0  0  0  0  0
+    3.0060   -1.0249    5.5023 C   0  0  0  0  0  0
+    4.4170   -1.1066    6.4969 Cl  0  0  0  0  0  0
+    6.6435    2.9440    3.0888 S   0  0  0  0  0  0
+    7.8443    2.6946    4.2972 C   0  0  0  0  0  0
+    8.8536    3.5673    4.7410 C   0  0  0  0  0  0
+   10.7752    4.8854    5.7472 H   0  0  0  0  0  0
+   10.5869    4.1671    7.2606 H   0  0  0  0  0  0
+  1  2  1  0  0  0
+  2  3  2  0  0  0
+  3  4  1  0  0  0
+  4  5  2  0  0  0
+  5  6  1  0  0  0
+  6  7  2  0  0  0
+  7  8  1  0  0  0
+  8  9  1  0  0  0
+  9 10  1  0  0  0
+ 10 11  2  0  0  0
+ 11 12  1  0  0  0
+ 12 13  2  0  0  0
+ 13 14  1  0  0  0
+ 14 15  2  0  0  0
+ 15 16  1  0  0  0
+  7 17  1  0  0  0
+ 17 18  1  0  0  0
+ 18 19  2  0  0  0
+ 19  2  1  0  0  0
+ 18  5  1  0  0  0
+ 15 10  1  0  0  0
+  1 20  1  0  0  0
+  1 21  1  0  0  0
+M  END
+>  <CHROM.1>
+178.04219225,6.27331726,113.74434808,64.20391270,5.56891697,0.83461382,4.62459155
+-0.16456423,0.49390110,2.02645830
+
+>  <ChemDiv_ID>
+3167-0436
+
+>  <Force_Field>
+MMFF94
+
+>  <Formal_Charge>
+0
+
+>  <MultiStructRSA_mean_pKd>
+3.247155554294586
+
+>  <MultiStructRSA_score>
+3.004559340399369
+
+>  <MultiStructRSA_std_pKd>
+0.2425962138952168
+
+>  <Name>
+3167-0436
+
+>  <Original_SMILES>
+Nc1ccc2nc(SCc3ccccc3Cl)sc2c1
+
+>  <RI>
+0
+
+>  <Rbt.Current_Directory>
+/home/gavrilev/Thesis/src/case_study/docking/rdock
+
+>  <Rbt.Executable>
+rbdock - v26.09-alpha
+
+>  <Rbt.Library>
+libRbt.so (26.09, Buildalpha)
+
+>  <Rbt.Parameter_File>
+/home/gavrilev/.local/share/rdock/data/scripts/dock.prm
+
+>  <Rbt.Receptor>
+SLI_A22A23_bases.prm
+
+>  <SCORE>
+-12.796
+
+>  <SCORE.INTER>
+-13.7609
+
+>  <SCORE.INTER.CONST>
+1
+
+>  <SCORE.INTER.POLAR>
+-1.03923
+
+>  <SCORE.INTER.REPUL>
+0
+
+>  <SCORE.INTER.ROT>
+4
+
+>  <SCORE.INTER.VDW>
+-19.6275
+
+>  <SCORE.INTER.norm>
+-0.724256
+
+>  <SCORE.INTRA>
+0.964903
+
+>  <SCORE.INTRA.DIHEDRAL>
+0.557315
+
+>  <SCORE.INTRA.DIHEDRAL.0>
+3.0286
+
+>  <SCORE.INTRA.POLAR>
+0
+
+>  <SCORE.INTRA.POLAR.0>
+0
+
+>  <SCORE.INTRA.REPUL>
+0
+
+>  <SCORE.INTRA.REPUL.0>
+0
+
+>  <SCORE.INTRA.VDW>
+0.686245
+
+>  <SCORE.INTRA.VDW.0>
+-1.83337
+
+>  <SCORE.INTRA.norm>
+0.0507844
+
+>  <SCORE.RESTR>
+0
+
+>  <SCORE.RESTR.CAVITY>
+0
+
+>  <SCORE.RESTR.norm>
+0
+
+>  <SCORE.SYSTEM>
+0
+
+>  <SCORE.SYSTEM.CONST>
+0
+
+>  <SCORE.SYSTEM.DIHEDRAL>
+0
+
+>  <SCORE.SYSTEM.norm>
+0
+
+>  <SCORE.heavy>
+19
+
+>  <SCORE.norm>
+-0.673472
+
+>  <Selected_Conformer_Energy>
+12.07813271484107
+
+$$$$
+3167-0436
+  rDOCK(R)          3D
+libRbt.so/26.09/alpha
+ 21 23  0  0  0  0  0  0  0  0999 V2000
+   10.7076    4.2855    6.2737 N   0  0  0  0  0  0
+    9.7868    3.4104    5.6834 C   0  0  0  0  0  0
+    9.6103    2.1301    6.2070 C   0  0  0  0  0  0
+    8.6179    1.2736    5.7130 C   0  0  0  0  0  0
+    7.7513    1.7229    4.6992 C   0  0  0  0  0  0
+    6.7283    0.9907    4.1210 N   0  0  0  0  0  0
+    6.1074    1.7297    3.2314 C   0  0  0  0  0  0
+    4.7606    1.1136    2.3015 S   0  0  0  0  0  0
+    4.6421   -0.5821    2.9409 C   0  0  0  0  0  0
+    3.4755   -0.7812    3.8809 C   0  0  0  0  0  0
+    2.1801   -0.8990    3.3431 C   0  0  0  0  0  0
+    1.0729   -1.1033    4.1683 C   0  0  0  0  0  0
+    1.2393   -1.1921    5.5467 C   0  0  0  0  0  0
+    2.5138   -1.0768    6.0992 C   0  0  0  0  0  0
+    3.6258   -0.8737    5.2746 C   0  0  0  0  0  0
+    5.1683   -0.7371    6.0423 Cl  0  0  0  0  0  0
+    6.7048    3.3182    3.0183 S   0  0  0  0  0  0
+    7.8996    3.0259    4.2230 C   0  0  0  0  0  0
+    8.8931    3.8892    4.7177 C   0  0  0  0  0  0
+   10.5203    4.4875    7.2512 H   0  0  0  0  0  0
+   11.6790    4.0368    6.1127 H   0  0  0  0  0  0
+  1  2  1  0  0  0
+  2  3  2  0  0  0
+  3  4  1  0  0  0
+  4  5  2  0  0  0
+  5  6  1  0  0  0
+  6  7  2  0  0  0
+  7  8  1  0  0  0
+  8  9  1  0  0  0
+  9 10  1  0  0  0
+ 10 11  2  0  0  0
+ 11 12  1  0  0  0
+ 12 13  2  0  0  0
+ 13 14  1  0  0  0
+ 14 15  2  0  0  0
+ 15 16  1  0  0  0
+  7 17  1  0  0  0
+ 17 18  1  0  0  0
+ 18 19  2  0  0  0
+ 19  2  1  0  0  0
+ 18  5  1  0  0  0
+ 15 10  1  0  0  0
+  1 20  1  0  0  0
+  1 21  1  0  0  0
+M  END
+>  <CHROM.1>
+-59.12945270,-0.41385496,105.07743067,76.63059124,5.83717690,1.07069722,4.48235316
+-0.19670420,0.54344074,2.09336933
+
+>  <ChemDiv_ID>
+3167-0436
+
+>  <Force_Field>
+MMFF94
+
+>  <Formal_Charge>
+0
+
+>  <MultiStructRSA_mean_pKd>
+3.247155554294586
+
+>  <MultiStructRSA_score>
+3.004559340399369
+
+>  <MultiStructRSA_std_pKd>
+0.2425962138952168
+
+>  <Name>
+3167-0436
+
+>  <Original_SMILES>
+Nc1ccc2nc(SCc3ccccc3Cl)sc2c1
+
+>  <RI>
+0
+
+>  <Rbt.Current_Directory>
+/home/gavrilev/Thesis/src/case_study/docking/rdock
+
+>  <Rbt.Executable>
+rbdock - v26.09-alpha
+
+>  <Rbt.Library>
+libRbt.so (26.09, Buildalpha)
+
+>  <Rbt.Parameter_File>
+/home/gavrilev/.local/share/rdock/data/scripts/dock.prm
+
+>  <Rbt.Receptor>
+SLI_A22A23_bases.prm
+
+>  <SCORE>
+-12.6573
+
+>  <SCORE.INTER>
+-12.7679
+
+>  <SCORE.INTER.CONST>
+1
+
+>  <SCORE.INTER.POLAR>
+-1.03923
+
+>  <SCORE.INTER.REPUL>
+0
+
+>  <SCORE.INTER.ROT>
+4
+
+>  <SCORE.INTER.VDW>
+-18.6345
+
+>  <SCORE.INTER.norm>
+-0.671995
+
+>  <SCORE.INTRA>
+0.0853787
+
+>  <SCORE.INTRA.DIHEDRAL>
+0.204755
+
+>  <SCORE.INTRA.DIHEDRAL.0>
+3.0286
+
+>  <SCORE.INTRA.POLAR>
+0
+
+>  <SCORE.INTRA.POLAR.0>
+0
+
+>  <SCORE.INTRA.REPUL>
+0
+
+>  <SCORE.INTRA.REPUL.0>
+0
+
+>  <SCORE.INTRA.VDW>
+-0.016999
+
+>  <SCORE.INTRA.VDW.0>
+-1.83337
+
+>  <SCORE.INTRA.norm>
+0.00449362
+
+>  <SCORE.RESTR>
+0.0252396
+
+>  <SCORE.RESTR.CAVITY>
+0.0252396
+
+>  <SCORE.RESTR.norm>
+0.0013284
+
+>  <SCORE.SYSTEM>
+0
+
+>  <SCORE.SYSTEM.CONST>
+0
+
+>  <SCORE.SYSTEM.DIHEDRAL>
+0
+
+>  <SCORE.SYSTEM.norm>
+0
+
+>  <SCORE.heavy>
+19
+
+>  <SCORE.norm>
+-0.666173
+
+>  <Selected_Conformer_Energy>
+12.07813271484107
+
+$$$$
+3167-0436
+  rDOCK(R)          3D
+libRbt.so/26.09/alpha
+ 21 23  0  0  0  0  0  0  0  0999 V2000
+   10.5941    4.5437    6.1636 N   0  0  0  0  0  0
+    9.7289    3.5822    5.6261 C   0  0  0  0  0  0
+    9.6734    2.3064    6.1861 C   0  0  0  0  0  0
+    8.7383    1.3602    5.7468 C   0  0  0  0  0  0
+    7.8063    1.7113    4.7524 C   0  0  0  0  0  0
+    6.8281    0.8844    4.2270 N   0  0  0  0  0  0
+    6.1214    1.5472    3.3415 C   0  0  0  0  0  0
+    4.8000    0.8005    2.4729 S   0  0  0  0  0  0
+    4.6115   -0.7536    3.3935 C   0  0  0  0  0  0
+    3.2903   -0.8559    4.1201 C   0  0  0  0  0  0
+    2.0991   -0.8576    3.3702 C   0  0  0  0  0  0
+    0.8552   -0.9695    3.9937 C   0  0  0  0  0  0
+    0.7782   -1.0804    5.3784 C   0  0  0  0  0  0
+    1.9462   -1.0795    6.1392 C   0  0  0  0  0  0
+    3.1946   -0.9691    5.5171 C   0  0  0  0  0  0
+    4.5912   -0.9714    6.5353 Cl  0  0  0  0  0  0
+    6.5811    3.1722    3.0700 S   0  0  0  0  0  0
+    7.8335    3.0088    4.2402 C   0  0  0  0  0  0
+    8.7691    3.9619    4.6800 C   0  0  0  0  0  0
+   10.4386    4.7379    7.1482 H   0  0  0  0  0  0
+   11.5749    4.3830    5.9546 H   0  0  0  0  0  0
+  1  2  1  0  0  0
+  2  3  2  0  0  0
+  3  4  1  0  0  0
+  4  5  2  0  0  0
+  5  6  1  0  0  0
+  6  7  2  0  0  0
+  7  8  1  0  0  0
+  8  9  1  0  0  0
+  9 10  1  0  0  0
+ 10 11  2  0  0  0
+ 11 12  1  0  0  0
+ 12 13  2  0  0  0
+ 13 14  1  0  0  0
+ 14 15  2  0  0  0
+ 15 16  1  0  0  0
+  7 17  1  0  0  0
+ 17 18  1  0  0  0
+ 18 19  2  0  0  0
+ 19  2  1  0  0  0
+ 18  5  1  0  0  0
+ 15 10  1  0  0  0
+  1 20  1  0  0  0
+  1 21  1  0  0  0
+M  END
+>  <CHROM.1>
+-57.56965642,10.94488890,114.56911418,62.55496193,5.67896423,1.01479189,4.59319163
+-0.19618948,0.53877860,2.02893244
+
+>  <ChemDiv_ID>
+3167-0436
+
+>  <Force_Field>
+MMFF94
+
+>  <Formal_Charge>
+0
+
+>  <MultiStructRSA_mean_pKd>
+3.247155554294586
+
+>  <MultiStructRSA_score>
+3.004559340399369
+
+>  <MultiStructRSA_std_pKd>
+0.2425962138952168
+
+>  <Name>
+3167-0436
+
+>  <Original_SMILES>
+Nc1ccc2nc(SCc3ccccc3Cl)sc2c1
+
+>  <RI>
+0
+
+>  <Rbt.Current_Directory>
+/home/gavrilev/Thesis/src/case_study/docking/rdock
+
+>  <Rbt.Executable>
+rbdock - v26.09-alpha
+
+>  <Rbt.Library>
+libRbt.so (26.09, Buildalpha)
+
+>  <Rbt.Parameter_File>
+/home/gavrilev/.local/share/rdock/data/scripts/dock.prm
+
+>  <Rbt.Receptor>
+SLI_A22A23_bases.prm
+
+>  <SCORE>
+-12.5412
+
+>  <SCORE.INTER>
+-13.376
+
+>  <SCORE.INTER.CONST>
+1
+
+>  <SCORE.INTER.POLAR>
+-1.03923
+
+>  <SCORE.INTER.REPUL>
+0
+
+>  <SCORE.INTER.ROT>
+4
+
+>  <SCORE.INTER.VDW>
+-19.2426
+
+>  <SCORE.INTER.norm>
+-0.703998
+
+>  <SCORE.INTRA>
+0.834738
+
+>  <SCORE.INTRA.DIHEDRAL>
+0.637032
+
+>  <SCORE.INTRA.DIHEDRAL.0>
+3.0286
+
+>  <SCORE.INTRA.POLAR>
+0
+
+>  <SCORE.INTRA.POLAR.0>
+0
+
+>  <SCORE.INTRA.REPUL>
+0
+
+>  <SCORE.INTRA.REPUL.0>
+0
+
+>  <SCORE.INTRA.VDW>
+0.516222
+
+>  <SCORE.INTRA.VDW.0>
+-1.83337
+
+>  <SCORE.INTRA.norm>
+0.0439336
+
+>  <SCORE.RESTR>
+0
+
+>  <SCORE.RESTR.CAVITY>
+0
+
+>  <SCORE.RESTR.norm>
+0
+
+>  <SCORE.SYSTEM>
+0
+
+>  <SCORE.SYSTEM.CONST>
+0
+
+>  <SCORE.SYSTEM.DIHEDRAL>
+0
+
+>  <SCORE.SYSTEM.norm>
+0
+
+>  <SCORE.heavy>
+19
+
+>  <SCORE.norm>
+-0.660064
+
+>  <Selected_Conformer_Energy>
+12.07813271484107
+
+$$$$
+3167-0436
+  rDOCK(R)          3D
+libRbt.so/26.09/alpha
+ 21 23  0  0  0  0  0  0  0  0999 V2000
+   10.7201    4.4856    6.2532 N   0  0  0  0  0  0
+    9.8254    3.5788    5.6706 C   0  0  0  0  0  0
+    9.7039    2.2907    6.1906 C   0  0  0  0  0  0
+    8.7382    1.3994    5.7053 C   0  0  0  0  0  0
+    7.8424    1.8198    4.7045 C   0  0  0  0  0  0
+    6.8403    1.0520    4.1361 N   0  0  0  0  0  0
+    6.1807    1.7706    3.2578 C   0  0  0  0  0  0
+    4.8463    1.1079    2.3422 S   0  0  0  0  0  0
+    4.7565   -0.5730    3.0238 C   0  0  0  0  0  0
+    3.5696   -0.7803    3.9362 C   0  0  0  0  0  0
+    2.2914   -0.9328    3.3668 C   0  0  0  0  0  0
+    1.1670   -1.1459    4.1662 C   0  0  0  0  0  0
+    1.2987   -1.2090    5.5498 C   0  0  0  0  0  0
+    2.5557   -1.0591    6.1333 C   0  0  0  0  0  0
+    3.6848   -0.8470    5.3347 C   0  0  0  0  0  0
+    5.2035   -0.6669    6.1399 Cl  0  0  0  0  0  0
+    6.7152    3.3814    3.0444 S   0  0  0  0  0  0
+    7.9355    3.1294    4.2325 C   0  0  0  0  0  0
+    8.9021    4.0275    4.7185 C   0  0  0  0  0  0
+   10.6335    5.4357    5.9053 H   0  0  0  0  0  0
+   10.7461    4.4496    7.2678 H   0  0  0  0  0  0
+  1  2  1  0  0  0
+  2  3  2  0  0  0
+  3  4  1  0  0  0
+  4  5  2  0  0  0
+  5  6  1  0  0  0
+  6  7  2  0  0  0
+  7  8  1  0  0  0
+  8  9  1  0  0  0
+  9 10  1  0  0  0
+ 10 11  2  0  0  0
+ 11 12  1  0  0  0
+ 12 13  2  0  0  0
+ 13 14  1  0  0  0
+ 14 15  2  0  0  0
+ 15 16  1  0  0  0
+  7 17  1  0  0  0
+ 17 18  1  0  0  0
+ 18 19  2  0  0  0
+ 19  2  1  0  0  0
+ 18  5  1  0  0  0
+ 15 10  1  0  0  0
+  1 20  1  0  0  0
+  1 21  1  0  0  0
+M  END
+>  <CHROM.1>
+-170.74371726,1.77923863,106.72614180,75.88227488,5.89731224,1.13356548,4.51065323
+-0.20783809,0.56146478,2.08300445
+
+>  <ChemDiv_ID>
+3167-0436
+
+>  <Force_Field>
+MMFF94
+
+>  <Formal_Charge>
+0
+
+>  <MultiStructRSA_mean_pKd>
+3.247155554294586
+
+>  <MultiStructRSA_score>
+3.004559340399369
+
+>  <MultiStructRSA_std_pKd>
+0.2425962138952168
+
+>  <Name>
+3167-0436
+
+>  <Original_SMILES>
+Nc1ccc2nc(SCc3ccccc3Cl)sc2c1
+
+>  <RI>
+0
+
+>  <Rbt.Current_Directory>
+/home/gavrilev/Thesis/src/case_study/docking/rdock
+
+>  <Rbt.Executable>
+rbdock - v26.09-alpha
+
+>  <Rbt.Library>
+libRbt.so (26.09, Buildalpha)
+
+>  <Rbt.Parameter_File>
+/home/gavrilev/.local/share/rdock/data/scripts/dock.prm
+
+>  <Rbt.Receptor>
+SLI_A22A23_bases.prm
+
+>  <SCORE>
+-12.3469
+
+>  <SCORE.INTER>
+-12.7674
+
+>  <SCORE.INTER.CONST>
+1
+
+>  <SCORE.INTER.POLAR>
+-1.03923
+
+>  <SCORE.INTER.REPUL>
+0
+
+>  <SCORE.INTER.ROT>
+4
+
+>  <SCORE.INTER.VDW>
+-18.634
+
+>  <SCORE.INTER.norm>
+-0.671968
+
+>  <SCORE.INTRA>
+0.405149
+
+>  <SCORE.INTRA.DIHEDRAL>
+0.223436
+
+>  <SCORE.INTRA.DIHEDRAL.0>
+3.0286
+
+>  <SCORE.INTRA.POLAR>
+0
+
+>  <SCORE.INTRA.POLAR.0>
+0
+
+>  <SCORE.INTRA.REPUL>
+0
+
+>  <SCORE.INTRA.REPUL.0>
+0
+
+>  <SCORE.INTRA.VDW>
+0.293431
+
+>  <SCORE.INTRA.VDW.0>
+-1.83337
+
+>  <SCORE.INTRA.norm>
+0.0213236
+
+>  <SCORE.RESTR>
+0.0153217
+
+>  <SCORE.RESTR.CAVITY>
+0.0153217
+
+>  <SCORE.RESTR.norm>
+0.000806403
+
+>  <SCORE.SYSTEM>
+0
+
+>  <SCORE.SYSTEM.CONST>
+0
+
+>  <SCORE.SYSTEM.DIHEDRAL>
+0
+
+>  <SCORE.SYSTEM.norm>
+0
+
+>  <SCORE.heavy>
+19
+
+>  <SCORE.norm>
+-0.649838
+
+>  <Selected_Conformer_Energy>
+12.07813271484107
+
+$$$$
+3167-0436
+  rDOCK(R)          3D
+libRbt.so/26.09/alpha
+ 21 23  0  0  0  0  0  0  0  0999 V2000
+   10.9449    4.9332    6.0379 N   0  0  0  0  0  0
+   10.0609    3.9732    5.5290 C   0  0  0  0  0  0
+   10.0352    2.6916    6.0779 C   0  0  0  0  0  0
+    9.0857    1.7456    5.6702 C   0  0  0  0  0  0
+    8.1096    2.1024    4.7212 C   0  0  0  0  0  0
+    7.1127    1.2764    4.2307 N   0  0  0  0  0  0
+    6.3653    1.9448    3.3837 C   0  0  0  0  0  0
+    5.0102    1.2008    2.5661 S   0  0  0  0  0  0
+    5.2889   -0.5516    2.9529 C   0  0  0  0  0  0
+    5.1175   -0.8695    4.4204 C   0  0  0  0  0  0
+    6.2642   -1.0395    5.2188 C   0  0  0  0  0  0
+    6.1581   -1.3150    6.5832 C   0  0  0  0  0  0
+    4.9041   -1.4271    7.1751 C   0  0  0  0  0  0
+    3.7561   -1.2633    6.4015 C   0  0  0  0  0  0
+    3.8591   -0.9856    5.0340 C   0  0  0  0  0  0
+    2.3861   -0.8021    4.1487 Cl  0  0  0  0  0  0
+    6.8061    3.5745    3.1090 S   0  0  0  0  0  0
+    8.1091    3.4051    4.2215 C   0  0  0  0  0  0
+    9.0591    4.3580    4.6297 C   0  0  0  0  0  0
+   10.9064    5.0392    7.0472 H   0  0  0  0  0  0
+   11.8976    4.8422    5.6979 H   0  0  0  0  0  0
+  1  2  1  0  0  0
+  2  3  2  0  0  0
+  3  4  1  0  0  0
+  4  5  2  0  0  0
+  5  6  1  0  0  0
+  6  7  2  0  0  0
+  7  8  1  0  0  0
+  8  9  1  0  0  0
+  9 10  1  0  0  0
+ 10 11  2  0  0  0
+ 11 12  1  0  0  0
+ 12 13  2  0  0  0
+ 13 14  1  0  0  0
+ 14 15  2  0  0  0
+ 15 16  1  0  0  0
+  7 17  1  0  0  0
+ 17 18  1  0  0  0
+ 18 19  2  0  0  0
+ 19  2  1  0  0  0
+ 18  5  1  0  0  0
+ 15 10  1  0  0  0
+  1 20  1  0  0  0
+  1 21  1  0  0  0
+M  END
+>  <CHROM.1>
+-50.82959627,-11.66161786,67.05425639,-102.38384297,6.37096957,1.23076635
+4.55879597,-0.39023962,0.58319477,2.29979171
+
+>  <ChemDiv_ID>
+3167-0436
+
+>  <Force_Field>
+MMFF94
+
+>  <Formal_Charge>
+0
+
+>  <MultiStructRSA_mean_pKd>
+3.247155554294586
+
+>  <MultiStructRSA_score>
+3.004559340399369
+
+>  <MultiStructRSA_std_pKd>
+0.2425962138952168
+
+>  <Name>
+3167-0436
+
+>  <Original_SMILES>
+Nc1ccc2nc(SCc3ccccc3Cl)sc2c1
+
+>  <RI>
+0
+
+>  <Rbt.Current_Directory>
+/home/gavrilev/Thesis/src/case_study/docking/rdock
+
+>  <Rbt.Executable>
+rbdock - v26.09-alpha
+
+>  <Rbt.Library>
+libRbt.so (26.09, Buildalpha)
+
+>  <Rbt.Parameter_File>
+/home/gavrilev/.local/share/rdock/data/scripts/dock.prm
+
+>  <Rbt.Receptor>
+SLI_A22A23_bases.prm
+
+>  <SCORE>
+-12.3431
+
+>  <SCORE.INTER>
+-12.089
+
+>  <SCORE.INTER.CONST>
+1
+
+>  <SCORE.INTER.POLAR>
+-0.996836
+
+>  <SCORE.INTER.REPUL>
+0
+
+>  <SCORE.INTER.ROT>
+4
+
+>  <SCORE.INTER.VDW>
+-18.0997
+
+>  <SCORE.INTER.norm>
+-0.636262
+
+>  <SCORE.INTRA>
+-0.254165
+
+>  <SCORE.INTRA.DIHEDRAL>
+-1.61626
+
+>  <SCORE.INTRA.DIHEDRAL.0>
+3.0286
+
+>  <SCORE.INTRA.POLAR>
+0
+
+>  <SCORE.INTRA.POLAR.0>
+0
+
+>  <SCORE.INTRA.REPUL>
+0
+
+>  <SCORE.INTRA.REPUL.0>
+0
+
+>  <SCORE.INTRA.VDW>
+0.553964
+
+>  <SCORE.INTRA.VDW.0>
+-1.83337
+
+>  <SCORE.INTRA.norm>
+-0.0133771
+
+>  <SCORE.RESTR>
+0
+
+>  <SCORE.RESTR.CAVITY>
+0
+
+>  <SCORE.RESTR.norm>
+0
+
+>  <SCORE.SYSTEM>
+0
+
+>  <SCORE.SYSTEM.CONST>
+0
+
+>  <SCORE.SYSTEM.DIHEDRAL>
+0
+
+>  <SCORE.SYSTEM.norm>
+0
+
+>  <SCORE.heavy>
+19
+
+>  <SCORE.norm>
+-0.649639
+
+>  <Selected_Conformer_Energy>
+12.07813271484107
+
+$$$$
+3167-0436
+  rDOCK(R)          3D
+libRbt.so/26.09/alpha
+ 21 23  0  0  0  0  0  0  0  0999 V2000
+   10.9085    5.0860    6.1043 N   0  0  0  0  0  0
+   10.0573    4.1044    5.5807 C   0  0  0  0  0  0
+   10.0411    2.8276    6.1410 C   0  0  0  0  0  0
+    9.1214    1.8597    5.7168 C   0  0  0  0  0  0
+    8.1650    2.1888    4.7382 C   0  0  0  0  0  0
+    7.1979    1.3392    4.2288 N   0  0  0  0  0  0
+    6.4613    1.9852    3.3554 C   0  0  0  0  0  0
+    5.1435    1.2077    2.5084 S   0  0  0  0  0  0
+    5.4374   -0.5341    2.9303 C   0  0  0  0  0  0
+    5.1730   -0.8446    4.3855 C   0  0  0  0  0  0
+    3.8493   -0.7986    4.8619 C   0  0  0  0  0  0
+    3.5516   -1.0961    6.1929 C   0  0  0  0  0  0
+    4.5713   -1.4435    7.0732 C   0  0  0  0  0  0
+    5.8891   -1.4935    6.6214 C   0  0  0  0  0  0
+    6.1905   -1.1975    5.2875 C   0  0  0  0  0  0
+    7.8502   -1.2791    4.8124 Cl  0  0  0  0  0  0
+    6.8781    3.6206    3.0771 S   0  0  0  0  0  0
+    8.1532    3.4867    4.2262 C   0  0  0  0  0  0
+    9.0733    4.4615    4.6509 C   0  0  0  0  0  0
+   10.9849    5.0719    7.1169 H   0  0  0  0  0  0
+   11.8165    5.1327    5.6517 H   0  0  0  0  0  0
+  1  2  1  0  0  0
+  2  3  2  0  0  0
+  3  4  1  0  0  0
+  4  5  2  0  0  0
+  5  6  1  0  0  0
+  6  7  2  0  0  0
+  7  8  1  0  0  0
+  8  9  1  0  0  0
+  9 10  1  0  0  0
+ 10 11  2  0  0  0
+ 11 12  1  0  0  0
+ 12 13  2  0  0  0
+ 13 14  1  0  0  0
+ 14 15  2  0  0  0
+ 15 16  1  0  0  0
+  7 17  1  0  0  0
+ 17 18  1  0  0  0
+ 18 19  2  0  0  0
+ 19  2  1  0  0  0
+ 18  5  1  0  0  0
+ 15 10  1  0  0  0
+  1 20  1  0  0  0
+  1 21  1  0  0  0
+M  END
+>  <CHROM.1>
+-38.84917424,-11.23336894,69.34157361,68.52952566,6.99941189,1.22292377,4.61730499
+-0.62957135,0.61909548,2.47901998
+
+>  <ChemDiv_ID>
+3167-0436
+
+>  <Force_Field>
+MMFF94
+
+>  <Formal_Charge>
+0
+
+>  <MultiStructRSA_mean_pKd>
+3.247155554294586
+
+>  <MultiStructRSA_score>
+3.004559340399369
+
+>  <MultiStructRSA_std_pKd>
+0.2425962138952168
+
+>  <Name>
+3167-0436
+
+>  <Original_SMILES>
+Nc1ccc2nc(SCc3ccccc3Cl)sc2c1
+
+>  <RI>
+0
+
+>  <Rbt.Current_Directory>
+/home/gavrilev/Thesis/src/case_study/docking/rdock
+
+>  <Rbt.Executable>
+rbdock - v26.09-alpha
+
+>  <Rbt.Library>
+libRbt.so (26.09, Buildalpha)
+
+>  <Rbt.Parameter_File>
+/home/gavrilev/.local/share/rdock/data/scripts/dock.prm
+
+>  <Rbt.Receptor>
+SLI_A22A23_bases.prm
+
+>  <SCORE>
+-12.1606
+
+>  <SCORE.INTER>
+-11.3638
+
+>  <SCORE.INTER.CONST>
+1
+
+>  <SCORE.INTER.POLAR>
+-0.914592
+
+>  <SCORE.INTER.REPUL>
+0.00696172
+
+>  <SCORE.INTER.ROT>
+4
+
+>  <SCORE.INTER.VDW>
+-17.689
+
+>  <SCORE.INTER.norm>
+-0.598096
+
+>  <SCORE.INTRA>
+-0.802517
+
+>  <SCORE.INTRA.DIHEDRAL>
+-1.64321
+
+>  <SCORE.INTRA.DIHEDRAL.0>
+3.0286
+
+>  <SCORE.INTRA.POLAR>
+0
+
+>  <SCORE.INTRA.POLAR.0>
+0
+
+>  <SCORE.INTRA.REPUL>
+0
+
+>  <SCORE.INTRA.REPUL.0>
+0
+
+>  <SCORE.INTRA.VDW>
+0.0190903
+
+>  <SCORE.INTRA.VDW.0>
+-1.83337
+
+>  <SCORE.INTRA.norm>
+-0.0422377
+
+>  <SCORE.RESTR>
+0.00576607
+
+>  <SCORE.RESTR.CAVITY>
+0.00576607
+
+>  <SCORE.RESTR.norm>
+0.000303477
+
+>  <SCORE.SYSTEM>
+0
+
+>  <SCORE.SYSTEM.CONST>
+0
+
+>  <SCORE.SYSTEM.DIHEDRAL>
+0
+
+>  <SCORE.SYSTEM.norm>
+0
+
+>  <SCORE.heavy>
+19
+
+>  <SCORE.norm>
+-0.64003
+
+>  <Selected_Conformer_Energy>
+12.07813271484107
+
+$$$$
+3167-0436
+  rDOCK(R)          3D
+libRbt.so/26.09/alpha
+ 21 23  0  0  0  0  0  0  0  0999 V2000
+   10.9443    4.9335    6.1360 N   0  0  0  0  0  0
+   10.0749    3.9668    5.6150 C   0  0  0  0  0  0
+   10.0514    2.6850    6.1636 C   0  0  0  0  0  0
+    9.1149    1.7318    5.7429 C   0  0  0  0  0  0
+    8.1494    2.0810    4.7803 C   0  0  0  0  0  0
+    7.1658    1.2473    4.2762 N   0  0  0  0  0  0
+    6.4251    1.9100    3.4188 C   0  0  0  0  0  0
+    5.0872    1.1556    2.5826 S   0  0  0  0  0  0
+    5.3669   -0.5935    2.9837 C   0  0  0  0  0  0
+    5.1850   -0.9014    4.4521 C   0  0  0  0  0  0
+    6.3254   -1.1086    5.2507 C   0  0  0  0  0  0
+    6.2103   -1.3767    6.6159 C   0  0  0  0  0  0
+    4.9533   -1.4443    7.2082 C   0  0  0  0  0  0
+    3.8114   -1.2433    6.4344 C   0  0  0  0  0  0
+    3.9235   -0.9728    5.0662 C   0  0  0  0  0  0
+    2.4575   -0.7413    4.1806 Cl  0  0  0  0  0  0
+    6.8571    3.5430    3.1500 S   0  0  0  0  0  0
+    8.1457    3.3837    4.2806 C   0  0  0  0  0  0
+    9.0827    4.3438    4.7018 C   0  0  0  0  0  0
+   10.8931    5.8333    5.6678 H   0  0  0  0  0  0
+   10.9065    5.0245    7.1468 H   0  0  0  0  0  0
+  1  2  1  0  0  0
+  2  3  2  0  0  0
+  3  4  1  0  0  0
+  4  5  2  0  0  0
+  5  6  1  0  0  0
+  6  7  2  0  0  0
+  7  8  1  0  0  0
+  8  9  1  0  0  0
+  9 10  1  0  0  0
+ 10 11  2  0  0  0
+ 11 12  1  0  0  0
+ 12 13  2  0  0  0
+ 13 14  1  0  0  0
+ 14 15  2  0  0  0
+ 15 16  1  0  0  0
+  7 17  1  0  0  0
+ 17 18  1  0  0  0
+ 18 19  2  0  0  0
+ 19  2  1  0  0  0
+ 18  5  1  0  0  0
+ 15 10  1  0  0  0
+  1 20  1  0  0  0
+  1 21  1  0  0  0
+M  END
+>  <CHROM.1>
+179.64558434,-11.25547624,66.50063198,-104.53687669,6.41845471,1.21881447
+4.60387248,-0.38677006,0.59328513,2.29776228
+
+>  <ChemDiv_ID>
+3167-0436
+
+>  <Force_Field>
+MMFF94
+
+>  <Formal_Charge>
+0
+
+>  <MultiStructRSA_mean_pKd>
+3.247155554294586
+
+>  <MultiStructRSA_score>
+3.004559340399369
+
+>  <MultiStructRSA_std_pKd>
+0.2425962138952168
+
+>  <Name>
+3167-0436
+
+>  <Original_SMILES>
+Nc1ccc2nc(SCc3ccccc3Cl)sc2c1
+
+>  <RI>
+0
+
+>  <Rbt.Current_Directory>
+/home/gavrilev/Thesis/src/case_study/docking/rdock
+
+>  <Rbt.Executable>
+rbdock - v26.09-alpha
+
+>  <Rbt.Library>
+libRbt.so (26.09, Buildalpha)
+
+>  <Rbt.Parameter_File>
+/home/gavrilev/.local/share/rdock/data/scripts/dock.prm
+
+>  <Rbt.Receptor>
+SLI_A22A23_bases.prm
+
+>  <SCORE>
+-12.1412
+
+>  <SCORE.INTER>
+-11.9871
+
+>  <SCORE.INTER.CONST>
+1
+
+>  <SCORE.INTER.POLAR>
+-0.985389
+
+>  <SCORE.INTER.REPUL>
+0.0158893
+
+>  <SCORE.INTER.ROT>
+4
+
+>  <SCORE.INTER.VDW>
+-18.1162
+
+>  <SCORE.INTER.norm>
+-0.6309
+
+>  <SCORE.INTRA>
+-0.162097
+
+>  <SCORE.INTRA.DIHEDRAL>
+-1.58091
+
+>  <SCORE.INTRA.DIHEDRAL.0>
+3.0286
+
+>  <SCORE.INTRA.POLAR>
+0
+
+>  <SCORE.INTRA.POLAR.0>
+0
+
+>  <SCORE.INTRA.REPUL>
+0
+
+>  <SCORE.INTRA.REPUL.0>
+0
+
+>  <SCORE.INTRA.VDW>
+0.628357
+
+>  <SCORE.INTRA.VDW.0>
+-1.83337
+
+>  <SCORE.INTRA.norm>
+-0.00853143
+
+>  <SCORE.RESTR>
+0.00797454
+
+>  <SCORE.RESTR.CAVITY>
+0.00797454
+
+>  <SCORE.RESTR.norm>
+0.000419713
+
+>  <SCORE.SYSTEM>
+0
+
+>  <SCORE.SYSTEM.CONST>
+0
+
+>  <SCORE.SYSTEM.DIHEDRAL>
+0
+
+>  <SCORE.SYSTEM.norm>
+0
+
+>  <SCORE.heavy>
+19
+
+>  <SCORE.norm>
+-0.639011
+
+>  <Selected_Conformer_Energy>
+12.07813271484107
+
+$$$$
+3167-0436
+  rDOCK(R)          3D
+libRbt.so/26.09/alpha
+ 21 23  0  0  0  0  0  0  0  0999 V2000
+   -0.0546   -1.1776    4.9454 N   0  0  0  0  0  0
+    1.3428   -1.1694    4.8505 C   0  0  0  0  0  0
+    1.9549   -0.9050    3.6258 C   0  0  0  0  0  0
+    3.3460   -0.7759    3.5217 C   0  0  0  0  0  0
+    4.1430   -0.8705    4.6778 C   0  0  0  0  0  0
+    5.5222   -0.7602    4.7253 N   0  0  0  0  0  0
+    5.9294   -0.8711    5.9682 C   0  0  0  0  0  0
+    7.6237   -0.7859    6.3928 S   0  0  0  0  0  0
+    8.3223   -0.0396    4.8917 C   0  0  0  0  0  0
+    8.5052    1.4565    5.0032 C   0  0  0  0  0  0
+    9.5403    1.9572    5.8151 C   0  0  0  0  0  0
+    9.7620    3.3302    5.9353 C   0  0  0  0  0  0
+    8.9524    4.2286    5.2475 C   0  0  0  0  0  0
+    7.9211    3.7530    4.4393 C   0  0  0  0  0  0
+    7.6974    2.3773    4.3155 C   0  0  0  0  0  0
+    6.3950    1.8739    3.2969 Cl  0  0  0  0  0  0
+    4.7124   -1.1262    7.1427 S   0  0  0  0  0  0
+    3.5151   -1.0774    5.9064 C   0  0  0  0  0  0
+    2.1191   -1.2055    6.0153 C   0  0  0  0  0  0
+   -0.4793   -2.0771    4.7409 H   0  0  0  0  0  0
+   -0.4151   -0.7694    5.8027 H   0  0  0  0  0  0
+  1  2  1  0  0  0
+  2  3  2  0  0  0
+  3  4  1  0  0  0
+  4  5  2  0  0  0
+  5  6  1  0  0  0
+  6  7  2  0  0  0
+  7  8  1  0  0  0
+  8  9  1  0  0  0
+  9 10  1  0  0  0
+ 10 11  2  0  0  0
+ 11 12  1  0  0  0
+ 12 13  2  0  0  0
+ 13 14  1  0  0  0
+ 14 15  2  0  0  0
+ 15 16  1  0  0  0
+  7 17  1  0  0  0
+ 17 18  1  0  0  0
+ 18 19  2  0  0  0
+ 19  2  1  0  0  0
+ 18  5  1  0  0  0
+ 15 10  1  0  0  0
+  1 20  1  0  0  0
+  1 21  1  0  0  0
+M  END
+>  <CHROM.1>
+87.88503949,16.73404654,96.88029047,72.83918508,5.72354463,0.35158698,5.16572503
+2.77627925,0.35338175,2.39234007
+
+>  <ChemDiv_ID>
+3167-0436
+
+>  <Force_Field>
+MMFF94
+
+>  <Formal_Charge>
+0
+
+>  <MultiStructRSA_mean_pKd>
+3.247155554294586
+
+>  <MultiStructRSA_score>
+3.004559340399369
+
+>  <MultiStructRSA_std_pKd>
+0.2425962138952168
+
+>  <Name>
+3167-0436
+
+>  <Original_SMILES>
+Nc1ccc2nc(SCc3ccccc3Cl)sc2c1
+
+>  <RI>
+0
+
+>  <Rbt.Current_Directory>
+/home/gavrilev/Thesis/src/case_study/docking/rdock
+
+>  <Rbt.Executable>
+rbdock - v26.09-alpha
+
+>  <Rbt.Library>
+libRbt.so (26.09, Buildalpha)
+
+>  <Rbt.Parameter_File>
+/home/gavrilev/.local/share/rdock/data/scripts/dock.prm
+
+>  <Rbt.Receptor>
+SLI_A22A23_bases.prm
+
+>  <SCORE>
+-11.8569
+
+>  <SCORE.INTER>
+-11.7669
+
+>  <SCORE.INTER.CONST>
+1
+
+>  <SCORE.INTER.POLAR>
+-0.528053
+
+>  <SCORE.INTER.REPUL>
+0
+
+>  <SCORE.INTER.ROT>
+4
+
+>  <SCORE.INTER.VDW>
+-19.3715
+
+>  <SCORE.INTER.norm>
+-0.619311
+
+>  <SCORE.INTRA>
+-0.0956809
+
+>  <SCORE.INTRA.DIHEDRAL>
+-0.0267132
+
+>  <SCORE.INTRA.DIHEDRAL.0>
+3.0286
+
+>  <SCORE.INTRA.POLAR>
+0
+
+>  <SCORE.INTRA.POLAR.0>
+0
+
+>  <SCORE.INTRA.REPUL>
+0
+
+>  <SCORE.INTRA.REPUL.0>
+0
+
+>  <SCORE.INTRA.VDW>
+-0.0823243
+
+>  <SCORE.INTRA.VDW.0>
+-1.83337
+
+>  <SCORE.INTRA.norm>
+-0.00503584
+
+>  <SCORE.RESTR>
+0.00572159
+
+>  <SCORE.RESTR.CAVITY>
+0.00572159
+
+>  <SCORE.RESTR.norm>
+0.000301136
+
+>  <SCORE.SYSTEM>
+0
+
+>  <SCORE.SYSTEM.CONST>
+0
+
+>  <SCORE.SYSTEM.DIHEDRAL>
+0
+
+>  <SCORE.SYSTEM.norm>
+0
+
+>  <SCORE.heavy>
+19
+
+>  <SCORE.norm>
+-0.624046
+
+>  <Selected_Conformer_Energy>
+12.07813271484107
+
+$$$$
+3167-0436
+  rDOCK(R)          3D
+libRbt.so/26.09/alpha
+ 21 23  0  0  0  0  0  0  0  0999 V2000
+   -0.0863   -1.2038    4.9935 N   0  0  0  0  0  0
+    1.3098   -1.1777    4.8822 C   0  0  0  0  0  0
+    1.9040   -0.8736    3.6578 C   0  0  0  0  0  0
+    3.2922   -0.7265    3.5407 C   0  0  0  0  0  0
+    4.1043   -0.8434    4.6841 C   0  0  0  0  0  0
+    5.4827   -0.7193    4.7181 N   0  0  0  0  0  0
+    5.9063   -0.8592    5.9526 C   0  0  0  0  0  0
+    7.6047   -0.7669    6.3590 S   0  0  0  0  0  0
+    8.2844   -0.0208    4.8492 C   0  0  0  0  0  0
+    8.4964    1.4709    4.9685 C   0  0  0  0  0  0
+    9.5441    1.9471    5.7789 C   0  0  0  0  0  0
+    9.7924    3.3149    5.9060 C   0  0  0  0  0  0
+    8.9973    4.2325    5.2268 C   0  0  0  0  0  0
+    7.9539    3.7813    4.4202 C   0  0  0  0  0  0
+    7.7034    2.4109    4.2895 C   0  0  0  0  0  0
+    6.3875    1.9384    3.2735 Cl  0  0  0  0  0  0
+    4.7065   -1.1594    7.1342 S   0  0  0  0  0  0
+    3.4937   -1.0904    5.9141 C   0  0  0  0  0  0
+    2.1006   -1.2367    6.0361 C   0  0  0  0  0  0
+   -0.4901   -2.1337    4.9338 H   0  0  0  0  0  0
+   -0.4499   -0.6778    5.7825 H   0  0  0  0  0  0
+  1  2  1  0  0  0
+  2  3  2  0  0  0
+  3  4  1  0  0  0
+  4  5  2  0  0  0
+  5  6  1  0  0  0
+  6  7  2  0  0  0
+  7  8  1  0  0  0
+  8  9  1  0  0  0
+  9 10  1  0  0  0
+ 10 11  2  0  0  0
+ 11 12  1  0  0  0
+ 12 13  2  0  0  0
+ 13 14  1  0  0  0
+ 14 15  2  0  0  0
+ 15 16  1  0  0  0
+  7 17  1  0  0  0
+ 17 18  1  0  0  0
+ 18 19  2  0  0  0
+ 19  2  1  0  0  0
+ 18  5  1  0  0  0
+ 15 10  1  0  0  0
+  1 20  1  0  0  0
+  1 21  1  0  0  0
+M  END
+>  <CHROM.1>
+98.26111950,15.02728453,98.36711603,71.84703123,5.70980584,0.36417436,5.15646954
+2.76712189,0.34691593,2.39413890
+
+>  <ChemDiv_ID>
+3167-0436
+
+>  <Force_Field>
+MMFF94
+
+>  <Formal_Charge>
+0
+
+>  <MultiStructRSA_mean_pKd>
+3.247155554294586
+
+>  <MultiStructRSA_score>
+3.004559340399369
+
+>  <MultiStructRSA_std_pKd>
+0.2425962138952168
+
+>  <Name>
+3167-0436
+
+>  <Original_SMILES>
+Nc1ccc2nc(SCc3ccccc3Cl)sc2c1
+
+>  <RI>
+0
+
+>  <Rbt.Current_Directory>
+/home/gavrilev/Thesis/src/case_study/docking/rdock
+
+>  <Rbt.Executable>
+rbdock - v26.09-alpha
+
+>  <Rbt.Library>
+libRbt.so (26.09, Buildalpha)
+
+>  <Rbt.Parameter_File>
+/home/gavrilev/.local/share/rdock/data/scripts/dock.prm
+
+>  <Rbt.Receptor>
+SLI_A22A23_bases.prm
+
+>  <SCORE>
+-11.7622
+
+>  <SCORE.INTER>
+-11.6888
+
+>  <SCORE.INTER.CONST>
+1
+
+>  <SCORE.INTER.POLAR>
+-0.496091
+
+>  <SCORE.INTER.REPUL>
+0
+
+>  <SCORE.INTER.ROT>
+4
+
+>  <SCORE.INTER.VDW>
+-19.4021
+
+>  <SCORE.INTER.norm>
+-0.615198
+
+>  <SCORE.INTRA>
+-0.0734832
+
+>  <SCORE.INTRA.DIHEDRAL>
+0.010346
+
+>  <SCORE.INTRA.DIHEDRAL.0>
+3.0286
+
+>  <SCORE.INTRA.POLAR>
+0
+
+>  <SCORE.INTRA.POLAR.0>
+0
+
+>  <SCORE.INTRA.REPUL>
+0
+
+>  <SCORE.INTRA.REPUL.0>
+0
+
+>  <SCORE.INTRA.VDW>
+-0.0786562
+
+>  <SCORE.INTRA.VDW.0>
+-1.83337
+
+>  <SCORE.INTRA.norm>
+-0.00386754
+
+>  <SCORE.RESTR>
+0
+
+>  <SCORE.RESTR.CAVITY>
+0
+
+>  <SCORE.RESTR.norm>
+0
+
+>  <SCORE.SYSTEM>
+0
+
+>  <SCORE.SYSTEM.CONST>
+0
+
+>  <SCORE.SYSTEM.DIHEDRAL>
+0
+
+>  <SCORE.SYSTEM.norm>
+0
+
+>  <SCORE.heavy>
+19
+
+>  <SCORE.norm>
+-0.619066
+
+>  <Selected_Conformer_Energy>
+12.07813271484107
+
+$$$$
+3167-0436
+  rDOCK(R)          3D
+libRbt.so/26.09/alpha
+ 21 23  0  0  0  0  0  0  0  0999 V2000
+   -0.0704   -1.2955    4.9622 N   0  0  0  0  0  0
+    1.3237   -1.2332    4.8409 C   0  0  0  0  0  0
+    1.9013   -0.9250    3.6097 C   0  0  0  0  0  0
+    3.2843   -0.7419    3.4816 C   0  0  0  0  0  0
+    4.1068   -0.8264    4.6204 C   0  0  0  0  0  0
+    5.4817   -0.6652    4.6437 N   0  0  0  0  0  0
+    5.9170   -0.7821    5.8765 C   0  0  0  0  0  0
+    7.6150   -0.6406    6.2703 S   0  0  0  0  0  0
+    8.2429    0.2231    4.8012 C   0  0  0  0  0  0
+    8.6092    1.6642    5.0719 C   0  0  0  0  0  0
+    9.6500    1.9436    5.9774 C   0  0  0  0  0  0
+   10.0383    3.2573    6.2460 C   0  0  0  0  0  0
+    9.3927    4.3164    5.6160 C   0  0  0  0  0  0
+    8.3586    4.0609    4.7168 C   0  0  0  0  0  0
+    7.9682    2.7452    4.4442 C   0  0  0  0  0  0
+    6.6746    2.5183    3.3207 Cl  0  0  0  0  0  0
+    4.7337   -1.1029    7.0691 S   0  0  0  0  0  0
+    3.5113   -1.0778    5.8569 C   0  0  0  0  0  0
+    2.1234   -1.2602    5.9899 C   0  0  0  0  0  0
+   -0.4241   -0.9708    5.8571 H   0  0  0  0  0  0
+   -0.5739   -0.8880    4.1800 H   0  0  0  0  0  0
+  1  2  1  0  0  0
+  2  3  2  0  0  0
+  3  4  1  0  0  0
+  4  5  2  0  0  0
+  5  6  1  0  0  0
+  6  7  2  0  0  0
+  7  8  1  0  0  0
+  8  9  1  0  0  0
+  9 10  1  0  0  0
+ 10 11  2  0  0  0
+ 11 12  1  0  0  0
+ 12 13  2  0  0  0
+ 13 14  1  0  0  0
+ 14 15  2  0  0  0
+ 15 16  1  0  0  0
+  7 17  1  0  0  0
+ 17 18  1  0  0  0
+ 18 19  2  0  0  0
+ 19  2  1  0  0  0
+ 18  5  1  0  0  0
+ 15 10  1  0  0  0
+  1 20  1  0  0  0
+  1 21  1  0  0  0
+M  END
+>  <CHROM.1>
+-144.97042868,19.11882926,107.90273640,63.42854926,5.81141755,0.49450644
+5.18280371,2.76377964,0.37558513,2.41389664
+
+>  <ChemDiv_ID>
+3167-0436
+
+>  <Force_Field>
+MMFF94
+
+>  <Formal_Charge>
+0
+
+>  <MultiStructRSA_mean_pKd>
+3.247155554294586
+
+>  <MultiStructRSA_score>
+3.004559340399369
+
+>  <MultiStructRSA_std_pKd>
+0.2425962138952168
+
+>  <Name>
+3167-0436
+
+>  <Original_SMILES>
+Nc1ccc2nc(SCc3ccccc3Cl)sc2c1
+
+>  <RI>
+0
+
+>  <Rbt.Current_Directory>
+/home/gavrilev/Thesis/src/case_study/docking/rdock
+
+>  <Rbt.Executable>
+rbdock - v26.09-alpha
+
+>  <Rbt.Library>
+libRbt.so (26.09, Buildalpha)
+
+>  <Rbt.Parameter_File>
+/home/gavrilev/.local/share/rdock/data/scripts/dock.prm
+
+>  <Rbt.Receptor>
+SLI_A22A23_bases.prm
+
+>  <SCORE>
+-11.6047
+
+>  <SCORE.INTER>
+-12.6053
+
+>  <SCORE.INTER.CONST>
+1
+
+>  <SCORE.INTER.POLAR>
+-0.548279
+
+>  <SCORE.INTER.REPUL>
+0
+
+>  <SCORE.INTER.ROT>
+4
+
+>  <SCORE.INTER.VDW>
+-20.1412
+
+>  <SCORE.INTER.norm>
+-0.663439
+
+>  <SCORE.INTRA>
+0.995572
+
+>  <SCORE.INTRA.DIHEDRAL>
+0.624547
+
+>  <SCORE.INTRA.DIHEDRAL.0>
+3.0286
+
+>  <SCORE.INTRA.POLAR>
+0
+
+>  <SCORE.INTRA.POLAR.0>
+0
+
+>  <SCORE.INTRA.REPUL>
+0
+
+>  <SCORE.INTRA.REPUL.0>
+0
+
+>  <SCORE.INTRA.VDW>
+0.683299
+
+>  <SCORE.INTRA.VDW.0>
+-1.83337
+
+>  <SCORE.INTRA.norm>
+0.0523985
+
+>  <SCORE.RESTR>
+0.00509498
+
+>  <SCORE.RESTR.CAVITY>
+0.00509498
+
+>  <SCORE.RESTR.norm>
+0.000268157
+
+>  <SCORE.SYSTEM>
+0
+
+>  <SCORE.SYSTEM.CONST>
+0
+
+>  <SCORE.SYSTEM.DIHEDRAL>
+0
+
+>  <SCORE.SYSTEM.norm>
+0
+
+>  <SCORE.heavy>
+19
+
+>  <SCORE.norm>
+-0.610772
+
+>  <Selected_Conformer_Energy>
+12.07813271484107
+
+$$$$
+3167-0436
+  rDOCK(R)          3D
+libRbt.so/26.09/alpha
+ 21 23  0  0  0  0  0  0  0  0999 V2000
+   -0.0806   -1.3319    4.9771 N   0  0  0  0  0  0
+    1.3133   -1.2673    4.8542 C   0  0  0  0  0  0
+    1.8890   -0.9616    3.6214 C   0  0  0  0  0  0
+    3.2715   -0.7764    3.4912 C   0  0  0  0  0  0
+    4.0954   -0.8559    4.6294 C   0  0  0  0  0  0
+    5.4700   -0.6921    4.6508 N   0  0  0  0  0  0
+    5.9069   -0.8045    5.8834 C   0  0  0  0  0  0
+    7.6051   -0.6587    6.2749 S   0  0  0  0  0  0
+    8.2326    0.1871    4.7953 C   0  0  0  0  0  0
+    8.5690    1.6400    5.0407 C   0  0  0  0  0  0
+    9.5951    1.9570    5.9507 C   0  0  0  0  0  0
+    9.9559    3.2828    6.1967 C   0  0  0  0  0  0
+    9.2971    4.3169    5.5392 C   0  0  0  0  0  0
+    8.2773    4.0240    4.6352 C   0  0  0  0  0  0
+    7.9144    2.6960    4.3851 C   0  0  0  0  0  0
+    6.6369    2.4223    3.2537 Cl  0  0  0  0  0  0
+    4.7254   -1.1241    7.0782 S   0  0  0  0  0  0
+    3.5017   -1.1049    5.8672 C   0  0  0  0  0  0
+    2.1143   -1.2894    6.0023 C   0  0  0  0  0  0
+   -0.4366   -0.9725    5.8577 H   0  0  0  0  0  0
+   -0.5856   -0.9595    4.1786 H   0  0  0  0  0  0
+  1  2  1  0  0  0
+  2  3  2  0  0  0
+  3  4  1  0  0  0
+  4  5  2  0  0  0
+  5  6  1  0  0  0
+  6  7  2  0  0  0
+  7  8  1  0  0  0
+  8  9  1  0  0  0
+  9 10  1  0  0  0
+ 10 11  2  0  0  0
+ 11 12  1  0  0  0
+ 12 13  2  0  0  0
+ 13 14  1  0  0  0
+ 14 15  2  0  0  0
+ 15 16  1  0  0  0
+  7 17  1  0  0  0
+ 17 18  1  0  0  0
+ 18 19  2  0  0  0
+ 19  2  1  0  0  0
+ 18  5  1  0  0  0
+ 15 10  1  0  0  0
+  1 20  1  0  0  0
+  1 21  1  0  0  0
+M  END
+>  <CHROM.1>
+-142.77091418,18.58229573,106.56467205,63.46310318,5.78352041,0.46308740
+5.16672425,2.76052746,0.37720452,2.40034108
+
+>  <ChemDiv_ID>
+3167-0436
+
+>  <Force_Field>
+MMFF94
+
+>  <Formal_Charge>
+0
+
+>  <MultiStructRSA_mean_pKd>
+3.247155554294586
+
+>  <MultiStructRSA_score>
+3.004559340399369
+
+>  <MultiStructRSA_std_pKd>
+0.2425962138952168
+
+>  <Name>
+3167-0436
+
+>  <Original_SMILES>
+Nc1ccc2nc(SCc3ccccc3Cl)sc2c1
+
+>  <RI>
+0
+
+>  <Rbt.Current_Directory>
+/home/gavrilev/Thesis/src/case_study/docking/rdock
+
+>  <Rbt.Executable>
+rbdock - v26.09-alpha
+
+>  <Rbt.Library>
+libRbt.so (26.09, Buildalpha)
+
+>  <Rbt.Parameter_File>
+/home/gavrilev/.local/share/rdock/data/scripts/dock.prm
+
+>  <Rbt.Receptor>
+SLI_A22A23_bases.prm
+
+>  <SCORE>
+-11.6026
+
+>  <SCORE.INTER>
+-12.543
+
+>  <SCORE.INTER.CONST>
+1
+
+>  <SCORE.INTER.POLAR>
+-0.552974
+
+>  <SCORE.INTER.REPUL>
+0
+
+>  <SCORE.INTER.ROT>
+4
+
+>  <SCORE.INTER.VDW>
+-20.0629
+
+>  <SCORE.INTER.norm>
+-0.66016
+
+>  <SCORE.INTRA>
+0.939205
+
+>  <SCORE.INTRA.DIHEDRAL>
+0.554668
+
+>  <SCORE.INTRA.DIHEDRAL.0>
+3.0286
+
+>  <SCORE.INTRA.POLAR>
+0
+
+>  <SCORE.INTRA.POLAR.0>
+0
+
+>  <SCORE.INTRA.REPUL>
+0
+
+>  <SCORE.INTRA.REPUL.0>
+0
+
+>  <SCORE.INTRA.VDW>
+0.661871
+
+>  <SCORE.INTRA.VDW.0>
+-1.83337
+
+>  <SCORE.INTRA.norm>
+0.0494318
+
+>  <SCORE.RESTR>
+0.00127842
+
+>  <SCORE.RESTR.CAVITY>
+0.00127842
+
+>  <SCORE.RESTR.norm>
+6.72851e-05
+
+>  <SCORE.SYSTEM>
+0
+
+>  <SCORE.SYSTEM.CONST>
+0
+
+>  <SCORE.SYSTEM.DIHEDRAL>
+0
+
+>  <SCORE.SYSTEM.norm>
+0
+
+>  <SCORE.heavy>
+19
+
+>  <SCORE.norm>
+-0.610661
+
+>  <Selected_Conformer_Energy>
+12.07813271484107
+
+$$$$
+3167-0436
+  rDOCK(R)          3D
+libRbt.so/26.09/alpha
+ 21 23  0  0  0  0  0  0  0  0999 V2000
+   -0.0768   -1.3412    4.9792 N   0  0  0  0  0  0
+    1.3163   -1.2702    4.8520 C   0  0  0  0  0  0
+    1.8867   -0.9539    3.6195 C   0  0  0  0  0  0
+    3.2680   -0.7622    3.4859 C   0  0  0  0  0  0
+    4.0960   -0.8461    4.6208 C   0  0  0  0  0  0
+    5.4700   -0.6769    4.6387 N   0  0  0  0  0  0
+    5.9115   -0.7958    5.8690 C   0  0  0  0  0  0
+    7.6104   -0.6458    6.2559 S   0  0  0  0  0  0
+    8.2258    0.2310    4.7893 C   0  0  0  0  0  0
+    8.5879    1.6716    5.0683 C   0  0  0  0  0  0
+    9.6242    1.9489    5.9796 C   0  0  0  0  0  0
+   10.0086    3.2622    6.2560 C   0  0  0  0  0  0
+    9.3636    4.3229    5.6280 C   0  0  0  0  0  0
+    8.3341    4.0694    4.7231 C   0  0  0  0  0  0
+    7.9475    2.7542    4.4427 C   0  0  0  0  0  0
+    6.6594    2.5298    3.3125 Cl  0  0  0  0  0  0
+    4.7353   -1.1282    7.0656 S   0  0  0  0  0  0
+    3.5075   -1.1058    5.8589 C   0  0  0  0  0  0
+    2.1213   -1.2968    5.9973 C   0  0  0  0  0  0
+   -0.4340   -0.9605    5.8503 H   0  0  0  0  0  0
+   -0.5857   -0.9943    4.1717 H   0  0  0  0  0  0
+  1  2  1  0  0  0
+  2  3  2  0  0  0
+  3  4  1  0  0  0
+  4  5  2  0  0  0
+  5  6  1  0  0  0
+  6  7  2  0  0  0
+  7  8  1  0  0  0
+  8  9  1  0  0  0
+  9 10  1  0  0  0
+ 10 11  2  0  0  0
+ 11 12  1  0  0  0
+ 12 13  2  0  0  0
+ 13 14  1  0  0  0
+ 14 15  2  0  0  0
+ 15 16  1  0  0  0
+  7 17  1  0  0  0
+ 17 18  1  0  0  0
+ 18 19  2  0  0  0
+ 19  2  1  0  0  0
+ 18  5  1  0  0  0
+ 15 10  1  0  0  0
+  1 20  1  0  0  0
+  1 21  1  0  0  0
+M  END
+>  <CHROM.1>
+-140.81460275,19.26137011,108.07427282,62.79827345,5.79891192,0.48430047
+5.18217680,2.75713913,0.37794604,2.41774081
+
+>  <ChemDiv_ID>
+3167-0436
+
+>  <Force_Field>
+MMFF94
+
+>  <Formal_Charge>
+0
+
+>  <MultiStructRSA_mean_pKd>
+3.247155554294586
+
+>  <MultiStructRSA_score>
+3.004559340399369
+
+>  <MultiStructRSA_std_pKd>
+0.2425962138952168
+
+>  <Name>
+3167-0436
+
+>  <Original_SMILES>
+Nc1ccc2nc(SCc3ccccc3Cl)sc2c1
+
+>  <RI>
+0
+
+>  <Rbt.Current_Directory>
+/home/gavrilev/Thesis/src/case_study/docking/rdock
+
+>  <Rbt.Executable>
+rbdock - v26.09-alpha
+
+>  <Rbt.Library>
+libRbt.so (26.09, Buildalpha)
+
+>  <Rbt.Parameter_File>
+/home/gavrilev/.local/share/rdock/data/scripts/dock.prm
+
+>  <Rbt.Receptor>
+SLI_A22A23_bases.prm
+
+>  <SCORE>
+-11.5385
+
+>  <SCORE.INTER>
+-12.554
+
+>  <SCORE.INTER.CONST>
+1
+
+>  <SCORE.INTER.POLAR>
+-0.55395
+
+>  <SCORE.INTER.REPUL>
+0
+
+>  <SCORE.INTER.ROT>
+4
+
+>  <SCORE.INTER.VDW>
+-20.0706
+
+>  <SCORE.INTER.norm>
+-0.660737
+
+>  <SCORE.INTRA>
+1.01548
+
+>  <SCORE.INTRA.DIHEDRAL>
+0.647629
+
+>  <SCORE.INTRA.DIHEDRAL.0>
+3.0286
+
+>  <SCORE.INTRA.POLAR>
+0
+
+>  <SCORE.INTRA.POLAR.0>
+0
+
+>  <SCORE.INTRA.REPUL>
+0
+
+>  <SCORE.INTRA.REPUL.0>
+0
+
+>  <SCORE.INTRA.VDW>
+0.691667
+
+>  <SCORE.INTRA.VDW.0>
+-1.83337
+
+>  <SCORE.INTRA.norm>
+0.0534464
+
+>  <SCORE.RESTR>
+0
+
+>  <SCORE.RESTR.CAVITY>
+0
+
+>  <SCORE.RESTR.norm>
+0
+
+>  <SCORE.SYSTEM>
+0
+
+>  <SCORE.SYSTEM.CONST>
+0
+
+>  <SCORE.SYSTEM.DIHEDRAL>
+0
+
+>  <SCORE.SYSTEM.norm>
+0
+
+>  <SCORE.heavy>
+19
+
+>  <SCORE.norm>
+-0.607291
+
+>  <Selected_Conformer_Energy>
+12.07813271484107
+
+$$$$
+3167-0436
+  rDOCK(R)          3D
+libRbt.so/26.09/alpha
+ 21 23  0  0  0  0  0  0  0  0999 V2000
+   -0.0524   -1.2329    4.9498 N   0  0  0  0  0  0
+    1.3454   -1.2082    4.8630 C   0  0  0  0  0  0
+    1.9613   -0.9210    3.6453 C   0  0  0  0  0  0
+    3.3515   -0.7753    3.5509 C   0  0  0  0  0  0
+    4.1430   -0.8765    4.7101 C   0  0  0  0  0  0
+    5.5207   -0.7518    4.7670 N   0  0  0  0  0  0
+    5.9221   -0.8747    6.0106 C   0  0  0  0  0  0
+    7.6130   -0.7766    6.4459 S   0  0  0  0  0  0
+    8.3563   -0.3131    4.8550 C   0  0  0  0  0  0
+    7.9857    1.0835    4.4119 C   0  0  0  0  0  0
+    7.0279    1.2429    3.3929 C   0  0  0  0  0  0
+    6.6380    2.5123    2.9624 C   0  0  0  0  0  0
+    7.1990    3.6462    3.5412 C   0  0  0  0  0  0
+    8.1501    3.5098    4.5511 C   0  0  0  0  0  0
+    8.5419    2.2389    4.9859 C   0  0  0  0  0  0
+    9.7298    2.1604    6.2388 Cl  0  0  0  0  0  0
+    4.7015   -1.1586    7.1747 S   0  0  0  0  0  0
+    3.5106   -1.1065    5.9323 C   0  0  0  0  0  0
+    2.1155   -1.2513    6.0315 C   0  0  0  0  0  0
+   -0.4640   -2.1420    4.7613 H   0  0  0  0  0  0
+   -0.4235   -0.8120    5.7963 H   0  0  0  0  0  0
+  1  2  1  0  0  0
+  2  3  2  0  0  0
+  3  4  1  0  0  0
+  4  5  2  0  0  0
+  5  6  1  0  0  0
+  6  7  2  0  0  0
+  7  8  1  0  0  0
+  8  9  1  0  0  0
+  9 10  1  0  0  0
+ 10 11  2  0  0  0
+ 11 12  1  0  0  0
+ 12 13  2  0  0  0
+ 13 14  1  0  0  0
+ 14 15  2  0  0  0
+ 15 16  1  0  0  0
+  7 17  1  0  0  0
+ 17 18  1  0  0  0
+ 18 19  2  0  0  0
+ 19  2  1  0  0  0
+ 18  5  1  0  0  0
+ 15 10  1  0  0  0
+  1 20  1  0  0  0
+  1 21  1  0  0  0
+M  END
+>  <CHROM.1>
+89.82540131,6.10913712,68.31278937,-104.00658528,5.81709381,0.24159312,5.22870065
+2.84571936,0.34154723,2.32145979
+
+>  <ChemDiv_ID>
+3167-0436
+
+>  <Force_Field>
+MMFF94
+
+>  <Formal_Charge>
+0
+
+>  <MultiStructRSA_mean_pKd>
+3.247155554294586
+
+>  <MultiStructRSA_score>
+3.004559340399369
+
+>  <MultiStructRSA_std_pKd>
+0.2425962138952168
+
+>  <Name>
+3167-0436
+
+>  <Original_SMILES>
+Nc1ccc2nc(SCc3ccccc3Cl)sc2c1
+
+>  <RI>
+0
+
+>  <Rbt.Current_Directory>
+/home/gavrilev/Thesis/src/case_study/docking/rdock
+
+>  <Rbt.Executable>
+rbdock - v26.09-alpha
+
+>  <Rbt.Library>
+libRbt.so (26.09, Buildalpha)
+
+>  <Rbt.Parameter_File>
+/home/gavrilev/.local/share/rdock/data/scripts/dock.prm
+
+>  <Rbt.Receptor>
+SLI_A22A23_bases.prm
+
+>  <SCORE>
+-11.4988
+
+>  <SCORE.INTER>
+-10.6744
+
+>  <SCORE.INTER.CONST>
+1
+
+>  <SCORE.INTER.POLAR>
+-0.548859
+
+>  <SCORE.INTER.REPUL>
+0
+
+>  <SCORE.INTER.ROT>
+4
+
+>  <SCORE.INTER.VDW>
+-18.2082
+
+>  <SCORE.INTER.norm>
+-0.561808
+
+>  <SCORE.INTRA>
+-0.827715
+
+>  <SCORE.INTRA.DIHEDRAL>
+-1.79059
+
+>  <SCORE.INTRA.DIHEDRAL.0>
+3.0286
+
+>  <SCORE.INTRA.POLAR>
+0
+
+>  <SCORE.INTRA.POLAR.0>
+0
+
+>  <SCORE.INTRA.REPUL>
+0
+
+>  <SCORE.INTRA.REPUL.0>
+0
+
+>  <SCORE.INTRA.VDW>
+0.0675786
+
+>  <SCORE.INTRA.VDW.0>
+-1.83337
+
+>  <SCORE.INTRA.norm>
+-0.043564
+
+>  <SCORE.RESTR>
+0.00331154
+
+>  <SCORE.RESTR.CAVITY>
+0.00331154
+
+>  <SCORE.RESTR.norm>
+0.000174292
+
+>  <SCORE.SYSTEM>
+0
+
+>  <SCORE.SYSTEM.CONST>
+0
+
+>  <SCORE.SYSTEM.DIHEDRAL>
+0
+
+>  <SCORE.SYSTEM.norm>
+0
+
+>  <SCORE.heavy>
+19
+
+>  <SCORE.norm>
+-0.605198
+
+>  <Selected_Conformer_Energy>
+12.07813271484107
+
+$$$$
+3167-0436
+  rDOCK(R)          3D
+libRbt.so/26.09/alpha
+ 21 23  0  0  0  0  0  0  0  0999 V2000
+    0.1270   -1.5557    6.6455 N   0  0  0  0  0  0
+    1.1421   -1.3316    5.7067 C   0  0  0  0  0  0
+    0.8270   -1.2360    4.3516 C   0  0  0  0  0  0
+    1.7998   -0.8987    3.4016 C   0  0  0  0  0  0
+    3.1113   -0.6072    3.8206 C   0  0  0  0  0  0
+    4.1685   -0.2576    2.9978 N   0  0  0  0  0  0
+    5.2359   -0.0291    3.7269 C   0  0  0  0  0  0
+    6.7616    0.4305    3.0063 S   0  0  0  0  0  0
+    7.8654    0.3504    4.4462 C   0  0  0  0  0  0
+    8.4135    1.7000    4.8490 C   0  0  0  0  0  0
+    7.7216    2.8609    4.4555 C   0  0  0  0  0  0
+    8.1770    4.1294    4.8192 C   0  0  0  0  0  0
+    9.3331    4.2616    5.5816 C   0  0  0  0  0  0
+   10.0335    3.1243    5.9804 C   0  0  0  0  0  0
+    9.5788    1.8514    5.6189 C   0  0  0  0  0  0
+   10.5096    0.4958    6.1510 Cl  0  0  0  0  0  0
+    5.0548   -0.2290    5.4160 S   0  0  0  0  0  0
+    3.4013   -0.6494    5.1846 C   0  0  0  0  0  0
+    2.4273   -0.9856    6.1414 C   0  0  0  0  0  0
+    0.3619   -1.2618    7.5888 H   0  0  0  0  0  0
+   -0.7874   -1.2216    6.3562 H   0  0  0  0  0  0
+  1  2  1  0  0  0
+  2  3  2  0  0  0
+  3  4  1  0  0  0
+  4  5  2  0  0  0
+  5  6  1  0  0  0
+  6  7  2  0  0  0
+  7  8  1  0  0  0
+  8  9  1  0  0  0
+  9 10  1  0  0  0
+ 10 11  2  0  0  0
+ 11 12  1  0  0  0
+ 12 13  2  0  0  0
+ 13 14  1  0  0  0
+ 14 15  2  0  0  0
+ 15 16  1  0  0  0
+  7 17  1  0  0  0
+ 17 18  1  0  0  0
+ 18 19  2  0  0  0
+ 19  2  1  0  0  0
+ 18  5  1  0  0  0
+ 15 10  1  0  0  0
+  1 20  1  0  0  0
+  1 21  1  0  0  0
+M  END
+>  <CHROM.1>
+-157.55964900,-171.77319682,-113.91587390,21.96796376,5.92300620,0.51759418
+4.88529733,-3.06573363,-0.38245448,-1.24343823
+
+>  <ChemDiv_ID>
+3167-0436
+
+>  <Force_Field>
+MMFF94
+
+>  <Formal_Charge>
+0
+
+>  <MultiStructRSA_mean_pKd>
+3.247155554294586
+
+>  <MultiStructRSA_score>
+3.004559340399369
+
+>  <MultiStructRSA_std_pKd>
+0.2425962138952168
+
+>  <Name>
+3167-0436
+
+>  <Original_SMILES>
+Nc1ccc2nc(SCc3ccccc3Cl)sc2c1
+
+>  <RI>
+0
+
+>  <Rbt.Current_Directory>
+/home/gavrilev/Thesis/src/case_study/docking/rdock
+
+>  <Rbt.Executable>
+rbdock - v26.09-alpha
+
+>  <Rbt.Library>
+libRbt.so (26.09, Buildalpha)
+
+>  <Rbt.Parameter_File>
+/home/gavrilev/.local/share/rdock/data/scripts/dock.prm
+
+>  <Rbt.Receptor>
+SLI_A22A23_bases.prm
+
+>  <SCORE>
+-11.1172
+
+>  <SCORE.INTER>
+-13.6056
+
+>  <SCORE.INTER.CONST>
+1
+
+>  <SCORE.INTER.POLAR>
+-1.66485
+
+>  <SCORE.INTER.REPUL>
+0
+
+>  <SCORE.INTER.ROT>
+4
+
+>  <SCORE.INTER.VDW>
+-17.3451
+
+>  <SCORE.INTER.norm>
+-0.716084
+
+>  <SCORE.INTRA>
+2.46095
+
+>  <SCORE.INTRA.DIHEDRAL>
+0.483824
+
+>  <SCORE.INTRA.DIHEDRAL.0>
+3.0286
+
+>  <SCORE.INTRA.POLAR>
+0
+
+>  <SCORE.INTRA.POLAR.0>
+0
+
+>  <SCORE.INTRA.REPUL>
+0
+
+>  <SCORE.INTRA.REPUL.0>
+0
+
+>  <SCORE.INTRA.VDW>
+2.21903
+
+>  <SCORE.INTRA.VDW.0>
+-1.83337
+
+>  <SCORE.INTRA.norm>
+0.129523
+
+>  <SCORE.RESTR>
+0.0274572
+
+>  <SCORE.RESTR.CAVITY>
+0.0274572
+
+>  <SCORE.RESTR.norm>
+0.00144512
+
+>  <SCORE.SYSTEM>
+0
+
+>  <SCORE.SYSTEM.CONST>
+0
+
+>  <SCORE.SYSTEM.DIHEDRAL>
+0
+
+>  <SCORE.SYSTEM.norm>
+0
+
+>  <SCORE.heavy>
+19
+
+>  <SCORE.norm>
+-0.585115
+
+>  <Selected_Conformer_Energy>
+12.07813271484107
+
+$$$$
+3167-0436
+  rDOCK(R)          3D
+libRbt.so/26.09/alpha
+ 21 23  0  0  0  0  0  0  0  0999 V2000
+    1.4999   -2.6150    5.2475 N   0  0  0  0  0  0
+    2.4953   -1.6551    5.0244 C   0  0  0  0  0  0
+    3.3835   -1.3240    6.0471 C   0  0  0  0  0  0
+    4.4593   -0.4552    5.8222 C   0  0  0  0  0  0
+    4.6789    0.0624    4.5320 C   0  0  0  0  0  0
+    5.6984    0.9239    4.1647 N   0  0  0  0  0  0
+    5.6168    1.1789    2.8797 C   0  0  0  0  0  0
+    6.7501    2.2429    2.0786 S   0  0  0  0  0  0
+    7.0411    3.4816    3.3744 C   0  0  0  0  0  0
+    8.0839    3.0530    4.3810 C   0  0  0  0  0  0
+    8.1799    1.6913    4.7240 C   0  0  0  0  0  0
+    9.1391    1.2432    5.6338 C   0  0  0  0  0  0
+   10.0194    2.1477    6.2191 C   0  0  0  0  0  0
+    9.9398    3.5008    5.8936 C   0  0  0  0  0  0
+    8.9806    3.9528    4.9808 C   0  0  0  0  0  0
+    8.9482    5.6464    4.6376 Cl  0  0  0  0  0  0
+    4.3276    0.4306    2.0407 S   0  0  0  0  0  0
+    3.8181   -0.3215    3.5033 C   0  0  0  0  0  0
+    2.7385   -1.1948    3.7246 C   0  0  0  0  0  0
+    1.6068   -3.1295    6.1166 H   0  0  0  0  0  0
+    0.5535   -2.2692    5.1205 H   0  0  0  0  0  0
+  1  2  1  0  0  0
+  2  3  2  0  0  0
+  3  4  1  0  0  0
+  4  5  2  0  0  0
+  5  6  1  0  0  0
+  6  7  2  0  0  0
+  7  8  1  0  0  0
+  8  9  1  0  0  0
+  9 10  1  0  0  0
+ 10 11  2  0  0  0
+ 11 12  1  0  0  0
+ 12 13  2  0  0  0
+ 13 14  1  0  0  0
+ 14 15  2  0  0  0
+ 15 16  1  0  0  0
+  7 17  1  0  0  0
+ 17 18  1  0  0  0
+ 18 19  2  0  0  0
+ 19  2  1  0  0  0
+ 18  5  1  0  0  0
+ 15 10  1  0  0  0
+  1 20  1  0  0  0
+  1 21  1  0  0  0
+M  END
+>  <CHROM.1>
+-10.42852656,-35.77064318,83.26734921,-34.32591152,6.19791321,1.47945017
+4.19266804,-2.86027874,-0.67031778,-1.05412767
+
+>  <ChemDiv_ID>
+3167-0436
+
+>  <Force_Field>
+MMFF94
+
+>  <Formal_Charge>
+0
+
+>  <MultiStructRSA_mean_pKd>
+3.247155554294586
+
+>  <MultiStructRSA_score>
+3.004559340399369
+
+>  <MultiStructRSA_std_pKd>
+0.2425962138952168
+
+>  <Name>
+3167-0436
+
+>  <Original_SMILES>
+Nc1ccc2nc(SCc3ccccc3Cl)sc2c1
+
+>  <RI>
+0
+
+>  <Rbt.Current_Directory>
+/home/gavrilev/Thesis/src/case_study/docking/rdock
+
+>  <Rbt.Executable>
+rbdock - v26.09-alpha
+
+>  <Rbt.Library>
+libRbt.so (26.09, Buildalpha)
+
+>  <Rbt.Parameter_File>
+/home/gavrilev/.local/share/rdock/data/scripts/dock.prm
+
+>  <Rbt.Receptor>
+SLI_A22A23_bases.prm
+
+>  <SCORE>
+-10.1425
+
+>  <SCORE.INTER>
+-11.8379
+
+>  <SCORE.INTER.CONST>
+1
+
+>  <SCORE.INTER.POLAR>
+-1.38824
+
+>  <SCORE.INTER.REPUL>
+0
+
+>  <SCORE.INTER.ROT>
+4
+
+>  <SCORE.INTER.VDW>
+-16.5179
+
+>  <SCORE.INTER.norm>
+-0.623047
+
+>  <SCORE.INTRA>
+1.67793
+
+>  <SCORE.INTRA.DIHEDRAL>
+0.27334
+
+>  <SCORE.INTRA.DIHEDRAL.0>
+3.0286
+
+>  <SCORE.INTRA.POLAR>
+0
+
+>  <SCORE.INTRA.POLAR.0>
+0
+
+>  <SCORE.INTRA.REPUL>
+0
+
+>  <SCORE.INTRA.REPUL.0>
+0
+
+>  <SCORE.INTRA.VDW>
+1.54126
+
+>  <SCORE.INTRA.VDW.0>
+-1.83337
+
+>  <SCORE.INTRA.norm>
+0.0883122
+
+>  <SCORE.RESTR>
+0.0174579
+
+>  <SCORE.RESTR.CAVITY>
+0.0174579
+
+>  <SCORE.RESTR.norm>
+0.000918838
+
+>  <SCORE.SYSTEM>
+0
+
+>  <SCORE.SYSTEM.CONST>
+0
+
+>  <SCORE.SYSTEM.DIHEDRAL>
+0
+
+>  <SCORE.SYSTEM.norm>
+0
+
+>  <SCORE.heavy>
+19
+
+>  <SCORE.norm>
+-0.533816
+
+>  <Selected_Conformer_Energy>
+12.07813271484107
+
+$$$$
+3167-0436
+  rDOCK(R)          3D
+libRbt.so/26.09/alpha
+ 21 23  0  0  0  0  0  0  0  0999 V2000
+    4.0417   -3.2109    5.9717 N   0  0  0  0  0  0
+    4.8423   -2.0697    5.8351 C   0  0  0  0  0  0
+    4.2638   -0.8539    5.4721 C   0  0  0  0  0  0
+    5.0160    0.3275    5.4393 C   0  0  0  0  0  0
+    6.3705    0.3019    5.8204 C   0  0  0  0  0  0
+    7.2298    1.3872    5.8402 N   0  0  0  0  0  0
+    8.4086    1.0066    6.2743 C   0  0  0  0  0  0
+    9.7423    2.1285    6.4196 S   0  0  0  0  0  0
+   10.1109    2.4601    4.6724 C   0  0  0  0  0  0
+    8.8700    2.6282    3.8262 C   0  0  0  0  0  0
+    8.2956    1.4916    3.2266 C   0  0  0  0  0  0
+    7.1386    1.5924    2.4521 C   0  0  0  0  0  0
+    6.5347    2.8311    2.2610 C   0  0  0  0  0  0
+    7.0887    3.9690    2.8452 C   0  0  0  0  0  0
+    8.2474    3.8711    3.6234 C   0  0  0  0  0  0
+    8.8698    5.3315    4.3066 Cl  0  0  0  0  0  0
+    8.5711   -0.6503    6.6665 S   0  0  0  0  0  0
+    6.9240   -0.9090    6.2374 C   0  0  0  0  0  0
+    6.1718   -2.0965    6.2736 C   0  0  0  0  0  0
+    4.4593   -4.0580    5.5986 H   0  0  0  0  0  0
+    3.6684   -3.3468    6.9064 H   0  0  0  0  0  0
+  1  2  1  0  0  0
+  2  3  2  0  0  0
+  3  4  1  0  0  0
+  4  5  2  0  0  0
+  5  6  1  0  0  0
+  6  7  2  0  0  0
+  7  8  1  0  0  0
+  8  9  1  0  0  0
+  9 10  1  0  0  0
+ 10 11  2  0  0  0
+ 11 12  1  0  0  0
+ 12 13  2  0  0  0
+ 13 14  1  0  0  0
+ 14 15  2  0  0  0
+ 15 16  1  0  0  0
+  7 17  1  0  0  0
+ 17 18  1  0  0  0
+ 18 19  2  0  0  0
+ 19  2  1  0  0  0
+ 18  5  1  0  0  0
+ 15 10  1  0  0  0
+  1 20  1  0  0  0
+  1 21  1  0  0  0
+M  END
+>  <CHROM.1>
+139.15532993,-69.67743681,41.44992760,-89.26934025,7.53965096,1.27249806
+5.08330263,2.15261160,0.53141922,2.48824065
+
+>  <ChemDiv_ID>
+3167-0436
+
+>  <Force_Field>
+MMFF94
+
+>  <Formal_Charge>
+0
+
+>  <MultiStructRSA_mean_pKd>
+3.247155554294586
+
+>  <MultiStructRSA_score>
+3.004559340399369
+
+>  <MultiStructRSA_std_pKd>
+0.2425962138952168
+
+>  <Name>
+3167-0436
+
+>  <Original_SMILES>
+Nc1ccc2nc(SCc3ccccc3Cl)sc2c1
+
+>  <RI>
+0
+
+>  <Rbt.Current_Directory>
+/home/gavrilev/Thesis/src/case_study/docking/rdock
+
+>  <Rbt.Executable>
+rbdock - v26.09-alpha
+
+>  <Rbt.Library>
+libRbt.so (26.09, Buildalpha)
+
+>  <Rbt.Parameter_File>
+/home/gavrilev/.local/share/rdock/data/scripts/dock.prm
+
+>  <Rbt.Receptor>
+SLI_A22A23_bases.prm
+
+>  <SCORE>
+-9.88867
+
+>  <SCORE.INTER>
+-10.4671
+
+>  <SCORE.INTER.CONST>
+1
+
+>  <SCORE.INTER.POLAR>
+-1.41261
+
+>  <SCORE.INTER.REPUL>
+0
+
+>  <SCORE.INTER.ROT>
+4
+
+>  <SCORE.INTER.VDW>
+-15.0642
+
+>  <SCORE.INTER.norm>
+-0.550898
+
+>  <SCORE.INTRA>
+0.155497
+
+>  <SCORE.INTRA.DIHEDRAL>
+2.35624
+
+>  <SCORE.INTRA.DIHEDRAL.0>
+3.0286
+
+>  <SCORE.INTRA.POLAR>
+0
+
+>  <SCORE.INTRA.POLAR.0>
+0
+
+>  <SCORE.INTRA.REPUL>
+0
+
+>  <SCORE.INTRA.REPUL.0>
+0
+
+>  <SCORE.INTRA.VDW>
+-1.02263
+
+>  <SCORE.INTRA.VDW.0>
+-1.83337
+
+>  <SCORE.INTRA.norm>
+0.00818403
+
+>  <SCORE.RESTR>
+0.422888
+
+>  <SCORE.RESTR.CAVITY>
+0.422888
+
+>  <SCORE.RESTR.norm>
+0.0222572
+
+>  <SCORE.SYSTEM>
+0
+
+>  <SCORE.SYSTEM.CONST>
+0
+
+>  <SCORE.SYSTEM.DIHEDRAL>
+0
+
+>  <SCORE.SYSTEM.norm>
+0
+
+>  <SCORE.heavy>
+19
+
+>  <SCORE.norm>
+-0.520456
+
+>  <Selected_Conformer_Energy>
+12.07813271484107
+
+$$$$
+3167-0436
+  rDOCK(R)          3D
+libRbt.so/26.09/alpha
+ 21 23  0  0  0  0  0  0  0  0999 V2000
+    1.4996   -2.6212    5.2114 N   0  0  0  0  0  0
+    2.4793   -1.6486    4.9743 C   0  0  0  0  0  0
+    3.3654   -1.2924    5.9904 C   0  0  0  0  0  0
+    4.4269   -0.4097    5.7523 C   0  0  0  0  0  0
+    4.6345    0.0968    4.4558 C   0  0  0  0  0  0
+    5.6394    0.9699    4.0756 N   0  0  0  0  0  0
+    5.5499    1.2092    2.7881 C   0  0  0  0  0  0
+    6.6641    2.2816    1.9715 S   0  0  0  0  0  0
+    7.0655    3.4480    3.3044 C   0  0  0  0  0  0
+    8.1106    2.9198    4.2598 C   0  0  0  0  0  0
+    8.2189    1.5293    4.4498 C   0  0  0  0  0  0
+    9.1808    0.9917    5.3067 C   0  0  0  0  0  0
+   10.0518    1.8336    5.9909 C   0  0  0  0  0  0
+    9.9601    3.2137    5.8175 C   0  0  0  0  0  0
+    8.9980    3.7556    4.9581 C   0  0  0  0  0  0
+    8.9504    5.4765    4.8050 Cl  0  0  0  0  0  0
+    4.2698    0.4318    1.9617 S   0  0  0  0  0  0
+    3.7765   -0.3117    3.4342 C   0  0  0  0  0  0
+    2.7113   -1.1991    3.6688 C   0  0  0  0  0  0
+    1.3707   -3.2757    4.4456 H   0  0  0  0  0  0
+    1.5894   -3.0916    6.1069 H   0  0  0  0  0  0
+  1  2  1  0  0  0
+  2  3  2  0  0  0
+  3  4  1  0  0  0
+  4  5  2  0  0  0
+  5  6  1  0  0  0
+  6  7  2  0  0  0
+  7  8  1  0  0  0
+  8  9  1  0  0  0
+  9 10  1  0  0  0
+ 10 11  2  0  0  0
+ 11 12  1  0  0  0
+ 12 13  2  0  0  0
+ 13 14  1  0  0  0
+ 14 15  2  0  0  0
+ 15 16  1  0  0  0
+  7 17  1  0  0  0
+ 17 18  1  0  0  0
+ 18 19  2  0  0  0
+ 19  2  1  0  0  0
+ 18  5  1  0  0  0
+ 15 10  1  0  0  0
+  1 20  1  0  0  0
+  1 21  1  0  0  0
+M  END
+>  <CHROM.1>
+-138.32626136,-30.51066929,80.80800958,-28.39135469,6.18164229,1.41137504
+4.11837871,-2.86303874,-0.64958573,-1.03406964
+
+>  <ChemDiv_ID>
+3167-0436
+
+>  <Force_Field>
+MMFF94
+
+>  <Formal_Charge>
+0
+
+>  <MultiStructRSA_mean_pKd>
+3.247155554294586
+
+>  <MultiStructRSA_score>
+3.004559340399369
+
+>  <MultiStructRSA_std_pKd>
+0.2425962138952168
+
+>  <Name>
+3167-0436
+
+>  <Original_SMILES>
+Nc1ccc2nc(SCc3ccccc3Cl)sc2c1
+
+>  <RI>
+0
+
+>  <Rbt.Current_Directory>
+/home/gavrilev/Thesis/src/case_study/docking/rdock
+
+>  <Rbt.Executable>
+rbdock - v26.09-alpha
+
+>  <Rbt.Library>
+libRbt.so (26.09, Buildalpha)
+
+>  <Rbt.Parameter_File>
+/home/gavrilev/.local/share/rdock/data/scripts/dock.prm
+
+>  <Rbt.Receptor>
+SLI_A22A23_bases.prm
+
+>  <SCORE>
+-9.75629
+
+>  <SCORE.INTER>
+-11.4674
+
+>  <SCORE.INTER.CONST>
+1
+
+>  <SCORE.INTER.POLAR>
+-1.49272
+
+>  <SCORE.INTER.REPUL>
+0
+
+>  <SCORE.INTER.ROT>
+4
+
+>  <SCORE.INTER.VDW>
+-15.7922
+
+>  <SCORE.INTER.norm>
+-0.603548
+
+>  <SCORE.INTRA>
+1.68486
+
+>  <SCORE.INTRA.DIHEDRAL>
+-0.244282
+
+>  <SCORE.INTRA.DIHEDRAL.0>
+3.0286
+
+>  <SCORE.INTRA.POLAR>
+0
+
+>  <SCORE.INTRA.POLAR.0>
+0
+
+>  <SCORE.INTRA.REPUL>
+0
+
+>  <SCORE.INTRA.REPUL.0>
+0
+
+>  <SCORE.INTRA.VDW>
+1.807
+
+>  <SCORE.INTRA.VDW.0>
+-1.83337
+
+>  <SCORE.INTRA.norm>
+0.0886767
+
+>  <SCORE.RESTR>
+0.0262562
+
+>  <SCORE.RESTR.CAVITY>
+0.0262562
+
+>  <SCORE.RESTR.norm>
+0.00138191
+
+>  <SCORE.SYSTEM>
+0
+
+>  <SCORE.SYSTEM.CONST>
+0
+
+>  <SCORE.SYSTEM.DIHEDRAL>
+0
+
+>  <SCORE.SYSTEM.norm>
+0
+
+>  <SCORE.heavy>
+19
+
+>  <SCORE.norm>
+-0.513489
+
+>  <Selected_Conformer_Energy>
+12.07813271484107
+
+$$$$
+3167-0436
+  rDOCK(R)          3D
+libRbt.so/26.09/alpha
+ 21 23  0  0  0  0  0  0  0  0999 V2000
+    4.2279   -3.8077    6.3006 N   0  0  0  0  0  0
+    4.5674   -2.4926    5.9583 C   0  0  0  0  0  0
+    5.0567   -1.6246    6.9338 C   0  0  0  0  0  0
+    5.5127   -0.3420    6.6024 C   0  0  0  0  0  0
+    5.5203    0.0685    5.2563 C   0  0  0  0  0  0
+    5.9439    1.2992    4.7844 N   0  0  0  0  0  0
+    5.8388    1.3282    3.4763 C   0  0  0  0  0  0
+    6.2833    2.7422    2.5483 S   0  0  0  0  0  0
+    8.0937    2.5984    2.5394 C   0  0  0  0  0  0
+    8.6826    2.4378    3.9220 C   0  0  0  0  0  0
+    8.8418    1.1420    4.4480 C   0  0  0  0  0  0
+    9.3986    0.9407    5.7122 C   0  0  0  0  0  0
+    9.8054    2.0307    6.4750 C   0  0  0  0  0  0
+    9.6552    3.3222    5.9726 C   0  0  0  0  0  0
+    9.0989    3.5272    4.7052 C   0  0  0  0  0  0
+    8.9447    5.1605    4.1613 Cl  0  0  0  0  0  0
+    5.2216   -0.0848    2.7358 S   0  0  0  0  0  0
+    5.0826   -0.8292    4.2821 C   0  0  0  0  0  0
+    4.6262   -2.1180    4.6105 C   0  0  0  0  0  0
+    5.0261   -4.4073    6.4868 H   0  0  0  0  0  0
+    3.5180   -3.8787    7.0234 H   0  0  0  0  0  0
+  1  2  1  0  0  0
+  2  3  2  0  0  0
+  3  4  1  0  0  0
+  4  5  2  0  0  0
+  5  6  1  0  0  0
+  6  7  2  0  0  0
+  7  8  1  0  0  0
+  8  9  1  0  0  0
+  9 10  1  0  0  0
+ 10 11  2  0  0  0
+ 11 12  1  0  0  0
+ 12 13  2  0  0  0
+ 13 14  1  0  0  0
+ 14 15  2  0  0  0
+ 15 16  1  0  0  0
+  7 17  1  0  0  0
+ 17 18  1  0  0  0
+ 18 19  2  0  0  0
+ 19  2  1  0  0  0
+ 18  5  1  0  0  0
+ 15 10  1  0  0  0
+  1 20  1  0  0  0
+  1 21  1  0  0  0
+M  END
+>  <CHROM.1>
+-72.31590839,77.69868742,-52.65224195,89.57614403,6.86101168,1.15133080,4.50915302
+-2.43022084,-0.70947139,-0.84177423
+
+>  <ChemDiv_ID>
+3167-0436
+
+>  <Force_Field>
+MMFF94
+
+>  <Formal_Charge>
+0
+
+>  <MultiStructRSA_mean_pKd>
+3.247155554294586
+
+>  <MultiStructRSA_score>
+3.004559340399369
+
+>  <MultiStructRSA_std_pKd>
+0.2425962138952168
+
+>  <Name>
+3167-0436
+
+>  <Original_SMILES>
+Nc1ccc2nc(SCc3ccccc3Cl)sc2c1
+
+>  <RI>
+0
+
+>  <Rbt.Current_Directory>
+/home/gavrilev/Thesis/src/case_study/docking/rdock
+
+>  <Rbt.Executable>
+rbdock - v26.09-alpha
+
+>  <Rbt.Library>
+libRbt.so (26.09, Buildalpha)
+
+>  <Rbt.Parameter_File>
+/home/gavrilev/.local/share/rdock/data/scripts/dock.prm
+
+>  <Rbt.Receptor>
+SLI_A22A23_bases.prm
+
+>  <SCORE>
+-9.65765
+
+>  <SCORE.INTER>
+-10.4886
+
+>  <SCORE.INTER.CONST>
+1
+
+>  <SCORE.INTER.POLAR>
+-1.68821
+
+>  <SCORE.INTER.REPUL>
+0.00569491
+
+>  <SCORE.INTER.ROT>
+4
+
+>  <SCORE.INTER.VDW>
+-14.1772
+
+>  <SCORE.INTER.norm>
+-0.552033
+
+>  <SCORE.INTRA>
+0.111524
+
+>  <SCORE.INTRA.DIHEDRAL>
+2.1209
+
+>  <SCORE.INTRA.DIHEDRAL.0>
+3.0286
+
+>  <SCORE.INTRA.POLAR>
+0
+
+>  <SCORE.INTRA.POLAR.0>
+0
+
+>  <SCORE.INTRA.REPUL>
+0
+
+>  <SCORE.INTRA.REPUL.0>
+0
+
+>  <SCORE.INTRA.VDW>
+-0.948925
+
+>  <SCORE.INTRA.VDW.0>
+-1.83337
+
+>  <SCORE.INTRA.norm>
+0.0058697
+
+>  <SCORE.RESTR>
+0.719446
+
+>  <SCORE.RESTR.CAVITY>
+0.719446
+
+>  <SCORE.RESTR.norm>
+0.0378656
+
+>  <SCORE.SYSTEM>
+0
+
+>  <SCORE.SYSTEM.CONST>
+0
+
+>  <SCORE.SYSTEM.DIHEDRAL>
+0
+
+>  <SCORE.SYSTEM.norm>
+0
+
+>  <SCORE.heavy>
+19
+
+>  <SCORE.norm>
+-0.508298
+
+>  <Selected_Conformer_Energy>
+12.07813271484107
+
+$$$$
+3167-0436
+  rDOCK(R)          3D
+libRbt.so/26.09/alpha
+ 21 23  0  0  0  0  0  0  0  0999 V2000
+   11.5930    4.9880    6.7418 N   0  0  0  0  0  0
+   10.4235    4.7792    5.9997 C   0  0  0  0  0  0
+    9.8697    5.8274    5.2655 C   0  0  0  0  0  0
+    8.7690    5.6225    4.4234 C   0  0  0  0  0  0
+    8.2344    4.3288    4.2778 C   0  0  0  0  0  0
+    7.1567    3.9796    3.4820 N   0  0  0  0  0  0
+    6.9501    2.6860    3.5648 C   0  0  0  0  0  0
+    5.6553    1.9027    2.6883 S   0  0  0  0  0  0
+    6.0235    0.1539    3.0116 C   0  0  0  0  0  0
+    5.3978   -0.3574    4.2888 C   0  0  0  0  0  0
+    6.1962   -0.4634    5.4432 C   0  0  0  0  0  0
+    5.6601   -0.9118    6.6516 C   0  0  0  0  0  0
+    4.3164   -1.2640    6.7287 C   0  0  0  0  0  0
+    3.5091   -1.1673    5.5965 C   0  0  0  0  0  0
+    4.0431   -0.7167    4.3842 C   0  0  0  0  0  0
+    2.9736   -0.6317    3.0292 Cl  0  0  0  0  0  0
+    8.0030    1.8165    4.5950 S   0  0  0  0  0  0
+    8.8328    3.2771    4.9725 C   0  0  0  0  0  0
+    9.9388    3.4784    5.8170 C   0  0  0  0  0  0
+   11.4982    4.7839    7.7321 H   0  0  0  0  0  0
+   12.4218    4.5604    6.3398 H   0  0  0  0  0  0
+  1  2  1  0  0  0
+  2  3  2  0  0  0
+  3  4  1  0  0  0
+  4  5  2  0  0  0
+  5  6  1  0  0  0
+  6  7  2  0  0  0
+  7  8  1  0  0  0
+  8  9  1  0  0  0
+  9 10  1  0  0  0
+ 10 11  2  0  0  0
+ 11 12  1  0  0  0
+ 12 13  2  0  0  0
+ 13 14  1  0  0  0
+ 14 15  2  0  0  0
+ 15 16  1  0  0  0
+  7 17  1  0  0  0
+ 17 18  1  0  0  0
+ 18 19  2  0  0  0
+ 19  2  1  0  0  0
+ 18  5  1  0  0  0
+ 15 10  1  0  0  0
+  1 20  1  0  0  0
+  1 21  1  0  0  0
+M  END
+>  <CHROM.1>
+122.37981599,172.46055471,87.40323474,-100.28458113,6.74607362,1.78255252
+4.53176920,-0.32716726,0.68858849,2.27886800
+
+>  <ChemDiv_ID>
+3167-0436
+
+>  <Force_Field>
+MMFF94
+
+>  <Formal_Charge>
+0
+
+>  <MultiStructRSA_mean_pKd>
+3.247155554294586
+
+>  <MultiStructRSA_score>
+3.004559340399369
+
+>  <MultiStructRSA_std_pKd>
+0.2425962138952168
+
+>  <Name>
+3167-0436
+
+>  <Original_SMILES>
+Nc1ccc2nc(SCc3ccccc3Cl)sc2c1
+
+>  <RI>
+0
+
+>  <Rbt.Current_Directory>
+/home/gavrilev/Thesis/src/case_study/docking/rdock
+
+>  <Rbt.Executable>
+rbdock - v26.09-alpha
+
+>  <Rbt.Library>
+libRbt.so (26.09, Buildalpha)
+
+>  <Rbt.Parameter_File>
+/home/gavrilev/.local/share/rdock/data/scripts/dock.prm
+
+>  <Rbt.Receptor>
+SLI_A22A23_bases.prm
+
+>  <SCORE>
+-9.31195
+
+>  <SCORE.INTER>
+-10.3275
+
+>  <SCORE.INTER.CONST>
+1
+
+>  <SCORE.INTER.POLAR>
+-0.905707
+
+>  <SCORE.INTER.REPUL>
+0.00542488
+
+>  <SCORE.INTER.ROT>
+4
+
+>  <SCORE.INTER.VDW>
+-16.6752
+
+>  <SCORE.INTER.norm>
+-0.543552
+
+>  <SCORE.INTRA>
+0.723522
+
+>  <SCORE.INTRA.DIHEDRAL>
+-0.682143
+
+>  <SCORE.INTRA.DIHEDRAL.0>
+3.0286
+
+>  <SCORE.INTRA.POLAR>
+0
+
+>  <SCORE.INTRA.POLAR.0>
+0
+
+>  <SCORE.INTRA.REPUL>
+0
+
+>  <SCORE.INTRA.REPUL.0>
+0
+
+>  <SCORE.INTRA.VDW>
+1.06459
+
+>  <SCORE.INTRA.VDW.0>
+-1.83337
+
+>  <SCORE.INTRA.norm>
+0.0380801
+
+>  <SCORE.RESTR>
+0.292019
+
+>  <SCORE.RESTR.CAVITY>
+0.292019
+
+>  <SCORE.RESTR.norm>
+0.0153694
+
+>  <SCORE.SYSTEM>
+0
+
+>  <SCORE.SYSTEM.CONST>
+0
+
+>  <SCORE.SYSTEM.DIHEDRAL>
+0
+
+>  <SCORE.SYSTEM.norm>
+0
+
+>  <SCORE.heavy>
+19
+
+>  <SCORE.norm>
+-0.490103
+
+>  <Selected_Conformer_Energy>
+12.07813271484107
+
+$$$$
+3167-0436
+  rDOCK(R)          3D
+libRbt.so/26.09/alpha
+ 21 23  0  0  0  0  0  0  0  0999 V2000
+    1.6786   -0.3824    4.1330 N   0  0  0  0  0  0
+    2.8970   -0.7160    4.7382 C   0  0  0  0  0  0
+    3.1975   -2.0511    5.0063 C   0  0  0  0  0  0
+    4.4518   -2.4277    5.5037 C   0  0  0  0  0  0
+    5.4464   -1.4510    5.6978 C   0  0  0  0  0  0
+    6.7254   -1.6775    6.1769 N   0  0  0  0  0  0
+    7.3917   -0.5469    6.2026 C   0  0  0  0  0  0
+    9.0462   -0.4661    6.7633 S   0  0  0  0  0  0
+    9.8492    0.3637    5.3616 C   0  0  0  0  0  0
+    9.5210    1.8366    5.2773 C   0  0  0  0  0  0
+   10.0540    2.7094    6.2444 C   0  0  0  0  0  0
+    9.7957    4.0805    6.1982 C   0  0  0  0  0  0
+    8.9989    4.6048    5.1855 C   0  0  0  0  0  0
+    8.4605    3.7570    4.2188 C   0  0  0  0  0  0
+    8.7188    2.3825    4.2614 C   0  0  0  0  0  0
+    8.0084    1.4032    3.0272 Cl  0  0  0  0  0  0
+    6.5431    0.8430    5.6792 S   0  0  0  0  0  0
+    5.1539   -0.1264    5.3714 C   0  0  0  0  0  0
+    3.8969    0.2553    4.8700 C   0  0  0  0  0  0
+    1.5009   -0.8713    3.2608 H   0  0  0  0  0  0
+    0.8807   -0.4148    4.7604 H   0  0  0  0  0  0
+  1  2  1  0  0  0
+  2  3  2  0  0  0
+  3  4  1  0  0  0
+  4  5  2  0  0  0
+  5  6  1  0  0  0
+  6  7  2  0  0  0
+  7  8  1  0  0  0
+  8  9  1  0  0  0
+  9 10  1  0  0  0
+ 10 11  2  0  0  0
+ 11 12  1  0  0  0
+ 12 13  2  0  0  0
+ 13 14  1  0  0  0
+ 14 15  2  0  0  0
+ 15 16  1  0  0  0
+  7 17  1  0  0  0
+ 17 18  1  0  0  0
+ 18 19  2  0  0  0
+ 19  2  1  0  0  0
+ 18  5  1  0  0  0
+ 15 10  1  0  0  0
+  1 20  1  0  0  0
+  1 21  1  0  0  0
+M  END
+>  <CHROM.1>
+-54.29310172,126.97505988,73.67985691,70.45711041,7.00065668,0.63754781,5.20654418
+2.67519434,0.33713025,2.63445378
+
+>  <ChemDiv_ID>
+3167-0436
+
+>  <Force_Field>
+MMFF94
+
+>  <Formal_Charge>
+0
+
+>  <MultiStructRSA_mean_pKd>
+3.247155554294586
+
+>  <MultiStructRSA_score>
+3.004559340399369
+
+>  <MultiStructRSA_std_pKd>
+0.2425962138952168
+
+>  <Name>
+3167-0436
+
+>  <Original_SMILES>
+Nc1ccc2nc(SCc3ccccc3Cl)sc2c1
+
+>  <RI>
+0
+
+>  <Rbt.Current_Directory>
+/home/gavrilev/Thesis/src/case_study/docking/rdock
+
+>  <Rbt.Executable>
+rbdock - v26.09-alpha
+
+>  <Rbt.Library>
+libRbt.so (26.09, Buildalpha)
+
+>  <Rbt.Parameter_File>
+/home/gavrilev/.local/share/rdock/data/scripts/dock.prm
+
+>  <Rbt.Receptor>
+SLI_A22A23_bases.prm
+
+>  <SCORE>
+-9.02342
+
+>  <SCORE.INTER>
+-9.3333
+
+>  <SCORE.INTER.CONST>
+1
+
+>  <SCORE.INTER.POLAR>
+-0.916515
+
+>  <SCORE.INTER.REPUL>
+0.386062
+
+>  <SCORE.INTER.ROT>
+4
+
+>  <SCORE.INTER.VDW>
+-17.5475
+
+>  <SCORE.INTER.norm>
+-0.491226
+
+>  <SCORE.INTRA>
+0.309882
+
+>  <SCORE.INTRA.DIHEDRAL>
+1.00341
+
+>  <SCORE.INTRA.DIHEDRAL.0>
+3.0286
+
+>  <SCORE.INTRA.POLAR>
+0
+
+>  <SCORE.INTRA.POLAR.0>
+0
+
+>  <SCORE.INTRA.REPUL>
+0
+
+>  <SCORE.INTRA.REPUL.0>
+0
+
+>  <SCORE.INTRA.VDW>
+-0.191822
+
+>  <SCORE.INTRA.VDW.0>
+-1.83337
+
+>  <SCORE.INTRA.norm>
+0.0163096
+
+>  <SCORE.RESTR>
+0
+
+>  <SCORE.RESTR.CAVITY>
+0
+
+>  <SCORE.RESTR.norm>
+0
+
+>  <SCORE.SYSTEM>
+0
+
+>  <SCORE.SYSTEM.CONST>
+0
+
+>  <SCORE.SYSTEM.DIHEDRAL>
+0
+
+>  <SCORE.SYSTEM.norm>
+0
+
+>  <SCORE.heavy>
+19
+
+>  <SCORE.norm>
+-0.474917
+
+>  <Selected_Conformer_Energy>
+12.07813271484107
+
+$$$$
+3167-0436
+  rDOCK(R)          3D
+libRbt.so/26.09/alpha
+ 21 23  0  0  0  0  0  0  0  0999 V2000
+    0.0874   -1.5511    6.2546 N   0  0  0  0  0  0
+    1.2862   -1.3906    5.5481 C   0  0  0  0  0  0
+    1.2638   -1.2700    4.1591 C   0  0  0  0  0  0
+    2.4308   -0.9938    3.4349 C   0  0  0  0  0  0
+    3.6436   -0.7900    4.1191 C   0  0  0  0  0  0
+    4.8676   -0.5074    3.5370 N   0  0  0  0  0  0
+    5.7741   -0.3517    4.4734 C   0  0  0  0  0  0
+    7.4414    0.0097    4.0894 S   0  0  0  0  0  0
+    7.6766    1.5690    4.9901 C   0  0  0  0  0  0
+    7.7679    2.7718    4.0796 C   0  0  0  0  0  0
+    6.9038    2.8541    2.9715 C   0  0  0  0  0  0
+    6.9363    3.9539    2.1123 C   0  0  0  0  0  0
+    7.8339    4.9914    2.3435 C   0  0  0  0  0  0
+    8.6990    4.9283    3.4348 C   0  0  0  0  0  0
+    8.6678    3.8281    4.2987 C   0  0  0  0  0  0
+    9.7774    3.8283    5.6237 Cl  0  0  0  0  0  0
+    5.2366   -0.5450    6.0857 S   0  0  0  0  0  0
+    3.6431   -0.8557    5.5127 C   0  0  0  0  0  0
+    2.4735   -1.1308    6.2433 C   0  0  0  0  0  0
+    0.2084   -1.6694    7.2559 H   0  0  0  0  0  0
+   -0.6211   -0.8580    6.0331 H   0  0  0  0  0  0
+  1  2  1  0  0  0
+  2  3  2  0  0  0
+  3  4  1  0  0  0
+  4  5  2  0  0  0
+  5  6  1  0  0  0
+  6  7  2  0  0  0
+  7  8  1  0  0  0
+  8  9  1  0  0  0
+  9 10  1  0  0  0
+ 10 11  2  0  0  0
+ 11 12  1  0  0  0
+ 12 13  2  0  0  0
+ 13 14  1  0  0  0
+ 14 15  2  0  0  0
+ 15 16  1  0  0  0
+  7 17  1  0  0  0
+ 17 18  1  0  0  0
+ 18 19  2  0  0  0
+ 19  2  1  0  0  0
+ 18  5  1  0  0  0
+ 15 10  1  0  0  0
+  1 20  1  0  0  0
+  1 21  1  0  0  0
+M  END
+>  <CHROM.1>
+177.54703871,122.15301208,-108.00524751,40.78627474,5.78571357,1.04732813
+4.57709177,2.62165455,0.43357221,2.29035656
+
+>  <ChemDiv_ID>
+3167-0436
+
+>  <Force_Field>
+MMFF94
+
+>  <Formal_Charge>
+0
+
+>  <MultiStructRSA_mean_pKd>
+3.247155554294586
+
+>  <MultiStructRSA_score>
+3.004559340399369
+
+>  <MultiStructRSA_std_pKd>
+0.2425962138952168
+
+>  <Name>
+3167-0436
+
+>  <Original_SMILES>
+Nc1ccc2nc(SCc3ccccc3Cl)sc2c1
+
+>  <RI>
+0
+
+>  <Rbt.Current_Directory>
+/home/gavrilev/Thesis/src/case_study/docking/rdock
+
+>  <Rbt.Executable>
+rbdock - v26.09-alpha
+
+>  <Rbt.Library>
+libRbt.so (26.09, Buildalpha)
+
+>  <Rbt.Parameter_File>
+/home/gavrilev/.local/share/rdock/data/scripts/dock.prm
+
+>  <Rbt.Receptor>
+SLI_A22A23_bases.prm
+
+>  <SCORE>
+-9.00113
+
+>  <SCORE.INTER>
+-11.823
+
+>  <SCORE.INTER.CONST>
+1
+
+>  <SCORE.INTER.POLAR>
+-1.36978
+
+>  <SCORE.INTER.REPUL>
+0
+
+>  <SCORE.INTER.ROT>
+4
+
+>  <SCORE.INTER.VDW>
+-16.5657
+
+>  <SCORE.INTER.norm>
+-0.622261
+
+>  <SCORE.INTRA>
+2.48904
+
+>  <SCORE.INTRA.DIHEDRAL>
+3.26837
+
+>  <SCORE.INTRA.DIHEDRAL.0>
+3.0286
+
+>  <SCORE.INTRA.POLAR>
+0
+
+>  <SCORE.INTRA.POLAR.0>
+0
+
+>  <SCORE.INTRA.REPUL>
+0
+
+>  <SCORE.INTRA.REPUL.0>
+0
+
+>  <SCORE.INTRA.VDW>
+0.854858
+
+>  <SCORE.INTRA.VDW.0>
+-1.83337
+
+>  <SCORE.INTRA.norm>
+0.131002
+
+>  <SCORE.RESTR>
+0.332792
+
+>  <SCORE.RESTR.CAVITY>
+0.332792
+
+>  <SCORE.RESTR.norm>
+0.0175154
+
+>  <SCORE.SYSTEM>
+0
+
+>  <SCORE.SYSTEM.CONST>
+0
+
+>  <SCORE.SYSTEM.DIHEDRAL>
+0
+
+>  <SCORE.SYSTEM.norm>
+0
+
+>  <SCORE.heavy>
+19
+
+>  <SCORE.norm>
+-0.473743
+
+>  <Selected_Conformer_Energy>
+12.07813271484107
+
+$$$$
+3167-0436
+  rDOCK(R)          3D
+libRbt.so/26.09/alpha
+ 21 23  0  0  0  0  0  0  0  0999 V2000
+   10.6577    5.1277    6.4496 N   0  0  0  0  0  0
+   10.1073    4.0789    5.7019 C   0  0  0  0  0  0
+   10.5116    2.7663    5.9431 C   0  0  0  0  0  0
+    9.8984    1.6865    5.2947 C   0  0  0  0  0  0
+    8.8249    1.9203    4.4151 C   0  0  0  0  0  0
+    8.1255    0.9546    3.7116 N   0  0  0  0  0  0
+    7.1731    1.5247    3.0110 C   0  0  0  0  0  0
+    6.0961    0.5950    1.9941 S   0  0  0  0  0  0
+    4.5381    0.7347    2.9168 C   0  0  0  0  0  0
+    4.5601   -0.0075    4.2332 C   0  0  0  0  0  0
+    5.6944    0.1042    5.0590 C   0  0  0  0  0  0
+    5.7546   -0.5463    6.2927 C   0  0  0  0  0  0
+    4.6829   -1.3218    6.7236 C   0  0  0  0  0  0
+    3.5508   -1.4462    5.9199 C   0  0  0  0  0  0
+    3.4867   -0.7941    4.6835 C   0  0  0  0  0  0
+    2.0485   -1.0057    3.7487 Cl  0  0  0  0  0  0
+    7.0613    3.2272    3.1317 S   0  0  0  0  0  0
+    8.3908    3.2327    4.2256 C   0  0  0  0  0  0
+    9.0024    4.3189    4.8761 C   0  0  0  0  0  0
+   10.2331    6.0327    6.2704 H   0  0  0  0  0  0
+   10.7386    4.9319    7.4429 H   0  0  0  0  0  0
+  1  2  1  0  0  0
+  2  3  2  0  0  0
+  3  4  1  0  0  0
+  4  5  2  0  0  0
+  5  6  1  0  0  0
+  6  7  2  0  0  0
+  7  8  1  0  0  0
+  8  9  1  0  0  0
+  9 10  1  0  0  0
+ 10 11  2  0  0  0
+ 11 12  1  0  0  0
+ 12 13  2  0  0  0
+ 13 14  1  0  0  0
+ 14 15  2  0  0  0
+ 15 16  1  0  0  0
+  7 17  1  0  0  0
+ 17 18  1  0  0  0
+ 18 19  2  0  0  0
+ 19  2  1  0  0  0
+ 18  5  1  0  0  0
+ 15 10  1  0  0  0
+  1 20  1  0  0  0
+  1 21  1  0  0  0
+M  END
+>  <CHROM.1>
+-173.94949054,109.87169651,-68.58157835,44.21900640,6.49384305,1.25610955
+4.34122296,-0.10474218,0.61558627,1.94909548
+
+>  <ChemDiv_ID>
+3167-0436
+
+>  <Force_Field>
+MMFF94
+
+>  <Formal_Charge>
+0
+
+>  <MultiStructRSA_mean_pKd>
+3.247155554294586
+
+>  <MultiStructRSA_score>
+3.004559340399369
+
+>  <MultiStructRSA_std_pKd>
+0.2425962138952168
+
+>  <Name>
+3167-0436
+
+>  <Original_SMILES>
+Nc1ccc2nc(SCc3ccccc3Cl)sc2c1
+
+>  <RI>
+0
+
+>  <Rbt.Current_Directory>
+/home/gavrilev/Thesis/src/case_study/docking/rdock
+
+>  <Rbt.Executable>
+rbdock - v26.09-alpha
+
+>  <Rbt.Library>
+libRbt.so (26.09, Buildalpha)
+
+>  <Rbt.Parameter_File>
+/home/gavrilev/.local/share/rdock/data/scripts/dock.prm
+
+>  <Rbt.Receptor>
+SLI_A22A23_bases.prm
+
+>  <SCORE>
+-8.95211
+
+>  <SCORE.INTER>
+-10.5197
+
+>  <SCORE.INTER.CONST>
+1
+
+>  <SCORE.INTER.POLAR>
+-1.02892
+
+>  <SCORE.INTER.REPUL>
+0.032871
+
+>  <SCORE.INTER.ROT>
+4
+
+>  <SCORE.INTER.VDW>
+-16.5857
+
+>  <SCORE.INTER.norm>
+-0.553668
+
+>  <SCORE.INTRA>
+1.56501
+
+>  <SCORE.INTRA.DIHEDRAL>
+1.82158
+
+>  <SCORE.INTRA.DIHEDRAL.0>
+3.0286
+
+>  <SCORE.INTRA.POLAR>
+0
+
+>  <SCORE.INTRA.POLAR.0>
+0
+
+>  <SCORE.INTRA.REPUL>
+0
+
+>  <SCORE.INTRA.REPUL.0>
+0
+
+>  <SCORE.INTRA.VDW>
+0.654224
+
+>  <SCORE.INTRA.VDW.0>
+-1.83337
+
+>  <SCORE.INTRA.norm>
+0.0823691
+
+>  <SCORE.RESTR>
+0.00257232
+
+>  <SCORE.RESTR.CAVITY>
+0.00257232
+
+>  <SCORE.RESTR.norm>
+0.000135385
+
+>  <SCORE.SYSTEM>
+0
+
+>  <SCORE.SYSTEM.CONST>
+0
+
+>  <SCORE.SYSTEM.DIHEDRAL>
+0
+
+>  <SCORE.SYSTEM.norm>
+0
+
+>  <SCORE.heavy>
+19
+
+>  <SCORE.norm>
+-0.471164
+
+>  <Selected_Conformer_Energy>
+12.07813271484107
+
+$$$$
+3167-0436
+  rDOCK(R)          3D
+libRbt.so/26.09/alpha
+ 21 23  0  0  0  0  0  0  0  0999 V2000
+    9.9876    5.7848    6.1790 N   0  0  0  0  0  0
+    9.4816    4.5967    5.6364 C   0  0  0  0  0  0
+    9.8850    3.3675    6.1569 C   0  0  0  0  0  0
+    9.3120    2.1681    5.7148 C   0  0  0  0  0  0
+    8.2791    2.1998    4.7594 C   0  0  0  0  0  0
+    7.6216    1.0994    4.2365 N   0  0  0  0  0  0
+    6.6985    1.4988    3.3932 C   0  0  0  0  0  0
+    5.6783    0.3635    2.5397 S   0  0  0  0  0  0
+    5.3792   -0.8766    3.8324 C   0  0  0  0  0  0
+    3.9432   -0.9085    4.3026 C   0  0  0  0  0  0
+    2.9121   -0.8346    3.3473 C   0  0  0  0  0  0
+    1.5704   -0.8797    3.7300 C   0  0  0  0  0  0
+    1.2339   -0.9981    5.0748 C   0  0  0  0  0  0
+    2.2403   -1.0715    6.0365 C   0  0  0  0  0  0
+    3.5860   -1.0282    5.6560 C   0  0  0  0  0  0
+    4.7691   -1.1205    6.9125 Cl  0  0  0  0  0  0
+    6.5669    3.1882    3.1604 S   0  0  0  0  0  0
+    7.8435    3.4387    4.2882 C   0  0  0  0  0  0
+    8.4147    4.6449    4.7309 C   0  0  0  0  0  0
+   10.9233    5.6996    6.5643 H   0  0  0  0  0  0
+    9.8957    6.5919    5.5695 H   0  0  0  0  0  0
+  1  2  1  0  0  0
+  2  3  2  0  0  0
+  3  4  1  0  0  0
+  4  5  2  0  0  0
+  5  6  1  0  0  0
+  6  7  2  0  0  0
+  7  8  1  0  0  0
+  8  9  1  0  0  0
+  9 10  1  0  0  0
+ 10 11  2  0  0  0
+ 11 12  1  0  0  0
+ 12 13  2  0  0  0
+ 13 14  1  0  0  0
+ 14 15  2  0  0  0
+ 15 16  1  0  0  0
+  7 17  1  0  0  0
+ 17 18  1  0  0  0
+ 18 19  2  0  0  0
+ 19  2  1  0  0  0
+ 18  5  1  0  0  0
+ 15 10  1  0  0  0
+  1 20  1  0  0  0
+  1 21  1  0  0  0
+M  END
+>  <CHROM.1>
+29.90199319,38.80380605,112.18334685,43.06936874,6.01715859,1.21114712,4.65854735
+-0.18189449,0.68551948,1.90627250
+
+>  <ChemDiv_ID>
+3167-0436
+
+>  <Force_Field>
+MMFF94
+
+>  <Formal_Charge>
+0
+
+>  <MultiStructRSA_mean_pKd>
+3.247155554294586
+
+>  <MultiStructRSA_score>
+3.004559340399369
+
+>  <MultiStructRSA_std_pKd>
+0.2425962138952168
+
+>  <Name>
+3167-0436
+
+>  <Original_SMILES>
+Nc1ccc2nc(SCc3ccccc3Cl)sc2c1
+
+>  <RI>
+0
+
+>  <Rbt.Current_Directory>
+/home/gavrilev/Thesis/src/case_study/docking/rdock
+
+>  <Rbt.Executable>
+rbdock - v26.09-alpha
+
+>  <Rbt.Library>
+libRbt.so (26.09, Buildalpha)
+
+>  <Rbt.Parameter_File>
+/home/gavrilev/.local/share/rdock/data/scripts/dock.prm
+
+>  <Rbt.Receptor>
+SLI_A22A23_bases.prm
+
+>  <SCORE>
+-8.58987
+
+>  <SCORE.INTER>
+-10.7053
+
+>  <SCORE.INTER.CONST>
+1
+
+>  <SCORE.INTER.POLAR>
+-0.7152
+
+>  <SCORE.INTER.REPUL>
+0.0362902
+
+>  <SCORE.INTER.ROT>
+4
+
+>  <SCORE.INTER.VDW>
+-17.8551
+
+>  <SCORE.INTER.norm>
+-0.563437
+
+>  <SCORE.INTRA>
+2.11325
+
+>  <SCORE.INTRA.DIHEDRAL>
+2.15106
+
+>  <SCORE.INTRA.DIHEDRAL.0>
+3.0286
+
+>  <SCORE.INTRA.POLAR>
+0
+
+>  <SCORE.INTRA.POLAR.0>
+0
+
+>  <SCORE.INTRA.REPUL>
+0
+
+>  <SCORE.INTRA.REPUL.0>
+0
+
+>  <SCORE.INTRA.VDW>
+1.03772
+
+>  <SCORE.INTRA.VDW.0>
+-1.83337
+
+>  <SCORE.INTRA.norm>
+0.111224
+
+>  <SCORE.RESTR>
+0.00219283
+
+>  <SCORE.RESTR.CAVITY>
+0.00219283
+
+>  <SCORE.RESTR.norm>
+0.000115412
+
+>  <SCORE.SYSTEM>
+0
+
+>  <SCORE.SYSTEM.CONST>
+0
+
+>  <SCORE.SYSTEM.DIHEDRAL>
+0
+
+>  <SCORE.SYSTEM.norm>
+0
+
+>  <SCORE.heavy>
+19
+
+>  <SCORE.norm>
+-0.452098
+
+>  <Selected_Conformer_Energy>
+12.07813271484107
+
+$$$$
+3167-0436
+  rDOCK(R)          3D
+libRbt.so/26.09/alpha
+ 21 23  0  0  0  0  0  0  0  0999 V2000
+    4.0000   -3.0178    5.9158 N   0  0  0  0  0  0
+    4.6250   -1.7981    5.6265 C   0  0  0  0  0  0
+    5.6490   -1.3294    6.4489 C   0  0  0  0  0  0
+    6.3708   -0.1737    6.1234 C   0  0  0  0  0  0
+    6.0917    0.5074    4.9239 C   0  0  0  0  0  0
+    6.7239    1.6541    4.4744 N   0  0  0  0  0  0
+    6.2316    1.9987    3.3074 C   0  0  0  0  0  0
+    6.8001    3.4128    2.4499 S   0  0  0  0  0  0
+    8.5981    3.1693    2.5292 C   0  0  0  0  0  0
+    9.1090    2.9790    3.9387 C   0  0  0  0  0  0
+    9.4625    1.6853    4.3660 C   0  0  0  0  0  0
+    9.9576    1.4610    5.6518 C   0  0  0  0  0  0
+   10.1073    2.5253    6.5353 C   0  0  0  0  0  0
+    9.7618    3.8140    6.1318 C   0  0  0  0  0  0
+    9.2668    4.0423    4.8432 C   0  0  0  0  0  0
+    8.8587    5.6693    4.4269 Cl  0  0  0  0  0  0
+    4.9892    1.0005    2.6863 S   0  0  0  0  0  0
+    5.1046   -0.0032    4.0804 C   0  0  0  0  0  0
+    4.3794   -1.1640    4.4026 C   0  0  0  0  0  0
+    4.6382   -3.7531    6.2045 H   0  0  0  0  0  0
+    3.2008   -2.9377    6.5374 H   0  0  0  0  0  0
+  1  2  1  0  0  0
+  2  3  2  0  0  0
+  3  4  1  0  0  0
+  4  5  2  0  0  0
+  5  6  1  0  0  0
+  6  7  2  0  0  0
+  7  8  1  0  0  0
+  8  9  1  0  0  0
+  9 10  1  0  0  0
+ 10 11  2  0  0  0
+ 11 12  1  0  0  0
+ 12 13  2  0  0  0
+ 13 14  1  0  0  0
+ 14 15  2  0  0  0
+ 15 16  1  0  0  0
+  7 17  1  0  0  0
+ 17 18  1  0  0  0
+ 18 19  2  0  0  0
+ 19  2  1  0  0  0
+ 18  5  1  0  0  0
+ 15 10  1  0  0  0
+  1 20  1  0  0  0
+  1 21  1  0  0  0
+M  END
+>  <CHROM.1>
+-41.82994041,49.10012704,-54.47023683,104.03922796,7.10931539,1.76862565
+4.40874729,-2.44397728,-0.64311477,-0.73584234
+
+>  <ChemDiv_ID>
+3167-0436
+
+>  <Force_Field>
+MMFF94
+
+>  <Formal_Charge>
+0
+
+>  <MultiStructRSA_mean_pKd>
+3.247155554294586
+
+>  <MultiStructRSA_score>
+3.004559340399369
+
+>  <MultiStructRSA_std_pKd>
+0.2425962138952168
+
+>  <Name>
+3167-0436
+
+>  <Original_SMILES>
+Nc1ccc2nc(SCc3ccccc3Cl)sc2c1
+
+>  <RI>
+0
+
+>  <Rbt.Current_Directory>
+/home/gavrilev/Thesis/src/case_study/docking/rdock
+
+>  <Rbt.Executable>
+rbdock - v26.09-alpha
+
+>  <Rbt.Library>
+libRbt.so (26.09, Buildalpha)
+
+>  <Rbt.Parameter_File>
+/home/gavrilev/.local/share/rdock/data/scripts/dock.prm
+
+>  <Rbt.Receptor>
+SLI_A22A23_bases.prm
+
+>  <SCORE>
+-8.26581
+
+>  <SCORE.INTER>
+-8.5609
+
+>  <SCORE.INTER.CONST>
+1
+
+>  <SCORE.INTER.POLAR>
+-0.774597
+
+>  <SCORE.INTER.REPUL>
+0
+
+>  <SCORE.INTER.ROT>
+4
+
+>  <SCORE.INTER.VDW>
+-15.3273
+
+>  <SCORE.INTER.norm>
+-0.450574
+
+>  <SCORE.INTRA>
+-0.206394
+
+>  <SCORE.INTRA.DIHEDRAL>
+0.358639
+
+>  <SCORE.INTRA.DIHEDRAL.0>
+3.0286
+
+>  <SCORE.INTRA.POLAR>
+0
+
+>  <SCORE.INTRA.POLAR.0>
+0
+
+>  <SCORE.INTRA.REPUL>
+0
+
+>  <SCORE.INTRA.REPUL.0>
+0
+
+>  <SCORE.INTRA.VDW>
+-0.385713
+
+>  <SCORE.INTRA.VDW.0>
+-1.83337
+
+>  <SCORE.INTRA.norm>
+-0.0108628
+
+>  <SCORE.RESTR>
+0.501485
+
+>  <SCORE.RESTR.CAVITY>
+0.501485
+
+>  <SCORE.RESTR.norm>
+0.0263939
+
+>  <SCORE.SYSTEM>
+0
+
+>  <SCORE.SYSTEM.CONST>
+0
+
+>  <SCORE.SYSTEM.DIHEDRAL>
+0
+
+>  <SCORE.SYSTEM.norm>
+0
+
+>  <SCORE.heavy>
+19
+
+>  <SCORE.norm>
+-0.435042
+
+>  <Selected_Conformer_Energy>
+12.07813271484107
+
+$$$$
+3167-0436
+  rDOCK(R)          3D
+libRbt.so/26.09/alpha
+ 21 23  0  0  0  0  0  0  0  0999 V2000
+   -0.5098   -2.3316    6.1031 N   0  0  0  0  0  0
+    0.5785   -1.8285    5.3789 C   0  0  0  0  0  0
+    0.3777   -1.2835    4.1112 C   0  0  0  0  0  0
+    1.4237   -0.6690    3.4106 C   0  0  0  0  0  0
+    2.6925   -0.5576    4.0092 C   0  0  0  0  0  0
+    3.8117    0.0248    3.4393 N   0  0  0  0  0  0
+    4.8117   -0.0215    4.2882 C   0  0  0  0  0  0
+    6.3882    0.6219    3.8894 S   0  0  0  0  0  0
+    6.9936    1.1047    5.5322 C   0  0  0  0  0  0
+    8.4359    1.5562    5.5236 C   0  0  0  0  0  0
+    8.7532    2.8112    4.9710 C   0  0  0  0  0  0
+   10.0676    3.2811    4.9571 C   0  0  0  0  0  0
+   11.0898    2.5049    5.4938 C   0  0  0  0  0  0
+   10.7966    1.2584    6.0447 C   0  0  0  0  0  0
+    9.4799    0.7854    6.0616 C   0  0  0  0  0  0
+    9.2054   -0.7719    6.7592 Cl  0  0  0  0  0  0
+    4.4911   -0.7661    5.7944 S   0  0  0  0  0  0
+    2.8671   -1.0548    5.3011 C   0  0  0  0  0  0
+    1.8192   -1.6704    6.0083 C   0  0  0  0  0  0
+   -1.0426   -1.6226    6.5978 H   0  0  0  0  0  0
+   -1.1065   -2.9598    5.5733 H   0  0  0  0  0  0
+  1  2  1  0  0  0
+  2  3  2  0  0  0
+  3  4  1  0  0  0
+  4  5  2  0  0  0
+  5  6  1  0  0  0
+  6  7  2  0  0  0
+  7  8  1  0  0  0
+  8  9  1  0  0  0
+  9 10  1  0  0  0
+ 10 11  2  0  0  0
+ 11 12  1  0  0  0
+ 12 13  2  0  0  0
+ 13 14  1  0  0  0
+ 14 15  2  0  0  0
+ 15 16  1  0  0  0
+  7 17  1  0  0  0
+ 17 18  1  0  0  0
+ 18 19  2  0  0  0
+ 19  2  1  0  0  0
+ 18  5  1  0  0  0
+ 15 10  1  0  0  0
+  1 20  1  0  0  0
+  1 21  1  0  0  0
+M  END
+>  <CHROM.1>
+-82.05084012,150.82567260,173.09982040,73.19370635,5.67462783,0.04647091
+5.20268634,-2.98672134,-0.29418571,-0.81566008
+
+>  <ChemDiv_ID>
+3167-0436
+
+>  <Force_Field>
+MMFF94
+
+>  <Formal_Charge>
+0
+
+>  <MultiStructRSA_mean_pKd>
+3.247155554294586
+
+>  <MultiStructRSA_score>
+3.004559340399369
+
+>  <MultiStructRSA_std_pKd>
+0.2425962138952168
+
+>  <Name>
+3167-0436
+
+>  <Original_SMILES>
+Nc1ccc2nc(SCc3ccccc3Cl)sc2c1
+
+>  <RI>
+0
+
+>  <Rbt.Current_Directory>
+/home/gavrilev/Thesis/src/case_study/docking/rdock
+
+>  <Rbt.Executable>
+rbdock - v26.09-alpha
+
+>  <Rbt.Library>
+libRbt.so (26.09, Buildalpha)
+
+>  <Rbt.Parameter_File>
+/home/gavrilev/.local/share/rdock/data/scripts/dock.prm
+
+>  <Rbt.Receptor>
+SLI_A22A23_bases.prm
+
+>  <SCORE>
+-8.16417
+
+>  <SCORE.INTER>
+-9.38448
+
+>  <SCORE.INTER.CONST>
+1
+
+>  <SCORE.INTER.POLAR>
+-1.22864
+
+>  <SCORE.INTER.REPUL>
+0
+
+>  <SCORE.INTER.ROT>
+4
+
+>  <SCORE.INTER.VDW>
+-14.6071
+
+>  <SCORE.INTER.norm>
+-0.49392
+
+>  <SCORE.INTRA>
+0.499748
+
+>  <SCORE.INTRA.DIHEDRAL>
+-0.669307
+
+>  <SCORE.INTRA.DIHEDRAL.0>
+3.0286
+
+>  <SCORE.INTRA.POLAR>
+0
+
+>  <SCORE.INTRA.POLAR.0>
+0
+
+>  <SCORE.INTRA.REPUL>
+0
+
+>  <SCORE.INTRA.REPUL.0>
+0
+
+>  <SCORE.INTRA.VDW>
+0.834401
+
+>  <SCORE.INTRA.VDW.0>
+-1.83337
+
+>  <SCORE.INTRA.norm>
+0.0263025
+
+>  <SCORE.RESTR>
+0.720556
+
+>  <SCORE.RESTR.CAVITY>
+0.720556
+
+>  <SCORE.RESTR.norm>
+0.037924
+
+>  <SCORE.SYSTEM>
+0
+
+>  <SCORE.SYSTEM.CONST>
+0
+
+>  <SCORE.SYSTEM.DIHEDRAL>
+0
+
+>  <SCORE.SYSTEM.norm>
+0
+
+>  <SCORE.heavy>
+19
+
+>  <SCORE.norm>
+-0.429693
+
+>  <Selected_Conformer_Energy>
+12.07813271484107
+
+$$$$
+3167-0436
+  rDOCK(R)          3D
+libRbt.so/26.09/alpha
+ 21 23  0  0  0  0  0  0  0  0999 V2000
+   -0.0764   -0.9237    5.3606 N   0  0  0  0  0  0
+    1.2818   -1.0421    5.0394 C   0  0  0  0  0  0
+    1.6962   -0.9165    3.7139 C   0  0  0  0  0  0
+    3.0555   -0.9148    3.3747 C   0  0  0  0  0  0
+    4.0270   -0.9974    4.3896 C   0  0  0  0  0  0
+    5.3988   -1.0030    4.2030 N   0  0  0  0  0  0
+    6.0006   -1.0623    5.3680 C   0  0  0  0  0  0
+    7.7439   -1.0938    5.5029 S   0  0  0  0  0  0
+    8.0783    0.5907    6.0937 C   0  0  0  0  0  0
+    7.8974    1.6415    5.0227 C   0  0  0  0  0  0
+    6.8793    1.4704    4.0659 C   0  0  0  0  0  0
+    6.6600    2.4224    3.0687 C   0  0  0  0  0  0
+    7.4548    3.5625    3.0081 C   0  0  0  0  0  0
+    8.4692    3.7501    3.9456 C   0  0  0  0  0  0
+    8.6906    2.7986    4.9473 C   0  0  0  0  0  0
+    9.9716    3.1074    6.0656 Cl  0  0  0  0  0  0
+    4.9837   -1.1302    6.7417 S   0  0  0  0  0  0
+    3.6019   -1.0643    5.7168 C   0  0  0  0  0  0
+    2.2386   -1.0642    6.0614 C   0  0  0  0  0  0
+   -0.6070   -1.7816    5.2433 H   0  0  0  0  0  0
+   -0.2540   -0.4826    6.2580 H   0  0  0  0  0  0
+  1  2  1  0  0  0
+  2  3  2  0  0  0
+  3  4  1  0  0  0
+  4  5  2  0  0  0
+  5  6  1  0  0  0
+  6  7  2  0  0  0
+  7  8  1  0  0  0
+  8  9  1  0  0  0
+  9 10  1  0  0  0
+ 10 11  2  0  0  0
+ 11 12  1  0  0  0
+ 12 13  2  0  0  0
+ 13 14  1  0  0  0
+ 14 15  2  0  0  0
+ 15 16  1  0  0  0
+  7 17  1  0  0  0
+ 17 18  1  0  0  0
+ 18 19  2  0  0  0
+ 19  2  1  0  0  0
+ 18  5  1  0  0  0
+ 15 10  1  0  0  0
+  1 20  1  0  0  0
+  1 21  1  0  0  0
+M  END
+>  <CHROM.1>
+84.03324814,106.01514160,-73.13786075,35.31365660,5.87132380,0.42160075,5.08227640
+2.74924635,0.32504580,2.48619533
+
+>  <ChemDiv_ID>
+3167-0436
+
+>  <Force_Field>
+MMFF94
+
+>  <Formal_Charge>
+0
+
+>  <MultiStructRSA_mean_pKd>
+3.247155554294586
+
+>  <MultiStructRSA_score>
+3.004559340399369
+
+>  <MultiStructRSA_std_pKd>
+0.2425962138952168
+
+>  <Name>
+3167-0436
+
+>  <Original_SMILES>
+Nc1ccc2nc(SCc3ccccc3Cl)sc2c1
+
+>  <RI>
+0
+
+>  <Rbt.Current_Directory>
+/home/gavrilev/Thesis/src/case_study/docking/rdock
+
+>  <Rbt.Executable>
+rbdock - v26.09-alpha
+
+>  <Rbt.Library>
+libRbt.so (26.09, Buildalpha)
+
+>  <Rbt.Parameter_File>
+/home/gavrilev/.local/share/rdock/data/scripts/dock.prm
+
+>  <Rbt.Receptor>
+SLI_A22A23_bases.prm
+
+>  <SCORE>
+-7.92319
+
+>  <SCORE.INTER>
+-9.64679
+
+>  <SCORE.INTER.CONST>
+1
+
+>  <SCORE.INTER.POLAR>
+-0.147046
+
+>  <SCORE.INTER.REPUL>
+0
+
+>  <SCORE.INTER.ROT>
+4
+
+>  <SCORE.INTER.VDW>
+-18.5468
+
+>  <SCORE.INTER.norm>
+-0.507726
+
+>  <SCORE.INTRA>
+1.71963
+
+>  <SCORE.INTRA.DIHEDRAL>
+2.05359
+
+>  <SCORE.INTRA.DIHEDRAL.0>
+3.0286
+
+>  <SCORE.INTRA.POLAR>
+0
+
+>  <SCORE.INTRA.POLAR.0>
+0
+
+>  <SCORE.INTRA.REPUL>
+0
+
+>  <SCORE.INTRA.REPUL.0>
+0
+
+>  <SCORE.INTRA.VDW>
+0.692836
+
+>  <SCORE.INTRA.VDW.0>
+-1.83337
+
+>  <SCORE.INTRA.norm>
+0.0905069
+
+>  <SCORE.RESTR>
+0.00396274
+
+>  <SCORE.RESTR.CAVITY>
+0.00396274
+
+>  <SCORE.RESTR.norm>
+0.000208565
+
+>  <SCORE.SYSTEM>
+0
+
+>  <SCORE.SYSTEM.CONST>
+0
+
+>  <SCORE.SYSTEM.DIHEDRAL>
+0
+
+>  <SCORE.SYSTEM.norm>
+0
+
+>  <SCORE.heavy>
+19
+
+>  <SCORE.norm>
+-0.41701
+
+>  <Selected_Conformer_Energy>
+12.07813271484107
+
+$$$$
+3167-0436
+  rDOCK(R)          3D
+libRbt.so/26.09/alpha
+ 21 23  0  0  0  0  0  0  0  0999 V2000
+   -0.0489   -0.9250    5.4002 N   0  0  0  0  0  0
+    1.3061   -1.0577    5.0708 C   0  0  0  0  0  0
+    1.7119   -0.9505    3.7410 C   0  0  0  0  0  0
+    3.0687   -0.9633    3.3922 C   0  0  0  0  0  0
+    4.0468   -1.0419    4.4010 C   0  0  0  0  0  0
+    5.4171   -1.0603    4.2048 N   0  0  0  0  0  0
+    6.0268   -1.1110    5.3661 C   0  0  0  0  0  0
+    7.7707   -1.1545    5.4890 S   0  0  0  0  0  0
+    8.1145    0.4985    6.1582 C   0  0  0  0  0  0
+    7.9731    1.5960    5.1288 C   0  0  0  0  0  0
+    6.9359    1.5111    4.1810 C   0  0  0  0  0  0
+    6.7521    2.5092    3.2224 C   0  0  0  0  0  0
+    7.6023    3.6100    3.1921 C   0  0  0  0  0  0
+    8.6363    3.7122    4.1213 C   0  0  0  0  0  0
+    8.8221    2.7144    5.0844 C   0  0  0  0  0  0
+   10.1308    2.9176    6.1949 Cl  0  0  0  0  0  0
+    5.0193   -1.1552    6.7477 S   0  0  0  0  0  0
+    3.6307   -1.0903    5.7319 C   0  0  0  0  0  0
+    2.2700   -1.0756    6.0861 C   0  0  0  0  0  0
+   -0.5831   -1.7844    5.3139 H   0  0  0  0  0  0
+   -0.2171   -0.4561    6.2852 H   0  0  0  0  0  0
+  1  2  1  0  0  0
+  2  3  2  0  0  0
+  3  4  1  0  0  0
+  4  5  2  0  0  0
+  5  6  1  0  0  0
+  6  7  2  0  0  0
+  7  8  1  0  0  0
+  8  9  1  0  0  0
+  9 10  1  0  0  0
+ 10 11  2  0  0  0
+ 11 12  1  0  0  0
+ 12 13  2  0  0  0
+ 13 14  1  0  0  0
+ 14 15  2  0  0  0
+ 15 16  1  0  0  0
+  7 17  1  0  0  0
+ 17 18  1  0  0  0
+ 18 19  2  0  0  0
+ 19  2  1  0  0  0
+ 18  5  1  0  0  0
+ 15 10  1  0  0  0
+  1 20  1  0  0  0
+  1 21  1  0  0  0
+M  END
+>  <CHROM.1>
+85.16427839,109.44041235,-74.93929246,38.24313500,5.93440451,0.37537435,5.14286665
+2.76049013,0.31667059,2.51289790
+
+>  <ChemDiv_ID>
+3167-0436
+
+>  <Force_Field>
+MMFF94
+
+>  <Formal_Charge>
+0
+
+>  <MultiStructRSA_mean_pKd>
+3.247155554294586
+
+>  <MultiStructRSA_score>
+3.004559340399369
+
+>  <MultiStructRSA_std_pKd>
+0.2425962138952168
+
+>  <Name>
+3167-0436
+
+>  <Original_SMILES>
+Nc1ccc2nc(SCc3ccccc3Cl)sc2c1
+
+>  <RI>
+0
+
+>  <Rbt.Current_Directory>
+/home/gavrilev/Thesis/src/case_study/docking/rdock
+
+>  <Rbt.Executable>
+rbdock - v26.09-alpha
+
+>  <Rbt.Library>
+libRbt.so (26.09, Buildalpha)
+
+>  <Rbt.Parameter_File>
+/home/gavrilev/.local/share/rdock/data/scripts/dock.prm
+
+>  <Rbt.Receptor>
+SLI_A22A23_bases.prm
+
+>  <SCORE>
+-7.80805
+
+>  <SCORE.INTER>
+-9.29765
+
+>  <SCORE.INTER.CONST>
+1
+
+>  <SCORE.INTER.POLAR>
+-0.107497
+
+>  <SCORE.INTER.REPUL>
+0
+
+>  <SCORE.INTER.ROT>
+4
+
+>  <SCORE.INTER.VDW>
+-18.3322
+
+>  <SCORE.INTER.norm>
+-0.48935
+
+>  <SCORE.INTRA>
+1.48959
+
+>  <SCORE.INTRA.DIHEDRAL>
+1.99113
+
+>  <SCORE.INTRA.DIHEDRAL.0>
+3.0286
+
+>  <SCORE.INTRA.POLAR>
+0
+
+>  <SCORE.INTRA.POLAR.0>
+0
+
+>  <SCORE.INTRA.REPUL>
+0
+
+>  <SCORE.INTRA.REPUL.0>
+0
+
+>  <SCORE.INTRA.VDW>
+0.494031
+
+>  <SCORE.INTRA.VDW.0>
+-1.83337
+
+>  <SCORE.INTRA.norm>
+0.0783997
+
+>  <SCORE.RESTR>
+0
+
+>  <SCORE.RESTR.CAVITY>
+0
+
+>  <SCORE.RESTR.norm>
+0
+
+>  <SCORE.SYSTEM>
+0
+
+>  <SCORE.SYSTEM.CONST>
+0
+
+>  <SCORE.SYSTEM.DIHEDRAL>
+0
+
+>  <SCORE.SYSTEM.norm>
+0
+
+>  <SCORE.heavy>
+19
+
+>  <SCORE.norm>
+-0.41095
+
+>  <Selected_Conformer_Energy>
+12.07813271484107
+
+$$$$
+3167-0436
+  rDOCK(R)          3D
+libRbt.so/26.09/alpha
+ 21 23  0  0  0  0  0  0  0  0999 V2000
+    1.6080   -2.5048    5.4230 N   0  0  0  0  0  0
+    2.7492   -1.7005    5.3097 C   0  0  0  0  0  0
+    2.6537   -0.4362    4.7291 C   0  0  0  0  0  0
+    3.7492    0.4367    4.7050 C   0  0  0  0  0  0
+    4.9587    0.0540    5.3145 C   0  0  0  0  0  0
+    6.1160    0.8117    5.3703 N   0  0  0  0  0  0
+    7.0377    0.1578    6.0379 C   0  0  0  0  0  0
+    8.6345    0.8230    6.2947 S   0  0  0  0  0  0
+    8.8933    1.7197    4.7367 C   0  0  0  0  0  0
+    9.2423    3.1758    4.9416 C   0  0  0  0  0  0
+   10.2417    3.5118    5.8741 C   0  0  0  0  0  0
+   10.6132    4.8408    6.0849 C   0  0  0  0  0  0
+    9.9918    5.8591    5.3690 C   0  0  0  0  0  0
+    8.9988    5.5473    4.4417 C   0  0  0  0  0  0
+    8.6254    4.2161    4.2269 C   0  0  0  0  0  0
+    7.3828    3.9188    3.0630 Cl  0  0  0  0  0  0
+    6.5954   -1.3883    6.6208 S   0  0  0  0  0  0
+    5.0251   -1.1898    5.9431 C   0  0  0  0  0  0
+    3.9272   -2.0679    5.9712 C   0  0  0  0  0  0
+    1.4162   -3.0711    4.6021 H   0  0  0  0  0  0
+    1.5651   -3.0462    6.2811 H   0  0  0  0  0  0
+  1  2  1  0  0  0
+  2  3  2  0  0  0
+  3  4  1  0  0  0
+  4  5  2  0  0  0
+  5  6  1  0  0  0
+  6  7  2  0  0  0
+  7  8  1  0  0  0
+  8  9  1  0  0  0
+  9 10  1  0  0  0
+ 10 11  2  0  0  0
+ 11 12  1  0  0  0
+ 12 13  2  0  0  0
+ 13 14  1  0  0  0
+ 14 15  2  0  0  0
+ 15 16  1  0  0  0
+  7 17  1  0  0  0
+ 17 18  1  0  0  0
+ 18 19  2  0  0  0
+ 19  2  1  0  0  0
+ 18  5  1  0  0  0
+ 15 10  1  0  0  0
+  1 20  1  0  0  0
+  1 21  1  0  0  0
+M  END
+>  <CHROM.1>
+86.55338228,-35.03094439,125.32146582,47.96165260,6.81573470,1.31015476,5.26961054
+2.43039303,0.40574722,2.58363284
+
+>  <ChemDiv_ID>
+3167-0436
+
+>  <Force_Field>
+MMFF94
+
+>  <Formal_Charge>
+0
+
+>  <MultiStructRSA_mean_pKd>
+3.247155554294586
+
+>  <MultiStructRSA_score>
+3.004559340399369
+
+>  <MultiStructRSA_std_pKd>
+0.2425962138952168
+
+>  <Name>
+3167-0436
+
+>  <Original_SMILES>
+Nc1ccc2nc(SCc3ccccc3Cl)sc2c1
+
+>  <RI>
+0
+
+>  <Rbt.Current_Directory>
+/home/gavrilev/Thesis/src/case_study/docking/rdock
+
+>  <Rbt.Executable>
+rbdock - v26.09-alpha
+
+>  <Rbt.Library>
+libRbt.so (26.09, Buildalpha)
+
+>  <Rbt.Parameter_File>
+/home/gavrilev/.local/share/rdock/data/scripts/dock.prm
+
+>  <Rbt.Receptor>
+SLI_A22A23_bases.prm
+
+>  <SCORE>
+-7.80306
+
+>  <SCORE.INTER>
+-9.44793
+
+>  <SCORE.INTER.CONST>
+1
+
+>  <SCORE.INTER.POLAR>
+-1.48622
+
+>  <SCORE.INTER.REPUL>
+0
+
+>  <SCORE.INTER.ROT>
+4
+
+>  <SCORE.INTER.VDW>
+-13.7948
+
+>  <SCORE.INTER.norm>
+-0.497259
+
+>  <SCORE.INTRA>
+1.63272
+
+>  <SCORE.INTRA.DIHEDRAL>
+1.7605
+
+>  <SCORE.INTRA.DIHEDRAL.0>
+3.0286
+
+>  <SCORE.INTRA.POLAR>
+0
+
+>  <SCORE.INTRA.POLAR.0>
+0
+
+>  <SCORE.INTRA.REPUL>
+0
+
+>  <SCORE.INTRA.REPUL.0>
+0
+
+>  <SCORE.INTRA.VDW>
+0.752468
+
+>  <SCORE.INTRA.VDW.0>
+-1.83337
+
+>  <SCORE.INTRA.norm>
+0.0859326
+
+>  <SCORE.RESTR>
+0.0121438
+
+>  <SCORE.RESTR.CAVITY>
+0.0121438
+
+>  <SCORE.RESTR.norm>
+0.000639146
+
+>  <SCORE.SYSTEM>
+0
+
+>  <SCORE.SYSTEM.CONST>
+0
+
+>  <SCORE.SYSTEM.DIHEDRAL>
+0
+
+>  <SCORE.SYSTEM.norm>
+0
+
+>  <SCORE.heavy>
+19
+
+>  <SCORE.norm>
+-0.410688
+
+>  <Selected_Conformer_Energy>
+12.07813271484107
+
+$$$$
+3167-0436
+  rDOCK(R)          3D
+libRbt.so/26.09/alpha
+ 21 23  0  0  0  0  0  0  0  0999 V2000
+    7.3658    5.4778    2.1967 N   0  0  0  0  0  0
+    7.1183    4.1415    2.5358 C   0  0  0  0  0  0
+    6.5795    3.2721    1.5880 C   0  0  0  0  0  0
+    6.4277    1.9059    1.8586 C   0  0  0  0  0  0
+    6.8650    1.3870    3.0915 C   0  0  0  0  0  0
+    6.7822    0.0643    3.4919 N   0  0  0  0  0  0
+    7.3099   -0.0672    4.6865 C   0  0  0  0  0  0
+    7.3664   -1.6128    5.5028 S   0  0  0  0  0  0
+    6.0757   -2.5263    4.6095 C   0  0  0  0  0  0
+    4.7119   -1.8840    4.7178 C   0  0  0  0  0  0
+    3.9971   -1.6008    3.5388 C   0  0  0  0  0  0
+    2.7259   -1.0260    3.5871 C   0  0  0  0  0  0
+    2.1458   -0.7221    4.8146 C   0  0  0  0  0  0
+    2.8378   -0.9936    5.9937 C   0  0  0  0  0  0
+    4.1115   -1.5712    5.9487 C   0  0  0  0  0  0
+    4.9008   -1.8699    7.4569 Cl  0  0  0  0  0  0
+    7.9165    1.3609    5.4065 S   0  0  0  0  0  0
+    7.4557    2.2557    4.0097 C   0  0  0  0  0  0
+    7.6116    3.6271    3.7410 C   0  0  0  0  0  0
+    8.2401    5.6253    1.7015 H   0  0  0  0  0  0
+    6.5850    5.9426    1.7432 H   0  0  0  0  0  0
+  1  2  1  0  0  0
+  2  3  2  0  0  0
+  3  4  1  0  0  0
+  4  5  2  0  0  0
+  5  6  1  0  0  0
+  6  7  2  0  0  0
+  7  8  1  0  0  0
+  8  9  1  0  0  0
+  9 10  1  0  0  0
+ 10 11  2  0  0  0
+ 11 12  1  0  0  0
+ 12 13  2  0  0  0
+ 13 14  1  0  0  0
+ 14 15  2  0  0  0
+ 15 16  1  0  0  0
+  7 17  1  0  0  0
+ 17 18  1  0  0  0
+ 18 19  2  0  0  0
+ 19  2  1  0  0  0
+ 18  5  1  0  0  0
+ 15 10  1  0  0  0
+  1 20  1  0  0  0
+  1 21  1  0  0  0
+M  END
+>  <CHROM.1>
+-81.86069649,-20.01747665,-60.34812395,126.77179373,5.97787094,0.28930597
+4.52742633,1.11059045,-0.34342404,-0.69341224
+
+>  <ChemDiv_ID>
+3167-0436
+
+>  <Force_Field>
+MMFF94
+
+>  <Formal_Charge>
+0
+
+>  <MultiStructRSA_mean_pKd>
+3.247155554294586
+
+>  <MultiStructRSA_score>
+3.004559340399369
+
+>  <MultiStructRSA_std_pKd>
+0.2425962138952168
+
+>  <Name>
+3167-0436
+
+>  <Original_SMILES>
+Nc1ccc2nc(SCc3ccccc3Cl)sc2c1
+
+>  <RI>
+0
+
+>  <Rbt.Current_Directory>
+/home/gavrilev/Thesis/src/case_study/docking/rdock
+
+>  <Rbt.Executable>
+rbdock - v26.09-alpha
+
+>  <Rbt.Library>
+libRbt.so (26.09, Buildalpha)
+
+>  <Rbt.Parameter_File>
+/home/gavrilev/.local/share/rdock/data/scripts/dock.prm
+
+>  <Rbt.Receptor>
+SLI_A22A23_bases.prm
+
+>  <SCORE>
+-7.58686
+
+>  <SCORE.INTER>
+-7.50232
+
+>  <SCORE.INTER.CONST>
+1
+
+>  <SCORE.INTER.POLAR>
+-1.43945
+
+>  <SCORE.INTER.REPUL>
+0.703791
+
+>  <SCORE.INTER.ROT>
+4
+
+>  <SCORE.INTER.VDW>
+-15.5271
+
+>  <SCORE.INTER.norm>
+-0.394859
+
+>  <SCORE.INTRA>
+-0.787402
+
+>  <SCORE.INTRA.DIHEDRAL>
+-1.21904
+
+>  <SCORE.INTRA.DIHEDRAL.0>
+3.0286
+
+>  <SCORE.INTRA.POLAR>
+0
+
+>  <SCORE.INTRA.POLAR.0>
+0
+
+>  <SCORE.INTRA.REPUL>
+0
+
+>  <SCORE.INTRA.REPUL.0>
+0
+
+>  <SCORE.INTRA.VDW>
+-0.177884
+
+>  <SCORE.INTRA.VDW.0>
+-1.83337
+
+>  <SCORE.INTRA.norm>
+-0.0414422
+
+>  <SCORE.RESTR>
+0.702862
+
+>  <SCORE.RESTR.CAVITY>
+0.702862
+
+>  <SCORE.RESTR.norm>
+0.0369927
+
+>  <SCORE.SYSTEM>
+0
+
+>  <SCORE.SYSTEM.CONST>
+0
+
+>  <SCORE.SYSTEM.DIHEDRAL>
+0
+
+>  <SCORE.SYSTEM.norm>
+0
+
+>  <SCORE.heavy>
+19
+
+>  <SCORE.norm>
+-0.399308
+
+>  <Selected_Conformer_Energy>
+12.07813271484107
+
+$$$$
+3167-0436
+  rDOCK(R)          3D
+libRbt.so/26.09/alpha
+ 21 23  0  0  0  0  0  0  0  0999 V2000
+   10.1966    5.6596    6.3597 N   0  0  0  0  0  0
+    9.7282    4.5171    5.6984 C   0  0  0  0  0  0
+   10.2036    3.2582    6.0643 C   0  0  0  0  0  0
+    9.6720    2.0897    5.5033 C   0  0  0  0  0  0
+    8.6089    2.1786    4.5855 C   0  0  0  0  0  0
+    7.9859    1.1134    3.9578 N   0  0  0  0  0  0
+    7.0191    1.5598    3.1904 C   0  0  0  0  0  0
+    6.0250    0.4796    2.2400 S   0  0  0  0  0  0
+    4.5578    0.3327    3.3002 C   0  0  0  0  0  0
+    4.8388   -0.3723    4.6072 C   0  0  0  0  0  0
+    6.1711   -0.6775    4.9435 C   0  0  0  0  0  0
+    6.4835   -1.3104    6.1479 C   0  0  0  0  0  0
+    5.4703   -1.6514    7.0381 C   0  0  0  0  0  0
+    4.1443   -1.3589    6.7232 C   0  0  0  0  0  0
+    3.8280   -0.7232    5.5175 C   0  0  0  0  0  0
+    2.1590   -0.4019    5.2042 Cl  0  0  0  0  0  0
+    6.8034    3.2563    3.1557 S   0  0  0  0  0  0
+    8.1025    3.4399    4.2706 C   0  0  0  0  0  0
+    8.6320    4.6149    4.8329 C   0  0  0  0  0  0
+    9.8716    6.5340    5.9582 H   0  0  0  0  0  0
+   10.0788    5.6334    7.3681 H   0  0  0  0  0  0
+  1  2  1  0  0  0
+  2  3  2  0  0  0
+  3  4  1  0  0  0
+  4  5  2  0  0  0
+  5  6  1  0  0  0
+  6  7  2  0  0  0
+  7  8  1  0  0  0
+  8  9  1  0  0  0
+  9 10  1  0  0  0
+ 10 11  2  0  0  0
+ 11 12  1  0  0  0
+ 12 13  2  0  0  0
+ 13 14  1  0  0  0
+ 14 15  2  0  0  0
+ 15 16  1  0  0  0
+  7 17  1  0  0  0
+ 17 18  1  0  0  0
+ 18 19  2  0  0  0
+ 19  2  1  0  0  0
+ 18  5  1  0  0  0
+ 15 10  1  0  0  0
+  1 20  1  0  0  0
+  1 21  1  0  0  0
+M  END
+>  <CHROM.1>
+173.65566020,98.62841935,-66.30204587,7.86204756,6.49736525,1.33388513,4.67213603
+-0.29715458,0.65360904,2.03541881
+
+>  <ChemDiv_ID>
+3167-0436
+
+>  <Force_Field>
+MMFF94
+
+>  <Formal_Charge>
+0
+
+>  <MultiStructRSA_mean_pKd>
+3.247155554294586
+
+>  <MultiStructRSA_score>
+3.004559340399369
+
+>  <MultiStructRSA_std_pKd>
+0.2425962138952168
+
+>  <Name>
+3167-0436
+
+>  <Original_SMILES>
+Nc1ccc2nc(SCc3ccccc3Cl)sc2c1
+
+>  <RI>
+0
+
+>  <Rbt.Current_Directory>
+/home/gavrilev/Thesis/src/case_study/docking/rdock
+
+>  <Rbt.Executable>
+rbdock - v26.09-alpha
+
+>  <Rbt.Library>
+libRbt.so (26.09, Buildalpha)
+
+>  <Rbt.Parameter_File>
+/home/gavrilev/.local/share/rdock/data/scripts/dock.prm
+
+>  <Rbt.Receptor>
+SLI_A22A23_bases.prm
+
+>  <SCORE>
+-7.36205
+
+>  <SCORE.INTER>
+-10.0648
+
+>  <SCORE.INTER.CONST>
+1
+
+>  <SCORE.INTER.POLAR>
+0
+
+>  <SCORE.INTER.REPUL>
+0
+
+>  <SCORE.INTER.ROT>
+4
+
+>  <SCORE.INTER.VDW>
+-19.4648
+
+>  <SCORE.INTER.norm>
+-0.529729
+
+>  <SCORE.INTRA>
+2.7019
+
+>  <SCORE.INTRA.DIHEDRAL>
+2.20174
+
+>  <SCORE.INTRA.DIHEDRAL.0>
+3.0286
+
+>  <SCORE.INTRA.POLAR>
+0
+
+>  <SCORE.INTRA.POLAR.0>
+0
+
+>  <SCORE.INTRA.REPUL>
+0
+
+>  <SCORE.INTRA.REPUL.0>
+0
+
+>  <SCORE.INTRA.VDW>
+1.60103
+
+>  <SCORE.INTRA.VDW.0>
+-1.83337
+
+>  <SCORE.INTRA.norm>
+0.142205
+
+>  <SCORE.RESTR>
+0.000902642
+
+>  <SCORE.RESTR.CAVITY>
+0.000902642
+
+>  <SCORE.RESTR.norm>
+4.75075e-05
+
+>  <SCORE.SYSTEM>
+0
+
+>  <SCORE.SYSTEM.CONST>
+0
+
+>  <SCORE.SYSTEM.DIHEDRAL>
+0
+
+>  <SCORE.SYSTEM.norm>
+0
+
+>  <SCORE.heavy>
+19
+
+>  <SCORE.norm>
+-0.387476
+
+>  <Selected_Conformer_Energy>
+12.07813271484107
+
+$$$$
+3167-0436
+  rDOCK(R)          3D
+libRbt.so/26.09/alpha
+ 21 23  0  0  0  0  0  0  0  0999 V2000
+    1.5113   -2.8564    4.7649 N   0  0  0  0  0  0
+    2.4452   -1.8127    4.7412 C   0  0  0  0  0  0
+    3.2064   -1.5351    5.8760 C   0  0  0  0  0  0
+    4.2273   -0.5761    5.8493 C   0  0  0  0  0  0
+    4.5242    0.0922    4.6469 C   0  0  0  0  0  0
+    5.5030    1.0558    4.4729 N   0  0  0  0  0  0
+    5.5210    1.4425    3.2187 C   0  0  0  0  0  0
+    6.6370    2.6616    2.6474 S   0  0  0  0  0  0
+    8.2239    1.8002    2.8420 C   0  0  0  0  0  0
+    8.3799    1.1429    4.1939 C   0  0  0  0  0  0
+    8.0242   -0.2114    4.3377 C   0  0  0  0  0  0
+    8.1682   -0.8684    5.5610 C   0  0  0  0  0  0
+    8.6689   -0.1839    6.6638 C   0  0  0  0  0  0
+    9.0258    1.1581    6.5425 C   0  0  0  0  0  0
+    8.8842    1.8190    5.3174 C   0  0  0  0  0  0
+    9.3460    3.4834    5.2559 Cl  0  0  0  0  0  0
+    4.3772    0.7041    2.1833 S   0  0  0  0  0  0
+    3.7948   -0.2352    3.5035 C   0  0  0  0  0  0
+    2.7708   -1.1985    3.5258 C   0  0  0  0  0  0
+    0.6644   -2.6439    5.2834 H   0  0  0  0  0  0
+    1.3124   -3.2565    3.8529 H   0  0  0  0  0  0
+  1  2  1  0  0  0
+  2  3  2  0  0  0
+  3  4  1  0  0  0
+  4  5  2  0  0  0
+  5  6  1  0  0  0
+  6  7  2  0  0  0
+  7  8  1  0  0  0
+  8  9  1  0  0  0
+  9 10  1  0  0  0
+ 10 11  2  0  0  0
+ 11 12  1  0  0  0
+ 12 13  2  0  0  0
+ 13 14  1  0  0  0
+ 14 15  2  0  0  0
+ 15 16  1  0  0  0
+  7 17  1  0  0  0
+ 17 18  1  0  0  0
+ 18 19  2  0  0  0
+ 19  2  1  0  0  0
+ 18  5  1  0  0  0
+ 15 10  1  0  0  0
+  1 20  1  0  0  0
+  1 21  1  0  0  0
+M  END
+>  <CHROM.1>
+74.93088508,66.61003756,-47.92619930,94.04134879,6.11757188,0.68583210,4.32415425
+-2.88115648,-0.48353588,-0.87945170
+
+>  <ChemDiv_ID>
+3167-0436
+
+>  <Force_Field>
+MMFF94
+
+>  <Formal_Charge>
+0
+
+>  <MultiStructRSA_mean_pKd>
+3.247155554294586
+
+>  <MultiStructRSA_score>
+3.004559340399369
+
+>  <MultiStructRSA_std_pKd>
+0.2425962138952168
+
+>  <Name>
+3167-0436
+
+>  <Original_SMILES>
+Nc1ccc2nc(SCc3ccccc3Cl)sc2c1
+
+>  <RI>
+0
+
+>  <Rbt.Current_Directory>
+/home/gavrilev/Thesis/src/case_study/docking/rdock
+
+>  <Rbt.Executable>
+rbdock - v26.09-alpha
+
+>  <Rbt.Library>
+libRbt.so (26.09, Buildalpha)
+
+>  <Rbt.Parameter_File>
+/home/gavrilev/.local/share/rdock/data/scripts/dock.prm
+
+>  <Rbt.Receptor>
+SLI_A22A23_bases.prm
+
+>  <SCORE>
+-7.05004
+
+>  <SCORE.INTER>
+-7.5495
+
+>  <SCORE.INTER.CONST>
+1
+
+>  <SCORE.INTER.POLAR>
+-0.834495
+
+>  <SCORE.INTER.REPUL>
+0.00333798
+
+>  <SCORE.INTER.ROT>
+4
+
+>  <SCORE.INTER.VDW>
+-14.1289
+
+>  <SCORE.INTER.norm>
+-0.397342
+
+>  <SCORE.INTRA>
+0.0686184
+
+>  <SCORE.INTRA.DIHEDRAL>
+1.64279
+
+>  <SCORE.INTRA.DIHEDRAL.0>
+3.0286
+
+>  <SCORE.INTRA.POLAR>
+0
+
+>  <SCORE.INTRA.POLAR.0>
+0
+
+>  <SCORE.INTRA.REPUL>
+0
+
+>  <SCORE.INTRA.REPUL.0>
+0
+
+>  <SCORE.INTRA.VDW>
+-0.752774
+
+>  <SCORE.INTRA.VDW.0>
+-1.83337
+
+>  <SCORE.INTRA.norm>
+0.00361149
+
+>  <SCORE.RESTR>
+0.430845
+
+>  <SCORE.RESTR.CAVITY>
+0.430845
+
+>  <SCORE.RESTR.norm>
+0.0226761
+
+>  <SCORE.SYSTEM>
+0
+
+>  <SCORE.SYSTEM.CONST>
+0
+
+>  <SCORE.SYSTEM.DIHEDRAL>
+0
+
+>  <SCORE.SYSTEM.norm>
+0
+
+>  <SCORE.heavy>
+19
+
+>  <SCORE.norm>
+-0.371055
+
+>  <Selected_Conformer_Energy>
+12.07813271484107
+
+$$$$
+3167-0436
+  rDOCK(R)          3D
+libRbt.so/26.09/alpha
+ 21 23  0  0  0  0  0  0  0  0999 V2000
+    8.7687    6.7469    4.7285 N   0  0  0  0  0  0
+    9.1679    5.4407    5.0390 C   0  0  0  0  0  0
+   10.3409    5.2254    5.7616 C   0  0  0  0  0  0
+   10.7071    3.9417    6.1868 C   0  0  0  0  0  0
+    9.8584    2.8511    5.9206 C   0  0  0  0  0  0
+   10.0892    1.5347    6.2819 N   0  0  0  0  0  0
+    9.0785    0.7901    5.8986 C   0  0  0  0  0  0
+    9.0430   -0.9340    6.1894 S   0  0  0  0  0  0
+    7.8951   -1.4826    4.8934 C   0  0  0  0  0  0
+    6.4431   -1.3165    5.2782 C   0  0  0  0  0  0
+    6.0070   -1.8129    6.5211 C   0  0  0  0  0  0
+    4.6803   -1.6668    6.9302 C   0  0  0  0  0  0
+    3.7643   -1.0231    6.1043 C   0  0  0  0  0  0
+    4.1759   -0.5254    4.8690 C   0  0  0  0  0  0
+    5.5053   -0.6689    4.4568 C   0  0  0  0  0  0
+    5.9296   -0.0270    2.9092 Cl  0  0  0  0  0  0
+    7.8121    1.5975    5.0800 S   0  0  0  0  0  0
+    8.6593    3.0870    5.2476 C   0  0  0  0  0  0
+    8.2873    4.3742    4.8210 C   0  0  0  0  0  0
+    8.8476    6.9820    3.7437 H   0  0  0  0  0  0
+    7.8662    7.0081    5.1141 H   0  0  0  0  0  0
+  1  2  1  0  0  0
+  2  3  2  0  0  0
+  3  4  1  0  0  0
+  4  5  2  0  0  0
+  5  6  1  0  0  0
+  6  7  2  0  0  0
+  7  8  1  0  0  0
+  8  9  1  0  0  0
+  9 10  1  0  0  0
+ 10 11  2  0  0  0
+ 11 12  1  0  0  0
+ 12 13  2  0  0  0
+ 13 14  1  0  0  0
+ 14 15  2  0  0  0
+ 15 16  1  0  0  0
+  7 17  1  0  0  0
+ 17 18  1  0  0  0
+ 18 19  2  0  0  0
+ 19  2  1  0  0  0
+ 18  5  1  0  0  0
+ 15 10  1  0  0  0
+  1 20  1  0  0  0
+  1 21  1  0  0  0
+M  END
+>  <CHROM.1>
+109.89322341,-156.52563800,-82.24071453,-49.99768394,7.66499983,1.18229768
+5.26341637,0.90885149,-0.44509146,-0.29805130
+
+>  <ChemDiv_ID>
+3167-0436
+
+>  <Force_Field>
+MMFF94
+
+>  <Formal_Charge>
+0
+
+>  <MultiStructRSA_mean_pKd>
+3.247155554294586
+
+>  <MultiStructRSA_score>
+3.004559340399369
+
+>  <MultiStructRSA_std_pKd>
+0.2425962138952168
+
+>  <Name>
+3167-0436
+
+>  <Original_SMILES>
+Nc1ccc2nc(SCc3ccccc3Cl)sc2c1
+
+>  <RI>
+0
+
+>  <Rbt.Current_Directory>
+/home/gavrilev/Thesis/src/case_study/docking/rdock
+
+>  <Rbt.Executable>
+rbdock - v26.09-alpha
+
+>  <Rbt.Library>
+libRbt.so (26.09, Buildalpha)
+
+>  <Rbt.Parameter_File>
+/home/gavrilev/.local/share/rdock/data/scripts/dock.prm
+
+>  <Rbt.Receptor>
+SLI_A22A23_bases.prm
+
+>  <SCORE>
+-6.95329
+
+>  <SCORE.INTER>
+-7.24113
+
+>  <SCORE.INTER.CONST>
+1
+
+>  <SCORE.INTER.POLAR>
+-0.076879
+
+>  <SCORE.INTER.REPUL>
+0.23338
+
+>  <SCORE.INTER.ROT>
+4
+
+>  <SCORE.INTER.VDW>
+-17.5466
+
+>  <SCORE.INTER.norm>
+-0.381112
+
+>  <SCORE.INTRA>
+0.0229365
+
+>  <SCORE.INTRA.DIHEDRAL>
+-0.562165
+
+>  <SCORE.INTRA.DIHEDRAL.0>
+3.0286
+
+>  <SCORE.INTRA.POLAR>
+0
+
+>  <SCORE.INTRA.POLAR.0>
+0
+
+>  <SCORE.INTRA.REPUL>
+0
+
+>  <SCORE.INTRA.REPUL.0>
+0
+
+>  <SCORE.INTRA.VDW>
+0.304019
+
+>  <SCORE.INTRA.VDW.0>
+-1.83337
+
+>  <SCORE.INTRA.norm>
+0.00120718
+
+>  <SCORE.RESTR>
+0.264902
+
+>  <SCORE.RESTR.CAVITY>
+0.264902
+
+>  <SCORE.RESTR.norm>
+0.0139422
+
+>  <SCORE.SYSTEM>
+0
+
+>  <SCORE.SYSTEM.CONST>
+0
+
+>  <SCORE.SYSTEM.DIHEDRAL>
+0
+
+>  <SCORE.SYSTEM.norm>
+0
+
+>  <SCORE.heavy>
+19
+
+>  <SCORE.norm>
+-0.365963
+
+>  <Selected_Conformer_Energy>
+12.07813271484107
+
+$$$$
+3167-0436
+  rDOCK(R)          3D
+libRbt.so/26.09/alpha
+ 21 23  0  0  0  0  0  0  0  0999 V2000
+   10.0784    6.1079    5.8828 N   0  0  0  0  0  0
+    9.5363    4.8341    5.6694 C   0  0  0  0  0  0
+    8.3894    4.6884    4.8896 C   0  0  0  0  0  0
+    7.8895    3.4212    4.5625 C   0  0  0  0  0  0
+    8.5769    2.2696    4.9890 C   0  0  0  0  0  0
+    8.2032    0.9604    4.7379 N   0  0  0  0  0  0
+    9.0879    0.1431    5.2596 C   0  0  0  0  0  0
+    8.9224   -1.5935    5.1356 S   0  0  0  0  0  0
+    7.4194   -1.7292    4.1253 C   0  0  0  0  0  0
+    6.1510   -1.5073    4.9165 C   0  0  0  0  0  0
+    5.9877   -2.1776    6.1434 C   0  0  0  0  0  0
+    4.8429   -1.9907    6.9200 C   0  0  0  0  0  0
+    3.8391   -1.1315    6.4844 C   0  0  0  0  0  0
+    3.9811   -0.4592    5.2716 C   0  0  0  0  0  0
+    5.1281   -0.6431    4.4917 C   0  0  0  0  0  0
+    5.2208    0.2252    3.0002 Cl  0  0  0  0  0  0
+   10.3963    0.8722    6.0856 S   0  0  0  0  0  0
+    9.7551    2.4275    5.7195 C   0  0  0  0  0  0
+   10.2611    3.6976    6.0480 C   0  0  0  0  0  0
+    9.5608    6.8593    5.4368 H   0  0  0  0  0  0
+   10.2893    6.3120    6.8550 H   0  0  0  0  0  0
+  1  2  1  0  0  0
+  2  3  2  0  0  0
+  3  4  1  0  0  0
+  4  5  2  0  0  0
+  5  6  1  0  0  0
+  6  7  2  0  0  0
+  7  8  1  0  0  0
+  8  9  1  0  0  0
+  9 10  1  0  0  0
+ 10 11  2  0  0  0
+ 11 12  1  0  0  0
+ 12 13  2  0  0  0
+ 13 14  1  0  0  0
+ 14 15  2  0  0  0
+ 15 16  1  0  0  0
+  7 17  1  0  0  0
+ 17 18  1  0  0  0
+ 18 19  2  0  0  0
+ 19  2  1  0  0  0
+ 18  5  1  0  0  0
+ 15 10  1  0  0  0
+  1 20  1  0  0  0
+  1 21  1  0  0  0
+M  END
+>  <CHROM.1>
+0.56178337,2.83050700,-78.57584430,-47.57165900,7.66647089,0.78870809,5.15905717
+0.84994693,-0.26353483,-0.11506941
+
+>  <ChemDiv_ID>
+3167-0436
+
+>  <Force_Field>
+MMFF94
+
+>  <Formal_Charge>
+0
+
+>  <MultiStructRSA_mean_pKd>
+3.247155554294586
+
+>  <MultiStructRSA_score>
+3.004559340399369
+
+>  <MultiStructRSA_std_pKd>
+0.2425962138952168
+
+>  <Name>
+3167-0436
+
+>  <Original_SMILES>
+Nc1ccc2nc(SCc3ccccc3Cl)sc2c1
+
+>  <RI>
+0
+
+>  <Rbt.Current_Directory>
+/home/gavrilev/Thesis/src/case_study/docking/rdock
+
+>  <Rbt.Executable>
+rbdock - v26.09-alpha
+
+>  <Rbt.Library>
+libRbt.so (26.09, Buildalpha)
+
+>  <Rbt.Parameter_File>
+/home/gavrilev/.local/share/rdock/data/scripts/dock.prm
+
+>  <Rbt.Receptor>
+SLI_A22A23_bases.prm
+
+>  <SCORE>
+-6.84317
+
+>  <SCORE.INTER>
+-7.17105
+
+>  <SCORE.INTER.CONST>
+1
+
+>  <SCORE.INTER.POLAR>
+0
+
+>  <SCORE.INTER.REPUL>
+0
+
+>  <SCORE.INTER.ROT>
+4
+
+>  <SCORE.INTER.VDW>
+-16.571
+
+>  <SCORE.INTER.norm>
+-0.377424
+
+>  <SCORE.INTRA>
+-0.248647
+
+>  <SCORE.INTRA.DIHEDRAL>
+-1.30277
+
+>  <SCORE.INTRA.DIHEDRAL.0>
+3.0286
+
+>  <SCORE.INTRA.POLAR>
+0
+
+>  <SCORE.INTRA.POLAR.0>
+0
+
+>  <SCORE.INTRA.REPUL>
+0
+
+>  <SCORE.INTRA.REPUL.0>
+0
+
+>  <SCORE.INTRA.VDW>
+0.40274
+
+>  <SCORE.INTRA.VDW.0>
+-1.83337
+
+>  <SCORE.INTRA.norm>
+-0.0130867
+
+>  <SCORE.RESTR>
+0.576527
+
+>  <SCORE.RESTR.CAVITY>
+0.576527
+
+>  <SCORE.RESTR.norm>
+0.0303435
+
+>  <SCORE.SYSTEM>
+0
+
+>  <SCORE.SYSTEM.CONST>
+0
+
+>  <SCORE.SYSTEM.DIHEDRAL>
+0
+
+>  <SCORE.SYSTEM.norm>
+0
+
+>  <SCORE.heavy>
+19
+
+>  <SCORE.norm>
+-0.360167
+
+>  <Selected_Conformer_Energy>
+12.07813271484107
+
+$$$$
+3167-0436
+  rDOCK(R)          3D
+libRbt.so/26.09/alpha
+ 21 23  0  0  0  0  0  0  0  0999 V2000
+    0.3284   -2.2847    6.6728 N   0  0  0  0  0  0
+    1.1881   -1.7815    5.6881 C   0  0  0  0  0  0
+    0.7267   -1.6119    4.3831 C   0  0  0  0  0  0
+    1.5237   -1.0047    3.4039 C   0  0  0  0  0  0
+    2.7978   -0.5155    3.7474 C   0  0  0  0  0  0
+    3.6879    0.1068    2.8889 N   0  0  0  0  0  0
+    4.7653    0.4577    3.5516 C   0  0  0  0  0  0
+    6.1048    1.2652    2.7694 S   0  0  0  0  0  0
+    7.4452    0.0735    3.0549 C   0  0  0  0  0  0
+    8.0256    0.1565    4.4479 C   0  0  0  0  0  0
+    8.0933   -1.0131    5.2281 C   0  0  0  0  0  0
+    8.6385   -0.9917    6.5131 C   0  0  0  0  0  0
+    9.1248    0.1991    7.0430 C   0  0  0  0  0  0
+    9.0658    1.3687    6.2869 C   0  0  0  0  0  0
+    8.5214    1.3503    4.9980 C   0  0  0  0  0  0
+    8.4828    2.8453    4.1318 Cl  0  0  0  0  0  0
+    4.7930    0.0597    5.2149 S   0  0  0  0  0  0
+    3.2260   -0.6385    5.0696 C   0  0  0  0  0  0
+    2.4282   -1.2454    6.0557 C   0  0  0  0  0  0
+   -0.5226   -1.7444    6.7964 H   0  0  0  0  0  0
+    0.1426   -3.2800    6.5927 H   0  0  0  0  0  0
+  1  2  1  0  0  0
+  2  3  2  0  0  0
+  3  4  1  0  0  0
+  4  5  2  0  0  0
+  5  6  1  0  0  0
+  6  7  2  0  0  0
+  7  8  1  0  0  0
+  8  9  1  0  0  0
+  9 10  1  0  0  0
+ 10 11  2  0  0  0
+ 11 12  1  0  0  0
+ 12 13  2  0  0  0
+ 13 14  1  0  0  0
+ 14 15  2  0  0  0
+ 15 16  1  0  0  0
+  7 17  1  0  0  0
+ 17 18  1  0  0  0
+ 18 19  2  0  0  0
+ 19  2  1  0  0  0
+ 18  5  1  0  0  0
+ 15 10  1  0  0  0
+  1 20  1  0  0  0
+  1 21  1  0  0  0
+M  END
+>  <CHROM.1>
+-56.92666114,-119.32646667,-79.27251354,126.43547807,5.43821200,0.13421276
+4.65957199,-2.93183117,-0.30270572,-1.02446620
+
+>  <ChemDiv_ID>
+3167-0436
+
+>  <Force_Field>
+MMFF94
+
+>  <Formal_Charge>
+0
+
+>  <MultiStructRSA_mean_pKd>
+3.247155554294586
+
+>  <MultiStructRSA_score>
+3.004559340399369
+
+>  <MultiStructRSA_std_pKd>
+0.2425962138952168
+
+>  <Name>
+3167-0436
+
+>  <Original_SMILES>
+Nc1ccc2nc(SCc3ccccc3Cl)sc2c1
+
+>  <RI>
+0
+
+>  <Rbt.Current_Directory>
+/home/gavrilev/Thesis/src/case_study/docking/rdock
+
+>  <Rbt.Executable>
+rbdock - v26.09-alpha
+
+>  <Rbt.Library>
+libRbt.so (26.09, Buildalpha)
+
+>  <Rbt.Parameter_File>
+/home/gavrilev/.local/share/rdock/data/scripts/dock.prm
+
+>  <Rbt.Receptor>
+SLI_A22A23_bases.prm
+
+>  <SCORE>
+-6.55865
+
+>  <SCORE.INTER>
+-7.55942
+
+>  <SCORE.INTER.CONST>
+1
+
+>  <SCORE.INTER.POLAR>
+-0.861507
+
+>  <SCORE.INTER.REPUL>
+0
+
+>  <SCORE.INTER.ROT>
+4
+
+>  <SCORE.INTER.VDW>
+-14.0303
+
+>  <SCORE.INTER.norm>
+-0.397864
+
+>  <SCORE.INTRA>
+0.446935
+
+>  <SCORE.INTRA.DIHEDRAL>
+1.72917
+
+>  <SCORE.INTRA.DIHEDRAL.0>
+3.0286
+
+>  <SCORE.INTRA.POLAR>
+0
+
+>  <SCORE.INTRA.POLAR.0>
+0
+
+>  <SCORE.INTRA.REPUL>
+0
+
+>  <SCORE.INTRA.REPUL.0>
+0
+
+>  <SCORE.INTRA.VDW>
+-0.417652
+
+>  <SCORE.INTRA.VDW.0>
+-1.83337
+
+>  <SCORE.INTRA.norm>
+0.0235229
+
+>  <SCORE.RESTR>
+0.553837
+
+>  <SCORE.RESTR.CAVITY>
+0.553837
+
+>  <SCORE.RESTR.norm>
+0.0291493
+
+>  <SCORE.SYSTEM>
+0
+
+>  <SCORE.SYSTEM.CONST>
+0
+
+>  <SCORE.SYSTEM.DIHEDRAL>
+0
+
+>  <SCORE.SYSTEM.norm>
+0
+
+>  <SCORE.heavy>
+19
+
+>  <SCORE.norm>
+-0.345192
+
+>  <Selected_Conformer_Energy>
+12.07813271484107
+
+$$$$
+3167-0436
+  rDOCK(R)          3D
+libRbt.so/26.09/alpha
+ 21 23  0  0  0  0  0  0  0  0999 V2000
+    0.2121   -2.4315    6.5113 N   0  0  0  0  0  0
+    1.1354   -1.8923    5.6064 C   0  0  0  0  0  0
+    0.7509   -1.6361    4.2907 C   0  0  0  0  0  0
+    1.6135   -0.9921    3.3940 C   0  0  0  0  0  0
+    2.8762   -0.5541    3.8347 C   0  0  0  0  0  0
+    3.8254    0.0959    3.0644 N   0  0  0  0  0  0
+    4.8711    0.3819    3.8043 C   0  0  0  0  0  0
+    6.2684    1.2016    3.1454 S   0  0  0  0  0  0
+    7.5256    0.8068    4.3951 C   0  0  0  0  0  0
+    8.2778    2.0229    4.8843 C   0  0  0  0  0  0
+    7.8432    3.2998    4.4818 C   0  0  0  0  0  0
+    8.4927    4.4542    4.9223 C   0  0  0  0  0  0
+    9.5897    4.3543    5.7722 C   0  0  0  0  0  0
+   10.0365    3.0989    6.1814 C   0  0  0  0  0  0
+    9.3867    1.9399    5.7429 C   0  0  0  0  0  0
+   10.0088    0.4247    6.2944 Cl  0  0  0  0  0  0
+    4.7981   -0.1128    5.4400 S   0  0  0  0  0  0
+    3.2276   -0.7639    5.1685 C   0  0  0  0  0  0
+    2.3639   -1.4081    6.0720 C   0  0  0  0  0  0
+    0.4075   -3.3908    6.7815 H   0  0  0  0  0  0
+    0.0217   -1.8383    7.3133 H   0  0  0  0  0  0
+  1  2  1  0  0  0
+  2  3  2  0  0  0
+  3  4  1  0  0  0
+  4  5  2  0  0  0
+  5  6  1  0  0  0
+  6  7  2  0  0  0
+  7  8  1  0  0  0
+  8  9  1  0  0  0
+  9 10  1  0  0  0
+ 10 11  2  0  0  0
+ 11 12  1  0  0  0
+ 12 13  2  0  0  0
+ 13 14  1  0  0  0
+ 14 15  2  0  0  0
+ 15 16  1  0  0  0
+  7 17  1  0  0  0
+ 17 18  1  0  0  0
+ 18 19  2  0  0  0
+ 19  2  1  0  0  0
+ 18  5  1  0  0  0
+ 15 10  1  0  0  0
+  1 20  1  0  0  0
+  1 21  1  0  0  0
+M  END
+>  <CHROM.1>
+110.25108635,-161.43204591,-129.77724729,7.84260145,5.73464555,0.59431883
+4.93550706,-2.89564970,-0.40304333,-0.86408818
+
+>  <ChemDiv_ID>
+3167-0436
+
+>  <Force_Field>
+MMFF94
+
+>  <Formal_Charge>
+0
+
+>  <MultiStructRSA_mean_pKd>
+3.247155554294586
+
+>  <MultiStructRSA_score>
+3.004559340399369
+
+>  <MultiStructRSA_std_pKd>
+0.2425962138952168
+
+>  <Name>
+3167-0436
+
+>  <Original_SMILES>
+Nc1ccc2nc(SCc3ccccc3Cl)sc2c1
+
+>  <RI>
+0
+
+>  <Rbt.Current_Directory>
+/home/gavrilev/Thesis/src/case_study/docking/rdock
+
+>  <Rbt.Executable>
+rbdock - v26.09-alpha
+
+>  <Rbt.Library>
+libRbt.so (26.09, Buildalpha)
+
+>  <Rbt.Parameter_File>
+/home/gavrilev/.local/share/rdock/data/scripts/dock.prm
+
+>  <Rbt.Receptor>
+SLI_A22A23_bases.prm
+
+>  <SCORE>
+-6.51257
+
+>  <SCORE.INTER>
+-9.28154
+
+>  <SCORE.INTER.CONST>
+1
+
+>  <SCORE.INTER.POLAR>
+-0.844511
+
+>  <SCORE.INTER.REPUL>
+0.271342
+
+>  <SCORE.INTER.ROT>
+4
+
+>  <SCORE.INTER.VDW>
+-17.1669
+
+>  <SCORE.INTER.norm>
+-0.488502
+
+>  <SCORE.INTRA>
+2.49751
+
+>  <SCORE.INTRA.DIHEDRAL>
+0.750247
+
+>  <SCORE.INTRA.DIHEDRAL.0>
+3.0286
+
+>  <SCORE.INTRA.POLAR>
+0
+
+>  <SCORE.INTRA.POLAR.0>
+0
+
+>  <SCORE.INTRA.REPUL>
+0
+
+>  <SCORE.INTRA.REPUL.0>
+0
+
+>  <SCORE.INTRA.VDW>
+2.12239
+
+>  <SCORE.INTRA.VDW.0>
+-1.83337
+
+>  <SCORE.INTRA.norm>
+0.131448
+
+>  <SCORE.RESTR>
+0.27146
+
+>  <SCORE.RESTR.CAVITY>
+0.27146
+
+>  <SCORE.RESTR.norm>
+0.0142874
+
+>  <SCORE.SYSTEM>
+0
+
+>  <SCORE.SYSTEM.CONST>
+0
+
+>  <SCORE.SYSTEM.DIHEDRAL>
+0
+
+>  <SCORE.SYSTEM.norm>
+0
+
+>  <SCORE.heavy>
+19
+
+>  <SCORE.norm>
+-0.342767
+
+>  <Selected_Conformer_Energy>
+12.07813271484107
+
+$$$$
+3167-0436
+  rDOCK(R)          3D
+libRbt.so/26.09/alpha
+ 21 23  0  0  0  0  0  0  0  0999 V2000
+    1.1607   -1.0945    4.3744 N   0  0  0  0  0  0
+    2.4077   -1.3304    4.9671 C   0  0  0  0  0  0
+    2.7898   -2.6326    5.2879 C   0  0  0  0  0  0
+    4.0730   -2.9143    5.7742 C   0  0  0  0  0  0
+    5.0132   -1.8749    5.9027 C   0  0  0  0  0  0
+    6.3121   -2.0063    6.3635 N   0  0  0  0  0  0
+    6.9125   -0.8398    6.3242 C   0  0  0  0  0  0
+    8.5700   -0.6397    6.8445 S   0  0  0  0  0  0
+    9.3210    0.0704    5.3512 C   0  0  0  0  0  0
+    9.1599    1.5705    5.2624 C   0  0  0  0  0  0
+    9.8572    2.3854    6.1739 C   0  0  0  0  0  0
+    9.7564    3.7767    6.1202 C   0  0  0  0  0  0
+    8.9556    4.3797    5.1555 C   0  0  0  0  0  0
+    8.2558    3.5903    4.2443 C   0  0  0  0  0  0
+    8.3561    2.1956    4.2945 C   0  0  0  0  0  0
+    7.4516    1.2929    3.1308 Cl  0  0  0  0  0  0
+    5.9753    0.4743    5.7579 S   0  0  0  0  0  0
+    4.6386   -0.5854    5.5240 C   0  0  0  0  0  0
+    3.3523   -0.2990    5.0337 C   0  0  0  0  0  0
+    0.4609   -1.7995    4.5853 H   0  0  0  0  0  0
+    0.8083   -0.1517    4.5097 H   0  0  0  0  0  0
+  1  2  1  0  0  0
+  2  3  2  0  0  0
+  3  4  1  0  0  0
+  4  5  2  0  0  0
+  5  6  1  0  0  0
+  6  7  2  0  0  0
+  7  8  1  0  0  0
+  8  9  1  0  0  0
+  9 10  1  0  0  0
+ 10 11  2  0  0  0
+ 11 12  1  0  0  0
+ 12 13  2  0  0  0
+ 13 14  1  0  0  0
+ 14 15  2  0  0  0
+ 15 16  1  0  0  0
+  7 17  1  0  0  0
+ 17 18  1  0  0  0
+ 18 19  2  0  0  0
+ 19  2  1  0  0  0
+ 18  5  1  0  0  0
+ 15 10  1  0  0  0
+  1 20  1  0  0  0
+  1 21  1  0  0  0
+M  END
+>  <CHROM.1>
+26.01119994,123.47248273,84.89677965,68.80606613,6.57654748,0.30511933,5.31012274
+2.63804811,0.34817460,2.57962855
+
+>  <ChemDiv_ID>
+3167-0436
+
+>  <Force_Field>
+MMFF94
+
+>  <Formal_Charge>
+0
+
+>  <MultiStructRSA_mean_pKd>
+3.247155554294586
+
+>  <MultiStructRSA_score>
+3.004559340399369
+
+>  <MultiStructRSA_std_pKd>
+0.2425962138952168
+
+>  <Name>
+3167-0436
+
+>  <Original_SMILES>
+Nc1ccc2nc(SCc3ccccc3Cl)sc2c1
+
+>  <RI>
+0
+
+>  <Rbt.Current_Directory>
+/home/gavrilev/Thesis/src/case_study/docking/rdock
+
+>  <Rbt.Executable>
+rbdock - v26.09-alpha
+
+>  <Rbt.Library>
+libRbt.so (26.09, Buildalpha)
+
+>  <Rbt.Parameter_File>
+/home/gavrilev/.local/share/rdock/data/scripts/dock.prm
+
+>  <Rbt.Receptor>
+SLI_A22A23_bases.prm
+
+>  <SCORE>
+-6.25962
+
+>  <SCORE.INTER>
+-7.109
+
+>  <SCORE.INTER.CONST>
+1
+
+>  <SCORE.INTER.POLAR>
+0
+
+>  <SCORE.INTER.REPUL>
+0.131804
+
+>  <SCORE.INTER.ROT>
+4
+
+>  <SCORE.INTER.VDW>
+-17.168
+
+>  <SCORE.INTER.norm>
+-0.374158
+
+>  <SCORE.INTRA>
+0.729122
+
+>  <SCORE.INTRA.DIHEDRAL>
+1.98287
+
+>  <SCORE.INTRA.DIHEDRAL.0>
+3.0286
+
+>  <SCORE.INTRA.POLAR>
+0
+
+>  <SCORE.INTRA.POLAR.0>
+0
+
+>  <SCORE.INTRA.REPUL>
+0
+
+>  <SCORE.INTRA.REPUL.0>
+0
+
+>  <SCORE.INTRA.VDW>
+-0.262312
+
+>  <SCORE.INTRA.VDW.0>
+-1.83337
+
+>  <SCORE.INTRA.norm>
+0.0383748
+
+>  <SCORE.RESTR>
+0.120265
+
+>  <SCORE.RESTR.CAVITY>
+0.120265
+
+>  <SCORE.RESTR.norm>
+0.00632972
+
+>  <SCORE.SYSTEM>
+0
+
+>  <SCORE.SYSTEM.CONST>
+0
+
+>  <SCORE.SYSTEM.DIHEDRAL>
+0
+
+>  <SCORE.SYSTEM.norm>
+0
+
+>  <SCORE.heavy>
+19
+
+>  <SCORE.norm>
+-0.329454
+
+>  <Selected_Conformer_Energy>
+12.07813271484107
+
+$$$$
+3167-0436
+  rDOCK(R)          3D
+libRbt.so/26.09/alpha
+ 21 23  0  0  0  0  0  0  0  0999 V2000
+    8.8654    6.0953    2.9917 N   0  0  0  0  0  0
+    8.4295    4.8474    3.4552 C   0  0  0  0  0  0
+    7.4394    4.1545    2.7595 C   0  0  0  0  0  0
+    7.0640    2.8567    3.1302 C   0  0  0  0  0  0
+    7.7244    2.2180    4.1962 C   0  0  0  0  0  0
+    7.4624    0.9429    4.6674 N   0  0  0  0  0  0
+    8.2848    0.6600    5.6506 C   0  0  0  0  0  0
+    8.2270   -0.8751    6.4862 S   0  0  0  0  0  0
+    7.3113   -1.8891    5.2897 C   0  0  0  0  0  0
+    5.9105   -1.3830    5.0329 C   0  0  0  0  0  0
+    5.6097   -0.8182    3.7793 C   0  0  0  0  0  0
+    4.3258   -0.3544    3.4871 C   0  0  0  0  0  0
+    3.3189   -0.4450    4.4428 C   0  0  0  0  0  0
+    3.5967   -1.0001    5.6910 C   0  0  0  0  0  0
+    4.8821   -1.4673    5.9863 C   0  0  0  0  0  0
+    5.1411   -2.1363    7.5587 Cl  0  0  0  0  0  0
+    9.3979    1.8852    6.0815 S   0  0  0  0  0  0
+    8.7531    2.8988    4.8481 C   0  0  0  0  0  0
+    9.1342    4.2006    4.4777 C   0  0  0  0  0  0
+    8.7958    6.2117    1.9853 H   0  0  0  0  0  0
+    8.4755    6.8853    3.4971 H   0  0  0  0  0  0
+  1  2  1  0  0  0
+  2  3  2  0  0  0
+  3  4  1  0  0  0
+  4  5  2  0  0  0
+  5  6  1  0  0  0
+  6  7  2  0  0  0
+  7  8  1  0  0  0
+  8  9  1  0  0  0
+  9 10  1  0  0  0
+ 10 11  2  0  0  0
+ 11 12  1  0  0  0
+ 12 13  2  0  0  0
+ 13 14  1  0  0  0
+ 14 15  2  0  0  0
+ 15 16  1  0  0  0
+  7 17  1  0  0  0
+ 17 18  1  0  0  0
+ 18 19  2  0  0  0
+ 19  2  1  0  0  0
+ 18  5  1  0  0  0
+ 15 10  1  0  0  0
+  1 20  1  0  0  0
+  1 21  1  0  0  0
+M  END
+>  <CHROM.1>
+-29.30399480,18.76053527,-62.28968583,110.40656117,7.01175439,0.80564656
+5.11607811,1.01164171,-0.45053999,-0.64218940
+
+>  <ChemDiv_ID>
+3167-0436
+
+>  <Force_Field>
+MMFF94
+
+>  <Formal_Charge>
+0
+
+>  <MultiStructRSA_mean_pKd>
+3.247155554294586
+
+>  <MultiStructRSA_score>
+3.004559340399369
+
+>  <MultiStructRSA_std_pKd>
+0.2425962138952168
+
+>  <Name>
+3167-0436
+
+>  <Original_SMILES>
+Nc1ccc2nc(SCc3ccccc3Cl)sc2c1
+
+>  <RI>
+0
+
+>  <Rbt.Current_Directory>
+/home/gavrilev/Thesis/src/case_study/docking/rdock
+
+>  <Rbt.Executable>
+rbdock - v26.09-alpha
+
+>  <Rbt.Library>
+libRbt.so (26.09, Buildalpha)
+
+>  <Rbt.Parameter_File>
+/home/gavrilev/.local/share/rdock/data/scripts/dock.prm
+
+>  <Rbt.Receptor>
+SLI_A22A23_bases.prm
+
+>  <SCORE>
+-6.10954
+
+>  <SCORE.INTER>
+-6.38217
+
+>  <SCORE.INTER.CONST>
+1
+
+>  <SCORE.INTER.POLAR>
+0
+
+>  <SCORE.INTER.REPUL>
+0
+
+>  <SCORE.INTER.ROT>
+4
+
+>  <SCORE.INTER.VDW>
+-15.7822
+
+>  <SCORE.INTER.norm>
+-0.335904
+
+>  <SCORE.INTRA>
+-0.484644
+
+>  <SCORE.INTRA.DIHEDRAL>
+-1.55963
+
+>  <SCORE.INTRA.DIHEDRAL.0>
+3.0286
+
+>  <SCORE.INTRA.POLAR>
+0
+
+>  <SCORE.INTRA.POLAR.0>
+0
+
+>  <SCORE.INTRA.REPUL>
+0
+
+>  <SCORE.INTRA.REPUL.0>
+0
+
+>  <SCORE.INTRA.VDW>
+0.295172
+
+>  <SCORE.INTRA.VDW.0>
+-1.83337
+
+>  <SCORE.INTRA.norm>
+-0.0255076
+
+>  <SCORE.RESTR>
+0.757275
+
+>  <SCORE.RESTR.CAVITY>
+0.757275
+
+>  <SCORE.RESTR.norm>
+0.0398566
+
+>  <SCORE.SYSTEM>
+0
+
+>  <SCORE.SYSTEM.CONST>
+0
+
+>  <SCORE.SYSTEM.DIHEDRAL>
+0
+
+>  <SCORE.SYSTEM.norm>
+0
+
+>  <SCORE.heavy>
+19
+
+>  <SCORE.norm>
+-0.321555
+
+>  <Selected_Conformer_Energy>
+12.07813271484107
+
+$$$$
+3167-0436
+  rDOCK(R)          3D
+libRbt.so/26.09/alpha
+ 21 23  0  0  0  0  0  0  0  0999 V2000
+   11.2441    5.1095    6.7104 N   0  0  0  0  0  0
+   10.2464    4.6424    5.8452 C   0  0  0  0  0  0
+    9.6962    5.4987    4.8919 C   0  0  0  0  0  0
+    8.7819    5.0326    3.9383 C   0  0  0  0  0  0
+    8.4410    3.6675    3.9088 C   0  0  0  0  0  0
+    7.5592    3.0690    3.0250 N   0  0  0  0  0  0
+    7.5018    1.7801    3.2666 C   0  0  0  0  0  0
+    6.4741    0.7141    2.3362 S   0  0  0  0  0  0
+    4.8788    0.9514    3.1712 C   0  0  0  0  0  0
+    4.7161    0.0824    4.3969 C   0  0  0  0  0  0
+    5.6929    0.1421    5.4086 C   0  0  0  0  0  0
+    5.5775   -0.6265    6.5682 C   0  0  0  0  0  0
+    4.4845   -1.4703    6.7379 C   0  0  0  0  0  0
+    3.5067   -1.5447    5.7472 C   0  0  0  0  0  0
+    3.6187   -0.7744    4.5845 C   0  0  0  0  0  0
+    2.3647   -0.9310    3.4054 Cl  0  0  0  0  0  0
+    8.4702    1.2086    4.5555 S   0  0  0  0  0  0
+    9.0417    2.8093    4.8303 C   0  0  0  0  0  0
+    9.9613    3.2728    5.7876 C   0  0  0  0  0  0
+   11.1054    4.8499    7.6824 H   0  0  0  0  0  0
+   12.1903    4.9199    6.3941 H   0  0  0  0  0  0
+  1  2  1  0  0  0
+  2  3  2  0  0  0
+  3  4  1  0  0  0
+  4  5  2  0  0  0
+  5  6  1  0  0  0
+  6  7  2  0  0  0
+  7  8  1  0  0  0
+  8  9  1  0  0  0
+  9 10  1  0  0  0
+ 10 11  2  0  0  0
+ 11 12  1  0  0  0
+ 12 13  2  0  0  0
+ 13 14  1  0  0  0
+ 14 15  2  0  0  0
+ 15 16  1  0  0  0
+  7 17  1  0  0  0
+ 17 18  1  0  0  0
+ 18 19  2  0  0  0
+ 19  2  1  0  0  0
+ 18  5  1  0  0  0
+ 15 10  1  0  0  0
+  1 20  1  0  0  0
+  1 21  1  0  0  0
+M  END
+>  <CHROM.1>
+134.40513780,-82.67633974,-84.08827666,54.85422585,6.72208663,1.45736736
+4.45779696,-0.13814549,0.67765509,1.95397277
+
+>  <ChemDiv_ID>
+3167-0436
+
+>  <Force_Field>
+MMFF94
+
+>  <Formal_Charge>
+0
+
+>  <MultiStructRSA_mean_pKd>
+3.247155554294586
+
+>  <MultiStructRSA_score>
+3.004559340399369
+
+>  <MultiStructRSA_std_pKd>
+0.2425962138952168
+
+>  <Name>
+3167-0436
+
+>  <Original_SMILES>
+Nc1ccc2nc(SCc3ccccc3Cl)sc2c1
+
+>  <RI>
+0
+
+>  <Rbt.Current_Directory>
+/home/gavrilev/Thesis/src/case_study/docking/rdock
+
+>  <Rbt.Executable>
+rbdock - v26.09-alpha
+
+>  <Rbt.Library>
+libRbt.so (26.09, Buildalpha)
+
+>  <Rbt.Parameter_File>
+/home/gavrilev/.local/share/rdock/data/scripts/dock.prm
+
+>  <Rbt.Receptor>
+SLI_A22A23_bases.prm
+
+>  <SCORE>
+-5.95955
+
+>  <SCORE.INTER>
+-7.71126
+
+>  <SCORE.INTER.CONST>
+1
+
+>  <SCORE.INTER.POLAR>
+-0.992416
+
+>  <SCORE.INTER.REPUL>
+0.178232
+
+>  <SCORE.INTER.ROT>
+4
+
+>  <SCORE.INTER.VDW>
+-14.6282
+
+>  <SCORE.INTER.norm>
+-0.405856
+
+>  <SCORE.INTRA>
+1.71017
+
+>  <SCORE.INTRA.DIHEDRAL>
+3.04026
+
+>  <SCORE.INTRA.DIHEDRAL.0>
+3.0286
+
+>  <SCORE.INTRA.POLAR>
+0
+
+>  <SCORE.INTRA.POLAR.0>
+0
+
+>  <SCORE.INTRA.REPUL>
+0
+
+>  <SCORE.INTRA.REPUL.0>
+0
+
+>  <SCORE.INTRA.VDW>
+0.190034
+
+>  <SCORE.INTRA.VDW.0>
+-1.83337
+
+>  <SCORE.INTRA.norm>
+0.0900087
+
+>  <SCORE.RESTR>
+0.041553
+
+>  <SCORE.RESTR.CAVITY>
+0.041553
+
+>  <SCORE.RESTR.norm>
+0.002187
+
+>  <SCORE.SYSTEM>
+0
+
+>  <SCORE.SYSTEM.CONST>
+0
+
+>  <SCORE.SYSTEM.DIHEDRAL>
+0
+
+>  <SCORE.SYSTEM.norm>
+0
+
+>  <SCORE.heavy>
+19
+
+>  <SCORE.norm>
+-0.31366
+
+>  <Selected_Conformer_Energy>
+12.07813271484107
+
+$$$$
+3167-0436
+  rDOCK(R)          3D
+libRbt.so/26.09/alpha
+ 21 23  0  0  0  0  0  0  0  0999 V2000
+    1.9022   -0.6495    4.2636 N   0  0  0  0  0  0
+    3.1960   -0.9454    4.7115 C   0  0  0  0  0  0
+    3.6801   -2.2503    4.6250 C   0  0  0  0  0  0
+    5.0064   -2.5565    4.9563 C   0  0  0  0  0  0
+    5.8838   -1.5262    5.3427 C   0  0  0  0  0  0
+    7.2144   -1.6804    5.6926 N   0  0  0  0  0  0
+    7.7349   -0.5076    5.9692 C   0  0  0  0  0  0
+    9.4050   -0.3339    6.4578 S   0  0  0  0  0  0
+   10.0714    0.6440    5.0801 C   0  0  0  0  0  0
+    9.5283    2.0537    5.0363 C   0  0  0  0  0  0
+   10.0087    2.9976    5.9634 C   0  0  0  0  0  0
+    9.5525    4.3168    5.9509 C   0  0  0  0  0  0
+    8.6064    4.7172    5.0127 C   0  0  0  0  0  0
+    8.1171    3.7973    4.0868 C   0  0  0  0  0  0
+    8.5736    2.4746    4.0956 C   0  0  0  0  0  0
+    7.9112    1.3989    2.9162 Cl  0  0  0  0  0  0
+    6.6819    0.8348    5.8470 S   0  0  0  0  0  0
+    5.4044   -0.2162    5.3699 C   0  0  0  0  0  0
+    4.0745    0.0954    5.0362 C   0  0  0  0  0  0
+    1.4111    0.0319    4.8345 H   0  0  0  0  0  0
+    1.8451   -0.4324    3.2731 H   0  0  0  0  0  0
+  1  2  1  0  0  0
+  2  3  2  0  0  0
+  3  4  1  0  0  0
+  4  5  2  0  0  0
+  5  6  1  0  0  0
+  6  7  2  0  0  0
+  7  8  1  0  0  0
+  8  9  1  0  0  0
+  9 10  1  0  0  0
+ 10 11  2  0  0  0
+ 11 12  1  0  0  0
+ 12 13  2  0  0  0
+ 13 14  1  0  0  0
+ 14 15  2  0  0  0
+ 15 16  1  0  0  0
+  7 17  1  0  0  0
+ 17 18  1  0  0  0
+ 18 19  2  0  0  0
+ 19  2  1  0  0  0
+ 18  5  1  0  0  0
+ 15 10  1  0  0  0
+  1 20  1  0  0  0
+  1 21  1  0  0  0
+M  END
+>  <CHROM.1>
+142.40212589,115.99161171,68.28743328,75.38809073,7.14174397,0.65965424,5.04283124
+2.57538378,0.30120759,2.77773089
+
+>  <ChemDiv_ID>
+3167-0436
+
+>  <Force_Field>
+MMFF94
+
+>  <Formal_Charge>
+0
+
+>  <MultiStructRSA_mean_pKd>
+3.247155554294586
+
+>  <MultiStructRSA_score>
+3.004559340399369
+
+>  <MultiStructRSA_std_pKd>
+0.2425962138952168
+
+>  <Name>
+3167-0436
+
+>  <Original_SMILES>
+Nc1ccc2nc(SCc3ccccc3Cl)sc2c1
+
+>  <RI>
+0
+
+>  <Rbt.Current_Directory>
+/home/gavrilev/Thesis/src/case_study/docking/rdock
+
+>  <Rbt.Executable>
+rbdock - v26.09-alpha
+
+>  <Rbt.Library>
+libRbt.so (26.09, Buildalpha)
+
+>  <Rbt.Parameter_File>
+/home/gavrilev/.local/share/rdock/data/scripts/dock.prm
+
+>  <Rbt.Receptor>
+SLI_A22A23_bases.prm
+
+>  <SCORE>
+-5.71765
+
+>  <SCORE.INTER>
+-5.53142
+
+>  <SCORE.INTER.CONST>
+1
+
+>  <SCORE.INTER.POLAR>
+0
+
+>  <SCORE.INTER.REPUL>
+0.346631
+
+>  <SCORE.INTER.ROT>
+4
+
+>  <SCORE.INTER.VDW>
+-16.6646
+
+>  <SCORE.INTER.norm>
+-0.291128
+
+>  <SCORE.INTRA>
+-0.231678
+
+>  <SCORE.INTRA.DIHEDRAL>
+1.6433
+
+>  <SCORE.INTRA.DIHEDRAL.0>
+3.0286
+
+>  <SCORE.INTRA.POLAR>
+0
+
+>  <SCORE.INTRA.POLAR.0>
+0
+
+>  <SCORE.INTRA.REPUL>
+0
+
+>  <SCORE.INTRA.REPUL.0>
+0
+
+>  <SCORE.INTRA.VDW>
+-1.05333
+
+>  <SCORE.INTRA.VDW.0>
+-1.83337
+
+>  <SCORE.INTRA.norm>
+-0.0121936
+
+>  <SCORE.RESTR>
+0.0454567
+
+>  <SCORE.RESTR.CAVITY>
+0.0454567
+
+>  <SCORE.RESTR.norm>
+0.00239246
+
+>  <SCORE.SYSTEM>
+0
+
+>  <SCORE.SYSTEM.CONST>
+0
+
+>  <SCORE.SYSTEM.DIHEDRAL>
+0
+
+>  <SCORE.SYSTEM.norm>
+0
+
+>  <SCORE.heavy>
+19
+
+>  <SCORE.norm>
+-0.300929
+
+>  <Selected_Conformer_Energy>
+12.07813271484107
+
+$$$$
+3167-0436
+  rDOCK(R)          3D
+libRbt.so/26.09/alpha
+ 21 23  0  0  0  0  0  0  0  0999 V2000
+    9.2915    6.4757    4.0867 N   0  0  0  0  0  0
+    9.4662    5.1944    4.6249 C   0  0  0  0  0  0
+   10.5058    4.9531    5.5224 C   0  0  0  0  0  0
+   10.6379    3.7155    6.1655 C   0  0  0  0  0  0
+    9.6824    2.7073    5.9393 C   0  0  0  0  0  0
+    9.6842    1.4441    6.5059 N   0  0  0  0  0  0
+    8.6311    0.7767    6.0953 C   0  0  0  0  0  0
+    8.3225   -0.8650    6.6127 S   0  0  0  0  0  0
+    7.4199   -1.5187    5.1787 C   0  0  0  0  0  0
+    5.9403   -1.2135    5.2199 C   0  0  0  0  0  0
+    5.1898   -1.6308    6.3352 C   0  0  0  0  0  0
+    3.8244   -1.3558    6.4290 C   0  0  0  0  0  0
+    3.1831   -0.6600    5.4092 C   0  0  0  0  0  0
+    3.9082   -0.2391    4.2956 C   0  0  0  0  0  0
+    5.2773   -0.5117    4.1994 C   0  0  0  0  0  0
+    6.0988    0.0420    2.7832 Cl  0  0  0  0  0  0
+    7.5933    1.5952    5.0096 S   0  0  0  0  0  0
+    8.6142    2.9796    5.0841 C   0  0  0  0  0  0
+    8.4771    4.2211    4.4383 C   0  0  0  0  0  0
+   10.1518    6.9151    3.7732 H   0  0  0  0  0  0
+    8.5540    6.5371    3.3913 H   0  0  0  0  0  0
+  1  2  1  0  0  0
+  2  3  2  0  0  0
+  3  4  1  0  0  0
+  4  5  2  0  0  0
+  5  6  1  0  0  0
+  6  7  2  0  0  0
+  7  8  1  0  0  0
+  8  9  1  0  0  0
+  9 10  1  0  0  0
+ 10 11  2  0  0  0
+ 11 12  1  0  0  0
+ 12 13  2  0  0  0
+ 13 14  1  0  0  0
+ 14 15  2  0  0  0
+ 15 16  1  0  0  0
+  7 17  1  0  0  0
+ 17 18  1  0  0  0
+ 18 19  2  0  0  0
+ 19  2  1  0  0  0
+ 18  5  1  0  0  0
+ 15 10  1  0  0  0
+  1 20  1  0  0  0
+  1 21  1  0  0  0
+M  END
+>  <CHROM.1>
+44.76296303,-150.69749993,-84.65888861,-56.54969852,7.43860602,1.18834206
+5.13734806,0.72338411,-0.55230034,-0.53320475
+
+>  <ChemDiv_ID>
+3167-0436
+
+>  <Force_Field>
+MMFF94
+
+>  <Formal_Charge>
+0
+
+>  <MultiStructRSA_mean_pKd>
+3.247155554294586
+
+>  <MultiStructRSA_score>
+3.004559340399369
+
+>  <MultiStructRSA_std_pKd>
+0.2425962138952168
+
+>  <Name>
+3167-0436
+
+>  <Original_SMILES>
+Nc1ccc2nc(SCc3ccccc3Cl)sc2c1
+
+>  <RI>
+0
+
+>  <Rbt.Current_Directory>
+/home/gavrilev/Thesis/src/case_study/docking/rdock
+
+>  <Rbt.Executable>
+rbdock - v26.09-alpha
+
+>  <Rbt.Library>
+libRbt.so (26.09, Buildalpha)
+
+>  <Rbt.Parameter_File>
+/home/gavrilev/.local/share/rdock/data/scripts/dock.prm
+
+>  <Rbt.Receptor>
+SLI_A22A23_bases.prm
+
+>  <SCORE>
+-4.87722
+
+>  <SCORE.INTER>
+-6.42806
+
+>  <SCORE.INTER.CONST>
+1
+
+>  <SCORE.INTER.POLAR>
+0
+
+>  <SCORE.INTER.REPUL>
+0.138891
+
+>  <SCORE.INTER.ROT>
+4
+
+>  <SCORE.INTER.VDW>
+-16.5225
+
+>  <SCORE.INTER.norm>
+-0.338319
+
+>  <SCORE.INTRA>
+0.709538
+
+>  <SCORE.INTRA.DIHEDRAL>
+0.0575124
+
+>  <SCORE.INTRA.DIHEDRAL.0>
+3.0286
+
+>  <SCORE.INTRA.POLAR>
+0
+
+>  <SCORE.INTRA.POLAR.0>
+0
+
+>  <SCORE.INTRA.REPUL>
+0
+
+>  <SCORE.INTRA.REPUL.0>
+0
+
+>  <SCORE.INTRA.VDW>
+0.680782
+
+>  <SCORE.INTRA.VDW.0>
+-1.83337
+
+>  <SCORE.INTRA.norm>
+0.0373441
+
+>  <SCORE.RESTR>
+0.841298
+
+>  <SCORE.RESTR.CAVITY>
+0.841298
+
+>  <SCORE.RESTR.norm>
+0.0442788
+
+>  <SCORE.SYSTEM>
+0
+
+>  <SCORE.SYSTEM.CONST>
+0
+
+>  <SCORE.SYSTEM.DIHEDRAL>
+0
+
+>  <SCORE.SYSTEM.norm>
+0
+
+>  <SCORE.heavy>
+19
+
+>  <SCORE.norm>
+-0.256696
+
+>  <Selected_Conformer_Energy>
+12.07813271484107
+
+$$$$
+3167-0436
+  rDOCK(R)          3D
+libRbt.so/26.09/alpha
+ 21 23  0  0  0  0  0  0  0  0999 V2000
+    1.5824   -1.5327    5.5826 N   0  0  0  0  0  0
+    2.9075   -1.3281    5.1772 C   0  0  0  0  0  0
+    3.1754   -0.8295    3.9027 C   0  0  0  0  0  0
+    4.4802   -0.5057    3.5088 C   0  0  0  0  0  0
+    5.5391   -0.6425    4.4257 C   0  0  0  0  0  0
+    6.8711   -0.3583    4.1773 N   0  0  0  0  0  0
+    7.5764   -0.5738    5.2631 C   0  0  0  0  0  0
+    9.3064   -0.3212    5.3022 S   0  0  0  0  0  0
+    9.4011    1.3275    6.0577 C   0  0  0  0  0  0
+    9.0114    2.4377    5.1092 C   0  0  0  0  0  0
+    7.9057    2.2498    4.2586 C   0  0  0  0  0  0
+    7.4947    3.2526    3.3787 C   0  0  0  0  0  0
+    8.1817    4.4614    3.3313 C   0  0  0  0  0  0
+    9.2801    4.6668    4.1646 C   0  0  0  0  0  0
+    9.6936    3.6643    5.0488 C   0  0  0  0  0  0
+   11.0673    4.0001    6.0424 Cl  0  0  0  0  0  0
+    6.7115   -1.1366    6.6273 S   0  0  0  0  0  0
+    5.2512   -1.0872    5.7164 C   0  0  0  0  0  0
+    3.9427   -1.4113    6.1162 C   0  0  0  0  0  0
+    1.4865   -2.1148    6.4092 H   0  0  0  0  0  0
+    1.0316   -0.6819    5.6466 H   0  0  0  0  0  0
+  1  2  1  0  0  0
+  2  3  2  0  0  0
+  3  4  1  0  0  0
+  4  5  2  0  0  0
+  5  6  1  0  0  0
+  6  7  2  0  0  0
+  7  8  1  0  0  0
+  8  9  1  0  0  0
+  9 10  1  0  0  0
+ 10 11  2  0  0  0
+ 11 12  1  0  0  0
+ 12 13  2  0  0  0
+ 13 14  1  0  0  0
+ 14 15  2  0  0  0
+ 15 16  1  0  0  0
+  7 17  1  0  0  0
+ 17 18  1  0  0  0
+ 18 19  2  0  0  0
+ 19  2  1  0  0  0
+ 18  5  1  0  0  0
+ 15 10  1  0  0  0
+  1 20  1  0  0  0
+  1 21  1  0  0  0
+M  END
+>  <CHROM.1>
+164.72587850,98.41204413,-74.69127504,41.45819272,7.22793579,0.87601667,5.12621148
+2.56953228,0.34283019,2.64778114
+
+>  <ChemDiv_ID>
+3167-0436
+
+>  <Force_Field>
+MMFF94
+
+>  <Formal_Charge>
+0
+
+>  <MultiStructRSA_mean_pKd>
+3.247155554294586
+
+>  <MultiStructRSA_score>
+3.004559340399369
+
+>  <MultiStructRSA_std_pKd>
+0.2425962138952168
+
+>  <Name>
+3167-0436
+
+>  <Original_SMILES>
+Nc1ccc2nc(SCc3ccccc3Cl)sc2c1
+
+>  <RI>
+0
+
+>  <Rbt.Current_Directory>
+/home/gavrilev/Thesis/src/case_study/docking/rdock
+
+>  <Rbt.Executable>
+rbdock - v26.09-alpha
+
+>  <Rbt.Library>
+libRbt.so (26.09, Buildalpha)
+
+>  <Rbt.Parameter_File>
+/home/gavrilev/.local/share/rdock/data/scripts/dock.prm
+
+>  <Rbt.Receptor>
+SLI_A22A23_bases.prm
+
+>  <SCORE>
+-4.83337
+
+>  <SCORE.INTER>
+-6.80144
+
+>  <SCORE.INTER.CONST>
+1
+
+>  <SCORE.INTER.POLAR>
+-0.52118
+
+>  <SCORE.INTER.REPUL>
+0
+
+>  <SCORE.INTER.ROT>
+4
+
+>  <SCORE.INTER.VDW>
+-14.4294
+
+>  <SCORE.INTER.norm>
+-0.35797
+
+>  <SCORE.INTRA>
+1.96169
+
+>  <SCORE.INTRA.DIHEDRAL>
+2.53645
+
+>  <SCORE.INTRA.DIHEDRAL.0>
+3.0286
+
+>  <SCORE.INTRA.POLAR>
+0
+
+>  <SCORE.INTRA.POLAR.0>
+0
+
+>  <SCORE.INTRA.REPUL>
+0
+
+>  <SCORE.INTRA.REPUL.0>
+0
+
+>  <SCORE.INTRA.VDW>
+0.693467
+
+>  <SCORE.INTRA.VDW.0>
+-1.83337
+
+>  <SCORE.INTRA.norm>
+0.103247
+
+>  <SCORE.RESTR>
+0.00637326
+
+>  <SCORE.RESTR.CAVITY>
+0.00637326
+
+>  <SCORE.RESTR.norm>
+0.000335435
+
+>  <SCORE.SYSTEM>
+0
+
+>  <SCORE.SYSTEM.CONST>
+0
+
+>  <SCORE.SYSTEM.DIHEDRAL>
+0
+
+>  <SCORE.SYSTEM.norm>
+0
+
+>  <SCORE.heavy>
+19
+
+>  <SCORE.norm>
+-0.254388
+
+>  <Selected_Conformer_Energy>
+12.07813271484107
+
+$$$$
+3167-0436
+  rDOCK(R)          3D
+libRbt.so/26.09/alpha
+ 21 23  0  0  0  0  0  0  0  0999 V2000
+    7.0737    5.9563    1.9055 N   0  0  0  0  0  0
+    7.5872    4.8266    2.5553 C   0  0  0  0  0  0
+    8.5857    4.9722    3.5178 C   0  0  0  0  0  0
+    9.0382    3.8780    4.2664 C   0  0  0  0  0  0
+    8.4483    2.6140    4.0794 C   0  0  0  0  0  0
+    8.7899    1.4507    4.7478 N   0  0  0  0  0  0
+    8.0177    0.4690    4.3443 C   0  0  0  0  0  0
+    8.1813   -1.1518    4.9804 S   0  0  0  0  0  0
+    6.9916   -1.1098    6.3519 C   0  0  0  0  0  0
+    5.5533   -1.0836    5.8887 C   0  0  0  0  0  0
+    5.0442    0.0965    5.3148 C   0  0  0  0  0  0
+    3.7282    0.1644    4.8540 C   0  0  0  0  0  0
+    2.8958   -0.9453    4.9595 C   0  0  0  0  0  0
+    3.3805   -2.1232    5.5259 C   0  0  0  0  0  0
+    4.6996   -2.1949    5.9872 C   0  0  0  0  0  0
+    5.2175   -3.6913    6.6797 Cl  0  0  0  0  0  0
+    6.8606    0.8603    3.1469 S   0  0  0  0  0  0
+    7.4104    2.4919    3.1550 C   0  0  0  0  0  0
+    6.9521    3.5882    2.4031 C   0  0  0  0  0  0
+    7.3605    6.8387    2.3182 H   0  0  0  0  0  0
+    7.1957    5.9468    0.8973 H   0  0  0  0  0  0
+  1  2  1  0  0  0
+  2  3  2  0  0  0
+  3  4  1  0  0  0
+  4  5  2  0  0  0
+  5  6  1  0  0  0
+  6  7  2  0  0  0
+  7  8  1  0  0  0
+  8  9  1  0  0  0
+  9 10  1  0  0  0
+ 10 11  2  0  0  0
+ 11 12  1  0  0  0
+ 12 13  2  0  0  0
+ 13 14  1  0  0  0
+ 14 15  2  0  0  0
+ 15 16  1  0  0  0
+  7 17  1  0  0  0
+ 17 18  1  0  0  0
+ 18 19  2  0  0  0
+ 19  2  1  0  0  0
+ 18  5  1  0  0  0
+ 15 10  1  0  0  0
+  1 20  1  0  0  0
+  1 21  1  0  0  0
+M  END
+>  <CHROM.1>
+-10.78934682,92.39755622,71.13042659,-72.54821741,6.58051578,0.55990799,4.55248963
+1.19267816,-0.09248174,-0.47162949
+
+>  <ChemDiv_ID>
+3167-0436
+
+>  <Force_Field>
+MMFF94
+
+>  <Formal_Charge>
+0
+
+>  <MultiStructRSA_mean_pKd>
+3.247155554294586
+
+>  <MultiStructRSA_score>
+3.004559340399369
+
+>  <MultiStructRSA_std_pKd>
+0.2425962138952168
+
+>  <Name>
+3167-0436
+
+>  <Original_SMILES>
+Nc1ccc2nc(SCc3ccccc3Cl)sc2c1
+
+>  <RI>
+0
+
+>  <Rbt.Current_Directory>
+/home/gavrilev/Thesis/src/case_study/docking/rdock
+
+>  <Rbt.Executable>
+rbdock - v26.09-alpha
+
+>  <Rbt.Library>
+libRbt.so (26.09, Buildalpha)
+
+>  <Rbt.Parameter_File>
+/home/gavrilev/.local/share/rdock/data/scripts/dock.prm
+
+>  <Rbt.Receptor>
+SLI_A22A23_bases.prm
+
+>  <SCORE>
+-4.25697
+
+>  <SCORE.INTER>
+-6.60958
+
+>  <SCORE.INTER.CONST>
+1
+
+>  <SCORE.INTER.POLAR>
+-1.37566
+
+>  <SCORE.INTER.REPUL>
+0
+
+>  <SCORE.INTER.ROT>
+4
+
+>  <SCORE.INTER.VDW>
+-11.3323
+
+>  <SCORE.INTER.norm>
+-0.347872
+
+>  <SCORE.INTRA>
+1.73918
+
+>  <SCORE.INTRA.DIHEDRAL>
+2.3093
+
+>  <SCORE.INTRA.DIHEDRAL.0>
+3.0286
+
+>  <SCORE.INTRA.POLAR>
+0
+
+>  <SCORE.INTRA.POLAR.0>
+0
+
+>  <SCORE.INTRA.REPUL>
+0
+
+>  <SCORE.INTRA.REPUL.0>
+0
+
+>  <SCORE.INTRA.VDW>
+0.584529
+
+>  <SCORE.INTRA.VDW.0>
+-1.83337
+
+>  <SCORE.INTRA.norm>
+0.0915357
+
+>  <SCORE.RESTR>
+0.613426
+
+>  <SCORE.RESTR.CAVITY>
+0.613426
+
+>  <SCORE.RESTR.norm>
+0.0322856
+
+>  <SCORE.SYSTEM>
+0
+
+>  <SCORE.SYSTEM.CONST>
+0
+
+>  <SCORE.SYSTEM.DIHEDRAL>
+0
+
+>  <SCORE.SYSTEM.norm>
+0
+
+>  <SCORE.heavy>
+19
+
+>  <SCORE.norm>
+-0.224051
+
+>  <Selected_Conformer_Energy>
+12.07813271484107
+
+$$$$
+3167-0436
+  rDOCK(R)          3D
+libRbt.so/26.09/alpha
+ 21 23  0  0  0  0  0  0  0  0999 V2000
+    0.9931   -2.5496    4.5494 N   0  0  0  0  0  0
+    2.2257   -1.9108    4.7353 C   0  0  0  0  0  0
+    2.3172   -0.5253    4.6062 C   0  0  0  0  0  0
+    3.5068    0.1545    4.8980 C   0  0  0  0  0  0
+    4.6209   -0.5627    5.3723 C   0  0  0  0  0  0
+    5.8532   -0.0249    5.7026 N   0  0  0  0  0  0
+    6.6465   -0.9770    6.1351 C   0  0  0  0  0  0
+    8.2904   -0.6495    6.6339 S   0  0  0  0  0  0
+    9.0225   -0.0829    5.0714 C   0  0  0  0  0  0
+    8.3812    1.1778    4.5389 C   0  0  0  0  0  0
+    7.3986    1.0709    3.5367 C   0  0  0  0  0  0
+    6.7634    2.2044    3.0265 C   0  0  0  0  0  0
+    7.0992    3.4660    3.5070 C   0  0  0  0  0  0
+    8.0707    3.5934    4.4985 C   0  0  0  0  0  0
+    8.7081    2.4591    5.0132 C   0  0  0  0  0  0
+    9.9034    2.7073    6.2366 Cl  0  0  0  0  0  0
+    5.9889   -2.5558    6.1608 S   0  0  0  0  0  0
+    4.5001   -1.9409    5.5529 C   0  0  0  0  0  0
+    3.3072   -2.6266    5.2630 C   0  0  0  0  0  0
+    0.9817   -3.2142    3.7815 H   0  0  0  0  0  0
+    0.5943   -2.9380    5.3988 H   0  0  0  0  0  0
+  1  2  1  0  0  0
+  2  3  2  0  0  0
+  3  4  1  0  0  0
+  4  5  2  0  0  0
+  5  6  1  0  0  0
+  6  7  2  0  0  0
+  7  8  1  0  0  0
+  8  9  1  0  0  0
+  9 10  1  0  0  0
+ 10 11  2  0  0  0
+ 11 12  1  0  0  0
+ 12 13  2  0  0  0
+ 13 14  1  0  0  0
+ 14 15  2  0  0  0
+ 15 16  1  0  0  0
+  7 17  1  0  0  0
+ 17 18  1  0  0  0
+ 18 19  2  0  0  0
+ 19  2  1  0  0  0
+ 18  5  1  0  0  0
+ 15 10  1  0  0  0
+  1 20  1  0  0  0
+  1 21  1  0  0  0
+M  END
+>  <CHROM.1>
+118.47156566,-63.89637048,62.38253371,-98.40499934,6.37186088,0.07901764
+5.25940259,2.63041324,0.35134459,2.63791142
+
+>  <ChemDiv_ID>
+3167-0436
+
+>  <Force_Field>
+MMFF94
+
+>  <Formal_Charge>
+0
+
+>  <MultiStructRSA_mean_pKd>
+3.247155554294586
+
+>  <MultiStructRSA_score>
+3.004559340399369
+
+>  <MultiStructRSA_std_pKd>
+0.2425962138952168
+
+>  <Name>
+3167-0436
+
+>  <Original_SMILES>
+Nc1ccc2nc(SCc3ccccc3Cl)sc2c1
+
+>  <RI>
+0
+
+>  <Rbt.Current_Directory>
+/home/gavrilev/Thesis/src/case_study/docking/rdock
+
+>  <Rbt.Executable>
+rbdock - v26.09-alpha
+
+>  <Rbt.Library>
+libRbt.so (26.09, Buildalpha)
+
+>  <Rbt.Parameter_File>
+/home/gavrilev/.local/share/rdock/data/scripts/dock.prm
+
+>  <Rbt.Receptor>
+SLI_A22A23_bases.prm
+
+>  <SCORE>
+-4.09027
+
+>  <SCORE.INTER>
+-4.49592
+
+>  <SCORE.INTER.CONST>
+1
+
+>  <SCORE.INTER.POLAR>
+0
+
+>  <SCORE.INTER.REPUL>
+0.00515831
+
+>  <SCORE.INTER.ROT>
+4
+
+>  <SCORE.INTER.VDW>
+-13.9217
+
+>  <SCORE.INTER.norm>
+-0.236627
+
+>  <SCORE.INTRA>
+-0.0326623
+
+>  <SCORE.INTRA.DIHEDRAL>
+1.43805
+
+>  <SCORE.INTRA.DIHEDRAL.0>
+3.0286
+
+>  <SCORE.INTRA.POLAR>
+0
+
+>  <SCORE.INTRA.POLAR.0>
+0
+
+>  <SCORE.INTRA.REPUL>
+0
+
+>  <SCORE.INTRA.REPUL.0>
+0
+
+>  <SCORE.INTRA.VDW>
+-0.751689
+
+>  <SCORE.INTRA.VDW.0>
+-1.83337
+
+>  <SCORE.INTRA.norm>
+-0.00171907
+
+>  <SCORE.RESTR>
+0.438308
+
+>  <SCORE.RESTR.CAVITY>
+0.438308
+
+>  <SCORE.RESTR.norm>
+0.0230689
+
+>  <SCORE.SYSTEM>
+0
+
+>  <SCORE.SYSTEM.CONST>
+0
+
+>  <SCORE.SYSTEM.DIHEDRAL>
+0
+
+>  <SCORE.SYSTEM.norm>
+0
+
+>  <SCORE.heavy>
+19
+
+>  <SCORE.norm>
+-0.215277
+
+>  <Selected_Conformer_Energy>
+12.07813271484107
+
+$$$$
+3167-0436
+  rDOCK(R)          3D
+libRbt.so/26.09/alpha
+ 21 23  0  0  0  0  0  0  0  0999 V2000
+   10.4804    6.5210    5.9208 N   0  0  0  0  0  0
+    9.8830    5.2768    5.6818 C   0  0  0  0  0  0
+    8.7307    5.1975    4.9006 C   0  0  0  0  0  0
+    8.1757    3.9604    4.5480 C   0  0  0  0  0  0
+    8.8122    2.7713    4.9498 C   0  0  0  0  0  0
+    8.3815    1.4851    4.6722 N   0  0  0  0  0  0
+    9.2298    0.6193    5.1758 C   0  0  0  0  0  0
+    8.9884   -1.1054    5.0162 S   0  0  0  0  0  0
+    7.4567   -1.3324    5.9653 C   0  0  0  0  0  0
+    6.2208   -0.9056    5.2073 C   0  0  0  0  0  0
+    6.3494   -0.5099    3.8627 C   0  0  0  0  0  0
+    5.2351   -0.1258    3.1147 C   0  0  0  0  0  0
+    3.9716   -0.1284    3.6969 C   0  0  0  0  0  0
+    3.8231   -0.5158    5.0277 C   0  0  0  0  0  0
+    4.9378   -0.9029    5.7796 C   0  0  0  0  0  0
+    4.6651   -1.3636    7.4229 Cl  0  0  0  0  0  0
+   10.5691    1.2733    6.0151 S   0  0  0  0  0  0
+    9.9963    2.8624    5.6819 C   0  0  0  0  0  0
+   10.5576    4.1021    6.0361 C   0  0  0  0  0  0
+   10.2232    6.9411    6.8089 H   0  0  0  0  0  0
+   11.4839    6.5366    5.7655 H   0  0  0  0  0  0
+  1  2  1  0  0  0
+  2  3  2  0  0  0
+  3  4  1  0  0  0
+  4  5  2  0  0  0
+  5  6  1  0  0  0
+  6  7  2  0  0  0
+  7  8  1  0  0  0
+  8  9  1  0  0  0
+  9 10  1  0  0  0
+ 10 11  2  0  0  0
+ 11 12  1  0  0  0
+ 12 13  2  0  0  0
+ 13 14  1  0  0  0
+ 14 15  2  0  0  0
+ 15 16  1  0  0  0
+  7 17  1  0  0  0
+ 17 18  1  0  0  0
+ 18 19  2  0  0  0
+ 19  2  1  0  0  0
+ 18  5  1  0  0  0
+ 15 10  1  0  0  0
+  1 20  1  0  0  0
+  1 21  1  0  0  0
+M  END
+>  <CHROM.1>
+97.29304760,-64.20736682,77.51318706,5.58939761,7.76467039,1.09769462,5.40250660
+0.81955766,-0.14908398,-0.13656082
+
+>  <ChemDiv_ID>
+3167-0436
+
+>  <Force_Field>
+MMFF94
+
+>  <Formal_Charge>
+0
+
+>  <MultiStructRSA_mean_pKd>
+3.247155554294586
+
+>  <MultiStructRSA_score>
+3.004559340399369
+
+>  <MultiStructRSA_std_pKd>
+0.2425962138952168
+
+>  <Name>
+3167-0436
+
+>  <Original_SMILES>
+Nc1ccc2nc(SCc3ccccc3Cl)sc2c1
+
+>  <RI>
+0
+
+>  <Rbt.Current_Directory>
+/home/gavrilev/Thesis/src/case_study/docking/rdock
+
+>  <Rbt.Executable>
+rbdock - v26.09-alpha
+
+>  <Rbt.Library>
+libRbt.so (26.09, Buildalpha)
+
+>  <Rbt.Parameter_File>
+/home/gavrilev/.local/share/rdock/data/scripts/dock.prm
+
+>  <Rbt.Receptor>
+SLI_A22A23_bases.prm
+
+>  <SCORE>
+-4.08096
+
+>  <SCORE.INTER>
+-5.98935
+
+>  <SCORE.INTER.CONST>
+1
+
+>  <SCORE.INTER.POLAR>
+0
+
+>  <SCORE.INTER.REPUL>
+0
+
+>  <SCORE.INTER.ROT>
+4
+
+>  <SCORE.INTER.VDW>
+-15.3894
+
+>  <SCORE.INTER.norm>
+-0.315229
+
+>  <SCORE.INTRA>
+1.90576
+
+>  <SCORE.INTRA.DIHEDRAL>
+1.79767
+
+>  <SCORE.INTRA.DIHEDRAL.0>
+3.0286
+
+>  <SCORE.INTRA.POLAR>
+0
+
+>  <SCORE.INTRA.POLAR.0>
+0
+
+>  <SCORE.INTRA.REPUL>
+0
+
+>  <SCORE.INTRA.REPUL.0>
+0
+
+>  <SCORE.INTRA.VDW>
+1.00693
+
+>  <SCORE.INTRA.VDW.0>
+-1.83337
+
+>  <SCORE.INTRA.norm>
+0.100303
+
+>  <SCORE.RESTR>
+0.00262555
+
+>  <SCORE.RESTR.CAVITY>
+0.00262555
+
+>  <SCORE.RESTR.norm>
+0.000138187
+
+>  <SCORE.SYSTEM>
+0
+
+>  <SCORE.SYSTEM.CONST>
+0
+
+>  <SCORE.SYSTEM.DIHEDRAL>
+0
+
+>  <SCORE.SYSTEM.norm>
+0
+
+>  <SCORE.heavy>
+19
+
+>  <SCORE.norm>
+-0.214788
+
+>  <Selected_Conformer_Energy>
+12.07813271484107
+
+$$$$
+3167-0436
+  rDOCK(R)          3D
+libRbt.so/26.09/alpha
+ 21 23  0  0  0  0  0  0  0  0999 V2000
+    0.8462   -2.4703    4.7787 N   0  0  0  0  0  0
+    2.1116   -1.8790    4.8847 C   0  0  0  0  0  0
+    2.2592   -0.5093    4.6686 C   0  0  0  0  0  0
+    3.4872    0.1312    4.8791 C   0  0  0  0  0  0
+    4.5850   -0.6072    5.3591 C   0  0  0  0  0  0
+    5.8507   -0.1080    5.6152 N   0  0  0  0  0  0
+    6.6163   -1.0682    6.0784 C   0  0  0  0  0  0
+    8.2898   -0.7878    6.5017 S   0  0  0  0  0  0
+    8.9613   -0.2214    4.9122 C   0  0  0  0  0  0
+    8.3448    1.0736    4.4357 C   0  0  0  0  0  0
+    7.3747    1.0314    3.4167 C   0  0  0  0  0  0
+    6.7621    2.1982    2.9561 C   0  0  0  0  0  0
+    7.1087    3.4291    3.5041 C   0  0  0  0  0  0
+    8.0682    3.4924    4.5133 C   0  0  0  0  0  0
+    8.6828    2.3245    4.9783 C   0  0  0  0  0  0
+    9.8645    2.4937    6.2280 Cl  0  0  0  0  0  0
+    5.8914   -2.6108    6.2218 S   0  0  0  0  0  0
+    4.4102   -1.9652    5.6271 C   0  0  0  0  0  0
+    3.1787   -2.6113    5.4190 C   0  0  0  0  0  0
+    0.8468   -3.4777    4.9069 H   0  0  0  0  0  0
+    0.1269   -2.0138    5.3315 H   0  0  0  0  0  0
+  1  2  1  0  0  0
+  2  3  2  0  0  0
+  3  4  1  0  0  0
+  4  5  2  0  0  0
+  5  6  1  0  0  0
+  6  7  2  0  0  0
+  7  8  1  0  0  0
+  8  9  1  0  0  0
+  9 10  1  0  0  0
+ 10 11  2  0  0  0
+ 11 12  1  0  0  0
+ 12 13  2  0  0  0
+ 13 14  1  0  0  0
+ 14 15  2  0  0  0
+ 15 16  1  0  0  0
+  7 17  1  0  0  0
+ 17 18  1  0  0  0
+ 18 19  2  0  0  0
+ 19  2  1  0  0  0
+ 18  5  1  0  0  0
+ 15 10  1  0  0  0
+  1 20  1  0  0  0
+  1 21  1  0  0  0
+M  END
+>  <CHROM.1>
+177.06214443,-59.59474690,63.37234578,-102.89056010,6.32300446,0.00798587
+5.25513069,2.63614150,0.31226030,2.63295685
+
+>  <ChemDiv_ID>
+3167-0436
+
+>  <Force_Field>
+MMFF94
+
+>  <Formal_Charge>
+0
+
+>  <MultiStructRSA_mean_pKd>
+3.247155554294586
+
+>  <MultiStructRSA_score>
+3.004559340399369
+
+>  <MultiStructRSA_std_pKd>
+0.2425962138952168
+
+>  <Name>
+3167-0436
+
+>  <Original_SMILES>
+Nc1ccc2nc(SCc3ccccc3Cl)sc2c1
+
+>  <RI>
+0
+
+>  <Rbt.Current_Directory>
+/home/gavrilev/Thesis/src/case_study/docking/rdock
+
+>  <Rbt.Executable>
+rbdock - v26.09-alpha
+
+>  <Rbt.Library>
+libRbt.so (26.09, Buildalpha)
+
+>  <Rbt.Parameter_File>
+/home/gavrilev/.local/share/rdock/data/scripts/dock.prm
+
+>  <Rbt.Receptor>
+SLI_A22A23_bases.prm
+
+>  <SCORE>
+-4.02613
+
+>  <SCORE.INTER>
+-4.50427
+
+>  <SCORE.INTER.CONST>
+1
+
+>  <SCORE.INTER.POLAR>
+0
+
+>  <SCORE.INTER.REPUL>
+0
+
+>  <SCORE.INTER.ROT>
+4
+
+>  <SCORE.INTER.VDW>
+-13.9043
+
+>  <SCORE.INTER.norm>
+-0.237067
+
+>  <SCORE.INTRA>
+0.0721835
+
+>  <SCORE.INTRA.DIHEDRAL>
+1.22491
+
+>  <SCORE.INTRA.DIHEDRAL.0>
+3.0286
+
+>  <SCORE.INTRA.POLAR>
+0
+
+>  <SCORE.INTRA.POLAR.0>
+0
+
+>  <SCORE.INTRA.REPUL>
+0
+
+>  <SCORE.INTRA.REPUL.0>
+0
+
+>  <SCORE.INTRA.VDW>
+-0.54027
+
+>  <SCORE.INTRA.VDW.0>
+-1.83337
+
+>  <SCORE.INTRA.norm>
+0.00379913
+
+>  <SCORE.RESTR>
+0.405958
+
+>  <SCORE.RESTR.CAVITY>
+0.405958
+
+>  <SCORE.RESTR.norm>
+0.0213662
+
+>  <SCORE.SYSTEM>
+0
+
+>  <SCORE.SYSTEM.CONST>
+0
+
+>  <SCORE.SYSTEM.DIHEDRAL>
+0
+
+>  <SCORE.SYSTEM.norm>
+0
+
+>  <SCORE.heavy>
+19
+
+>  <SCORE.norm>
+-0.211901
+
+>  <Selected_Conformer_Energy>
+12.07813271484107
+
+$$$$
+3167-0436
+  rDOCK(R)          3D
+libRbt.so/26.09/alpha
+ 21 23  0  0  0  0  0  0  0  0999 V2000
+    9.5206    6.4990    4.9184 N   0  0  0  0  0  0
+    9.6340    5.1297    5.1906 C   0  0  0  0  0  0
+   10.6535    4.6684    6.0226 C   0  0  0  0  0  0
+   10.7252    3.3229    6.4064 C   0  0  0  0  0  0
+    9.7287    2.4236    5.9833 C   0  0  0  0  0  0
+    9.6698    1.0741    6.2868 N   0  0  0  0  0  0
+    8.5926    0.5497    5.7508 C   0  0  0  0  0  0
+    8.2076   -1.1467    5.9306 S   0  0  0  0  0  0
+    7.1185   -1.4104    4.5013 C   0  0  0  0  0  0
+    5.6588   -1.1792    4.8175 C   0  0  0  0  0  0
+    5.1551   -1.6077    6.0600 C   0  0  0  0  0  0
+    3.8189   -1.3997    6.4065 C   0  0  0  0  0  0
+    2.9607   -0.7610    5.5171 C   0  0  0  0  0  0
+    3.4397   -0.3302    4.2810 C   0  0  0  0  0  0
+    4.7789   -0.5357    3.9314 C   0  0  0  0  0  0
+    5.2883    0.0254    2.3781 Cl  0  0  0  0  0  0
+    7.6019    1.6134    4.8493 S   0  0  0  0  0  0
+    8.6816    2.9082    5.1988 C   0  0  0  0  0  0
+    8.6051    4.2583    4.8132 C   0  0  0  0  0  0
+    9.4395    7.0814    5.7464 H   0  0  0  0  0  0
+   10.2159    6.8521    4.2678 H   0  0  0  0  0  0
+  1  2  1  0  0  0
+  2  3  2  0  0  0
+  3  4  1  0  0  0
+  4  5  2  0  0  0
+  5  6  1  0  0  0
+  6  7  2  0  0  0
+  7  8  1  0  0  0
+  8  9  1  0  0  0
+  9 10  1  0  0  0
+ 10 11  2  0  0  0
+ 11 12  1  0  0  0
+ 12 13  2  0  0  0
+ 13 14  1  0  0  0
+ 14 15  2  0  0  0
+ 15 16  1  0  0  0
+  7 17  1  0  0  0
+ 17 18  1  0  0  0
+ 18 19  2  0  0  0
+ 19  2  1  0  0  0
+ 18  5  1  0  0  0
+ 15 10  1  0  0  0
+  1 20  1  0  0  0
+  1 21  1  0  0  0
+M  END
+>  <CHROM.1>
+-56.02930058,-157.41868608,-90.66347444,-38.99058514,7.29634964,1.08848490
+5.03618958,0.65552453,-0.52035524,-0.39901855
+
+>  <ChemDiv_ID>
+3167-0436
+
+>  <Force_Field>
+MMFF94
+
+>  <Formal_Charge>
+0
+
+>  <MultiStructRSA_mean_pKd>
+3.247155554294586
+
+>  <MultiStructRSA_score>
+3.004559340399369
+
+>  <MultiStructRSA_std_pKd>
+0.2425962138952168
+
+>  <Name>
+3167-0436
+
+>  <Original_SMILES>
+Nc1ccc2nc(SCc3ccccc3Cl)sc2c1
+
+>  <RI>
+0
+
+>  <Rbt.Current_Directory>
+/home/gavrilev/Thesis/src/case_study/docking/rdock
+
+>  <Rbt.Executable>
+rbdock - v26.09-alpha
+
+>  <Rbt.Library>
+libRbt.so (26.09, Buildalpha)
+
+>  <Rbt.Parameter_File>
+/home/gavrilev/.local/share/rdock/data/scripts/dock.prm
+
+>  <Rbt.Receptor>
+SLI_A22A23_bases.prm
+
+>  <SCORE>
+-4.02598
+
+>  <SCORE.INTER>
+-4.63432
+
+>  <SCORE.INTER.CONST>
+1
+
+>  <SCORE.INTER.POLAR>
+0
+
+>  <SCORE.INTER.REPUL>
+0.0603735
+
+>  <SCORE.INTER.ROT>
+4
+
+>  <SCORE.INTER.VDW>
+-14.3362
+
+>  <SCORE.INTER.norm>
+-0.243912
+
+>  <SCORE.INTRA>
+0.54689
+
+>  <SCORE.INTRA.DIHEDRAL>
+-0.0618441
+
+>  <SCORE.INTRA.DIHEDRAL.0>
+3.0286
+
+>  <SCORE.INTRA.POLAR>
+0
+
+>  <SCORE.INTRA.POLAR.0>
+0
+
+>  <SCORE.INTRA.REPUL>
+0
+
+>  <SCORE.INTRA.REPUL.0>
+0
+
+>  <SCORE.INTRA.VDW>
+0.577812
+
+>  <SCORE.INTRA.VDW.0>
+-1.83337
+
+>  <SCORE.INTRA.norm>
+0.0287837
+
+>  <SCORE.RESTR>
+0.0614496
+
+>  <SCORE.RESTR.CAVITY>
+0.0614496
+
+>  <SCORE.RESTR.norm>
+0.00323419
+
+>  <SCORE.SYSTEM>
+0
+
+>  <SCORE.SYSTEM.CONST>
+0
+
+>  <SCORE.SYSTEM.DIHEDRAL>
+0
+
+>  <SCORE.SYSTEM.norm>
+0
+
+>  <SCORE.heavy>
+19
+
+>  <SCORE.norm>
+-0.211894
+
+>  <Selected_Conformer_Energy>
+12.07813271484107
+
+$$$$
+3167-0436
+  rDOCK(R)          3D
+libRbt.so/26.09/alpha
+ 21 23  0  0  0  0  0  0  0  0999 V2000
+    9.4952    6.4628    4.8320 N   0  0  0  0  0  0
+    9.0697    5.1307    4.7510 C   0  0  0  0  0  0
+    8.4564    4.6664    3.5879 C   0  0  0  0  0  0
+    8.1243    3.3143    3.4319 C   0  0  0  0  0  0
+    8.4520    2.3948    4.4456 C   0  0  0  0  0  0
+    8.1895    1.0356    4.4259 N   0  0  0  0  0  0
+    8.6572    0.4817    5.5201 C   0  0  0  0  0  0
+    8.4911   -1.2317    5.8279 S   0  0  0  0  0  0
+    7.3355   -1.7120    4.5117 C   0  0  0  0  0  0
+    5.9141   -1.2753    4.7822 C   0  0  0  0  0  0
+    5.4369   -0.0973    4.1774 C   0  0  0  0  0  0
+    4.1260    0.3372    4.3807 C   0  0  0  0  0  0
+    3.2678   -0.3966    5.1934 C   0  0  0  0  0  0
+    3.7215   -1.5655    5.8026 C   0  0  0  0  0  0
+    5.0344   -2.0045    5.5995 C   0  0  0  0  0  0
+    5.5160   -3.4607    6.3960 Cl  0  0  0  0  0  0
+    9.4159    1.5336    6.6353 S   0  0  0  0  0  0
+    9.1176    2.8607    5.5798 C   0  0  0  0  0  0
+    9.4545    4.2166    5.7393 C   0  0  0  0  0  0
+    8.7481    7.1270    5.0112 H   0  0  0  0  0  0
+   10.2922    6.6077    5.4445 H   0  0  0  0  0  0
+  1  2  1  0  0  0
+  2  3  2  0  0  0
+  3  4  1  0  0  0
+  4  5  2  0  0  0
+  5  6  1  0  0  0
+  6  7  2  0  0  0
+  7  8  1  0  0  0
+  8  9  1  0  0  0
+  9 10  1  0  0  0
+ 10 11  2  0  0  0
+ 11 12  1  0  0  0
+ 12 13  2  0  0  0
+ 13 14  1  0  0  0
+ 14 15  2  0  0  0
+ 15 16  1  0  0  0
+  7 17  1  0  0  0
+ 17 18  1  0  0  0
+ 18 19  2  0  0  0
+ 19  2  1  0  0  0
+ 18  5  1  0  0  0
+ 15 10  1  0  0  0
+  1 20  1  0  0  0
+  1 21  1  0  0  0
+M  END
+>  <CHROM.1>
+78.15849829,-10.56007836,-74.73900861,98.28682193,7.33095328,0.68233914,5.27651645
+1.00591261,-0.31695138,-0.31207635
+
+>  <ChemDiv_ID>
+3167-0436
+
+>  <Force_Field>
+MMFF94
+
+>  <Formal_Charge>
+0
+
+>  <MultiStructRSA_mean_pKd>
+3.247155554294586
+
+>  <MultiStructRSA_score>
+3.004559340399369
+
+>  <MultiStructRSA_std_pKd>
+0.2425962138952168
+
+>  <Name>
+3167-0436
+
+>  <Original_SMILES>
+Nc1ccc2nc(SCc3ccccc3Cl)sc2c1
+
+>  <RI>
+0
+
+>  <Rbt.Current_Directory>
+/home/gavrilev/Thesis/src/case_study/docking/rdock
+
+>  <Rbt.Executable>
+rbdock - v26.09-alpha
+
+>  <Rbt.Library>
+libRbt.so (26.09, Buildalpha)
+
+>  <Rbt.Parameter_File>
+/home/gavrilev/.local/share/rdock/data/scripts/dock.prm
+
+>  <Rbt.Receptor>
+SLI_A22A23_bases.prm
+
+>  <SCORE>
+-3.65288
+
+>  <SCORE.INTER>
+-3.43472
+
+>  <SCORE.INTER.CONST>
+1
+
+>  <SCORE.INTER.POLAR>
+0
+
+>  <SCORE.INTER.REPUL>
+0
+
+>  <SCORE.INTER.ROT>
+4
+
+>  <SCORE.INTER.VDW>
+-12.8347
+
+>  <SCORE.INTER.norm>
+-0.180775
+
+>  <SCORE.INTRA>
+-0.611483
+
+>  <SCORE.INTRA.DIHEDRAL>
+-1.46097
+
+>  <SCORE.INTRA.DIHEDRAL.0>
+3.0286
+
+>  <SCORE.INTRA.POLAR>
+0
+
+>  <SCORE.INTRA.POLAR.0>
+0
+
+>  <SCORE.INTRA.REPUL>
+0
+
+>  <SCORE.INTRA.REPUL.0>
+0
+
+>  <SCORE.INTRA.VDW>
+0.119002
+
+>  <SCORE.INTRA.VDW.0>
+-1.83337
+
+>  <SCORE.INTRA.norm>
+-0.0321833
+
+>  <SCORE.RESTR>
+0.393327
+
+>  <SCORE.RESTR.CAVITY>
+0.393327
+
+>  <SCORE.RESTR.norm>
+0.0207014
+
+>  <SCORE.SYSTEM>
+0
+
+>  <SCORE.SYSTEM.CONST>
+0
+
+>  <SCORE.SYSTEM.DIHEDRAL>
+0
+
+>  <SCORE.SYSTEM.norm>
+0
+
+>  <SCORE.heavy>
+19
+
+>  <SCORE.norm>
+-0.192257
+
+>  <Selected_Conformer_Energy>
+12.07813271484107
+
+$$$$
+3167-0436
+  rDOCK(R)          3D
+libRbt.so/26.09/alpha
+ 21 23  0  0  0  0  0  0  0  0999 V2000
+    1.4529   -2.5897    5.3903 N   0  0  0  0  0  0
+    2.6444   -1.8814    5.1887 C   0  0  0  0  0  0
+    2.6082   -0.5008    4.9956 C   0  0  0  0  0  0
+    3.7867    0.2514    4.9065 C   0  0  0  0  0  0
+    5.0328   -0.3852    5.0574 C   0  0  0  0  0  0
+    6.2719    0.2293    4.9971 N   0  0  0  0  0  0
+    7.2141   -0.6597    5.2088 C   0  0  0  0  0  0
+    8.9083   -0.2263    5.1961 S   0  0  0  0  0  0
+    8.8056    1.5846    5.2891 C   0  0  0  0  0  0
+    8.1744    2.2064    4.0647 C   0  0  0  0  0  0
+    7.6809    1.3639    3.0508 C   0  0  0  0  0  0
+    7.0721    1.8896    1.9099 C   0  0  0  0  0  0
+    6.9464    3.2670    1.7600 C   0  0  0  0  0  0
+    7.4299    4.1184    2.7522 C   0  0  0  0  0  0
+    8.0391    3.5947    3.8977 C   0  0  0  0  0  0
+    8.6145    4.7210    5.0756 Cl  0  0  0  0  0  0
+    6.6916   -2.2667    5.4742 S   0  0  0  0  0  0
+    5.0553   -1.7575    5.3081 C   0  0  0  0  0  0
+    3.8746   -2.5156    5.4001 C   0  0  0  0  0  0
+    1.3891   -3.0456    6.2955 H   0  0  0  0  0  0
+    0.6138   -2.0634    5.1659 H   0  0  0  0  0  0
+  1  2  1  0  0  0
+  2  3  2  0  0  0
+  3  4  1  0  0  0
+  4  5  2  0  0  0
+  5  6  1  0  0  0
+  6  7  2  0  0  0
+  7  8  1  0  0  0
+  8  9  1  0  0  0
+  9 10  1  0  0  0
+ 10 11  2  0  0  0
+ 11 12  1  0  0  0
+ 12 13  2  0  0  0
+ 13 14  1  0  0  0
+ 14 15  2  0  0  0
+ 15 16  1  0  0  0
+  7 17  1  0  0  0
+ 17 18  1  0  0  0
+ 18 19  2  0  0  0
+ 19  2  1  0  0  0
+ 18  5  1  0  0  0
+ 15 10  1  0  0  0
+  1 20  1  0  0  0
+  1 21  1  0  0  0
+M  END
+>  <CHROM.1>
+-117.27273671,14.27425393,-65.66538078,3.39797236,6.47439613,0.61073318,4.63073565
+2.28040050,0.16605489,2.76573287
+
+>  <ChemDiv_ID>
+3167-0436
+
+>  <Force_Field>
+MMFF94
+
+>  <Formal_Charge>
+0
+
+>  <MultiStructRSA_mean_pKd>
+3.247155554294586
+
+>  <MultiStructRSA_score>
+3.004559340399369
+
+>  <MultiStructRSA_std_pKd>
+0.2425962138952168
+
+>  <Name>
+3167-0436
+
+>  <Original_SMILES>
+Nc1ccc2nc(SCc3ccccc3Cl)sc2c1
+
+>  <RI>
+0
+
+>  <Rbt.Current_Directory>
+/home/gavrilev/Thesis/src/case_study/docking/rdock
+
+>  <Rbt.Executable>
+rbdock - v26.09-alpha
+
+>  <Rbt.Library>
+libRbt.so (26.09, Buildalpha)
+
+>  <Rbt.Parameter_File>
+/home/gavrilev/.local/share/rdock/data/scripts/dock.prm
+
+>  <Rbt.Receptor>
+SLI_A22A23_bases.prm
+
+>  <SCORE>
+-3.26707
+
+>  <SCORE.INTER>
+-4.87643
+
+>  <SCORE.INTER.CONST>
+1
+
+>  <SCORE.INTER.POLAR>
+-0.435038
+
+>  <SCORE.INTER.REPUL>
+0
+
+>  <SCORE.INTER.ROT>
+4
+
+>  <SCORE.INTER.VDW>
+-12.7973
+
+>  <SCORE.INTER.norm>
+-0.256654
+
+>  <SCORE.INTRA>
+1.605
+
+>  <SCORE.INTRA.DIHEDRAL>
+-1.5264
+
+>  <SCORE.INTRA.DIHEDRAL.0>
+3.0286
+
+>  <SCORE.INTRA.POLAR>
+0
+
+>  <SCORE.INTRA.POLAR.0>
+0
+
+>  <SCORE.INTRA.REPUL>
+0
+
+>  <SCORE.INTRA.REPUL.0>
+0
+
+>  <SCORE.INTRA.VDW>
+2.36821
+
+>  <SCORE.INTRA.VDW.0>
+-1.83337
+
+>  <SCORE.INTRA.norm>
+0.0844739
+
+>  <SCORE.RESTR>
+0.00435465
+
+>  <SCORE.RESTR.CAVITY>
+0.00435465
+
+>  <SCORE.RESTR.norm>
+0.000229192
+
+>  <SCORE.SYSTEM>
+0
+
+>  <SCORE.SYSTEM.CONST>
+0
+
+>  <SCORE.SYSTEM.DIHEDRAL>
+0
+
+>  <SCORE.SYSTEM.norm>
+0
+
+>  <SCORE.heavy>
+19
+
+>  <SCORE.norm>
+-0.171951
+
+>  <Selected_Conformer_Energy>
+12.07813271484107
+
+$$$$
+3167-0436
+  rDOCK(R)          3D
+libRbt.so/26.09/alpha
+ 21 23  0  0  0  0  0  0  0  0999 V2000
+    1.7376   -1.3641    3.9405 N   0  0  0  0  0  0
+    2.9457   -1.0973    4.5973 C   0  0  0  0  0  0
+    3.0325   -1.2467    5.9810 C   0  0  0  0  0  0
+    4.2533   -1.0998    6.6525 C   0  0  0  0  0  0
+    5.4254   -0.8394    5.9183 C   0  0  0  0  0  0
+    6.6949   -0.6749    6.4455 N   0  0  0  0  0  0
+    7.5524   -0.4746    5.4722 C   0  0  0  0  0  0
+    9.2545   -0.2200    5.7829 S   0  0  0  0  0  0
+    9.2454    1.4905    6.3931 C   0  0  0  0  0  0
+    8.9073    2.5007    5.3210 C   0  0  0  0  0  0
+    7.7632    2.2944    4.5276 C   0  0  0  0  0  0
+    7.3981    3.2086    3.5378 C   0  0  0  0  0  0
+    8.1705    4.3453    3.3213 C   0  0  0  0  0  0
+    9.3082    4.5673    4.0955 C   0  0  0  0  0  0
+    9.6758    3.6537    5.0895 C   0  0  0  0  0  0
+   11.1028    4.0034    5.9997 Cl  0  0  0  0  0  0
+    6.9072   -0.4541    3.8882 S   0  0  0  0  0  0
+    5.3366   -0.7493    4.5288 C   0  0  0  0  0  0
+    4.1136   -0.8982    3.8511 C   0  0  0  0  0  0
+    1.2802   -2.2185    4.2440 H   0  0  0  0  0  0
+    1.0978   -0.5760    3.9115 H   0  0  0  0  0  0
+  1  2  1  0  0  0
+  2  3  2  0  0  0
+  3  4  1  0  0  0
+  4  5  2  0  0  0
+  5  6  1  0  0  0
+  6  7  2  0  0  0
+  7  8  1  0  0  0
+  8  9  1  0  0  0
+  9 10  1  0  0  0
+ 10 11  2  0  0  0
+ 11 12  1  0  0  0
+ 12 13  2  0  0  0
+ 13 14  1  0  0  0
+ 14 15  2  0  0  0
+ 15 16  1  0  0  0
+  7 17  1  0  0  0
+ 17 18  1  0  0  0
+ 18 19  2  0  0  0
+ 19  2  1  0  0  0
+ 18  5  1  0  0  0
+ 15 10  1  0  0  0
+  1 20  1  0  0  0
+  1 21  1  0  0  0
+M  END
+>  <CHROM.1>
+-44.69879800,-75.44130467,-69.11870109,50.40040024,7.21534067,0.94920200
+5.06397957,2.62962325,0.40257313,2.61417193
+
+>  <ChemDiv_ID>
+3167-0436
+
+>  <Force_Field>
+MMFF94
+
+>  <Formal_Charge>
+0
+
+>  <MultiStructRSA_mean_pKd>
+3.247155554294586
+
+>  <MultiStructRSA_score>
+3.004559340399369
+
+>  <MultiStructRSA_std_pKd>
+0.2425962138952168
+
+>  <Name>
+3167-0436
+
+>  <Original_SMILES>
+Nc1ccc2nc(SCc3ccccc3Cl)sc2c1
+
+>  <RI>
+0
+
+>  <Rbt.Current_Directory>
+/home/gavrilev/Thesis/src/case_study/docking/rdock
+
+>  <Rbt.Executable>
+rbdock - v26.09-alpha
+
+>  <Rbt.Library>
+libRbt.so (26.09, Buildalpha)
+
+>  <Rbt.Parameter_File>
+/home/gavrilev/.local/share/rdock/data/scripts/dock.prm
+
+>  <Rbt.Receptor>
+SLI_A22A23_bases.prm
+
+>  <SCORE>
+-1.05653
+
+>  <SCORE.INTER>
+-2.9211
+
+>  <SCORE.INTER.CONST>
+1
+
+>  <SCORE.INTER.POLAR>
+0
+
+>  <SCORE.INTER.REPUL>
+0.4482
+
+>  <SCORE.INTER.ROT>
+4
+
+>  <SCORE.INTER.VDW>
+-14.5621
+
+>  <SCORE.INTER.norm>
+-0.153742
+
+>  <SCORE.INTRA>
+1.85997
+
+>  <SCORE.INTRA.DIHEDRAL>
+1.98598
+
+>  <SCORE.INTRA.DIHEDRAL.0>
+3.0286
+
+>  <SCORE.INTRA.POLAR>
+0
+
+>  <SCORE.INTRA.POLAR.0>
+0
+
+>  <SCORE.INTRA.REPUL>
+0
+
+>  <SCORE.INTRA.REPUL.0>
+0
+
+>  <SCORE.INTRA.VDW>
+0.866982
+
+>  <SCORE.INTRA.VDW.0>
+-1.83337
+
+>  <SCORE.INTRA.norm>
+0.0978931
+
+>  <SCORE.RESTR>
+0.00460522
+
+>  <SCORE.RESTR.CAVITY>
+0.00460522
+
+>  <SCORE.RESTR.norm>
+0.00024238
+
+>  <SCORE.SYSTEM>
+0
+
+>  <SCORE.SYSTEM.CONST>
+0
+
+>  <SCORE.SYSTEM.DIHEDRAL>
+0
+
+>  <SCORE.SYSTEM.norm>
+0
+
+>  <SCORE.heavy>
+19
+
+>  <SCORE.norm>
+-0.0556068
+
+>  <Selected_Conformer_Energy>
+12.07813271484107
+
+$$$$

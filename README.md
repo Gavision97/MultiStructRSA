@@ -1,7 +1,8 @@
-<h1 align="center">
+<h2 align="center">
   MultiStructRSA: <ins>Multi</ins>modal Prediction of <ins>R</ins>NA–<ins>S</ins>mall Molecule<br>
   Binding <ins>A</ins>ffinity Using Predicted RNA 3D <ins>Struct</ins>ure
-</h1>
+</h2>
+
 
 <p align="center">
   <img src="MultiStructRSA.png" alt="MultiStructRSA architecture" width="900">

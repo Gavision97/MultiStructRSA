@@ -5,6 +5,10 @@
   3D <ins>Struct</ins>ure
 </h1>
 
+<p align="center">
+  <img src="MultiStructRSA.png" alt="MultiStructRSA architecture" width="900">
+</p>
+
 MultiStructRSA predicts the binding affinity (`pKd`) of an RNA–small-molecule
 pair. The RNA branch combines nucleotide-level RiNALMo embeddings with an RNA
 3D graph produced from an AlphaFold3 structure and encoded by a pretrained

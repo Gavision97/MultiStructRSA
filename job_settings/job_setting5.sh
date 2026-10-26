@@ -10,7 +10,7 @@
 #SBATCH --job-name=cold_eval
 #SBATCH --output=jobs/job-%J.out
 #SBATCH --error=jobs/job-%J.err
-#SBATCH --gpus=rtx_4090:1
+#SBATCH --gpus=rtx_6000:1
 #SBATCH --mail-user=gavrilev@post.bgu.ac.il
 #SBATCH --mail-type=ALL
 #SBATCH --mem=24G
@@ -19,8 +19,8 @@
 ### Experiment variables ###
 ############################
 
-EXP_ID=6
-DATE=2906
+EXP_ID=2
+DATE=2510
 
 MODEL_SETTING="full"   # ["full", "freezed", "w/o seq", "w/o 3D struct", "w/o fusion"]
 EXCLUDE_MODALITIES="morgan ernie"   # e.g. simson / chemberta / mordred / morgan / rinalmo / ernie / grnade
@@ -28,7 +28,7 @@ EXCLUDE_MODALITIES="morgan ernie"   # e.g. simson / chemberta / mordred / morgan
 TRAIN_SETTING=4
 RNA_MULTICONFORMER="False"
 VAL_SETTING=4
-MOL_AUG="True"
+MOL_AUG="False"
 RNA_AUG="False"
 IS_SEQ_EMB="False"
 
@@ -42,9 +42,9 @@ LR=2e-5
 WD=1e-6
 DROPOUT=0.1
 
-PATIENCE=20
+PATIENCE=15
 WARM_UP_EPOCHS=10
-DELTA=1e-4  
+DELTA=0.0001
 # Best RNA module hyperparameters
 D_MODEL=128
 FFN_MULT=4

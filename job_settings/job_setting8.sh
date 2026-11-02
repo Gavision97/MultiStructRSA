@@ -19,12 +19,13 @@
 ### Experiment variables ###
 ############################
 
-EXP_ID=8   # experiment ID
-DATE=1704  # for log & result directory creation
+EXP_ID=1   # experiment ID
+DATE=0211  # for log & result directory creation
 
 MODEL_SETTING="full" # ["full", "freezed", "w/o seq", "w/o 3D struct", "w/o fusion"]
 TRAIN_SETTING=4
 VAL_SETTING=4
+SHUFFLE_STRUCT="True"
 MOL_AUG="False"
 RNA_AUG="False"
 
@@ -32,7 +33,7 @@ RES_FILE_NAME="cv_all_${DATE}"
 SAVE_PREDICTIONS="False"
 PLOT_NAME="${DATE}_exp${EXP_ID}"
 
-LOG_FILE_NAME="hyperparam_search_${DATE}_exp${EXP_ID}"
+LOG_FILE_NAME="ablation_${DATE}_exp${EXP_ID}"
 
 #######
 # best hyperparameters from global hyperpram search in 14/04 (full setting)
@@ -65,7 +66,7 @@ DEVICE="cuda"
 SEED=1
 DATASET_SEED=2
 
-LOG_MSG="stratified_cv_${DATE}_exp${EXP_ID} - MultiStructRSA (${MODEL_SETTING} version) - TRAIN SETTING=${TRAIN_SETTING}; VAL SETTING=${VAL_SETTING}; RNA AUG=${RNA_AUG}; MOL AUG=${MOL_AUG} SEED=${SEED}; DATASET SEED=${DATASET_SEED}"
+LOG_MSG="stratified_cv_${DATE}_exp${EXP_ID} - MultiStructRSA (${MODEL_SETTING} version) - TRAIN SETTING=${TRAIN_SETTING}; VAL SETTING=${VAL_SETTING}; SHUFFLE STRUCT=${SHUFFLE_STRUCT} RNA AUG=${RNA_AUG}; MOL AUG=${MOL_AUG} SEED=${SEED}; DATASET SEED=${DATASET_SEED}"
 
 
 
@@ -93,6 +94,7 @@ python main.py \
   --model_setting "$MODEL_SETTING" \
   --train_setting "$TRAIN_SETTING" \
   --val_setting "$VAL_SETTING" \
+  --shuffle_struct "$SHUFFLE_STRUCT" \
   --rna_aug "$RNA_AUG" \
   --mol_aug "$MOL_AUG" \
   --res_file_name "$RES_FILE_NAME" \

@@ -93,7 +93,7 @@ def preform_cold_blind_eval_(exp_name='exp', res_file_name="cold_eval", cold_typ
 
     logging.info(f"\nSaved/updated summary to: {summary_path}")
 
-def preform_k_fold_cv_all(exp_name = 'exp', res_file_name="cv10_all_results", model_setting = "full", train_setting=4, val_setting=4, 
+def preform_k_fold_cv_all(exp_name = 'exp', res_file_name="cv10_all_results", model_setting = "full", train_setting=4, val_setting=4, shuffle_struct=False, 
                           rna_aug=False, mol_aug=False, patience=20, warm_up_epochs=10, delta=1e-5,  lr=5e-5, wd=1e-5, dropout=0.1, exclude_modalities=None, freeze_grnade=False, smiles_seq_setting='deep', smiles_expert_setting='proj', batch_size=1, num_workers=8, is_plot=False, 
                           is_seq_emb=False, d_model=128, ffn_mult=4, bdcf_blocks=1, node_pool='attn', token_pool='mean', n=10, plot_name='loss_plot', device="cuda", seed=1, dataset_seed=2, save_predictions=False):
     """
@@ -139,7 +139,7 @@ def preform_k_fold_cv_all(exp_name = 'exp', res_file_name="cv10_all_results", mo
     logging.info(f"\n==================== ALL FAMILIES  ==================== )")
 
     all_df = pd.read_csv(ALL_SF_DATASET_PATH, sep="\t")
-    res = cv_eval(dataset=all_df, model_setting=model_setting,train_setting=train_setting, val_setting=val_setting,
+    res = cv_eval(dataset=all_df, model_setting=model_setting,train_setting=train_setting, val_setting=val_setting, shuffle_struct=shuffle_struct,
                   rna_aug=rna_aug, mol_aug=mol_aug, patience=patience, warm_up_epochs=warm_up_epochs, delta=delta, lr=lr, wd=wd, dropout=dropout, exclude_modalities=exclude_modalities, freeze_grnade=freeze_grnade, smiles_seq_setting=smiles_seq_setting, smiles_expert_setting=smiles_expert_setting, batch_size=batch_size, num_workers=num_workers, is_plot=is_plot,
                   is_seq_emb=is_seq_emb, d_model=d_model, ffn_mult=ffn_mult, bdcf_blocks=bdcf_blocks, node_pool=node_pool, token_pool=token_pool, n=n, plot_name=plot_name, device=device, seed=seed, dataset_seed=dataset_seed,
                   save_predictions=save_predictions, res_file_name=res_file_name)
@@ -176,6 +176,7 @@ def preform_k_fold_cv_all_rna_fam(
     model_setting="full",
     train_setting=4,
     val_setting=4,
+    shuffle_struct=False,
     rna_aug=False,
     mol_aug=False,
     patience=20,
@@ -236,6 +237,7 @@ def preform_k_fold_cv_all_rna_fam(
             model_setting=model_setting,
             train_setting=train_setting,
             val_setting=val_setting,
+            shuffle_struct=shuffle_struct,
             rna_aug=rna_aug,
             mol_aug=mol_aug,
             patience=patience,
@@ -400,6 +402,7 @@ def main():
     is_seq_emb = True if args.is_seq_emb == "True" else False
     train_setting = args.train_setting
     val_setting = args.val_setting
+    shuffle_struct = True if args.shuffle_struct == "True" else False # for ablation study
     rna_aug = True if args.rna_aug == "True" else False
     mol_aug = True if args.mol_aug == "True" else False
     
@@ -468,6 +471,7 @@ def main():
                 model_setting = model_setting,
                 train_setting=train_setting,
                 val_setting=val_setting,
+                shuffle_struct=shuffle_struct,
                 rna_aug=rna_aug,
                 mol_aug=mol_aug,
                 patience=patience,
@@ -503,6 +507,7 @@ def main():
                 model_setting = model_setting,
                 train_setting=train_setting,
                 val_setting=val_setting,
+                shuffle_struct=shuffle_struct,
                 rna_aug=rna_aug,
                 mol_aug=mol_aug,
                 patience=patience,

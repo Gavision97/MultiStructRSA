@@ -74,10 +74,10 @@ class MolRNADataset(Dataset):
     * Morgan/Mordred are kept on the canonical/original SMILES because they are
       molecule-level invariant features.
     """
-    def __init__(self, ds_, setting=1, rna_aug=False, mol_aug=False, task='training', is_seq_emb=False):
+    def __init__(self, ds_, setting=1, shuffle_struct=False, rna_aug=False, mol_aug=False, task='training', is_seq_emb=False):
         logger.info(
             f'W/O PADDING -> MolRNACDataset for {task} setting={setting} '
-            f'rna aug={rna_aug} mol aug={mol_aug} - for RNA cross-attention fusion'
+            f'rna aug={rna_aug} mol aug={mol_aug} shuffle_sturct={shuffle_struct} - for RNA cross-attention fusion'
         )
 
         self.is_seq_emb = is_seq_emb
@@ -93,6 +93,9 @@ class MolRNADataset(Dataset):
             .str.replace("Y", "U")
             .str.replace("X", "U")
         )
+
+        self.shuffle_struct = shuffle_struct # whether shuffle and choose randomly RNA 3D structure (for ablation study experimet)
+        self.unique_rna_seqs = self.data["Target_RNA_sequence"].unique().tolist()
 
         seq_to_g_setting = _get_seq_to_g_setting(setting=setting)
         self.seq_to_g = torch.load(seq_to_g_setting, map_location="cpu")
@@ -203,8 +206,12 @@ class MolRNADataset(Dataset):
         smiles_aug = row["SMILES_aug"]      # actual SMILES string used for sequence-based encoders
         rna_seq = row["Target_RNA_sequence"]
 
+        if self.shuffle_struct:
+            candidates_rnas = [seq for seq in self.unique_rna_seqs if seq != rna_seq]
+            rna_seq_g = random.choice(candidates_rnas)
         # RNA graph
-        g_obj = self.seq_to_g[rna_seq]
+        g_obj = self.seq_to_g[rna_seq_g]
+    
         if self.rna_aug:
             # settings (3)/(6): seq_to_g[seq] is a list[Data] of conformers
             g_obj = random.choice(g_obj)

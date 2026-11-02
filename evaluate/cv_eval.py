@@ -51,7 +51,7 @@ ALL_SF_DATASET_PATH = os.path.join("datasets", "RSIM", "All_sf_dataset_v1.csv")
 def rmse_loss(y_true, y_pred):
     return torch.sqrt(torch.mean((y_true - y_pred) ** 2))
 
-def cv_eval(dataset=None, model_setting="full", train_setting=4, val_setting=4, rna_aug=False, mol_aug=False, patience=20, warm_up_epochs=10, delta=1e-5, lr=5e-5, wd=1e-5, dropout=0.1, exclude_modalities=None, freeze_grnade=False, smiles_seq_setting='deep', smiles_expert_setting='proj', batch_size=1, num_workers=8,
+def cv_eval(dataset=None, model_setting="full", train_setting=4, val_setting=4, shuffle_struct=False, rna_aug=False, mol_aug=False, patience=20, warm_up_epochs=10, delta=1e-5, lr=5e-5, wd=1e-5, dropout=0.1, exclude_modalities=None, freeze_grnade=False, smiles_seq_setting='deep', smiles_expert_setting='proj', batch_size=1, num_workers=8,
             is_plot=False, is_seq_emb=False, d_model=128, ffn_mult=4, bdcf_blocks=1, node_pool='attn', token_pool='mean', n=10, fam_name=None, plot_name="loss_curve", device="cuda", dataset_seed=2, seed=1,
             save_predictions=False, res_file_name=None):
     """
@@ -106,7 +106,7 @@ def cv_eval(dataset=None, model_setting="full", train_setting=4, val_setting=4, 
     logger.info(
         f'K folds:{n}, seed:{seed}, dataset seed:{dataset_seed} batch size:{batch_size}, '
         f'max epochs:{MAX_EPOCHS}, lr:{lr}, weight decay:{wd}, dropout:{dropout} num_workers:{num_workers}, '
-        f'patience:{patience}, warm up epo:{warm_up_epochs}, delta:{delta}'
+        f'patience:{patience}, warm up epo:{warm_up_epochs}, delta:{delta}, shuffle_struct:{shuffle_struct}'
     )
     
     if save_predictions and not res_file_name:
@@ -125,8 +125,8 @@ def cv_eval(dataset=None, model_setting="full", train_setting=4, val_setting=4, 
         train_df = all_df.iloc[train_index].reset_index(drop=True)
         test_df = all_df.iloc[test_index].reset_index(drop=True)
 
-        train_ds = MolRNADataset(train_df, setting=train_setting, rna_aug=rna_aug, mol_aug=mol_aug, task="training", is_seq_emb=is_seq_emb)
-        val_ds = MolRNADataset(test_df, setting=val_setting, rna_aug=False, mol_aug=False, task="evaluating", is_seq_emb=is_seq_emb)
+        train_ds = MolRNADataset(train_df, setting=train_setting, shuffle_struct=shuffle_struct, rna_aug=rna_aug, mol_aug=mol_aug, task="training", is_seq_emb=is_seq_emb)
+        val_ds = MolRNADataset(test_df, setting=val_setting, shuffle_struct=shuffle_struct, rna_aug=False, mol_aug=False, task="evaluating", is_seq_emb=is_seq_emb)
         g = torch.Generator().manual_seed(seed) # determinism per fold
 
         logger.info(f"\nFold number {fold+1}/{n}")

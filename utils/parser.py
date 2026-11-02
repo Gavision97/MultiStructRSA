@@ -75,7 +75,7 @@ def get_args():
     parser.add_argument(
         "--dataset_seed",
         type=int,
-        default=74,
+        default=2,
         help="Dataset split seed (controls cross-validation and scaffold splits)"
     )
 
@@ -83,7 +83,7 @@ def get_args():
     parser.add_argument(
         "--setting",
         type=str,
-        default="smi_emb_gen",
+        default="cv",
         choices=["cv", "loo_cv", "cold", "train_cold", "train_scaffold", "external", "screen", "smi_emb_gen"],
         help="Execution setting (e.g. SMILES feature generation, stratified k-fold CV evaluation, etc.)"
     )
@@ -129,6 +129,15 @@ def get_args():
         default=4,
         help="gRNAde graph featurizer setting for validation/testing"
     )
+
+    parser.add_argument(
+        "--shuffle_struct",
+        type=str,
+        default="False",
+        choices=["True", "False"],
+        help="Whether to shuffle and choose incorrect RNA structure randomly (for ablation study)"
+    )
+
     parser.add_argument(
         "--rna_aug",
         type=str,
@@ -335,7 +344,7 @@ def get_args():
 
     parser.add_argument("--warm_up_epochs",
                         type=int,
-                        default=10,
+                        default=50,
                         help="Number of warm-up epochs before early stopping starts")
 
     parser.add_argument("--delta",

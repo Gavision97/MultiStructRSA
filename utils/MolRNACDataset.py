@@ -209,8 +209,9 @@ class MolRNADataset(Dataset):
         if self.shuffle_struct:
             candidates_rnas = [seq for seq in self.unique_rna_seqs if seq != rna_seq]
             rna_seq_g = random.choice(candidates_rnas)
-        # RNA graph
-        g_obj = self.seq_to_g[rna_seq_g]
+            g_obj = self.seq_to_g[rna_seq_g]
+        else:
+            g_obj = self.seq_to_g[rna_seq]  
     
         if self.rna_aug:
             # settings (3)/(6): seq_to_g[seq] is a list[Data] of conformers

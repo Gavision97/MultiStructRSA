@@ -20,7 +20,7 @@
 ############################
 
 EXP_ID=1   # experiment ID
-DATE=0211  # for log & result directory creation
+DATE=0311  # for log & result directory creation
 
 MODEL_SETTING="full" # ["full", "freezed", "w/o seq", "w/o 3D struct", "w/o fusion"]
 TRAIN_SETTING=4
@@ -51,7 +51,7 @@ NODE_POOL='mean'
 TOKEN_POOL='mean'
 #####
 SMILES_SEQ_SETTING='deep'
-SMILES_EXPERT_SETTING='shallow'
+SMILES_EXPERT_SETTING='proj'
 
 BATCH_SIZE=1
 NUM_WORKERS=0

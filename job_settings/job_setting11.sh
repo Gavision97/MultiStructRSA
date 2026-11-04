@@ -7,7 +7,7 @@
 
 #SBATCH --partition=main
 #SBATCH --time=0-48:00:00
-#SBATCH --job-name=cv_rna_fam
+#SBATCH --job-name=smiles_hyperparam_search
 #SBATCH --output=jobs/job-%J.out
 #SBATCH --error=jobs/job-%J.err
 #SBATCH --gpus=rtx_6000:1
@@ -19,60 +19,55 @@
 ### Experiment variables ###
 ############################
 
-EXP_ID=5   # experiment ID
-DATE=0406  # for log & result directory creation
+EXP_ID=4   # experiment ID
+DATE=0311  # for log & result directory creation
 
-MODEL_SETTING="w/o fusion"   # ["full", "freezed", "w/o seq", "w/o 3D struct", "w/o fusion"]
-EXCLUDE_MODALITIES="morgan ernie"   # e.g. simson / chemberta / mordred / morgan / rinalmo / ernie / grnade
-
+MODEL_SETTING="w/o seq" # ["full", "freezed", "w/o seq", "w/o 3D struct", "w/o fusion"]
 TRAIN_SETTING=4
 VAL_SETTING=4
+SHUFFLE_STRUCT="False"
 MOL_AUG="False"
 RNA_AUG="False"
-IS_SEQ_EMB="True"
-IS_PLOT="True"
+IS_SEQ_EMB="False"
 
-
-RES_FILE_NAME="cv_rna_all_${DATE}"
+RES_FILE_NAME="cv_all_${DATE}"
 SAVE_PREDICTIONS="False"
 PLOT_NAME="${DATE}_exp${EXP_ID}"
 
-LOG_FILE_NAME="cv_all_${DATE}_exp${EXP_ID}"
+LOG_FILE_NAME="ablation_${DATE}_exp${EXP_ID}"
 
-# Best hyperparameters from global hyperparameter search
+#######
+# best hyperparameters from global hyperpram search in 14/04 (full setting)
 LR=2e-5
 WD=1e-6
 DROPOUT=0.1
+########
 
-PATIENCE=20
-WARM_UP_EPOCHS=50
-DELTA=1e-6
-# Best RNA module hyperparameters
+##### 
+# RNA module hyperpram search 15/04 
 D_MODEL=128
 FFN_MULT=4
 BDCF_BLOCKS=2
-NODE_POOL="mean"
-TOKEN_POOL="mean"
-
-# Best SMILES module hyperparameters
-SMILES_SEQ_SETTING="deep"
-SMILES_EXPERT_SETTING="proj"
-
+NODE_POOL='mean'
+TOKEN_POOL='mean'
+#####
+SMILES_SEQ_SETTING='deep'
+SMILES_EXPERT_SETTING='shallow'
 
 BATCH_SIZE=1
 NUM_WORKERS=0
 
-EXP_NAME="exp${EXP_ID}"
+EXP_NAME="exp${EXP_ID}_smiles_seq_setting=${SMILES_SEQ_SETTING}_smiles_expert_setting=${SMILES_EXPERT_SETTING}}"
 
 SETTING="cv"
 CV_METHOD="all"
-K_FOLD=10
+K_FOLD=5
 DEVICE="cuda"
 
 SEED=1
 DATASET_SEED=2
 
-LOG_MSG="stratified_cv_${DATE}_exp${EXP_ID} - MultiStructRSA (${MODEL_SETTING} version) - TRAIN SETTING=${TRAIN_SETTING}; VAL SETTING=${VAL_SETTING}; RNA AUG=${RNA_AUG}; MOL AUG=${MOL_AUG} SEED=${SEED}; DATASET SEED=${DATASET_SEED}"
+LOG_MSG="stratified_cv_${DATE}_exp${EXP_ID} - MultiStructRSA (${MODEL_SETTING} version) - TRAIN SETTING=${TRAIN_SETTING}; VAL SETTING=${VAL_SETTING}; SHUFFLE STRUCT=${SHUFFLE_STRUCT} RNA AUG=${RNA_AUG}; MOL AUG=${MOL_AUG} SEED=${SEED}; DATASET SEED=${DATASET_SEED}"
 
 
 
@@ -98,18 +93,14 @@ nvidia-smi
 python main.py \
   --exp_name "$EXP_NAME" \
   --model_setting "$MODEL_SETTING" \
-  --exclude_modalities $EXCLUDE_MODALITIES \
   --train_setting "$TRAIN_SETTING" \
   --val_setting "$VAL_SETTING" \
+  --shuffle_struct "$SHUFFLE_STRUCT" \
   --rna_aug "$RNA_AUG" \
   --mol_aug "$MOL_AUG" \
-  --patience "$PATIENCE" \
-  --warm_up_epochs "$WARM_UP_EPOCHS" \
-  --delta "$DELTA" \
   --is_seq_emb "$IS_SEQ_EMB" \
   --res_file_name "$RES_FILE_NAME" \
   --save_predictions "$SAVE_PREDICTIONS" \
-  --is_plot "$IS_PLOT" \
   --plot_name "$PLOT_NAME" \
   --log_msg "$LOG_MSG" \
   --log_file_name "$LOG_FILE_NAME" \

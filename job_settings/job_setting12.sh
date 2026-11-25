@@ -10,7 +10,7 @@
 #SBATCH --job-name=smiles_hyperparam_search
 #SBATCH --output=jobs/job-%J.out
 #SBATCH --error=jobs/job-%J.err
-#SBATCH --gpus=rtx_3090:1
+#SBATCH --gpus=rtx_6000:1
 #SBATCH --mail-user=gavrilev@post.bgu.ac.il
 #SBATCH --mail-type=ALL
 #SBATCH --mem=24G
@@ -19,8 +19,8 @@
 ### Experiment variables ###
 ############################
 
-EXP_ID=5   # experiment ID
-DATE=0311  # for log & result directory creation
+EXP_ID=12   # experiment ID
+DATE=2111  # for log & result directory creation
 
 MODEL_SETTING="w/o 3D struct" # ["full", "freezed", "w/o seq", "w/o 3D struct", "w/o fusion"]
 TRAIN_SETTING=4
@@ -52,7 +52,7 @@ NODE_POOL='mean'
 TOKEN_POOL='mean'
 #####
 SMILES_SEQ_SETTING='deep'
-SMILES_EXPERT_SETTING='shallow'
+SMILES_EXPERT_SETTING='proj'
 
 BATCH_SIZE=1
 NUM_WORKERS=0
@@ -64,7 +64,7 @@ CV_METHOD="all"
 K_FOLD=5
 DEVICE="cuda"
 
-SEED=1
+SEED=5
 DATASET_SEED=2
 
 LOG_MSG="stratified_cv_${DATE}_exp${EXP_ID} - MultiStructRSA (${MODEL_SETTING} version) - TRAIN SETTING=${TRAIN_SETTING}; VAL SETTING=${VAL_SETTING}; SHUFFLE STRUCT=${SHUFFLE_STRUCT} RNA AUG=${RNA_AUG}; MOL AUG=${MOL_AUG} SEED=${SEED}; DATASET SEED=${DATASET_SEED}"

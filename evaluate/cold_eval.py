@@ -22,7 +22,7 @@ logger = logging.getLogger(__name__)
 PATIENCE = 20 # for early stopping
 WARM_UP_EPOCHS = 10
 MODE = 'min' # min for RMSE, max for pearson (PPC)
-DELTA = 1e-3 # for early stopping
+#DELTA = 1e-3 # for early stopping
 MAX_EPOCHS = 200
 
 SPLIT=True
@@ -50,7 +50,7 @@ def preform_cold_blind_eval(cold_type="cold_rna", model_setting="full", train_se
                             freeze_grnade=False, smiles_seq_setting='deep', smiles_expert_setting='proj', batch_size=1,
                             num_workers=8, is_plot=False, is_seq_emb=False, d_model=128, ffn_mult=4, bdcf_blocks=1,
                             node_pool='attn', token_pool='mean', n=10, fam_name=None, plot_name="loss_curve",
-                            device="cuda", dataset_seed=2, seed=1):
+                            device="cuda", dataset_seed=2, seed=1, save_model=False):
     cold_column = 'Target_RNA_sequence' if cold_type == "cold_rna" else 'Molecule_name'
     cold_path, cold_name = choose_cold_type(cold_type=cold_type)
 
@@ -62,7 +62,7 @@ def preform_cold_blind_eval(cold_type="cold_rna", model_setting="full", train_se
 
     p_list, s_list, rmse_list, r2_list = [], [], [], []
 
-    for i in range(1, 6):
+    for i in range(1, 6): # iterate 
 
         set_seed(seed_=seed) # set seed for reproducibility
         logger.info(f"Fold number {i}/5")
@@ -139,6 +139,13 @@ def preform_cold_blind_eval(cold_type="cold_rna", model_setting="full", train_se
         ####################################################################
         # evaluate on test set using best validation model
         model.load_state_dict(early_stopping.best_model)
+
+        if save_model:
+            model_dir = os.path.join("saved_objects", "cold", cold_name, model_setting)
+            os.makedirs(model_dir, exist_ok=True)
+            model_path = os.path.join(model_dir, f"model_fold{i}.pt")
+            torch.save(early_stopping.best_model, model_path)
+            logger.info(f"[Fold {i}/5] Saved best validation model to: {model_path}")
 
         y_true_test, y_pred_test = predict(model, test_loader, device)
         p_test, s_test, rmse_test, r2_test = safe_regression_metrics(y_true_test, y_pred_test)

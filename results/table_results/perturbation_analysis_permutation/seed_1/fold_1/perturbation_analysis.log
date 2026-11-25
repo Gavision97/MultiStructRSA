@@ -1,0 +1,138 @@
+2026-11-20 15:30:32,815 - INFO - K folds:5, perturbations:100, seed:1, dataset seed:2, batch size:1, model setting:full
+2026-11-20 15:30:32,894 - INFO - W/O PADDING -> MolRNACDataset for perturbation analysis setting=4 rna aug=False mol aug=False shuffle_sturct=False - for RNA cross-attention fusion
+2026-11-20 15:30:52,108 - INFO - MultiStructRSA - full | exclude_modalities=['ernie', 'morgan'] | freeze_grnade=False | smiles_seq_setting=deep, smiles_expert_setting=proj, dropout=0.1, d_model=128, ffn_mult=4, bdcf_blocks=2, node_pool=mean, token_pool=mean
+2026-11-20 15:30:53,006 - INFO - BiDirectionalCrossFusion @  hyperparam -> bdcf_blocks:2, d_model:128, n_heads:4, dropout:0.1, ffn_mult:4, a_pool:mean, b_pool:mean
+2026-11-20 15:30:53,099 - INFO - Initialized model setting: full, exclude_modalities: ['ernie', 'morgan'], dropout: 0.1, d_model: 128, ffn_mult: 4, bdcf_blocks: 2, node_pool: mean, token_pool: mean
+2026-11-20 15:30:53,601 - INFO - Fold number 1/5; test len:288; unique RNA structures:126; checkpoint:saved_objects/cv/full_seed1/model_fold1.pt
+2026-11-20 15:31:42,534 - INFO - [Fold 1/5] completed perturbation 1/100
+2026-11-20 15:32:24,518 - INFO - [Fold 1/5] completed perturbation 2/100
+2026-11-20 15:34:44,744 - INFO - [Fold 1/5] completed perturbation 3/100
+2026-11-20 15:35:00,386 - INFO - [Fold 1/5] completed perturbation 4/100
+2026-11-20 15:35:50,129 - INFO - [Fold 1/5] completed perturbation 5/100
+2026-11-20 15:36:18,905 - INFO - [Fold 1/5] completed perturbation 6/100
+2026-11-20 15:39:02,911 - INFO - [Fold 1/5] completed perturbation 7/100
+2026-11-20 15:39:21,120 - INFO - [Fold 1/5] completed perturbation 8/100
+2026-11-20 15:39:58,706 - INFO - [Fold 1/5] completed perturbation 9/100
+2026-11-20 15:43:04,919 - INFO - [Fold 1/5] completed perturbation 10/100
+2026-11-20 15:45:09,573 - INFO - [Fold 1/5] completed perturbation 11/100
+2026-11-20 15:45:24,561 - INFO - [Fold 1/5] completed perturbation 12/100
+2026-11-20 15:48:37,470 - INFO - [Fold 1/5] completed perturbation 13/100
+2026-11-20 15:52:08,423 - INFO - [Fold 1/5] completed perturbation 14/100
+2026-11-20 15:55:27,732 - INFO - [Fold 1/5] completed perturbation 15/100
+2026-11-20 15:55:43,851 - INFO - [Fold 1/5] completed perturbation 16/100
+2026-11-20 15:56:00,057 - INFO - [Fold 1/5] completed perturbation 17/100
+2026-11-20 15:56:58,610 - INFO - [Fold 1/5] completed perturbation 18/100
+2026-11-20 15:59:18,678 - INFO - [Fold 1/5] completed perturbation 19/100
+2026-11-20 16:02:59,121 - INFO - [Fold 1/5] completed perturbation 20/100
+2026-11-20 16:09:58,163 - INFO - [Fold 1/5] completed perturbation 21/100
+2026-11-20 16:13:39,667 - INFO - [Fold 1/5] completed perturbation 22/100
+2026-11-20 16:20:24,305 - INFO - [Fold 1/5] completed perturbation 23/100
+2026-11-20 16:26:45,826 - INFO - [Fold 1/5] completed perturbation 24/100
+2026-11-20 16:31:51,638 - INFO - K folds:5, perturbations:100, seed:1, dataset seed:2, batch size:1, model setting:full
+2026-11-20 16:31:51,650 - INFO - W/O PADDING -> MolRNACDataset for perturbation analysis setting=4 rna aug=False mol aug=False shuffle_sturct=False - for RNA cross-attention fusion
+2026-11-20 16:31:53,535 - INFO - MultiStructRSA - full | exclude_modalities=['ernie', 'morgan'] | freeze_grnade=False | smiles_seq_setting=deep, smiles_expert_setting=proj, dropout=0.1, d_model=128, ffn_mult=4, bdcf_blocks=2, node_pool=mean, token_pool=mean
+2026-11-20 16:31:53,770 - INFO - BiDirectionalCrossFusion @  hyperparam -> bdcf_blocks:2, d_model:128, n_heads:4, dropout:0.1, ffn_mult:4, a_pool:mean, b_pool:mean
+2026-11-20 16:31:53,797 - INFO - Initialized model setting: full, exclude_modalities: ['ernie', 'morgan'], dropout: 0.1, d_model: 128, ffn_mult: 4, bdcf_blocks: 2, node_pool: mean, token_pool: mean
+2026-11-20 16:31:53,834 - INFO - Fold number 1/5; test len:288; unique RNA structures:126; checkpoint:saved_objects/cv/full_seed1/model_fold1.pt
+2026-11-20 16:32:27,357 - INFO - [Fold 1/5] completed perturbation 1/100
+2026-11-20 16:32:42,979 - INFO - [Fold 1/5] completed perturbation 2/100
+2026-11-20 16:33:09,238 - INFO - [Fold 1/5] completed perturbation 3/100
+2026-11-20 16:33:25,303 - INFO - [Fold 1/5] completed perturbation 4/100
+2026-11-20 16:33:41,712 - INFO - [Fold 1/5] completed perturbation 5/100
+2026-11-20 16:33:58,367 - INFO - [Fold 1/5] completed perturbation 6/100
+2026-11-20 16:34:15,687 - INFO - [Fold 1/5] completed perturbation 7/100
+2026-11-20 16:34:31,211 - INFO - [Fold 1/5] completed perturbation 8/100
+2026-11-20 16:34:49,980 - INFO - [Fold 1/5] completed perturbation 9/100
+2026-11-20 16:35:06,600 - INFO - [Fold 1/5] completed perturbation 10/100
+2026-11-20 16:35:22,605 - INFO - [Fold 1/5] completed perturbation 11/100
+2026-11-20 16:35:39,431 - INFO - [Fold 1/5] completed perturbation 12/100
+2026-11-20 16:35:55,943 - INFO - [Fold 1/5] completed perturbation 13/100
+2026-11-20 16:36:11,995 - INFO - [Fold 1/5] completed perturbation 14/100
+2026-11-20 16:36:28,000 - INFO - [Fold 1/5] completed perturbation 15/100
+2026-11-20 16:36:44,988 - INFO - [Fold 1/5] completed perturbation 16/100
+2026-11-20 16:37:01,731 - INFO - [Fold 1/5] completed perturbation 17/100
+2026-11-20 16:37:18,303 - INFO - [Fold 1/5] completed perturbation 18/100
+2026-11-20 16:37:46,692 - INFO - [Fold 1/5] completed perturbation 19/100
+2026-11-20 16:38:03,098 - INFO - [Fold 1/5] completed perturbation 20/100
+2026-11-20 16:38:20,428 - INFO - [Fold 1/5] completed perturbation 21/100
+2026-11-20 16:38:35,652 - INFO - [Fold 1/5] completed perturbation 22/100
+2026-11-20 16:38:52,413 - INFO - [Fold 1/5] completed perturbation 23/100
+2026-11-20 16:39:12,728 - INFO - [Fold 1/5] completed perturbation 24/100
+2026-11-20 16:39:30,357 - INFO - [Fold 1/5] completed perturbation 25/100
+2026-11-20 16:39:46,083 - INFO - [Fold 1/5] completed perturbation 26/100
+2026-11-20 16:40:01,440 - INFO - [Fold 1/5] completed perturbation 27/100
+2026-11-20 16:40:15,592 - INFO - [Fold 1/5] completed perturbation 28/100
+2026-11-20 16:40:31,791 - INFO - [Fold 1/5] completed perturbation 29/100
+2026-11-20 16:40:46,839 - INFO - [Fold 1/5] completed perturbation 30/100
+2026-11-20 16:41:05,112 - INFO - [Fold 1/5] completed perturbation 31/100
+2026-11-20 16:41:33,184 - INFO - [Fold 1/5] completed perturbation 32/100
+2026-11-20 16:41:50,194 - INFO - [Fold 1/5] completed perturbation 33/100
+2026-11-20 16:42:07,939 - INFO - [Fold 1/5] completed perturbation 34/100
+2026-11-20 16:42:24,567 - INFO - [Fold 1/5] completed perturbation 35/100
+2026-11-20 16:42:41,746 - INFO - [Fold 1/5] completed perturbation 36/100
+2026-11-20 16:43:00,083 - INFO - [Fold 1/5] completed perturbation 37/100
+2026-11-20 16:43:19,785 - INFO - [Fold 1/5] completed perturbation 38/100
+2026-11-20 16:43:33,223 - INFO - [Fold 1/5] completed perturbation 39/100
+2026-11-20 16:43:52,634 - INFO - [Fold 1/5] completed perturbation 40/100
+2026-11-20 16:44:11,816 - INFO - [Fold 1/5] completed perturbation 41/100
+2026-11-20 16:44:31,964 - INFO - [Fold 1/5] completed perturbation 42/100
+2026-11-20 16:44:55,538 - INFO - [Fold 1/5] completed perturbation 43/100
+2026-11-20 16:45:11,383 - INFO - [Fold 1/5] completed perturbation 44/100
+2026-11-20 16:45:26,801 - INFO - [Fold 1/5] completed perturbation 45/100
+2026-11-20 16:45:40,200 - INFO - [Fold 1/5] completed perturbation 46/100
+2026-11-20 16:45:56,135 - INFO - [Fold 1/5] completed perturbation 47/100
+2026-11-20 16:46:10,129 - INFO - [Fold 1/5] completed perturbation 48/100
+2026-11-20 16:46:28,021 - INFO - [Fold 1/5] completed perturbation 49/100
+2026-11-20 16:46:53,634 - INFO - [Fold 1/5] completed perturbation 50/100
+2026-11-20 16:47:11,265 - INFO - [Fold 1/5] completed perturbation 51/100
+2026-11-20 16:47:27,467 - INFO - [Fold 1/5] completed perturbation 52/100
+2026-11-20 16:47:43,212 - INFO - [Fold 1/5] completed perturbation 53/100
+2026-11-20 16:47:59,670 - INFO - [Fold 1/5] completed perturbation 54/100
+2026-11-20 16:48:13,257 - INFO - [Fold 1/5] completed perturbation 55/100
+2026-11-20 16:48:29,065 - INFO - [Fold 1/5] completed perturbation 56/100
+2026-11-20 16:48:54,668 - INFO - [Fold 1/5] completed perturbation 57/100
+2026-11-20 16:49:07,442 - INFO - [Fold 1/5] completed perturbation 58/100
+2026-11-20 16:49:19,664 - INFO - [Fold 1/5] completed perturbation 59/100
+2026-11-20 16:49:31,580 - INFO - [Fold 1/5] completed perturbation 60/100
+2026-11-20 16:49:46,656 - INFO - [Fold 1/5] completed perturbation 61/100
+2026-11-20 16:50:03,935 - INFO - [Fold 1/5] completed perturbation 62/100
+2026-11-20 16:50:20,233 - INFO - [Fold 1/5] completed perturbation 63/100
+2026-11-20 16:50:42,560 - INFO - [Fold 1/5] completed perturbation 64/100
+2026-11-20 16:50:56,180 - INFO - [Fold 1/5] completed perturbation 65/100
+2026-11-20 16:51:12,696 - INFO - [Fold 1/5] completed perturbation 66/100
+2026-11-20 16:51:31,627 - INFO - [Fold 1/5] completed perturbation 67/100
+2026-11-20 16:51:46,328 - INFO - [Fold 1/5] completed perturbation 68/100
+2026-11-20 16:51:59,997 - INFO - [Fold 1/5] completed perturbation 69/100
+2026-11-20 16:52:14,576 - INFO - [Fold 1/5] completed perturbation 70/100
+2026-11-20 16:52:28,393 - INFO - [Fold 1/5] completed perturbation 71/100
+2026-11-20 16:52:41,782 - INFO - [Fold 1/5] completed perturbation 72/100
+2026-11-20 16:52:56,266 - INFO - [Fold 1/5] completed perturbation 73/100
+2026-11-20 16:53:09,592 - INFO - [Fold 1/5] completed perturbation 74/100
+2026-11-20 16:53:23,877 - INFO - [Fold 1/5] completed perturbation 75/100
+2026-11-20 16:53:38,242 - INFO - [Fold 1/5] completed perturbation 76/100
+2026-11-20 16:54:00,151 - INFO - [Fold 1/5] completed perturbation 77/100
+2026-11-20 16:54:13,084 - INFO - [Fold 1/5] completed perturbation 78/100
+2026-11-20 16:54:26,126 - INFO - [Fold 1/5] completed perturbation 79/100
+2026-11-20 16:54:42,299 - INFO - [Fold 1/5] completed perturbation 80/100
+2026-11-20 16:54:58,345 - INFO - [Fold 1/5] completed perturbation 81/100
+2026-11-20 16:55:13,112 - INFO - [Fold 1/5] completed perturbation 82/100
+2026-11-20 16:55:28,296 - INFO - [Fold 1/5] completed perturbation 83/100
+2026-11-20 16:55:43,384 - INFO - [Fold 1/5] completed perturbation 84/100
+2026-11-20 16:55:58,666 - INFO - [Fold 1/5] completed perturbation 85/100
+2026-11-20 16:56:12,639 - INFO - [Fold 1/5] completed perturbation 86/100
+2026-11-20 16:56:27,919 - INFO - [Fold 1/5] completed perturbation 87/100
+2026-11-20 16:56:42,792 - INFO - [Fold 1/5] completed perturbation 88/100
+2026-11-20 16:57:00,032 - INFO - [Fold 1/5] completed perturbation 89/100
+2026-11-20 16:57:15,978 - INFO - [Fold 1/5] completed perturbation 90/100
+2026-11-20 16:57:31,814 - INFO - [Fold 1/5] completed perturbation 91/100
+2026-11-20 16:57:47,326 - INFO - [Fold 1/5] completed perturbation 92/100
+2026-11-20 16:58:03,182 - INFO - [Fold 1/5] completed perturbation 93/100
+2026-11-20 16:58:20,276 - INFO - [Fold 1/5] completed perturbation 94/100
+2026-11-20 16:58:35,305 - INFO - [Fold 1/5] completed perturbation 95/100
+2026-11-20 16:58:49,997 - INFO - [Fold 1/5] completed perturbation 96/100
+2026-11-20 16:59:05,658 - INFO - [Fold 1/5] completed perturbation 97/100
+2026-11-20 16:59:20,710 - INFO - [Fold 1/5] completed perturbation 98/100
+2026-11-20 16:59:36,432 - INFO - [Fold 1/5] completed perturbation 99/100
+2026-11-20 16:59:53,452 - INFO - [Fold 1/5] completed perturbation 100/100
+2026-11-20 16:59:53,831 - INFO - Completed perturbation analysis
+Perturbation-only summary retained in summary.csv; legacy comparison columns removed.

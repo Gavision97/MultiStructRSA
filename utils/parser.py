@@ -84,7 +84,7 @@ def get_args():
         "--setting",
         type=str,
         default="cv",
-        choices=["cv", "loo_cv", "cold", "train_cold", "train_scaffold", "external", "screen", "smi_emb_gen"],
+        choices=["cv", "loo_cv", "cold", "train_cold", "train_scaffold", "external", "screen", "smi_emb_gen", "perturbation"],
         help="Execution setting (e.g. SMILES feature generation, stratified k-fold CV evaluation, etc.)"
     )
     parser.add_argument(
@@ -228,11 +228,79 @@ def get_args():
         )
     )
     parser.add_argument(
+        "--save_model",
+        type=str,
+        default="False",
+        choices=["True", "False"],
+        help=(
+            "Whether to save the best model from every CV or cold-start fold "
+            "under saved_objects/"
+        )
+    )
+    parser.add_argument(
         "--cold_type",
         type=str,
         default="cold_rm",
         choices=["cold_rna", "cold_mole", "cold_rm"],
         help="Cold-start type"
+    )
+
+    # perturbation analysis
+    parser.add_argument(
+        "--dataset_path",
+        type=str,
+        default="datasets/RSIM/All_sf_dataset_v1.csv",
+        help="Dataset used for stratified perturbation analysis"
+    )
+    parser.add_argument(
+        "--checkpoint_root",
+        type=str,
+        default=None,
+        help="Root containing model-setting checkpoint directories"
+    )
+    parser.add_argument(
+        "--checkpoint_dir",
+        type=str,
+        default=None,
+        help="Explicit checkpoint directory for perturbation analysis"
+    )
+    parser.add_argument(
+        "--checkpoint_pattern",
+        type=str,
+        default="model_fold{fold}.pt",
+        help="Checkpoint filename pattern for perturbation folds"
+    )
+    parser.add_argument(
+        "--model_seed",
+        type=int,
+        default=None,
+        help="Seed identifier stored with perturbation results"
+    )
+    parser.add_argument(
+        "--output_dir",
+        type=str,
+        default=None,
+        help="Perturbation result directory"
+    )
+    parser.add_argument(
+        "--perturbation_cold_type",
+        type=str,
+        default=None,
+        choices=["cold_rna", "cold_rm"],
+        help="Optional cold-start split used for perturbation analysis"
+    )
+    parser.add_argument(
+        "--n_perturbations",
+        type=int,
+        default=50,
+        help="Number of wrong-structure permutations per fold"
+    )
+    parser.add_argument(
+        "--folds",
+        type=int,
+        nargs="+",
+        default=None,
+        help="Optional subset of one-indexed folds to evaluate"
     )
 
     # SMILES embedding generation

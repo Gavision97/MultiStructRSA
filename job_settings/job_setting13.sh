@@ -7,7 +7,7 @@
 
 #SBATCH --partition=main
 #SBATCH --time=0-48:00:00
-#SBATCH --job-name=smiles_hyperparam_search
+#SBATCH --job-name=cold_rna_best
 #SBATCH --output=jobs/job-%J.out
 #SBATCH --error=jobs/job-%J.err
 #SBATCH --gpus=rtx_6000:1
@@ -20,56 +20,64 @@
 ############################
 
 EXP_ID=6   # experiment ID
-DATE=0311  # for log & result directory creation
+DATE=2011  # for log & result directory creation
 
-MODEL_SETTING="w/o fusion" # ["full", "freezed", "w/o seq", "w/o 3D struct", "w/o fusion"]
+MODEL_SETTING="w/o fusion"   # ["full", "freezed", "w/o seq", "w/o 3D struct", "w/o fusion"]
+EXCLUDE_MODALITIES="morgan ernie"
+FREEZE_GRNADE="False"
+
 TRAIN_SETTING=4
 VAL_SETTING=4
-SHUFFLE_STRUCT="False"
 MOL_AUG="False"
 RNA_AUG="False"
 IS_SEQ_EMB="True"
 
-RES_FILE_NAME="cv_all_${DATE}"
-SAVE_PREDICTIONS="False"
+RES_FILE_NAME="cold_rna_${DATE}"
+SAVE_MODEL="True"
+IS_PLOT="False"
 PLOT_NAME="${DATE}_exp${EXP_ID}"
+LOG_FILE_NAME="cold_${DATE}_exp${EXP_ID}"
 
-LOG_FILE_NAME="ablation_${DATE}_exp${EXP_ID}"
-
-#######
-# best hyperparameters from global hyperpram search in 14/04 (full setting)
+########
+# Best hyperparameters from the global full-model search
 LR=2e-5
 WD=1e-6
 DROPOUT=0.1
 ########
 
-##### 
-# RNA module hyperpram search 15/04 
+########
+# Best cold-RNA early-stopping hyperparameters (2704, exp13)
+PATIENCE=15
+WARM_UP_EPOCHS=10
+DELTA=1e-2
+########
+
+#####
+# RNA module hyperparameters
 D_MODEL=128
 FFN_MULT=4
 BDCF_BLOCKS=2
 NODE_POOL='mean'
 TOKEN_POOL='mean'
 #####
+
+# SMILES module hyperparameters
 SMILES_SEQ_SETTING='deep'
-SMILES_EXPERT_SETTING='shallow'
+SMILES_EXPERT_SETTING='proj'
 
 BATCH_SIZE=1
 NUM_WORKERS=0
 
-EXP_NAME="exp${EXP_ID}_smiles_seq_setting=${SMILES_SEQ_SETTING}_smiles_expert_setting=${SMILES_EXPERT_SETTING}}"
+EXP_NAME="exp${EXP_ID}_cold_rna_best"
 
-SETTING="cv"
-CV_METHOD="all"
-K_FOLD=5
+SETTING="cold"
+COLD_TYPE="cold_rna"
 DEVICE="cuda"
 
-SEED=1
+SEED=3
 DATASET_SEED=2
 
-LOG_MSG="stratified_cv_${DATE}_exp${EXP_ID} - MultiStructRSA (${MODEL_SETTING} version) - TRAIN SETTING=${TRAIN_SETTING}; VAL SETTING=${VAL_SETTING}; SHUFFLE STRUCT=${SHUFFLE_STRUCT} RNA AUG=${RNA_AUG}; MOL AUG=${MOL_AUG} SEED=${SEED}; DATASET SEED=${DATASET_SEED}"
-
-
+LOG_MSG="cold_rna_${DATE}_exp${EXP_ID} - MultiStructRSA (${MODEL_SETTING} version) - TRAIN SETTING=${TRAIN_SETTING}; VAL SETTING=${VAL_SETTING}; RNA AUG=${RNA_AUG}; MOL AUG=${MOL_AUG}; PATIENCE=${PATIENCE}; WARM UP=${WARM_UP_EPOCHS}; DELTA=${DELTA}; SEED=${SEED}; DATASET SEED=${DATASET_SEED}"
 
 ################  Following lines will be executed by a compute node  ################
 
@@ -77,11 +85,11 @@ module load anaconda
 module load cuda/11.8
 
 source activate chemprop
-export PYTHONPATH="${PYTHONPATH}:$(pwd)"
+export PYTHONPATH="${PYTHONPATH:-}:$(pwd)"
 
 export CUBLAS_WORKSPACE_CONFIG=:4096:8
 export CUDA_LAUNCH_BLOCKING=1
-#export TORCH_USE_CUDA_DSA=1
+# export TORCH_USE_CUDA_DSA=1
 
 export HF_HUB_ETAG_TIMEOUT=60
 export HF_HUB_DOWNLOAD_TIMEOUT=300
@@ -93,20 +101,24 @@ nvidia-smi
 python main.py \
   --exp_name "$EXP_NAME" \
   --model_setting "$MODEL_SETTING" \
+  --exclude_modalities $EXCLUDE_MODALITIES \
+  --freeze_grnade "$FREEZE_GRNADE" \
   --train_setting "$TRAIN_SETTING" \
   --val_setting "$VAL_SETTING" \
-  --shuffle_struct "$SHUFFLE_STRUCT" \
   --rna_aug "$RNA_AUG" \
   --mol_aug "$MOL_AUG" \
   --is_seq_emb "$IS_SEQ_EMB" \
+  --patience "$PATIENCE" \
+  --warm_up_epochs "$WARM_UP_EPOCHS" \
+  --delta "$DELTA" \
   --res_file_name "$RES_FILE_NAME" \
-  --save_predictions "$SAVE_PREDICTIONS" \
+  --save_model "$SAVE_MODEL" \
+  --is_plot "$IS_PLOT" \
   --plot_name "$PLOT_NAME" \
   --log_msg "$LOG_MSG" \
   --log_file_name "$LOG_FILE_NAME" \
   --setting "$SETTING" \
-  --cv_method "$CV_METHOD" \
-  --k_fold "$K_FOLD" \
+  --cold_type "$COLD_TYPE" \
   --lr "$LR" \
   --wd "$WD" \
   --dropout "$DROPOUT" \

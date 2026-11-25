@@ -6,8 +6,8 @@
 ################################################################################################
 
 #SBATCH --partition=main
-#SBATCH --time=0-72:00:00
-#SBATCH --job-name=cold_eval
+#SBATCH --time=0-48:00:00
+#SBATCH --job-name=smiles_hyperparam_search
 #SBATCH --output=jobs/job-%J.out
 #SBATCH --error=jobs/job-%J.err
 #SBATCH --gpus=rtx_6000:1
@@ -19,62 +19,57 @@
 ### Experiment variables ###
 ############################
 
-EXP_ID=1
-DATE=2510
+EXP_ID=6   # experiment ID
+DATE=2111  # for log & result directory creation
 
-MODEL_SETTING="full"   # ["full", "freezed", "w/o seq", "w/o 3D struct", "w/o fusion"]
-EXCLUDE_MODALITIES="morgan ernie"   # e.g. simson / chemberta / mordred / morgan / rinalmo / ernie / grnade
-
+MODEL_SETTING="w/o fusion" # ["full", "freezed", "w/o seq", "w/o 3D struct", "w/o fusion"]
 TRAIN_SETTING=4
-RNA_MULTICONFORMER="False"
 VAL_SETTING=4
+SHUFFLE_STRUCT="False"
 MOL_AUG="False"
 RNA_AUG="False"
-IS_SEQ_EMB="False"
+IS_SEQ_EMB="True"
 
-RES_FILE_NAME="cold_${DATE}"
-IS_PLOT="False"
+RES_FILE_NAME="cv_all_${DATE}"
+SAVE_PREDICTIONS="False"
 PLOT_NAME="${DATE}_exp${EXP_ID}"
-LOG_FILE_NAME="cold_${DATE}_exp${EXP_ID}"
 
-# Best hyperparameters from global hyperparameter search
+LOG_FILE_NAME="ablation_${DATE}_exp${EXP_ID}"
+
+#######
+# best hyperparameters from global hyperpram search in 14/04 (full setting)
 LR=2e-5
 WD=1e-6
 DROPOUT=0.1
+########
 
-PATIENCE=15
-WARM_UP_EPOCHS=10
-DELTA=0.001
-# Best RNA module hyperparameters
+##### 
+# RNA module hyperpram search 15/04 
 D_MODEL=128
 FFN_MULT=4
 BDCF_BLOCKS=2
-NODE_POOL="mean"
-TOKEN_POOL="mean"
-
-# Best SMILES module hyperparameters
-SMILES_SEQ_SETTING="deep"
-SMILES_EXPERT_SETTING="proj"
+NODE_POOL='mean'
+TOKEN_POOL='mean'
+#####
+SMILES_SEQ_SETTING='deep'
+SMILES_EXPERT_SETTING='proj'
 
 BATCH_SIZE=1
 NUM_WORKERS=0
 
+EXP_NAME="exp${EXP_ID}_smiles_seq_setting=${SMILES_SEQ_SETTING}_smiles_expert_setting=${SMILES_EXPERT_SETTING}}"
 
-SETTING="cold"
-COLD_TYPE="cold_mole"
+SETTING="cv"
 CV_METHOD="all"
 K_FOLD=5
 DEVICE="cuda"
 
-EXP_NAME="exp${EXP_ID}_cold=${COLD_TYPE}_patience=${PATIENCE}_delta=${DELTA}"
-
-
-SEED=2
+SEED=3
 DATASET_SEED=2
 
-LOG_MSG="${COLD_TYPE}_${DATE}_exp${EXP_ID} - MultiStructRSA (${MODEL_SETTING}) - exclude_modalities=${EXCLUDE_MODALITIES}; TRAIN_SETTING=${TRAIN_SETTING}; VAL_SETTING=${VAL_SETTING}; RNA_AUG=${RNA_AUG}; MOL_AUG=${MOL_AUG}; SEED=${SEED}; DATASET_SEED=${DATASET_SEED}"
+LOG_MSG="stratified_cv_${DATE}_exp${EXP_ID} - MultiStructRSA (${MODEL_SETTING} version) - TRAIN SETTING=${TRAIN_SETTING}; VAL SETTING=${VAL_SETTING}; SHUFFLE STRUCT=${SHUFFLE_STRUCT} RNA AUG=${RNA_AUG}; MOL AUG=${MOL_AUG} SEED=${SEED}; DATASET SEED=${DATASET_SEED}"
 
-#LOG_MSG="stratified_cv_${DATE}_exp${EXP_ID} - MultiStructRSA (${MODEL_SETTING}) - exclude_modalities=${EXCLUDE_MODALITIES}; TRAIN_SETTING=${TRAIN_SETTING}; VAL_SETTING=${VAL_SETTING}; RNA_AUG=${RNA_AUG}; MOL_AUG=${MOL_AUG}; SEED=${SEED}; DATASET_SEED=${DATASET_SEED}"
+
 
 ################  Following lines will be executed by a compute node  ################
 
@@ -86,7 +81,7 @@ export PYTHONPATH="${PYTHONPATH}:$(pwd)"
 
 export CUBLAS_WORKSPACE_CONFIG=:4096:8
 export CUDA_LAUNCH_BLOCKING=1
-# export TORCH_USE_CUDA_DSA=1
+#export TORCH_USE_CUDA_DSA=1
 
 export HF_HUB_ETAG_TIMEOUT=60
 export HF_HUB_DOWNLOAD_TIMEOUT=300
@@ -98,22 +93,18 @@ nvidia-smi
 python main.py \
   --exp_name "$EXP_NAME" \
   --model_setting "$MODEL_SETTING" \
-  --exclude_modalities $EXCLUDE_MODALITIES \
   --train_setting "$TRAIN_SETTING" \
   --val_setting "$VAL_SETTING" \
+  --shuffle_struct "$SHUFFLE_STRUCT" \
   --rna_aug "$RNA_AUG" \
   --mol_aug "$MOL_AUG" \
-  --patience "$PATIENCE" \
-  --warm_up_epochs "$WARM_UP_EPOCHS" \
-  --delta "$DELTA" \
   --is_seq_emb "$IS_SEQ_EMB" \
   --res_file_name "$RES_FILE_NAME" \
-  --is_plot "$IS_PLOT" \
+  --save_predictions "$SAVE_PREDICTIONS" \
   --plot_name "$PLOT_NAME" \
   --log_msg "$LOG_MSG" \
   --log_file_name "$LOG_FILE_NAME" \
   --setting "$SETTING" \
-  --cold_type "$COLD_TYPE" \
   --cv_method "$CV_METHOD" \
   --k_fold "$K_FOLD" \
   --lr "$LR" \

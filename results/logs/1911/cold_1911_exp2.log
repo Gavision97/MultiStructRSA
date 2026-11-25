@@ -1,0 +1,30 @@
+2026-11-19 15:59:55,543 - cold_rna_1911_exp2 - MultiStructRSA (w/o seq version) - TRAIN SETTING=4; VAL SETTING=4; RNA AUG=False; MOL AUG=False; PATIENCE=15; WARM UP=10; DELTA=1e-2; SEED=2; DATASET SEED=2
+2026-11-19 15:59:55,543 - Performing Blind Test with Cold Start Setting = cold_rna, seed:2, batch size:1, max epochs:200, lr:2e-05, weight decay:1e-06, patience:15, warm up epo:10, delta:0.01
+2026-11-19 15:59:55,547 - Fold number 1/5
+2026-11-19 15:59:55,561 - (|train|, |val|, |test|) -> (1062, 194, 183)
+2026-11-19 15:59:55,561 - (unique RNA train, val, test) -> (200, 36, 59)
+2026-11-19 15:59:55,561 - W/O PADDING -> MolRNACDataset for training setting=4 rna aug=False mol aug=False shuffle_sturct=False - for RNA cross-attention fusion
+2026-11-19 15:59:56,557 - W/O PADDING -> MolRNACDataset for evaluating setting=4 rna aug=False mol aug=False shuffle_sturct=False - for RNA cross-attention fusion
+2026-11-19 15:59:57,296 - W/O PADDING -> MolRNACDataset for evaluating setting=4 rna aug=False mol aug=False shuffle_sturct=False - for RNA cross-attention fusion
+2026-11-19 15:59:58,039 - --- MultiStructRSA w/o sequence (frozen=False) | exclude_modalities=['ernie', 'morgan'] | smiles_seq_setting=deep, smiles_expert_setting=proj, d_model=128, node_pool=mean, dropout=0.1 ---
+2026-11-19 15:59:58,185 - Initialized model setting: w/o seq, dropout: 0.1, exclude_modalities ignored by this model: ['ernie', 'morgan']
+2026-11-19 16:27:28,071 - cold_rna_1911_exp2 - MultiStructRSA (w/o seq version) - TRAIN SETTING=4; VAL SETTING=4; RNA AUG=False; MOL AUG=False; PATIENCE=15; WARM UP=10; DELTA=1e-2; SEED=2; DATASET SEED=2
+2026-11-19 16:27:28,071 - Performing Blind Test with Cold Start Setting = cold_rna, seed:2, batch size:1, max epochs:200, lr:2e-05, weight decay:1e-06, patience:15, warm up epo:10, delta:0.01
+2026-11-19 16:27:28,082 - Fold number 1/5
+2026-11-19 16:27:28,141 - (|train|, |val|, |test|) -> (1062, 194, 183)
+2026-11-19 16:27:28,142 - (unique RNA train, val, test) -> (200, 36, 59)
+2026-11-19 16:27:28,142 - W/O PADDING -> MolRNACDataset for training setting=4 rna aug=False mol aug=False shuffle_sturct=False - for RNA cross-attention fusion
+2026-11-19 16:27:30,811 - W/O PADDING -> MolRNACDataset for evaluating setting=4 rna aug=False mol aug=False shuffle_sturct=False - for RNA cross-attention fusion
+2026-11-19 16:27:31,753 - W/O PADDING -> MolRNACDataset for evaluating setting=4 rna aug=False mol aug=False shuffle_sturct=False - for RNA cross-attention fusion
+2026-11-19 16:27:32,684 - --- MultiStructRSA w/o sequence (frozen=False) | exclude_modalities=['ernie', 'morgan'] | smiles_seq_setting=deep, smiles_expert_setting=proj, d_model=128, node_pool=mean, dropout=0.1 ---
+2026-11-19 16:27:32,880 - Initialized model setting: w/o seq, dropout: 0.1, exclude_modalities ignored by this model: ['ernie', 'morgan']
+2026-11-20 04:31:07,463 - cold_rna_1911_exp2 - MultiStructRSA (w/o seq version) - TRAIN SETTING=4; VAL SETTING=4; RNA AUG=False; MOL AUG=False; PATIENCE=15; WARM UP=10; DELTA=1e-2; SEED=2; DATASET SEED=2
+2026-11-20 04:31:07,463 - Performing Blind Test with Cold Start Setting = cold_rna, seed:2, batch size:1, max epochs:200, lr:2e-05, weight decay:1e-06, patience:15, warm up epo:10, delta:0.01
+2026-11-20 04:31:07,471 - Fold number 1/5
+2026-11-20 04:31:07,490 - (|train|, |val|, |test|) -> (1062, 194, 183)
+2026-11-20 04:31:07,491 - (unique RNA train, val, test) -> (200, 36, 59)
+2026-11-20 04:31:07,491 - W/O PADDING -> MolRNACDataset for training setting=4 rna aug=False mol aug=False shuffle_sturct=False - for RNA cross-attention fusion
+2026-11-20 04:31:09,592 - W/O PADDING -> MolRNACDataset for evaluating setting=4 rna aug=False mol aug=False shuffle_sturct=False - for RNA cross-attention fusion
+2026-11-20 04:31:10,484 - W/O PADDING -> MolRNACDataset for evaluating setting=4 rna aug=False mol aug=False shuffle_sturct=False - for RNA cross-attention fusion
+2026-11-20 04:31:11,376 - --- MultiStructRSA w/o sequence (frozen=False) | exclude_modalities=['ernie', 'morgan'] | smiles_seq_setting=deep, smiles_expert_setting=proj, d_model=128, node_pool=mean, dropout=0.1 ---
+2026-11-20 04:31:11,560 - Initialized model setting: w/o seq, dropout: 0.1, exclude_modalities ignored by this model: ['ernie', 'morgan']

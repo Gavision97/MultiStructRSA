@@ -53,7 +53,7 @@ def rmse_loss(y_true, y_pred):
 
 def cv_eval(dataset=None, model_setting="full", train_setting=4, val_setting=4, shuffle_struct=False, rna_aug=False, mol_aug=False, patience=20, warm_up_epochs=10, delta=1e-5, lr=5e-5, wd=1e-5, dropout=0.1, exclude_modalities=None, freeze_grnade=False, smiles_seq_setting='deep', smiles_expert_setting='proj', batch_size=1, num_workers=8,
             is_plot=False, is_seq_emb=False, d_model=128, ffn_mult=4, bdcf_blocks=1, node_pool='attn', token_pool='mean', n=10, fam_name=None, plot_name="loss_curve", device="cuda", dataset_seed=2, seed=1,
-            save_predictions=False, res_file_name=None):
+            save_predictions=False, res_file_name=None, save_model=False):
     """
     Run stratified k-fold cross-validation for a selected MultiStructRSA model setting.
 
@@ -86,6 +86,10 @@ def cv_eval(dataset=None, model_setting="full", train_setting=4, val_setting=4, 
     save_predictions : bool, default=False
         If True, save the best-epoch test predictions for every fold under
         ``results/table_results/<res_file_name>/``.
+
+    save_model : bool, default=False
+        If True, save the model with the best fold score under
+        ``saved_objects/cv/model_fold<N>.pt``.
 
     res_file_name : str, optional
         Directory name used for saved fold predictions. Required when
@@ -126,7 +130,7 @@ def cv_eval(dataset=None, model_setting="full", train_setting=4, val_setting=4, 
         test_df = all_df.iloc[test_index].reset_index(drop=True)
 
         train_ds = MolRNADataset(train_df, setting=train_setting, shuffle_struct=shuffle_struct, rna_aug=rna_aug, mol_aug=mol_aug, task="training", is_seq_emb=is_seq_emb)
-        val_ds = MolRNADataset(test_df, setting=val_setting, shuffle_struct=shuffle_struct, rna_aug=False, mol_aug=False, task="evaluating", is_seq_emb=is_seq_emb)
+        val_ds = MolRNADataset(test_df, setting=val_setting, shuffle_struct=False, rna_aug=False, mol_aug=False, task="evaluating", is_seq_emb=is_seq_emb)
         g = torch.Generator().manual_seed(seed) # determinism per fold
 
         logger.info(f"\nFold number {fold+1}/{n}")
@@ -183,6 +187,13 @@ def cv_eval(dataset=None, model_setting="full", train_setting=4, val_setting=4, 
         p_list.append(early_stopping.best_metrics[0])
         s_list.append(early_stopping.best_metrics[1])
         r2_list.append(early_stopping.best_metrics[2])
+
+        if save_model:
+            model_dir = os.path.join("saved_objects", "cv", str(seed), model_setting)
+            os.makedirs(model_dir, exist_ok=True)
+            model_path = os.path.join(model_dir, f"model_seed_{seed}_fold{fold + 1}.pt")
+            torch.save(early_stopping.best_model, model_path)
+            logger.info(f"Saved best fold model to: {model_path}")
 
         if save_predictions:
             prediction_dir = os.path.join("results", "table_results", res_file_name)

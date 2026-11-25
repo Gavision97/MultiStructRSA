@@ -19,15 +19,16 @@
 ### Experiment variables ###
 ############################
 
-EXP_ID=1   # experiment ID
-DATE=0311  # for log & result directory creation
+EXP_ID=8   # experiment ID
+DATE=2111  # for log & result directory creation
 
-MODEL_SETTING="full" # ["full", "freezed", "w/o seq", "w/o 3D struct", "w/o fusion"]
+MODEL_SETTING="w/o fusion" # ["full", "freezed", "w/o seq", "w/o 3D struct", "w/o fusion"]
 TRAIN_SETTING=4
 VAL_SETTING=4
-SHUFFLE_STRUCT="True"
+SHUFFLE_STRUCT="False"
 MOL_AUG="False"
 RNA_AUG="False"
+IS_SEQ_EMB="True"
 
 RES_FILE_NAME="cv_all_${DATE}"
 SAVE_PREDICTIONS="False"
@@ -63,7 +64,7 @@ CV_METHOD="all"
 K_FOLD=5
 DEVICE="cuda"
 
-SEED=1
+SEED=5
 DATASET_SEED=2
 
 LOG_MSG="stratified_cv_${DATE}_exp${EXP_ID} - MultiStructRSA (${MODEL_SETTING} version) - TRAIN SETTING=${TRAIN_SETTING}; VAL SETTING=${VAL_SETTING}; SHUFFLE STRUCT=${SHUFFLE_STRUCT} RNA AUG=${RNA_AUG}; MOL AUG=${MOL_AUG} SEED=${SEED}; DATASET SEED=${DATASET_SEED}"
@@ -97,6 +98,7 @@ python main.py \
   --shuffle_struct "$SHUFFLE_STRUCT" \
   --rna_aug "$RNA_AUG" \
   --mol_aug "$MOL_AUG" \
+  --is_seq_emb "$IS_SEQ_EMB" \
   --res_file_name "$RES_FILE_NAME" \
   --save_predictions "$SAVE_PREDICTIONS" \
   --plot_name "$PLOT_NAME" \

@@ -1,0 +1,30 @@
+2026-11-19 15:59:20,089 - cold_rna_1911_exp3 - MultiStructRSA (w/o 3D struct version) - TRAIN SETTING=4; VAL SETTING=4; RNA AUG=False; MOL AUG=False; PATIENCE=15; WARM UP=10; DELTA=1e-2; SEED=2; DATASET SEED=2
+2026-11-19 15:59:20,089 - Performing Blind Test with Cold Start Setting = cold_rna, seed:2, batch size:1, max epochs:200, lr:2e-05, weight decay:1e-06, patience:15, warm up epo:10, delta:0.01
+2026-11-19 15:59:20,092 - Fold number 1/5
+2026-11-19 15:59:20,103 - (|train|, |val|, |test|) -> (1062, 194, 183)
+2026-11-19 15:59:20,104 - (unique RNA train, val, test) -> (200, 36, 59)
+2026-11-19 15:59:20,104 - W/O PADDING -> MolRNACDataset for training setting=4 rna aug=False mol aug=False shuffle_sturct=False - for RNA cross-attention fusion
+2026-11-19 15:59:20,832 - W/O PADDING -> MolRNACDataset for evaluating setting=4 rna aug=False mol aug=False shuffle_sturct=False - for RNA cross-attention fusion
+2026-11-19 15:59:21,531 - W/O PADDING -> MolRNACDataset for evaluating setting=4 rna aug=False mol aug=False shuffle_sturct=False - for RNA cross-attention fusion
+2026-11-19 15:59:22,233 - --- MultiStructRSA w/o 3D structure | exclude_modalities=['ernie', 'morgan'] | smiles_seq_setting=deep, smiles_expert_setting=proj, d_model=128, dropout=0.1 ---
+2026-11-19 15:59:22,290 - Initialized model setting: w/o 3D struct, dropout: 0.1, exclude_modalities ignored by this model: ['ernie', 'morgan']
+2026-11-19 16:27:35,654 - cold_rna_1911_exp3 - MultiStructRSA (w/o 3D struct version) - TRAIN SETTING=4; VAL SETTING=4; RNA AUG=False; MOL AUG=False; PATIENCE=15; WARM UP=10; DELTA=1e-2; SEED=2; DATASET SEED=2
+2026-11-19 16:27:35,654 - Performing Blind Test with Cold Start Setting = cold_rna, seed:2, batch size:1, max epochs:200, lr:2e-05, weight decay:1e-06, patience:15, warm up epo:10, delta:0.01
+2026-11-19 16:27:35,658 - Fold number 1/5
+2026-11-19 16:27:35,674 - (|train|, |val|, |test|) -> (1062, 194, 183)
+2026-11-19 16:27:35,675 - (unique RNA train, val, test) -> (200, 36, 59)
+2026-11-19 16:27:35,675 - W/O PADDING -> MolRNACDataset for training setting=4 rna aug=False mol aug=False shuffle_sturct=False - for RNA cross-attention fusion
+2026-11-19 16:27:36,446 - W/O PADDING -> MolRNACDataset for evaluating setting=4 rna aug=False mol aug=False shuffle_sturct=False - for RNA cross-attention fusion
+2026-11-19 16:27:37,149 - W/O PADDING -> MolRNACDataset for evaluating setting=4 rna aug=False mol aug=False shuffle_sturct=False - for RNA cross-attention fusion
+2026-11-19 16:27:37,833 - --- MultiStructRSA w/o 3D structure | exclude_modalities=['ernie', 'morgan'] | smiles_seq_setting=deep, smiles_expert_setting=proj, d_model=128, dropout=0.1 ---
+2026-11-19 16:27:37,844 - Initialized model setting: w/o 3D struct, dropout: 0.1, exclude_modalities ignored by this model: ['ernie', 'morgan']
+2026-11-20 04:31:27,171 - cold_rna_1911_exp3 - MultiStructRSA (w/o 3D struct version) - TRAIN SETTING=4; VAL SETTING=4; RNA AUG=False; MOL AUG=False; PATIENCE=15; WARM UP=10; DELTA=1e-2; SEED=2; DATASET SEED=2
+2026-11-20 04:31:27,171 - Performing Blind Test with Cold Start Setting = cold_rna, seed:2, batch size:1, max epochs:200, lr:2e-05, weight decay:1e-06, patience:15, warm up epo:10, delta:0.01
+2026-11-20 04:31:27,177 - Fold number 1/5
+2026-11-20 04:31:27,190 - (|train|, |val|, |test|) -> (1062, 194, 183)
+2026-11-20 04:31:27,191 - (unique RNA train, val, test) -> (200, 36, 59)
+2026-11-20 04:31:27,191 - W/O PADDING -> MolRNACDataset for training setting=4 rna aug=False mol aug=False shuffle_sturct=False - for RNA cross-attention fusion
+2026-11-20 04:31:27,969 - W/O PADDING -> MolRNACDataset for evaluating setting=4 rna aug=False mol aug=False shuffle_sturct=False - for RNA cross-attention fusion
+2026-11-20 04:31:28,692 - W/O PADDING -> MolRNACDataset for evaluating setting=4 rna aug=False mol aug=False shuffle_sturct=False - for RNA cross-attention fusion
+2026-11-20 04:31:29,419 - --- MultiStructRSA w/o 3D structure | exclude_modalities=['ernie', 'morgan'] | smiles_seq_setting=deep, smiles_expert_setting=proj, d_model=128, dropout=0.1 ---
+2026-11-20 04:31:29,459 - Initialized model setting: w/o 3D struct, dropout: 0.1, exclude_modalities ignored by this model: ['ernie', 'morgan']

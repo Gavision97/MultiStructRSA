@@ -7,6 +7,7 @@ import pandas as pd
 from pathlib import Path
 import os
 import pickle
+import json
 
 from evaluate.cv_eval import cv_eval
 from evaluate.cold_eval import preform_cold_blind_eval
@@ -28,7 +29,7 @@ def preform_cold_blind_eval_(exp_name='exp', res_file_name="cold_eval", cold_typ
                            rna_aug=False, mol_aug=False, patience=20, warm_up_epochs=10, delta=1e-5, lr=5e-5, wd=1e-5, dropout=0.1, exclude_modalities=None, freeze_grnade=False, smiles_seq_setting='deep', smiles_expert_setting='proj',
                             batch_size=1, num_workers=8, is_plot=False,
                             is_seq_emb=False, d_model=128, ffn_mult=4, bdcf_blocks=1, node_pool='attn', token_pool='mean', plot_name="loss_curve",
-                           device="cuda", seed=1):
+                           device="cuda", seed=1, save_model=False):
     """
     Run cold-start blind evaluation and append results to a summary CSV file.
 
@@ -66,9 +67,10 @@ def preform_cold_blind_eval_(exp_name='exp', res_file_name="cold_eval", cold_typ
                                 rna_aug=rna_aug, mol_aug=mol_aug, patience=patience, warm_up_epochs=warm_up_epochs, delta=delta,
                                 lr=lr, wd=wd, dropout=dropout, exclude_modalities=exclude_modalities, freeze_grnade=freeze_grnade, smiles_seq_setting=smiles_seq_setting, smiles_expert_setting=smiles_expert_setting, batch_size=batch_size, is_plot=is_plot,
                                 is_seq_emb=is_seq_emb, d_model=d_model, ffn_mult=ffn_mult, bdcf_blocks=bdcf_blocks, node_pool=node_pool, token_pool=token_pool,
-                                plot_name=plot_name, device=device, seed=seed)
+                                plot_name=plot_name, device=device, seed=seed, save_model=save_model)
     # summary (single row, same fields as the per-family version)
-    summary_dict = {"exp": exp_name, "cold_type": cold_type, **res}
+    summary_dict = {"exp": exp_name, "cold_type": cold_type, "model_setting":model_setting,
+                    "seed": seed, **res}
     summary_df = pd.DataFrame([summary_dict])
 
     logger.info(
@@ -95,7 +97,7 @@ def preform_cold_blind_eval_(exp_name='exp', res_file_name="cold_eval", cold_typ
 
 def preform_k_fold_cv_all(exp_name = 'exp', res_file_name="cv10_all_results", model_setting = "full", train_setting=4, val_setting=4, shuffle_struct=False, 
                           rna_aug=False, mol_aug=False, patience=20, warm_up_epochs=10, delta=1e-5,  lr=5e-5, wd=1e-5, dropout=0.1, exclude_modalities=None, freeze_grnade=False, smiles_seq_setting='deep', smiles_expert_setting='proj', batch_size=1, num_workers=8, is_plot=False, 
-                          is_seq_emb=False, d_model=128, ffn_mult=4, bdcf_blocks=1, node_pool='attn', token_pool='mean', n=10, plot_name='loss_plot', device="cuda", seed=1, dataset_seed=2, save_predictions=False):
+                          is_seq_emb=False, d_model=128, ffn_mult=4, bdcf_blocks=1, node_pool='attn', token_pool='mean', n=10, plot_name='loss_plot', device="cuda", seed=1, dataset_seed=2, save_predictions=False, save_model=False):
     """
     Run k-fold cross-validation on the full dataset (all RNA families combined) and save a summary of the results.
 
@@ -142,12 +144,12 @@ def preform_k_fold_cv_all(exp_name = 'exp', res_file_name="cv10_all_results", mo
     res = cv_eval(dataset=all_df, model_setting=model_setting,train_setting=train_setting, val_setting=val_setting, shuffle_struct=shuffle_struct,
                   rna_aug=rna_aug, mol_aug=mol_aug, patience=patience, warm_up_epochs=warm_up_epochs, delta=delta, lr=lr, wd=wd, dropout=dropout, exclude_modalities=exclude_modalities, freeze_grnade=freeze_grnade, smiles_seq_setting=smiles_seq_setting, smiles_expert_setting=smiles_expert_setting, batch_size=batch_size, num_workers=num_workers, is_plot=is_plot,
                   is_seq_emb=is_seq_emb, d_model=d_model, ffn_mult=ffn_mult, bdcf_blocks=bdcf_blocks, node_pool=node_pool, token_pool=token_pool, n=n, plot_name=plot_name, device=device, seed=seed, dataset_seed=dataset_seed,
-                  save_predictions=save_predictions, res_file_name=res_file_name)
+                  save_predictions=save_predictions, res_file_name=res_file_name, save_model=save_model)
 
 
     # summary (single row, same fields as the per-family version)
-    summary_dict = {"exp": exp_name, "family": "all_families", "n_samples": len(all_df), **res}
-    summary_df = pd.DataFrame([summary_dict])
+    summary_dict = {"exp": exp_name, "family": "all_families", "model_setting": model_setting, "seed": seed, "n_folds": n, "n_samples": len(all_df), **res,}
+    summary_df = pd.DataFrame([summary_dict])    
 
     logger.info(
         f"RNA family: all_families_concat, n_samples: {len(all_df)}, "
@@ -206,6 +208,7 @@ def preform_k_fold_cv_all_rna_fam(
     seed=1,
     dataset_seed=2,
     save_predictions=False,
+    save_model=False,
 ):
     """
     Run k-fold cross-validation separately for each RNA family and save a summary table.
@@ -267,6 +270,7 @@ def preform_k_fold_cv_all_rna_fam(
             dataset_seed=dataset_seed,
             save_predictions=save_predictions,
             res_file_name=res_file_name,
+            save_model=save_model,
         )
 
         summary_row = {
@@ -375,8 +379,142 @@ def preprocess_smiles_emb(smiles_path, save_name="smiles_embeddings", features=[
 
     _ = generate_smiles_features(mol_set=mol_set, save_name=save_name, features=features, save=True, device=device)
 
+
+def perform_perturbation_analysis(args):
+    """Prepare perturbation inputs and run the perturbation evaluator."""
+    import torch
+    from evaluate.perturbation_analysis import perturbation_analysis
+
+    if args.device == "cuda" and not torch.cuda.is_available():
+        raise RuntimeError("CUDA was requested but is not available")
+
+    cold_name = None
+    fold_datasets = None
+    split_paths = None
+    if args.perturbation_cold_type is not None:
+        cold_name = (
+            "rna" if args.perturbation_cold_type == "cold_rna" else "rm"
+        )
+        split_root = os.path.join(
+            "datasets", "blind_test", cold_name, "train_val_test_splits"
+        )
+        split_paths = {
+            fold: os.path.join(
+                split_root, f"cold_{cold_name}_test_fold{fold}.csv"
+            )
+            for fold in range(1, args.k_fold + 1)
+        }
+        missing_paths = [
+            path for path in split_paths.values() if not os.path.isfile(path)
+        ]
+        if missing_paths:
+            raise FileNotFoundError(
+                f"Missing cold-start test split files: {missing_paths}"
+            )
+        fold_datasets = {
+            fold: pd.read_csv(path) for fold, path in split_paths.items()
+        }
+
+    checkpoint_root = args.checkpoint_root
+    if checkpoint_root is None:
+        checkpoint_root = (
+            os.path.join("saved_objects", "cold", cold_name)
+            if cold_name is not None
+            else os.path.join("saved_objects", "cv")
+        )
+
+    output_root = os.path.join(
+        "results", "table_results", "perturbation_analysis_permutation"
+    )
+    output_dir = args.output_dir
+    if output_dir is None:
+        output_dir = (
+            output_root
+            if args.perturbation_cold_type is None
+            else os.path.join(
+                output_root,
+                args.perturbation_cold_type.replace("cold_rm", "cold_both"),
+            )
+        )
+
+    os.makedirs(output_dir, exist_ok=True)
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s - %(levelname)s - %(message)s",
+        handlers=[
+            logging.FileHandler(
+                os.path.join(output_dir, "perturbation_analysis.log")
+            ),
+            logging.StreamHandler(),
+        ],
+        force=True,
+    )
+
+    dataset = None
+    if args.perturbation_cold_type is None:
+        dataset = pd.read_csv(args.dataset_path, sep="\t")
+
+    run_config = {
+        "dataset_path": args.dataset_path,
+        "cold_type": args.perturbation_cold_type,
+        "split_paths": split_paths,
+        "checkpoint_root": checkpoint_root,
+        "checkpoint_dir": args.checkpoint_dir,
+        "checkpoint_pattern": args.checkpoint_pattern,
+        "model_seed": args.model_seed,
+        "output_dir": output_dir,
+        "model_setting": args.model_setting,
+        "n_perturbations": args.n_perturbations,
+        "n_folds": args.k_fold,
+        "folds": args.folds,
+        "dataset_seed": args.dataset_seed,
+        "seed": args.seed,
+        "val_setting": args.val_setting,
+        "batch_size": args.batch_size,
+        "num_workers": args.num_workers,
+        "device": args.device,
+    }
+    with open(os.path.join(output_dir, "run_config.json"), "w") as handle:
+        json.dump(run_config, handle, indent=2)
+
+    return perturbation_analysis(
+        dataset=dataset,
+        model_setting=args.model_setting,
+        val_setting=args.val_setting,
+        dropout=args.dropout,
+        exclude_modalities=args.exclude_modalities,
+        freeze_grnade=args.freeze_grnade == "True",
+        smiles_seq_setting=args.smiles_seq_setting,
+        smiles_expert_setting=args.smiles_expert_setting,
+        batch_size=args.batch_size,
+        num_workers=args.num_workers,
+        is_seq_emb=args.is_seq_emb == "True",
+        d_model=args.d_model,
+        ffn_mult=args.ffn_mult,
+        bdcf_blocks=args.bdcf_blocks,
+        node_pool=args.node_pool,
+        token_pool=args.token_pool,
+        n=args.k_fold,
+        n_perturbations=args.n_perturbations,
+        device=args.device,
+        dataset_seed=args.dataset_seed,
+        seed=args.seed,
+        folds=args.folds,
+        checkpoint_root=checkpoint_root,
+        output_dir=output_dir,
+        fold_datasets=fold_datasets,
+        checkpoint_dir=args.checkpoint_dir,
+        checkpoint_pattern=args.checkpoint_pattern,
+        model_seed=args.model_seed,
+    )
+
+
 def main():
     args = get_args()
+
+    if args.setting == "perturbation":
+        perform_perturbation_analysis(args)
+        return
 
     log_msg = args.log_msg
     res_file_name = args.res_file_name
@@ -389,6 +527,7 @@ def main():
     plot_name = args.plot_name
     is_plot = True if args.is_plot == "True" else False
     save_predictions = True if args.save_predictions == "True" else False
+    save_model = True if args.save_model == "True" else False
 
     # cv kwargs
     cv_method = args.cv_method
@@ -500,7 +639,8 @@ def main():
                 device=device,
                 seed=seed,
                 dataset_seed=dataset_seed,
-                save_predictions=save_predictions
+                save_predictions=save_predictions,
+                save_model=save_model
             )
         else:
             preform_k_fold_cv_all_rna_fam(
@@ -536,7 +676,8 @@ def main():
                 device=device,
                 seed=seed,
                 dataset_seed=dataset_seed,
-                save_predictions=save_predictions
+                save_predictions=save_predictions,
+                save_model=save_model
             )
 
     elif setting == "cold":
@@ -569,7 +710,8 @@ def main():
                                token_pool=token_pool,
                                plot_name=plot_name,
                                device=device,
-                               seed=seed)
+                               seed=seed,
+                               save_model=save_model)
     elif setting == "train_cold":
         train_cold_models(exp_name=exp_name,
                           exp_id=exp_id,

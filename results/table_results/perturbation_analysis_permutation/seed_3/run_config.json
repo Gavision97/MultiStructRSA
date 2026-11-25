@@ -1,0 +1,33 @@
+{
+  "dataset_path": "datasets/RSIM/All_sf_dataset_v1.csv",
+  "cold_type": null,
+  "split_paths": null,
+  "checkpoint_root": "saved_objects/cv",
+  "checkpoint_dir": "saved_objects/cv/full_seed3",
+  "checkpoint_pattern": "model_seed_3_fold{fold}.pt",
+  "model_seed": 3,
+  "output_dir": "results/table_results/perturbation_analysis_permutation/seed_3",
+  "model_setting": "full",
+  "n_perturbations": 100,
+  "n_folds": 5,
+  "folds": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "dataset_seed": 2,
+  "seed": 1,
+  "val_setting": 4,
+  "batch_size": 1,
+  "num_workers": 0,
+  "device": "cpu",
+  "aggregated_from": [
+    "results/table_results/perturbation_analysis_permutation/seed_3/fold_1",
+    "results/table_results/perturbation_analysis_permutation/seed_3/fold_2",
+    "results/table_results/perturbation_analysis_permutation/seed_3/fold_3",
+    "results/table_results/perturbation_analysis_permutation/seed_3/fold_4",
+    "results/table_results/perturbation_analysis_permutation/seed_3/fold_5"
+  ]
+}

@@ -19,16 +19,16 @@
 ### Experiment variables ###
 ############################
 
-EXP_ID=4   # experiment ID
-DATE=0311  # for log & result directory creation
+EXP_ID=11   # experiment ID
+DATE=2111  # for log & result directory creation
 
-MODEL_SETTING="w/o seq" # ["full", "freezed", "w/o seq", "w/o 3D struct", "w/o fusion"]
+MODEL_SETTING="w/o 3D struct" # ["full", "freezed", "w/o seq", "w/o 3D struct", "w/o fusion"]
 TRAIN_SETTING=4
 VAL_SETTING=4
 SHUFFLE_STRUCT="False"
 MOL_AUG="False"
 RNA_AUG="False"
-IS_SEQ_EMB="False"
+IS_SEQ_EMB="True"
 
 RES_FILE_NAME="cv_all_${DATE}"
 SAVE_PREDICTIONS="False"
@@ -52,7 +52,7 @@ NODE_POOL='mean'
 TOKEN_POOL='mean'
 #####
 SMILES_SEQ_SETTING='deep'
-SMILES_EXPERT_SETTING='shallow'
+SMILES_EXPERT_SETTING='proj'
 
 BATCH_SIZE=1
 NUM_WORKERS=0
@@ -64,7 +64,7 @@ CV_METHOD="all"
 K_FOLD=5
 DEVICE="cuda"
 
-SEED=1
+SEED=4
 DATASET_SEED=2
 
 LOG_MSG="stratified_cv_${DATE}_exp${EXP_ID} - MultiStructRSA (${MODEL_SETTING} version) - TRAIN SETTING=${TRAIN_SETTING}; VAL SETTING=${VAL_SETTING}; SHUFFLE STRUCT=${SHUFFLE_STRUCT} RNA AUG=${RNA_AUG}; MOL AUG=${MOL_AUG} SEED=${SEED}; DATASET SEED=${DATASET_SEED}"

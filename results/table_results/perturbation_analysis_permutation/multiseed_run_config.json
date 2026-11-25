@@ -1,0 +1,14 @@
+{
+  "model_seeds": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "n_model_seeds": 5,
+  "n_folds_per_seed": 5,
+  "n_perturbations": 100,
+  "aggregation": "perturbation metrics averaged over folds within each model seed",
+  "matched_permutations_across_seeds": true
+}
